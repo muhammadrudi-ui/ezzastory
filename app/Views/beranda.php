@@ -231,7 +231,7 @@
                     <p class="about-us-description">
                         Dari pemotretan untuk acara pribadi hingga pembuatan video perusahaan dan proyek
                         editing, kami siap membantu Anda mencapai visi kreatif Anda dengan pendekatan profesional
-                        yang unik.
+                        yang unik.......
                     </p>
                     <a href="#" class="btn btn-outline-primary">Lihat Selengkapnya</a>
                 </div>
