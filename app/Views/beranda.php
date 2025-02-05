@@ -1,55 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<?= $this->extend('layout/app') ?>
+
+<?= $this->section('content') ?>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Navbar dan Slider</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-
     <style>
-        /* Navbar transparan tanpa latar belakang */
-        .navbar {
-            position: fixed;
-            top: 10px;
-            width: 100%;
-            z-index: 1000;
-            background: none;
-            backdrop-filter: none;
-            padding: 20px 0;
-        }
-
-        .navbar-nav {
-            gap: 42px;
-            /* Jarak antar teks */
-        }
-
-        .navbar .nav-link {
-            color: white;
-            font-size: 14px;
-            font-family: 'Montserrat', sans-serif;
-            transition: color 0.3s ease;
-        }
-
-        .navbar .nav-link:hover {
-            color: #87D5C8;
-            /* Warna teks saat hover */
-        }
-
-        /* Slider penuh layar */
+        /* Slider */
         .carousel-item img {
             height: 94vh;
             object-fit: cover;
         }
 
-        /* Informasi layanan */
+        /* Layanan */
         .services {
             padding: 80px 0;
             background-color: #f8f9fa;
-            /* Warna latar belakang */
         }
 
         .service-item {
@@ -58,104 +22,110 @@
 
         .service-item i {
             font-size: 3rem;
-            /* Ukuran ikon */
             color: #000;
-            /* Warna ikon */
         }
 
         .service-item h5 {
             font-size: 16px;
-            /* Ukuran teks judul layanan */
-            font-family: 'Montserrat', sans-serif;
-            /* Font Montserrat */
             margin-top: 15px;
         }
 
         .service-item p {
-            font-size: 14px;
-            font-family: 'Montserrat', sans-serif;
+            font-size: 16px;
             color: #6c757d;
-            /* Warna teks deskripsi */
         }
 
+        /* About Us */
         .about-us {
-            padding: 88px 0;
+            padding: 120px 0;
         }
 
-        /* Styling untuk bagian About Us */
         .about-us-title {
-            font-family: 'Montserrat', sans-serif;
-            /* Font untuk judul */
-            font-size: 18px;
-            /* Ukuran font judul */
+            font-size: 22px;
             color: #333;
-            /* Warna teks judul */
             font-weight: 600;
-            /* Bobot font judul */
             margin-bottom: 15px;
             text-align: center;
         }
 
         .about-us-description {
-            font-family: 'Montserrat', sans-serif;
-            /* Font untuk deskripsi */
-            font-size: 14px;
-            /* Ukuran font deskripsi */
+            font-size: 16px;
             color: #6c757d;
-            /* Warna teks deskripsi */
             line-height: 1.6;
-            /* Jarak antar baris untuk kenyamanan membaca */
             text-align: justify;
-            /* Membuat teks rata kiri-kanan */
             margin-bottom: 15px;
-            /* Jarak bawah untuk setiap paragraf */
+            display: -webkit-box;
+            -webkit-line-clamp: 12;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
-        /* Tombol Lihat Selengkapnya */
         .about-us a {
-            font-family: 'Montserrat', sans-serif;
-            /* Font untuk tombol */
             font-size: 14px;
-            /* Ukuran font tombol */
             font-weight: 500;
-            /* Bobot font tombol */
             transition: background-color 0.3s ease, color 0.3s ease;
-            /* Transisi untuk hover */
         }
 
         .about-us a:hover {
             background-color: #87D5C8;
-            /* Warna latar belakang saat hover */
             color: white;
-            /* Warna teks saat hover */
+        }
+
+        /* Portofolio */
+        .portofolio h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .portofolio .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .portofolio .card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .portofolio .card-title {
+            font-size: 16px;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .portofolio .card-text {
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .cta-section .lead {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .cta-section a {
+            font-size: 16px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .cta-section a:hover {
+            background-color: #87D5C8;
+            color: white;
         }
     </style>
 </head>
 
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg">
-        <div class="container justify-content-center">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Portfolio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Reservasi</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">About</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Contact Us</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
-
     <!-- Slider -->
     <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -226,12 +196,10 @@
                         Kami adalah perusahaan yang bergerak di bidang layanan kreatif, menawarkan solusi
                         inovatif dalam fotografi, videografi, dan editing. Dengan pengalaman bertahun-tahun,
                         kami berkomitmen untuk memberikan hasil yang memuaskan dan berkualitas tinggi untuk
-                        setiap proyek yang kami tangani.
-                    </p>
-                    <p class="about-us-description">
-                        Dari pemotretan untuk acara pribadi hingga pembuatan video perusahaan dan proyek
-                        editing, kami siap membantu Anda mencapai visi kreatif Anda dengan pendekatan profesional
-                        yang unik.......
+                        setiap proyek yang kami tangani. Dari pemotretan untuk acara pribadi hingga pembuatan video
+                        perusahaan dan proyek editing, kami siap membantu Anda mencapai visi kreatif Anda dengan
+                        pendekatan profesional
+                        yang unik
                     </p>
                     <a href="#" class="btn btn-outline-primary">Lihat Selengkapnya</a>
                 </div>
@@ -239,10 +207,87 @@
         </div>
     </section>
 
+    <!-- Galeri Portofolio -->
+    <section class="portofolio">
+        <div class="container">
+            <h2 class="text-center mb-4">Portofolio</h2>
+            <div class="row g-4">
+                <!-- Card Portofolio 1 -->
+                <div class="col-md-4">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <img src="/IMG/3.jpg" class="card-img-top" alt="Portofolio 1">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">John & Jane</h5>
+                                <p class="card-text">Wedding</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card Portofolio 2 -->
+                <div class="col-md-4">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <img src="/IMG/2.jpg" class="card-img-top" alt="Portofolio 2">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Michael & Sarah</h5>
+                                <p class="card-text">Pre-Wedding</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card Portofolio 3 -->
+                <div class="col-md-4">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <img src="/IMG/1.jpg" class="card-img-top" alt="Portofolio 3">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">David & Emily</h5>
+                                <p class="card-text">Wedding</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <!-- Card Portofolio 4 -->
+                <div class="col-md-4">
+                    <a href="#" class="text-decoration-none">
+                        <div class="card">
+                            <img src="/IMG/1.jpg" class="card-img-top" alt="Portofolio 3">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">David & Emily</h5>
+                                <p class="card-text">Wedding</p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Call to Action - Reservasi -->
+    <section class="cta-section">
+        <div class="container">
+            <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
+            <a href="#" class="btn btn-outline-primary">Reservasi Sekarang</a>
+        </div>
+    </section>
 
     <!-- Bootstrap Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener("scroll", function () {
+            let navbar = document.querySelector(".navbar");
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    </script>
+
+
+
+
 </body>
 
-</html>
+<?= $this->endSection() ?>

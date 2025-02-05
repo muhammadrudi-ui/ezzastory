@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ezzastory</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            height: 80px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 1);
+            transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+        }
+
+        .navbar-nav {
+            gap: 42px;
+        }
+
+        /* Navbar saat scroll */
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .navbar .nav-link {
+            color: white;
+            font-size: 14px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar .nav-link:hover {
+            color: #87D5C8;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1b1b1b;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #87D5C8;
+        }
+
+        .contact-info i {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+        }
+
+        .footer h5 {
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="IMG/1.jpg" alt="Brand Logo" class="img-fluid" style="height: 50px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/beranda">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Reservasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Konten -->
+    <?= $this->renderSection('content') ?>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row text-center text-md-start">
+                <!-- Kolom 1: Logo & Deskripsi -->
+                <div class="col-md-4 mb-4">
+                    <h5>Brand Name</h5>
+                    <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
+                        vestibulum.</p>
+                </div>
+
+                <!-- Kolom 2: Navigasi -->
+                <div class="col-md-4 mb-4">
+                    <h5>Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Portofolio</a></li>
+                        <li><a href="#">Reservasi</a></li>
+                        <li><a href="#">About</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Kolom 3: Kontak -->
+                <div class="col-md-4">
+                    <h5>Contact Us</h5>
+                    <div class="contact-info">
+                        <p><i class="bi bi-instagram"></i> <a href="#">@brandname</a></p>
+                        <p><i class="bi bi-envelope"></i> <a href="mailto:info@brand.com">info@brand.com</a></p>
+                        <p><i class="bi bi-telephone"></i> <a href="tel:+62123456789">+62 123 456 789</a></p>
+                        <p><i class="bi bi-geo-alt"></i> Jl. Contoh No. 123, Jakarta</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Garis -->
+            <hr class="my-4 border-light">
+
+            <!-- Copyright -->
+            <div class="text-center">
+                <p class="mb-0 small">&copy; 2024 Brand Name. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        window.addEventListener("scroll", function () {
+            let navbar = document.querySelector(".navbar");
+            if (window.scrollY > 50) {
+                navbar.classList.add("scrolled");
+            } else {
+                navbar.classList.remove("scrolled");
+            }
+        });
+    </script>
+</body>
+
+</html>
