@@ -90,7 +90,6 @@
                     <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="#">Reservasi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
                 </ul>
             </div>
         </div>
