@@ -86,7 +86,8 @@
         /* Team Cards */
         .team-section {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 60px;
             margin-top: 60px;
             flex-wrap: wrap;
         }

@@ -11,4 +11,9 @@ class BerandaController extends BaseController
     {
         return view('beranda');
     }
+
+    public function index_admin()
+    {
+        return view('admin/dashboard');
+    }
 }

@@ -68,7 +68,7 @@
         }
 
         .about-us a:hover {
-            background-color: #87D5C8;
+            background-color: dark;
             color: white;
         }
 
@@ -119,7 +119,7 @@
         }
 
         .cta-section a:hover {
-            background-color: #87D5C8;
+            background-color: dark;
             color: white;
         }
     </style>
@@ -201,7 +201,7 @@
                         pendekatan profesional
                         yang unik
                     </p>
-                    <a href="#" class="btn btn-outline-primary">Lihat Selengkapnya</a>
+                    <a href="#" class="btn btn-outline-dark">Lihat Selengkapnya</a>
                 </div>
             </div>
         </div>
@@ -268,20 +268,9 @@
     <section class="cta-section">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
-            <a href="#" class="btn btn-outline-primary">Reservasi Sekarang</a>
+            <a href="#" class="btn btn-outline-dark">Reservasi Sekarang</a>
         </div>
     </section>
-
-    <script>
-        window.addEventListener("scroll", function () {
-            let navbar = document.querySelector(".navbar");
-            if (window.scrollY > 50) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        });
-    </script>
 
 </body>
 

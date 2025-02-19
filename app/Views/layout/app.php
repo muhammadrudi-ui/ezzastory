@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     <style>
         /* Navbar */
         .navbar {
@@ -17,19 +17,18 @@
             width: 100%;
             height: 80px;
             z-index: 1000;
-            background: rgba(0, 0, 0, 1);
-            transition: background 0.3s ease-in-out, backdrop-filter 0.3s ease-in-out;
+            background: black;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .navbar.scrolled {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
 
         .navbar-nav {
-            gap: 42px;
-        }
-
-        /* Navbar saat scroll */
-        .navbar.scrolled {
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            gap: 32px;
         }
 
         .navbar .nav-link {
@@ -40,6 +39,31 @@
 
         .navbar .nav-link:hover {
             color: #87D5C8;
+        }
+
+        .navbar-toggler {
+            border: none;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30' fill='white'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+        }
+
+        /* Mengubah background menu dropdown di mobile */
+        @media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.9);
+                padding: 20px;
+                border-radius: 10px;
+            }
+
+            .navbar-nav {
+                gap: 10px;
+            }
         }
 
         /* Footer */
@@ -74,26 +98,43 @@
 </head>
 
 <body>
-    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg">
-        <div class="container">
+        <div class="container d-flex justify-content-between align-items-center">
+            <!-- Logo -->
             <a class="navbar-brand" href="#">
                 <img src="IMG/1.jpg" alt="Brand Logo" class="img-fluid" style="height: 50px;">
             </a>
+
+            <!-- Toggler Button (Mobile) -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Profile (Tetap di Kanan) -->
+            <div class="dropdown ms-auto order-lg-last">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle"></i> Profile
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                    <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                </ul>
+            </div>
+
+            <!-- Navbar Links -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" href="/beranda">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Reservasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/reservasi">Reservasi</a></li>
                 </ul>
             </div>
         </div>
     </nav>
+
 
     <!-- Konten -->
     <?= $this->renderSection('content') ?>
@@ -143,18 +184,21 @@
         </div>
     </footer>
 
-    <!-- Bootstrap Bundle JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- JavaScript untuk Navbar Scroll Effect -->
     <script>
-        window.addEventListener("scroll", function () {
-            let navbar = document.querySelector(".navbar");
-            if (window.scrollY > 50) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
+        document.addEventListener("DOMContentLoaded", function () {
+            var navbar = document.querySelector(".navbar");
+
+            window.addEventListener("scroll", function () {
+                if (window.scrollY > 50) {
+                    navbar.classList.add("scrolled");
+                } else {
+                    navbar.classList.remove("scrolled");
+                }
+            });
         });
     </script>
+
 </body>
 
 </html>

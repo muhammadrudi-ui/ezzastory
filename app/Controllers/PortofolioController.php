@@ -12,8 +12,14 @@ class PortofolioController extends BaseController
         return view('portofolio');
     }
 
-    public function detail_portofolio()
+    public function kategori()
     {
-        return view('detail-portofolio');
+        return view('portofolio-kategori');
     }
+
+    public function detail()
+    {
+        return view('portofolio-detail');
+    }
+
 }

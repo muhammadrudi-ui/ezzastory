@@ -15,7 +15,6 @@
             color: white;
             text-align: center;
             margin-bottom: 60px;
-            /* Tambahkan margin-bottom untuk jarak dengan section berikutnya */
         }
 
         .hero-section img {
@@ -34,55 +33,40 @@
             text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
         }
 
-        /* Portfolio Section */
-        .portfolio-section {
+        /* Portofolio*/
+        .portofolio {
             padding: 60px 0;
         }
 
-        .portfolio-section h2 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #333;
-            text-align: center;
-            margin-bottom: 40px;
+        .portofolio-category {
+            margin-bottom: 50px;
         }
 
-        .portfolio-category {
-            margin-bottom: 60px;
-        }
-
-        .portfolio-category h3 {
-            font-size: 22px;
-            font-weight: 500;
-            color: #444;
-            margin-bottom: 30px;
-            text-align: start;
-        }
-
-        .portfolio-card {
-            border: none;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .portofolio-category h3 {
+            font-size: 24px;
+            font-weight: 700;
             margin-bottom: 20px;
         }
 
-        .portfolio-card:hover {
+        /* Card Styling */
+        .card {
+            border: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
-        .portfolio-card img {
-            height: 200px;
-            object-fit: cover;
-        }
-
-        .portfolio-card .card-title {
+        .card-title {
             font-size: 16px;
             font-weight: 500;
             margin-bottom: 5px;
         }
 
-        .portfolio-card .card-text {
+        .card-text {
             font-size: 14px;
             color: #6c757d;
         }
@@ -92,10 +76,6 @@
             width: 200px;
             margin: 40px auto 0;
             font-size: 16px;
-        }
-
-        .hidden {
-            display: none;
         }
     </style>
 </head>
@@ -108,95 +88,144 @@
     </section>
 
     <!-- Portofolio Section -->
-    <section class="portfolio-section">
+    <section class="portofolio">
         <div class="container">
-            <h2>Our Works</h2>
+            <h2 class="text-center mb-4">Our Works</h2>
 
             <!-- Wedding Category -->
-            <div class="portfolio-category">
+            <div class="portofolio-category mb-5">
                 <h3>Wedding</h3>
-                <div class="row g-4" id="wedding-container">
-                    <!-- 9 Card Awal -->
-                    <script>generateCards("wedding-container", "Wedding", 9);</script>
+                <div class="row g-4">
+                    <!-- Card Portfolio -->
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/1.jpg" class="card-img-top" alt="Wedding 1">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Wedding 1</h5>
+                                    <p class="card-text">Beautiful wedding moments captured elegantly.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/2.jpg" class="card-img-top" alt="Wedding 2">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Wedding 2</h5>
+                                    <p class="card-text">Cherishing the love and joy of the special day.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Wedding 3</h5>
+                                    <p class="card-text">Timeless wedding photography for your memories.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <button class="btn btn-outline-primary see-more-btn"
-                    onclick="showMore('wedding-container', 'wedding-btn')" id="wedding-btn">See More</button>
+                <a href="/portofolio-kategori" class="btn btn-outline-dark see-more-btn">See
+                    More</a>
             </div>
 
             <!-- Pre-Wedding Category -->
-            <div class="portfolio-category">
+            <div class="portofolio-category mb-5">
                 <h3>Pre-Wedding</h3>
-                <div class="row g-4" id="prewedding-container">
-                    <script>generateCards("prewedding-container", "Pre-Wedding", 9);</script>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/1.jpg" class="card-img-top" alt="Pre-Wedding 1">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Pre-Wedding 1</h5>
+                                    <p class="card-text">Romantic pre-wedding shoot in scenic locations.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/2.jpg" class="card-img-top" alt="Pre-Wedding 2">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Pre-Wedding 2</h5>
+                                    <p class="card-text">Capturing the love story before the big day.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/3.jpg" class="card-img-top" alt="Pre-Wedding 3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Pre-Wedding 3</h5>
+                                    <p class="card-text">Candid and cinematic moments of love.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <button class="btn btn-outline-primary see-more-btn"
-                    onclick="showMore('prewedding-container', 'prewedding-btn')" id="prewedding-btn">See More</button>
+                <a href="#" class="btn btn-outline-dark see-more-btn">See
+                    More</a>
             </div>
 
             <!-- Event Photography Category -->
-            <div class="portfolio-category">
+            <div class="portofolio-category">
                 <h3>Event Photography</h3>
-                <div class="row g-4" id="event-container">
-                    <script>generateCards("event-container", "Event Photography", 9);</script>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/1.jpg" class="card-img-top" alt="Event 1">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Event 1</h5>
+                                    <p class="card-text">Capturing unforgettable moments at events.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/2.jpg" class="card-img-top" alt="Event 2">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Event 2</h5>
+                                    <p class="card-text">Professional event photography with a creative touch.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="col-md-4">
+                        <a href="#" class="text-decoration-none">
+                            <div class="card">
+                                <img src="/IMG/3.jpg" class="card-img-top" alt="Event 3">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title">Event 3</h5>
+                                    <p class="card-text">Documenting special occasions with clarity and style.</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
                 </div>
-                <button class="btn btn-outline-primary see-more-btn" onclick="showMore('event-container', 'event-btn')"
-                    id="event-btn">See More</button>
+                <a href="#" class="btn btn-outline-dark see-more-btn">See
+                    More</a>
             </div>
         </div>
     </section>
-
-    <script>
-        function generateCards(containerId, category, count) {
-            let container = document.getElementById(containerId);
-            for (let i = 1; i <= count; i++) {
-                let cardHTML = `
-                    <div class="col-md-4 portfolio-item ${i > 9 ? 'hidden' : ''}">
-                        <div class="card portfolio-card">
-                            <img src="/IMG/${i}.jpg" class="card-img-top" alt="${category} ${i}">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">${category} ${i}</h5>
-                                <p class="card-text">${category}</p>
-                            </div>
-                        </div>
-                    </div>`;
-                container.insertAdjacentHTML('beforeend', cardHTML);
-            }
-        }
-
-        function showMore(containerId, buttonId) {
-            let container = document.getElementById(containerId);
-            let hiddenItems = container.getElementsByClassName("hidden");
-
-            for (let i = 0; i < 9; i++) {
-                if (hiddenItems.length > 0) {
-                    hiddenItems[0].classList.remove("hidden");
-                }
-            }
-
-            if (hiddenItems.length === 0) {
-                document.getElementById(buttonId).style.display = "none";
-            }
-        }
-
-        // Generate cards saat halaman dimuat
-        document.addEventListener("DOMContentLoaded", function () {
-            generateCards("wedding-container", "Wedding", 18);
-            generateCards("prewedding-container", "Pre-Wedding", 18);
-            generateCards("event-container", "Event Photography", 18);
-        });
-    </script>
-
-    <script>
-        // Saat halaman di-scroll
-        window.addEventListener("scroll", function () {
-            const navbar = document.querySelector(".navbar");
-            if (window.scrollY > 0) {
-                navbar.classList.add("scrolled");
-            } else {
-                navbar.classList.remove("scrolled");
-            }
-        });
-    </script>
 
 </body>
 
