@@ -11,4 +11,9 @@ class ProfileController extends BaseController
     {
         return view('about');
     }
+
+    public function index_admin()
+    {
+        return view('admin/profile-view');
+    }
 }
