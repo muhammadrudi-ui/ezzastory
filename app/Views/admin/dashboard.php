@@ -3,28 +3,28 @@
 <?= $this->section('content') ?>
 
 <div class="row mt-4">
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-lg-3 mb-3">
         <div class="card p-3 shadow-sm">
             <h5 class="text-muted">Today's Money</h5>
             <h3 class="fw-bold">$53k</h3>
             <span class="text-success">+55% than last week</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-lg-3 mb-3">
         <div class="card p-3 shadow-sm">
             <h5 class="text-muted">Today's Users</h5>
             <h3 class="fw-bold">2300</h3>
             <span class="text-success">+3% than last month</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-lg-3 mb-3">
         <div class="card p-3 shadow-sm">
             <h5 class="text-muted">Ads Views</h5>
             <h3 class="fw-bold">3,462</h3>
             <span class="text-danger">-2% than yesterday</span>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-12 col-sm-6 col-lg-3 mb-3">
         <div class="card p-3 shadow-sm">
             <h5 class="text-muted">Sales</h5>
             <h3 class="fw-bold">$103,430</h3>
@@ -44,7 +44,6 @@
         </div>
     </div>
 </div>
-
 
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
