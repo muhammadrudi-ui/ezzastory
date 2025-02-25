@@ -16,4 +16,14 @@ class ProfileController extends BaseController
     {
         return view('admin/profile-view');
     }
+
+    public function add_admin()
+    {
+        return view('admin/profile-add');
+    }
+
+    public function edit_admin()
+    {
+        return view('admin/profile-edit');
+    }
 }

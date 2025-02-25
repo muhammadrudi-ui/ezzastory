@@ -16,3 +16,5 @@ $routes->get('/reservasi', 'ReservasiController::index');
 $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
 $routes->get('/profile-perusahaan', 'ProfileController::index_admin');
+$routes->get('/profile-perusahaan-add', 'ProfileController::add_admin');
+$routes->get('/profile-perusahaan-edit', 'ProfileController::edit_admin');

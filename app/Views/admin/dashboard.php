@@ -2,6 +2,10 @@
 
 <?= $this->section('content') ?>
 
+<div class="title mt-4">
+    <h3 class="text-start text-dark fw-bold">Dashboard</h3>
+</div>
+
 <div class="row mt-4">
     <div class="col-12 col-sm-6 col-lg-3 mb-3">
         <div class="card p-3 shadow-sm">
