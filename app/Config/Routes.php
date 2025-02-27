@@ -12,6 +12,8 @@ $routes->get('/portofolio', 'PortofolioController::index');
 $routes->get('/portofolio-kategori', 'PortofolioController::kategori');
 $routes->get('/portofolio-detail', 'PortofolioController::detail');
 $routes->get('/reservasi', 'ReservasiController::index');
+$routes->get('/login', 'LoginController::index');
+$routes->get('/register', 'RegisterController::index');
 
 $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
