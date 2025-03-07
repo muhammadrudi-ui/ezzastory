@@ -133,7 +133,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="/portofolio-kategori" class="btn btn-outline-dark see-more-btn">See
+                <a href="/portofolio-kategori" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -177,7 +177,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="#" class="btn btn-outline-dark see-more-btn">See
+                <a href="#" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -221,7 +221,7 @@
                         </a>
                     </div>
                 </div>
-                <a href="#" class="btn btn-outline-dark see-more-btn">See
+                <a href="#" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
         </div>

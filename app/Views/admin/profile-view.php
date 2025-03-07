@@ -7,8 +7,14 @@
         <h3 class="text-start text-dark fw-bold">Profile Perusahaan</h3>
     </div>
 
-    <div class="d-flex justify-content-end mb-3">
-        <input type="text" class="form-control w-25 me-2" placeholder="Search...">
+    <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
+        <div class="input-group" style="max-width: 250px;">
+            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
+                aria-describedby="button-addon2">
+            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+                <i class="fas fa-search"></i>
+            </button>
+        </div>
         <a href="profile-perusahaan-add" class="btn btn-success">Tambah Data</a>
     </div>
     <div class="card">
@@ -35,7 +41,8 @@
                             <tr>
                                 <td>PT Contoh</td>
                                 <td>
-                                    <div class="text-justify overflow-auto" style="max-height: 100px; white-space: normal;">
+                                    <div class="text-justify overflow-auto"
+                                        style="max-height: 100px; width: 280px; white-space: normal;">
                                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
                                         Ipsum has been the industry's standard dummy text ever since the 1500s, when an
                                         unknown printer took a galley of type and scrambled it to make a type specimen book.
@@ -56,7 +63,11 @@
                                 <td>08123456789</td>
                                 <td>email@contoh.com</td>
                                 <td>@instagram</td>
-                                <td>Jl. Contoh No. 123</td>
+                                <td>
+                                    <div class="text-justify" style="width: 180px;">
+                                        Jl. Contoh No. 123
+                                    </div>
+                                </td>
                                 <td class="text-nowrap">
                                     <div class="d-flex gap-2">
                                         <a href="profile-perusahaan-edit" class="btn btn-warning btn-sm" title="Edit">

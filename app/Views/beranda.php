@@ -201,7 +201,7 @@
                         pendekatan profesional
                         yang unik
                     </p>
-                    <a href="#" class="btn btn-outline-dark">Lihat Selengkapnya</a>
+                    <a href="#" class="btn btn-dark">Lihat Selengkapnya</a>
                 </div>
             </div>
         </div>
@@ -268,7 +268,7 @@
     <section class="cta-section">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
-            <a href="#" class="btn btn-outline-dark">Reservasi Sekarang</a>
+            <a href="#" class="btn btn-dark">Reservasi Sekarang</a>
         </div>
     </section>
 

@@ -19,9 +19,9 @@
 
         .card {
             width: 100%;
-            max-width: 460px;
+            max-width: 420px;
             padding: 20px;
-            border-radius: 10px;
+            border-radius: 12px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
             background: #fff;
         }
@@ -71,7 +71,7 @@
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
                 <input type="password" class="form-control" id="confirmPassword" placeholder="Repeat password" required>
             </div>
-            <button type="submit" class="btn btn-dark w-100">Register</button>
+            <button type="submit" class="btn btn-dark w-100 mt-3">Register</button>
         </form>
         <p class="text-center mt-3">Already have an account? <a href="/login">Login</a></p>
     </div>

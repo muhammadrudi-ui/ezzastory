@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -175,7 +175,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/data-pemesanan">
                     <i class="bi bi-receipt"></i> <span>Data Pemesanan</span>
                 </a>
             </li>
@@ -193,13 +193,13 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/laporan-keuangan">
                     <i class="bi bi-cash-stack"></i> <span>Laporan Keuangan</span>
                 </a>
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="/riwayat-pemesanan">
                     <i class="bi bi-clock-history"></i> <span>Riwayat Pemesanan</span>
                 </a>
             </li>

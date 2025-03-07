@@ -20,3 +20,7 @@ $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
 $routes->get('/profile-perusahaan', 'ProfileController::index_admin');
 $routes->get('/profile-perusahaan-add', 'ProfileController::add_admin');
 $routes->get('/profile-perusahaan-edit', 'ProfileController::edit_admin');
+$routes->get('/data-pemesanan', 'PemesananController::index_admin');
+$routes->get('/data-pemesanan-edit', 'PemesananController::edit_admin');
+$routes->get('/laporan-keuangan', 'LaporanKeuanganController::index');
+$routes->get('/riwayat-pemesanan', 'RiwayatPemesananController::index');
