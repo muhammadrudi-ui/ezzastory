@@ -42,11 +42,15 @@
                     <thead class="bg-dark text-white">
                         <tr>
                             <th class="align-middle">Nama</th>
-                            <th class="align-middle">Lokasi</th>
-                            <th class="align-middle">Jenis Layanan</th>
-                            <th class="align-middle">Pilihan Paket</th>
-                            <th class="align-middle">Tanggal Pemesanan</th>
+                            <th class="align-middle">No. Telepon</th>
+                            <th class="align-middle">Waktu Pemesanan</th>
+                            <th class="align-middle">Paket Layanan</th>
+                            <th class="align-middle">Harga</th>
                             <th class="align-middle">Waktu Pemotretan</th>
+                            <th class="align-middle">Jenis Pembayaran</th>
+                            <th class="align-middle">Metode Pembayaran</th>
+                            <th class="align-middle">Lokasi Pemotretan</th>
+                            <th class="align-middle">Lokasi Pengiriman Album</th>
                             <th class="align-middle">Status</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
@@ -54,22 +58,22 @@
                     <tbody>
                         <?php for ($i = 0; $i < 4; $i++): ?>
                             <tr>
-                                <td>PT Contoh</td>
-                                <td>Jakarta</td>
-                                <td>Wedding</td>
-                                <td>Paket Platinum</td>
-                                <td>2025-02-27</td>
+                                <td>Andreas</td>
+                                <td>081234567891</td>
                                 <td>2025-03-05 08:00</td>
-                                <td>Pemotretan</td>
+                                <td>Paket Platinum</td>
+                                <td>Rp. 2.000.000</td>
+                                <td>2025-03-05 08:00</td>
+                                <td>Lunas</td>
+                                <td>Bank BNI</td>
+                                <td>Link Maps</td>
+                                <td>Link Maps</td>
+                                <td>Editing</td>
                                 <td class="text-nowrap">
                                     <div class="d-flex gap-2">
                                         <a href="data-pemesanan-edit" class="btn btn-warning btn-sm" title="Edit">
                                             <i class="fas fa-edit text-white"></i>
                                         </a>
-                                        <button class="btn btn-danger btn-sm" title="Hapus"
-                                            onclick="confirmDelete(<?= $i ?>)">
-                                            <i class="fas fa-trash-alt text-white"></i>
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -81,26 +85,5 @@
     </div>
 </div>
 
-<script>
-    function confirmDelete(id) {
-        Swal.fire({
-            title: "Konfirmasi Hapus",
-            text: "Apakah Anda yakin ingin menghapus data ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, Hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                window.location.href = "profile-perusahaan-delete/" + id;
-            }
-        });
-    }
-</script>
-
-<!-- Tambahkan link SweetAlert2 -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <?= $this->endSection() ?>

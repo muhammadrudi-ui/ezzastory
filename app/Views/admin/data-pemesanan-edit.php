@@ -4,84 +4,89 @@
 
 <div class="container">
     <div class="title mt-4 mb-4">
-        <h3 class="text-start text-dark fw-bold">Edit Data Status Pengerjaan</h3>
+        <h3 class="text-start text-dark fw-bold">Edit Status Pemesanan</h3>
     </div>
 
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('profile/update/1'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('data-pemesanan/update/1'); ?>" method="POST">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="fw-bold">Nama Perusahaan</label>
-                        <input type="text" name="nama_perusahaan" class="form-control" value="PT Contoh Teknologi"
-                            required>
+                        <label class="fw-bold">Nama</label>
+                        <input type="text" name="nama" class="form-control text-muted" value="Andreas" readonly>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">No. Telepon</label>
-                        <input type="text" name="no_telp" class="form-control" value="08123456789" required>
+                        <input type="text" name="no_telp" class="form-control text-muted" value="081234567891" readonly>
                     </div>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <label class="fw-bold">Email</label>
-                        <input type="email" name="email" class="form-control" value="email@contoh.com" required>
+                        <label class="fw-bold">Waktu Pemesanan</label>
+                        <input type="text" name="waktu_pemesanan" class="form-control text-muted"
+                            value="2025-03-05 08:00" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label class="fw-bold">Instagram</label>
-                        <input type="text" name="instagram" class="form-control" value="@contohtech">
+                        <label class="fw-bold">Paket Layanan</label>
+                        <input type="text" name="paket" class="form-control text-muted" value="Paket Platinum" readonly>
                     </div>
-                </div>
-
-                <div class="mt-3">
-                    <label class="fw-bold">Deskripsi</label>
-                    <textarea name="deskripsi" class="form-control" rows="3"
-                        required>Perusahaan Teknologi yang bergerak di bidang pengembangan software.</textarea>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <label class="fw-bold">Visi</label>
-                        <textarea name="visi" class="form-control" rows="2"
-                            required>Menjadi perusahaan teknologi terbaik.</textarea>
+                        <label class="fw-bold">Waktu Pemotretan</label>
+                        <input type="text" name="waktu_pemotretan" class="form-control text-muted"
+                            value="2025-03-05 08:00" readonly>
                     </div>
                     <div class="col-md-6">
-                        <label class="fw-bold">Misi</label>
-                        <textarea name="misi" class="form-control" rows="2"
-                            required>Mengembangkan produk inovatif.</textarea>
+                        <label class="fw-bold">Harga</label>
+                        <input type="text" name="harga" class="form-control text-muted" value="Rp. 2.000.000" readonly>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold">Metode Pembayaran</label>
+                        <input type="text" name="metode_pembayaran" class="form-control text-muted" value="Bank BNI"
+                            readonly>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold">Jenis Pembayaran</label>
+                        <input type="text" name="jenis_pembayaran" class="form-control text-muted" value="Lunas"
+                            readonly>
                     </div>
                 </div>
 
                 <div class="mt-3">
-                    <label class="fw-bold">Alamat</label>
-                    <textarea name="alamat" class="form-control" rows="2"
-                        required>Jl. Contoh No. 123, Jakarta</textarea>
+                    <label class="fw-bold">Lokasi Pemotretan</label>
+                    <input type="text" name="lokasi_pemotretan" class="form-control text-muted" value="Rogojampi"
+                        readonly>
                 </div>
 
                 <div class="mt-3">
-                    <label class="fw-bold">Foto Perusahaan</label>
-                    <input type="file" name="foto" class="form-control" onchange="previewImage(event)">
-                    <img id="preview" src="/IMG/1.jpg" alt="Preview" class="mt-2" width="100">
+                    <label class="fw-bold">Lokasi Pengiriman Album</label>
+                    <input type="text" name="lokasi_pengiriman" class="form-control text-muted" value="Link Maps"
+                        readonly>
+                </div>
+
+                <div class="mt-3">
+                    <label class="fw-bold">Status</label>
+                    <select name="status" class="form-select">
+                        <option value="Proses Pemotretan" selected>Proses Pemotretan</option>
+                        <option value="Proses Editing">Proses Editing</option>
+                        <option value="Pencetakan Album">Pencetakan Album</option>
+                        <option value="Pemesanan Diterima">Pemesanan Diterima</option>
+                    </select>
                 </div>
 
                 <div class="mt-4 text-center">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="<?= base_url('profile-perusahaan'); ?>" class="btn btn-secondary">Kembali</a>
+                    <a href="<?= base_url('data-pemesanan'); ?>" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-<script>
-    function previewImage(event) {
-        let reader = new FileReader();
-        reader.onload = function () {
-            let output = document.getElementById('preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
 
 <?= $this->endSection() ?>

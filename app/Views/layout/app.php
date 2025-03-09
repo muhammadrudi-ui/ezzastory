@@ -129,6 +129,7 @@
                     <li class="nav-item"><a class="nav-link" href="/beranda">Home</a></li>
                     <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
                     <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/paket-layanan">Paket Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/reservasi">Reservasi</a></li>
                 </ul>
             </div>

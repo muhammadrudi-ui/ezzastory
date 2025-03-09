@@ -29,15 +29,14 @@
                 <table class="table table-striped align-middle text-center">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="align-middle">Tanggal Transaksi</th>
+                            <th class="align-middle">Tanggal Pemesanan</th>
                             <th class="align-middle">Nama Customer</th>
-                            <th class="align-middle">Email Customer</th>
-                            <th class="align-middle">Nomor Telepon</th>
-                            <th class="align-middle">Jenis Layanan</th>
+                            <th class="align-middle">Email</th>
+                            <th class="align-middle">No. Telepon</th>
                             <th class="align-middle">Paket Layanan</th>
                             <th class="align-middle">Harga</th>
+                            <th class="align-middle">Jenis Pembayaran</th>
                             <th class="align-middle">Metode Pembayaran</th>
-                            <th class="align-middle">Status Pembayaran</th>
                             <th class="align-middle">Jumlah Pembayaran</th>
                             <th class="align-middle">Sisa Pembayaran</th>
                         </tr>
@@ -49,11 +48,10 @@
                                 <td>John Doe</td>
                                 <td>johndoe@example.com</td>
                                 <td>+62 812-3456-7890</td>
-                                <td>Wedding</td>
                                 <td>Paket Platinum</td>
                                 <td>Rp 5.000.000</td>
-                                <td>Transfer Bank</td>
-                                <td>DP</td>
+                                <td>Lunas</td>
+                                <td>Transfer Bank BNI</td>
                                 <td>Rp 2.500.000</td>
                                 <td>Rp 2.500.000</td>
                             </tr>

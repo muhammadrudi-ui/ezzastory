@@ -7,35 +7,32 @@
 </div>
 
 <div class="row mt-4">
-    <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="card p-3 shadow-sm">
-            <h5 class="text-muted">Today's Money</h5>
-            <h3 class="fw-bold">$53k</h3>
-            <span class="text-success">+55% than last week</span>
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="card p-3 shadow-sm text-center">
+            <h6 class="text-muted mb-1">Pendapatan Bulan Ini</h6>
+            <h4 class="fw-bold mb-0">Rp. 4.700.000</h4>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="card p-3 shadow-sm">
-            <h5 class="text-muted">Today's Users</h5>
-            <h3 class="fw-bold">2300</h3>
-            <span class="text-success">+3% than last month</span>
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="card p-3 shadow-sm text-center">
+            <h6 class="text-muted mb-1">Total Pemesanan Bulan Ini</h6>
+            <h4 class="fw-bold mb-0">3 Customer</h4>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="card p-3 shadow-sm">
-            <h5 class="text-muted">Ads Views</h5>
-            <h3 class="fw-bold">3,462</h3>
-            <span class="text-danger">-2% than yesterday</span>
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="card p-3 shadow-sm text-center">
+            <h6 class="text-muted mb-1">Pesanan Sudah Selesai</h6>
+            <h4 class="fw-bold mb-0">2 Customer</h4>
         </div>
     </div>
-    <div class="col-12 col-sm-6 col-lg-3 mb-3">
-        <div class="card p-3 shadow-sm">
-            <h5 class="text-muted">Sales</h5>
-            <h3 class="fw-bold">$103,430</h3>
-            <span class="text-success">+5% than yesterday</span>
+    <div class="col-12 col-sm-6 col-md-3 mb-3">
+        <div class="card p-3 shadow-sm text-center">
+            <h6 class="text-muted mb-1">Pesanan Dalam Proses</h6>
+            <h4 class="fw-bold mb-0">1 Customer</h4>
         </div>
     </div>
 </div>
+
 
 <!-- Chart Jumlah Pemesanan -->
 <div class="row mt-4">

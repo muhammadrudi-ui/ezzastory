@@ -31,30 +31,31 @@
                         <tr>
                             <th class="align-middle">Nama Customer</th>
                             <th class="align-middle">Email</th>
-                            <th class="align-middle">No. Telp</th>
-                            <th class="align-middle">Jenis Layanan</th>
+                            <th class="align-middle">No. Telepon</th>
+                            <th class="align-middle">Waktu Pemesanan</th>
                             <th class="align-middle">Paket Layanan</th>
                             <th class="align-middle">Harga</th>
-                            <th class="align-middle">Tanggal Pemesanan</th>
-                            <th class="align-middle">Tanggal Pemotretan</th>
+                            <th class="align-middle">Waktu Pemotretan</th>
+                            <th class="align-middle">Jenis Pembayaran</th>
                             <th class="align-middle">Metode Pembayaran</th>
-                            <th class="align-middle">Status Pembayaran</th>
-
+                            <th class="align-middle">Lokasi Pemotretan</th>
+                            <th class="align-middle">Lokasi Pengiriman Album</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php for ($i = 0; $i < 4; $i++): ?>
                             <tr>
                                 <td>John Doe</td>
-                                <td>johndoe@example.com</td>
+                                <td>john@gmail.com</td>
                                 <td>+62 812-3456-7890</td>
-                                <td>Wedding</td>
+                                <td>2025-02-27 14:30</td>
                                 <td>Paket Platinum</td>
                                 <td>Rp 5.000.000</td>
-                                <td>2025-02-27</td>
                                 <td>2025-03-05 08:00</td>
-                                <td>Transfer Bank</td>
                                 <td>Lunas</td>
+                                <td>Transfer Bank</td>
+                                <td>Jakarta</td>
+                                <td>Bandung</td>
                             </tr>
                         <?php endfor; ?>
                     </tbody>
@@ -62,4 +63,6 @@
             </div>
         </div>
     </div>
-</div><?= $this->endSection() ?>
+</div>
+
+<?= $this->endSection() ?>

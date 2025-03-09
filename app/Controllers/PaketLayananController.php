@@ -9,6 +9,21 @@ class PaketLayananController extends BaseController
 {
     public function index()
     {
-        //
+        return view('paket-layanan');
+    }
+
+    public function view_admin()
+    {
+        return view('admin/paket-layanan-view');
+    }
+
+    public function add_admin()
+    {
+        return view('admin/paket-layanan-add');
+    }
+
+    public function edit_admin()
+    {
+        return view('admin/paket-layanan-edit');
     }
 }

@@ -24,11 +24,19 @@
                     <thead class="bg-dark text-white">
                         <tr>
                             <th class="align-middle">Nama Perusahaan</th>
+                            <th class="align-middle">Logo</th>
                             <th class="align-middle">Deskripsi</th>
+                            <th class="align-middle">Slider 1</th>
+                            <th class="align-middle">Slider 2</th>
+                            <th class="align-middle">Slider 3</th>
+                            <th class="align-middle">Keunggulan 1</th>
+                            <th class="align-middle">Keunggulan 2</th>
+                            <th class="align-middle">Keunggulan 3</th>
+                            <th class="align-middle">Background Judul</th>
                             <th class="align-middle">Visi</th>
                             <th class="align-middle">Misi</th>
-                            <th class="align-middle">Nama Karyawan</th>
-                            <th class="align-middle">Foto</th>
+                            <th class="align-middle">Nama Owner</th>
+                            <th class="align-middle">Foto Owner</th>
                             <th class="align-middle">No. Telp</th>
                             <th class="align-middle">Email</th>
                             <th class="align-middle">Instagram</th>
@@ -37,9 +45,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php for ($i = 0; $i < 1; $i++): ?>
                             <tr>
-                                <td>PT Contoh</td>
+                                <td>Ezzastory</td>
+                                <td>
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
                                 <td>
                                     <div class="text-justify overflow-auto"
                                         style="max-height: 100px; width: 280px; white-space: normal;">
@@ -53,10 +64,24 @@
                                         Ipsum.
                                     </div>
                                 </td>
-
+                                <td>
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
+                                <td>
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
+                                <td>
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
+                                <td>Keunggulan 1</td>
+                                <td>Keunggulan 2</td>
+                                <td>Keunggulan 3</td>
+                                <td>
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
                                 <td>Menjadi Terbaik</td>
                                 <td>Inovasi & Pelayanan</td>
-                                <td>John Doe</td>
+                                <td>Muhammad Reza Perdana</td>
                                 <td>
                                     <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
                                 </td>

@@ -186,9 +186,8 @@
                         <thead class="table-dark">
                             <tr>
                                 <th>Nama</th>
-                                <th>Jenis Layanan</th>
                                 <th>Paket Layanan</th>
-                                <th>Waktu</th>
+                                <th>Waktu Pemotretan</th>
                                 <th>Lokasi</th>
                             </tr>
                         </thead>
@@ -221,8 +220,8 @@
 
         let currentDate = new Date();
         const reservations = {
-            5: [{ nama: "John Doe", layanan: "Spa", paket: "Premium", waktu: "10:00", lokasi: "Room A" }],
-            14: [{ nama: "Jane Doe", layanan: "Salon", paket: "Haircut", waktu: "14:00", lokasi: "Room B" }]
+            5: [{ nama: "John Doe", paket: "Premium", waktu: "10:00", lokasi: "Room A" }],
+            14: [{ nama: "Jane Doe", paket: "Haircut", waktu: "14:00", lokasi: "Room B" }]
         };
 
         function generateYearOptions() {
@@ -302,7 +301,7 @@
 
             if (reservations[day]) {
                 reservations[day].forEach(res => {
-                    let row = `<tr><td>${res.nama}</td><td>${res.layanan}</td><td>${res.paket}</td><td>${res.waktu}</td><td>${res.lokasi}</td></tr>`;
+                    let row = `<tr><td>${res.nama}</td><td>${res.paket}</td><td>${res.waktu}</td><td>${res.lokasi}</td></tr>`;
                     reservationList.innerHTML += row;
                 });
                 document.getElementById("bookedCount").textContent = reservations[day].length;

@@ -321,9 +321,8 @@
                                         <thead class="table-dark">
                                             <tr>
                                                 <th>Nama</th>
-                                                <th>Jenis Layanan</th>
                                                 <th>Paket Layanan</th>
-                                                <th>Waktu</th>
+                                                <th>Waktu Pemotretan</th>
                                                 <th>Lokasi</th>
                                             </tr>
                                         </thead>
@@ -350,7 +349,7 @@
 
             <!-- FORM RESERVASI -->
             <div class="tab-pane fade" id="reservasi">
-                <div class="reservasi-card" style="max-width: 800px;"> <!-- Memperlebar card -->
+                <div class="reservasi-card" style="max-width: 1000px;"> <!-- Memperlebar card -->
                     <h4 class="text-center mb-3">Formulir Reservasi</h4>
                     <form>
                         <div class="row">
@@ -362,64 +361,95 @@
                                         required>
                                 </div>
                                 <div class="mb-3">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" placeholder="Masukkan email" required>
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">Nomor Telepon</label>
                                     <input type="tel" class="form-control" placeholder="Masukkan nomor telepon"
                                         required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Email</label>
-                                    <input type="email" class="form-control" placeholder="Masukkan email" required>
+                                    <label class="form-label">Waktu Pemesanan</label>
+                                    <input type="datetime-local" class="form-control" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Metode Pembayaran</label>
-                                    <select class="form-select">
-                                        <option>Pilih metode pembayaran</option>
-                                        <option>Transfer Bank</option>
-                                        <option>Kartu Kredit</option>
-                                        <option>e-Wallet</option>
+                                    <label class="form-label">Paket Layanan</label>
+                                    <select class="form-select" id="paketLayanan" required>
+                                        <option value="" selected disabled>Pilih Paket Layanan</option>
+                                        <option value="silver">Paket Silver</option>
+                                        <option value="gold">Paket Gold</option>
+                                        <option value="platinum">Paket Platinum</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Waktu Pemesanan</label>
-                                    <input type="datetime-local" class="form-control">
+                                    <label class="form-label">Deskripsi Paket</label>
+                                    <textarea class="form-control" id="deskripsiPaket" readonly rows="3"
+                                        required></textarea>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Waktu Pemotretan</label>
+                                    <input type="date" class="form-control" required>
                                 </div>
                             </div>
 
                             <!-- Kolom Kanan -->
                             <div class="col-md-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Jenis Layanan</label>
-                                    <select class="form-select">
-                                        <option>Pilih jenis layanan</option>
-                                        <option>Wedding</option>
-                                        <option>Pre-Wedding</option>
-                                        <option>Event Photography</option>
+                                    <label class="form-label">Jenis Pembayaran</label>
+                                    <select class="form-select" required>
+                                        <option value="" selected disabled>Pilih Jenis Pembayaran</option>
+                                        <option>Lunas</option>
+                                        <option>DP (Down Payment)</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Paket Layanan</label>
-                                    <select class="form-select">
-                                        <option>Pilih paket layanan</option>
-                                        <option>Paket Silver</option>
-                                        <option>Paket Gold</option>
-                                        <option>Paket Platinum</option>
+                                    <label class="form-label">Metode Pembayaran</label>
+                                    <select class="form-select" required>
+                                        <option value="" selected disabled>Pilih Metode Pembayaran</option>
+                                        <option>Transfer Bank</option>
+                                        <option>Kartu Kredit</option>
+                                        <option>e-Wallet</option>
                                     </select>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Harga</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan harga" readonly>
+                                    <label class="form-label">Lokasi Pemotretan (Ex. Rogojampi/Srono/Banyuwangi)</label>
+                                    <input type="text" class="form-control" placeholder="Masukkan lokasi pemotretan"
+                                        required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Waktu Pemotretan</label>
-                                    <input type="date" class="form-control">
+                                    <label class="form-label">Lokasi Pemotretan (Link Maps)</label>
+                                    <input type="text" class="form-control" placeholder="Masukkan lokasi pemotretan"
+                                        required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Lokasi Pemotretan</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan lokasi pemotretan">
+                                    <label class="form-label">Lokasi Pengiriman Album (Link Maps)</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Masukkan lokasi pengiriman album" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Nama Mempelai Pria & Wanita</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Masukkan nama mempelai pria & wanita" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Link Instagram</label>
+                                    <input type="text" class="form-control" placeholder="Masukkan link Instagram"
+                                        required>
                                 </div>
                             </div>
                         </div>
                         <button type="submit" class="btn btn-dark w-100">Kirim Reservasi</button>
+                        <!-- Catatan Pembayaran -->
+                        <div class="mt-4 p-3 border rounded bg-light">
+                            <h6 class="text-danger"><strong>Catatan:</strong></h6>
+                            <ul class="mb-0">
+                                <li>DP Minimal 500rb</li>
+                                <li>Pelunasan Maksimal H+3 Setelah Acara</li>
+                                <li>Setelah Ada Pelunasan Baru kami edit dan Cetak</li>
+                                <li>(Pengerjaan Album Kisaran 2-4 Minggu)</li>
+                            </ul>
+                        </div>
                     </form>
                 </div>
             </div>
@@ -556,8 +586,8 @@
 
         let currentDate = new Date();
         const reservations = {
-            5: [{ nama: "John Doe", layanan: "Spa", paket: "Premium", waktu: "10:00", lokasi: "Room A" }],
-            14: [{ nama: "Jane Doe", layanan: "Salon", paket: "Haircut", waktu: "14:00", lokasi: "Room B" }]
+            5: [{ nama: "John Doe", paket: "Premium", waktu: "10:00", lokasi: "Room A" }],
+            14: [{ nama: "Jane Doe", paket: "Haircut", waktu: "14:00", lokasi: "Room B" }]
         };
 
         function generateYearOptions() {
@@ -637,7 +667,7 @@
 
             if (reservations[day]) {
                 reservations[day].forEach(res => {
-                    let row = `<tr><td>${res.nama}</td><td>${res.layanan}</td><td>${res.paket}</td><td>${res.waktu}</td><td>${res.lokasi}</td></tr>`;
+                    let row = `<tr><td>${res.nama}</td><td>${res.paket}</td><td>${res.waktu}</td><td>${res.lokasi}</td></tr>`;
                     reservationList.innerHTML += row;
                 });
                 document.getElementById("bookedCount").textContent = reservations[day].length;
@@ -669,6 +699,37 @@
         renderCalendar();
     });
 
+</script>
+
+<script>
+    document.getElementById("paketLayanan").addEventListener("change", function () {
+        let paket = this.value;
+        let deskripsiPaket = document.getElementById("deskripsiPaket");
+        let hargaPaket = document.getElementById("hargaPaket");
+
+        let paketData = {
+            silver: {
+                deskripsi: "Paket Silver mencakup sesi foto 2 jam dengan 30 hasil editan terbaik.",
+                harga: "Rp 2.000.000"
+            },
+            gold: {
+                deskripsi: "Paket Gold mencakup sesi foto 4 jam dengan 60 hasil editan terbaik dan album cetak.",
+                harga: "Rp 4.500.000"
+            },
+            platinum: {
+                deskripsi: "Paket Platinum mencakup sesi foto 6 jam, unlimited hasil editan, album premium, dan video highlight.",
+                harga: "Rp 8.000.000"
+            }
+        };
+
+        if (paketData[paket]) {
+            deskripsiPaket.value = paketData[paket].deskripsi;
+            hargaPaket.value = paketData[paket].harga;
+        } else {
+            deskripsiPaket.value = "";
+            hargaPaket.value = "";
+        }
+    });
 </script>
 
 <?= $this->endSection() ?>

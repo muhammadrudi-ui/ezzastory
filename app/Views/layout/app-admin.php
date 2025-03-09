@@ -187,8 +187,14 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="bi bi-box-seam"></i> <span>Layanan & Paket</span>
+                <a class="nav-link" href="/portofolio-view">
+                    <i class="bi bi-building"></i> <span>Portofolio</span>
+                </a>
+            </li>
+            <hr class="sidebar-divider" />
+            <li class="nav-item">
+                <a class="nav-link" href="/paket-layanan-view">
+                    <i class="bi bi-box-seam"></i> <span>Paket Layanan</span>
                 </a>
             </li>
             <hr class="sidebar-divider" />
