@@ -37,6 +37,7 @@
                             <th class="align-middle">Misi</th>
                             <th class="align-middle">Nama Owner</th>
                             <th class="align-middle">Foto Owner</th>
+                            <th class="align-middle">CTA</th>
                             <th class="align-middle">No. Telp</th>
                             <th class="align-middle">Email</th>
                             <th class="align-middle">Instagram</th>
@@ -84,6 +85,12 @@
                                 <td>Muhammad Reza Perdana</td>
                                 <td>
                                     <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                </td>
+                                <td>
+                                    <div class="text-justify overflow-auto"
+                                        style="max-height: 100px; width: 280px; white-space: normal;">
+                                        Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!
+                                    </div>
                                 </td>
                                 <td>08123456789</td>
                                 <td>email@contoh.com</td>

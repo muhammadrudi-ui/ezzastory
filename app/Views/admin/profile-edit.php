@@ -93,6 +93,12 @@
                     </div>
                 </div>
 
+                <div class="mt-3">
+                    <label class="fw-bold">CTA</label>
+                    <textarea name="cta" class="form-control" rows="2"
+                        required>Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</textarea>
+                </div>
+
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="fw-bold">No. Telp</label>
