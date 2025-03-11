@@ -471,6 +471,10 @@
                         <div class="tracking-text mt-2">Pencetakan</div>
                     </div>
                     <div class="tracking-step">
+                        <div class="tracking-icon"><i class="fa-solid fa-truck"></i></div>
+                        <div class="tracking-text mt-2">Pengiriman</div>
+                    </div>
+                    <div class="tracking-step">
                         <div class="tracking-icon"><i class="fa-solid fa-check"></i></div>
                         <div class="tracking-text mt-2">Pesanan Selesai</div>
                     </div>

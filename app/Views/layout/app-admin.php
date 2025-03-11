@@ -188,7 +188,7 @@
             <hr class="sidebar-divider" />
             <li class="nav-item">
                 <a class="nav-link" href="/portofolio-view">
-                    <i class="bi bi-building"></i> <span>Portofolio</span>
+                    <i class="bi bi-collection"></i> <span>Portofolio</span>
                 </a>
             </li>
             <hr class="sidebar-divider" />
