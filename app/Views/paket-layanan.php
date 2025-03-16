@@ -100,121 +100,48 @@
 <section class="paket-layanan">
     <div class="container mb-5">
         <div class="row g-4">
-
-            <!-- Card 1 -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="/IMG/1.jpg" class="card-img-top" alt="Paket Wedding 1">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Paket Wedding 1</h5>
-                        <p class="card-text">Beautiful wedding moments captured elegantly.</p>
-                        <p class="card-price">Rp 5.000.000</p>
-                        <div class="btn-group">
-                            <button class="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#modalPaket1">Baca Selengkapnya</button>
-                            <a href="#" class="btn btn-dark">Reservasi</a>
+            <?php foreach ($paket_layanan as $paket): ?>
+                <div class="col-md-4 col-sm-6">
+                    <div class="card">
+                        <img src="<?= base_url($paket['foto']) ?>" class="card-img-top" alt="<?= $paket['nama'] ?>">
+                        <div class="card-body text-center">
+                            <h5 class="card-title"><?= esc($paket['nama']) ?></h5>
+                            <p class="card-text"><?= esc($paket['benefit']) ?></p>
+                            <p class="card-price">Rp <?= number_format($paket['harga'], 0, ',', '.') ?></p>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-dark" data-bs-toggle="modal"
+                                    data-bs-target="#modalPaket<?= $paket['id'] ?>">Baca Selengkapnya</button>
+                                <a href="#" class="btn btn-dark">Reservasi</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Card 2 -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="/IMG/2.jpg" class="card-img-top" alt="Paket Wedding 2">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Paket Wedding 2</h5>
-                        <p class="card-text">Exclusive wedding coverage with premium service and special offers.</p>
-                        <p class="card-price">Rp 7.500.000</p>
-                        <div class="btn-group">
-                            <button class="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#modalPaket2">Baca Selengkapnya</button>
-                            <a href="#" class="btn btn-dark">Reservasi</a>
+                <!-- Modal untuk tiap paket -->
+                <div class="modal fade" id="modalPaket<?= $paket['id'] ?>" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-md">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"><?= esc($paket['nama']) ?></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="<?= base_url($paket['foto']) ?>" class="img-fluid rounded mb-3"
+                                    alt="<?= $paket['nama'] ?>">
+                                <p><?= esc($paket['benefit']) ?></p>
+                            </div>
+                            <div class="modal-footer d-flex justify-content-center">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <a href="#" class="btn btn-dark">Reservasi</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Card 3 -->
-            <div class="col-md-4 col-sm-6">
-                <div class="card">
-                    <img src="/IMG/3.jpg" class="card-img-top" alt="Paket Wedding 3">
-                    <div class="card-body text-center">
-                        <h5 class="card-title">Paket Wedding 3</h5>
-                        <p class="card-text">Full wedding documentary and cinematic video for unforgettable moments.</p>
-                        <p class="card-price">Rp 10.000.000</p>
-                        <div class="btn-group">
-                            <button class="btn btn-outline-dark" data-bs-toggle="modal"
-                                data-bs-target="#modalPaket3">Baca Selengkapnya</button>
-                            <a href="#" class="btn btn-dark">Reservasi</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
-
-<!-- Modal Paket Wedding 1 -->
-<div class="modal fade" id="modalPaket1" tabindex="-1" aria-labelledby="modalPaket1Label" aria-hidden="true">
-    <div class="modal-dialog modal-md"> <!-- Ukuran modal lebih kecil -->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPaket1Label">Paket Wedding 1</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img src="/IMG/1.jpg" class="img-fluid rounded mb-3" alt="Paket Wedding 1">
-                <p>Beautiful wedding moments captured elegantly with professional photographers.</p>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-dark">Reservasi</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Paket Wedding 2 -->
-<div class="modal fade" id="modalPaket2" tabindex="-1" aria-labelledby="modalPaket2Label" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPaket2Label">Paket Wedding 2</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img src="/IMG/2.jpg" class="img-fluid rounded mb-3" alt="Paket Wedding 2">
-                <p>Exclusive wedding coverage with premium service and special offers.</p>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-dark">Reservasi</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal Paket Wedding 3 -->
-<div class="modal fade" id="modalPaket3" tabindex="-1" aria-labelledby="modalPaket3Label" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalPaket3Label">Paket Wedding 3</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body text-center">
-                <img src="/IMG/3.jpg" class="img-fluid rounded mb-3" alt="Paket Wedding 3">
-                <p>Full wedding documentary and cinematic video for unforgettable moments.</p>
-            </div>
-            <div class="modal-footer d-flex justify-content-center">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                <a href="#" class="btn btn-dark">Reservasi</a>
-            </div>
-        </div>
-    </div>
-</div>
 
 
 <!-- Modal untuk Paket Wedding 3 bisa ditambahkan dengan format serupa -->

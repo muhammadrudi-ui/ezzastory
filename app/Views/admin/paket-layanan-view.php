@@ -7,17 +7,30 @@
         <h3 class="text-start text-dark fw-bold">Paket Layanan</h3>
     </div>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
         <div class="input-group" style="max-width: 250px;">
             <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
-                aria-describedby="button-addon2">
+                aria-describedby="button-addon2" id="searchInput">
             <button class="btn btn-outline-secondary" type="button" id="button-addon2">
                 <i class="fas fa-search"></i>
             </button>
         </div>
         <a href="paket-layanan-add" class="btn btn-success">Tambah Data</a>
     </div>
-
 
     <div class="card">
         <div class="card-body">
@@ -33,31 +46,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php if (isset($paketLayanan) && count($paketLayanan) > 0): ?>
+                            <?php foreach ($paketLayanan as $key => $paket): ?>
+                                <tr>
+                                    <td><?= $paket['nama'] ?></td>
+                                    <td>
+                                        <img src="<?= base_url($paket['foto']) ?>" class="rectangle" width="75" height="75"
+                                            style="object-fit: cover; border-radius: 3px;" alt="Foto Paket">
+                                    </td>
+                                    <td><?= $paket['benefit'] ?></td>
+                                    <td>Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>
+                                    <td class="text-nowrap">
+                                        <div class="d-flex gap-2 justify-content-center">
+                                            <a href="<?= base_url('paket-layanan-edit/' . $paket['id']) ?>"
+                                                class="btn btn-warning btn-sm" title="Edit">
+                                                <i class="fas fa-edit text-white"></i>
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" title="Hapus"
+                                                onclick="confirmDelete(<?= $paket['id'] ?>)">
+                                                <i class="fas fa-trash-alt text-white"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                             <tr>
-                                <td>Wedding-Pajet A</td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>- Unlimited Foto, - Cetak Magazine 20x25
-                                    (22 Halaman + Koper)- All File DVD and Google Drive </td>
-                                <td>Rp. 1.900.000</td>
-                                <td class="text-nowrap">
-                                    <div class="d-flex gap-2">
-                                        <a href="paket-layanan-edit" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit text-white"></i>
-                                        </a>
-                                        <button class="btn btn-danger btn-sm" title="Hapus"
-                                            onclick="confirmDelete(<?= $i ?>)">
-                                            <i class="fas fa-trash-alt text-white"></i>
-                                        </button>
-                                    </div>
-                                </td>
+                                <td colspan="5" class="text-center">Tidak ada data paket layanan</td>
                             </tr>
-                        <?php endfor; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+            <div class="d-flex justify-content-center mt-3">
+                <?= $pager->links('default', 'bootstrap_pagination') ?>
+            </div>
+
         </div>
     </div>
 </div>
@@ -75,10 +99,25 @@
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "profile-perusahaan-delete/" + id;
+                window.location.href = "<?= base_url('paket-layanan-delete/') ?>" + id;
             }
         });
     }
+
+    // Simple search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function () {
+        const searchValue = this.value.toLowerCase();
+        const tableRows = document.querySelectorAll('tbody tr');
+
+        tableRows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            if (text.includes(searchValue)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
 </script>
 
 <!-- Tambahkan link SweetAlert2 -->

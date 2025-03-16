@@ -7,29 +7,48 @@
         <h3 class="text-start text-dark fw-bold">Edit Paket Layanan</h3>
     </div>
 
+    <?php if (session()->has('errors')): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach (session('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    <?php endif ?>
+
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('paket-layanan/update/1'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('paket-layanan-update/' . $paket['id']); ?>" method="POST"
+                enctype="multipart/form-data">
+                <?= csrf_field() ?>
+
                 <div class="mb-3">
                     <label class="fw-bold">Nama Paket</label>
-                    <input type="text" name="nama_paket" class="form-control" value="Paket Premium" required>
+                    <input type="text" name="nama_paket" class="form-control"
+                        value="<?= old('nama_paket', $paket['nama']) ?>" required>
                 </div>
 
-                <div class="col-md-6">
+                <div class="mb-3">
                     <label class="fw-bold">Foto</label>
-                    <input type="file" name="foto" class="form-control">
-                    <img src="/IMG/foto.jpg" alt="Foto" class="mt-2" width="100">
+                    <input type="file" name="foto" class="form-control" onchange="previewImage(this, 'previewFoto')">
+                    <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file: 2MB
+                        (JPG, JPEG, PNG).</small>
+                    <div class="mt-2">
+                        <img id="previewFoto" src="<?= base_url($paket['foto']) ?>" alt="Foto Paket" width="100">
+                    </div>
                 </div>
 
                 <div class="mb-3">
                     <label class="fw-bold">Benefit</label>
                     <textarea name="benefit" class="form-control" rows="3"
-                        required>Benefit yang didapatkan...</textarea>
+                        required><?= old('benefit', $paket['benefit']) ?></textarea>
                 </div>
 
                 <div class="mb-3">
                     <label class="fw-bold">Harga</label>
-                    <input type="text" name="harga" class="form-control" value="Rp 500.000" required>
+                    <input type="number" name="harga" class="form-control" value="<?= old('harga', $paket['harga']) ?>"
+                        required>
                 </div>
 
                 <div class="mt-4 text-center">
@@ -43,13 +62,12 @@
 
 <script>
     function previewImage(input, previewId) {
-        let file = input.files[0];
-        if (file) {
+        if (input.files && input.files[0]) {
             let reader = new FileReader();
             reader.onload = function (e) {
                 document.getElementById(previewId).src = e.target.result;
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(input.files[0]);
         }
     }
 </script>
