@@ -23,31 +23,28 @@ class PaketLayananController extends BaseController
     public function view_admin()
     {
         $perPage = 5; // Jumlah data per halaman
+        $search = $this->request->getGet('search'); // Ambil nilai input pencarian
+
+        if ($search) {
+            $this->paketLayananModel
+                ->groupStart()
+                ->like('nama', $search)
+                ->orLike('benefit', $search)
+                ->orLike('harga', $search)
+                ->groupEnd();
+        }
 
         $data['paketLayanan'] = $this->paketLayananModel->paginate($perPage);
-        $data['pager'] = $this->paketLayananModel->pager; // Ambil instance pager
+        $data['pager'] = $this->paketLayananModel->pager;
+        $data['search'] = $search; // Kirim data pencarian ke view
 
         return view('admin/paket-layanan-view', $data);
     }
 
+
     public function add_admin()
     {
         return view('admin/paket-layanan-add');
-    }
-
-    public function edit_admin($id = null)
-    {
-        if ($id == null) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'ID Paket Layanan tidak ditemukan');
-        }
-
-        $data['paket'] = $this->paketLayananModel->find($id);
-
-        if (!$data['paket']) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'Paket Layanan tidak ditemukan');
-        }
-
-        return view('admin/paket-layanan-edit', $data);
     }
 
     public function store()
@@ -79,6 +76,21 @@ class PaketLayananController extends BaseController
 
         $this->paketLayananModel->insert($data);
         return redirect()->to('/paket-layanan-view')->with('success', 'Paket Layanan berhasil ditambahkan');
+    }
+
+    public function edit_admin($id = null)
+    {
+        if ($id == null) {
+            return redirect()->to('/paket-layanan-view')->with('error', 'ID Paket Layanan tidak ditemukan');
+        }
+
+        $data['paket'] = $this->paketLayananModel->find($id);
+
+        if (!$data['paket']) {
+            return redirect()->to('/paket-layanan-view')->with('error', 'Paket Layanan tidak ditemukan');
+        }
+
+        return view('admin/paket-layanan-edit', $data);
     }
 
     public function update($id = null)

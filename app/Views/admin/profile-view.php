@@ -7,14 +7,28 @@
         <h3 class="text-start text-dark fw-bold">Profile Perusahaan</h3>
     </div>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+        <form action="<?= site_url('profile-perusahaan') ?>" method="GET" class="input-group" style="max-width: 250px;">
+            <input type="text" name="search" class="form-control" placeholder="Search..."
+                value="<?= isset($search) ? esc($search) : '' ?>">
+            <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </div>
+        </form>
         <a href="profile-perusahaan-add" class="btn btn-success">Tambah Data</a>
     </div>
     <div class="card">
@@ -46,76 +60,89 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 1; $i++): ?>
+                        <?php if (isset($profileModel) && count($profileModel) > 0): ?>
+                            <?php foreach ($profileModel as $key => $profile): ?>
+                                <tr>
+                                    <td><?= $profile['nama_perusahaan'] ?></td>
+                                    <td>
+                                        <img src="<?= base_url($profile['logo']) ?>" class="rectangle" width="75" height="75"
+                                            style="object-fit: cover; border-radius: 3px;" alt="Logo Perusahaan">
+                                    </td>
+                                    <td>
+                                        <div class="text-justify overflow-auto"
+                                            style="max-height: 100px; width: 280px; white-space: normal;">
+                                            <?= $profile['deskripsi'] ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <img src="<?= base_url($profile['slider_1']) ?>" class="rectangle" width="75"
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 1">
+                                    </td>
+                                    <td>
+                                        <img src="<?= base_url($profile['slider_2']) ?>" class="rectangle" width="75"
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 2">
+                                    </td>
+                                    <td>
+                                        <img src="<?= base_url($profile['slider_3']) ?>" class="rectangle" width="75"
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 3">
+                                    </td>
+                                    <td><?= $profile['keunggulan_1'] ?></td>
+                                    <td><?= $profile['keunggulan_2'] ?></td>
+                                    <td><?= $profile['keunggulan_3'] ?></td>
+                                    <td>
+                                        <img src="<?= base_url($profile['background_judul']) ?>" class="rectangle" width="75"
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Background Judul">
+                                    </td>
+                                    <td><?= $profile['visi'] ?></td>
+                                    <td><?= $profile['misi'] ?></td>
+                                    <td><?= $profile['nama_owner'] ?></td>
+                                    <td>
+                                        <img src="<?= base_url($profile['foto_owner']) ?>" class="rectangle" width="75"
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Foto Owner">
+                                    </td>
+                                    <td>
+                                        <div class="text-justify overflow-auto"
+                                            style="max-height: 100px; width: 280px; white-space: normal;">
+                                            <?= $profile['cta'] ?>
+                                        </div>
+                                    </td>
+                                    <td><?= $profile['no_telp'] ?></td>
+                                    <td><?= $profile['email'] ?></td>
+                                    <td><?= $profile['instagram'] ?></td>
+                                    <td>
+                                        <div class="text-justify" style="width: 180px;">
+                                            <?= $profile['alamat'] ?>
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <div class="d-flex gap-2">
+                                            <a href="<?= base_url('profile-perusahaan-edit/' . $profile['id']) ?>"
+                                                class="btn btn-warning btn-sm" title="Edit">
+                                                <i class="fas fa-edit text-white"></i>
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" title="Hapus"
+                                                onclick="confirmDelete(<?= $profile['id'] ?>)">
+                                                <i class="fas fa-trash-alt text-white"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                             <tr>
-                                <td>Ezzastory</td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>
-                                    <div class="text-justify overflow-auto"
-                                        style="max-height: 100px; width: 280px; white-space: normal;">
-                                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem
-                                        Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                                        unknown printer took a galley of type and scrambled it to make a type specimen book.
-                                        It has survived not only five centuries, but also the leap into electronic
-                                        typesetting, remaining essentially unchanged. It was popularised in the 1960s with
-                                        the release of Letraset sheets containing Lorem Ipsum passages, and more recently
-                                        with desktop publishing software like Aldus PageMaker including versions of Lorem
-                                        Ipsum.
-                                    </div>
-                                </td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>Keunggulan 1</td>
-                                <td>Keunggulan 2</td>
-                                <td>Keunggulan 3</td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>Menjadi Terbaik</td>
-                                <td>Inovasi & Pelayanan</td>
-                                <td>Muhammad Reza Perdana</td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
-                                </td>
-                                <td>
-                                    <div class="text-justify overflow-auto"
-                                        style="max-height: 100px; width: 280px; white-space: normal;">
-                                        Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!
-                                    </div>
-                                </td>
-                                <td>08123456789</td>
-                                <td>email@contoh.com</td>
-                                <td>@instagram</td>
-                                <td>
-                                    <div class="text-justify" style="width: 180px;">
-                                        Jl. Contoh No. 123
-                                    </div>
-                                </td>
-                                <td class="text-nowrap">
-                                    <div class="d-flex gap-2">
-                                        <a href="profile-perusahaan-edit" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit text-white"></i>
-                                        </a>
-                                        <button class="btn btn-danger btn-sm" title="Hapus"
-                                            onclick="confirmDelete(<?= $i ?>)">
-                                            <i class="fas fa-trash-alt text-white"></i>
-                                        </button>
-                                    </div>
+                                <td class="text-center fw-bold py-3" style="width: 100%;" colspan="100%">
+                                    Tidak ada data profile perusahaan
                                 </td>
                             </tr>
-                        <?php endfor; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
+
+            <div class="d-flex justify-content-center mt-3">
+                <?= $pager->links('default', 'bootstrap_pagination') ?>
+            </div>
+
         </div>
     </div>
 </div>
@@ -134,10 +161,11 @@
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "profile-perusahaan-delete/" + id;
+                window.location.href = "<?= base_url('profile-perusahaan-delete/') ?>" + id;
             }
         });
     }
+
 </script>
 
 <!-- Tambahkan link SweetAlert2 -->

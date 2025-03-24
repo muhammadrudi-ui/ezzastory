@@ -7,117 +7,174 @@
         <h3 class="text-start text-dark fw-bold">Edit Data Perusahaan</h3>
     </div>
 
+    <?php if (session()->has('errors')): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach (session('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    <?php endif ?>
+
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('profile/update/1'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('profile-perusahaan-update/' . $profile['id']); ?>" method="POST"
+                enctype="multipart/form-data">
+                <?= csrf_field() ?>
                 <div class="row">
                     <div class="col-md-6">
                         <label class="fw-bold">Nama Perusahaan</label>
-                        <input type="text" name="nama_perusahaan" class="form-control" value="PT Contoh Teknologi"
-                            required>
+                        <input type="text" name="nama_perusahaan" class="form-control"
+                            value="<?= old('nama_perusahaan', $profile['nama_perusahaan']) ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Logo</label>
-                        <input type="file" name="logo" class="form-control">
-                        <img id="logo-preview" src="/IMG/logo.jpg" alt="Logo" class="mt-2" width="100">
+                        <input type="file" name="logo" class="form-control" accept="image/png, image/jpeg, image/jpg"
+                            onchange="previewImage(this, 'previewLogo')">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                            1MB (JPG, JPEG, PNG).</small>
+                        <div class="mt-2">
+                            <img id="previewLogo" src="<?= base_url($profile['logo']) ?>" alt="Logo" class="mt-2"
+                                width="100">
+                        </div>
                     </div>
                 </div>
 
                 <div class="mt-3">
                     <label class="fw-bold">Deskripsi</label>
                     <textarea name="deskripsi" class="form-control" rows="3"
-                        required>Perusahaan Teknologi yang bergerak di bidang pengembangan software.</textarea>
+                        required><?= old('deskripsi', $profile['deskripsi']) ?></textarea>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="fw-bold">Slider 1</label>
-                        <input type="file" name="slider1" class="form-control">
-                        <img src="/IMG/slider1.jpg" alt="Slider 1" class="mt-2" width="100">
+                        <input type="file" name="slider_1" class="form-control"
+                            accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this, 'previewSlider1')">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                            1MB (JPG, JPEG, PNG).</small>
+                        <div class="mt-2">
+                            <img id="previewSlider1" src="<?= base_url($profile['slider_1']) ?>" alt="Preview Slider 1"
+                                class="mt-2" width="100">
+                        </div>
                     </div>
+
                     <div class="col-md-4">
                         <label class="fw-bold">Slider 2</label>
-                        <input type="file" name="slider2" class="form-control">
-                        <img src="/IMG/slider2.jpg" alt="Slider 2" class="mt-2" width="100">
+                        <input type="file" name="slider_2" class="form-control"
+                            accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this, 'previewSlider2')">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                            1MB (JPG, JPEG, PNG).</small>
+                        <div class="mt-2">
+                            <img id="previewSlider2" src="<?= base_url($profile['slider_2']) ?>" alt="Preview Slider 2"
+                                class="mt-2" width="100">
+                        </div>
                     </div>
+
                     <div class="col-md-4">
                         <label class="fw-bold">Slider 3</label>
-                        <input type="file" name="slider3" class="form-control">
-                        <img src="/IMG/slider3.jpg" alt="Slider 3" class="mt-2" width="100">
+                        <input type="file" name="slider_3" class="form-control"
+                            accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this, 'previewSlider3')">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                            1MB (JPG, JPEG, PNG).</small>
+                        <div class="mt-2">
+                            <img id="previewSlider3" src="<?= base_url($profile['slider_3']) ?>" alt="Preview Slider 3"
+                                class="mt-2" width="100">
+                        </div>
                     </div>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="fw-bold">Keunggulan 1</label>
-                        <input type="text" name="keunggulan1" class="form-control" value="Inovasi Teknologi">
+                        <input type="text" name="keunggulan_1" class="form-control"
+                            value="<?= old('keunggulan_1', $profile['keunggulan_1']) ?>" required>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold">Keunggulan 2</label>
-                        <input type="text" name="keunggulan2" class="form-control" value="Layanan Terbaik">
+                        <input type="text" name="keunggulan_2" class="form-control"
+                            value="<?= old('keunggulan_2', $profile['keunggulan_2']) ?>" required>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold">Keunggulan 3</label>
-                        <input type="text" name="keunggulan3" class="form-control" value="Tim Profesional">
+                        <input type="text" name="keunggulan_3" class="form-control"
+                            value="<?= old('keunggulan_3', $profile['keunggulan_3']) ?>" required>
                     </div>
                 </div>
 
                 <div class="mt-3">
-                    <label class="fw-bold">Background Judul</label>
-                    <input type="file" name="background_judul" class="form-control">
-                    <img src="/IMG/bg-title.jpg" alt="Background Judul" class="mt-2" width="100">
+                    <label class="fw-bold">Backgound Judul</label>
+                    <input type="file" name="background_judul" class="form-control"
+                        accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this, 'previewBackground')">
+                    <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                        1MB (JPG, JPEG, PNG).</small>
+                    <div class="mt-2">
+                        <img id="previewBackground" src="<?= base_url($profile['background_judul']) ?>"
+                            alt="Background Judul" class="mt-2" width="100">
+                    </div>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="fw-bold">Visi</label>
                         <textarea name="visi" class="form-control" rows="2"
-                            required>Menjadi perusahaan teknologi terbaik.</textarea>
+                            required><?= old('visi', $profile['visi']) ?></textarea>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Misi</label>
                         <textarea name="misi" class="form-control" rows="2"
-                            required>Mengembangkan produk inovatif.</textarea>
+                            required><?= old('misi', $profile['misi']) ?></textarea>
                     </div>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="fw-bold">Nama Owner</label>
-                        <input type="text" name="nama_owner" class="form-control" value="John Doe">
+                        <input type="text" name="nama_owner" class="form-control"
+                            value="<?= old('nama_owner', $profile['nama_owner']) ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Foto Owner</label>
-                        <input type="file" name="foto_owner" class="form-control">
-                        <img src="/IMG/owner.jpg" alt="Foto Owner" class="mt-2" width="100">
+                        <input type="file" name="foto_owner" class="form-control"
+                            accept="image/png, image/jpeg, image/jpg" onchange="previewImage(this, 'previewOwner')">
+                        <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file:
+                            1MB (JPG, JPEG, PNG).</small>
+                        <div class="mt-2">
+                            <img id="previewOwner" src="<?= base_url($profile['foto_owner']) ?>" alt="Foto Owner"
+                                class="mt-2" width="100">
+                        </div>
                     </div>
                 </div>
 
                 <div class="mt-3">
                     <label class="fw-bold">CTA</label>
                     <textarea name="cta" class="form-control" rows="2"
-                        required>Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</textarea>
+                        required><?= old('cta', $profile['cta']) ?></textarea>
                 </div>
 
                 <div class="row mt-3">
                     <div class="col-md-4">
                         <label class="fw-bold">No. Telp</label>
-                        <input type="text" name="no_telp" class="form-control" value="08123456789" required>
+                        <input type="text" name="no_telp" class="form-control"
+                            value="<?= old('no_telp', $profile['no_telp']) ?>" required>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold">Email</label>
-                        <input type="email" name="email" class="form-control" value="email@contoh.com" required>
+                        <input type="email" name="email" class="form-control"
+                            value="<?= old('email', $profile['email']) ?>" required>
                     </div>
                     <div class="col-md-4">
                         <label class="fw-bold">Instagram</label>
-                        <input type="text" name="instagram" class="form-control" value="@contohtech">
+                        <input type="text" name="instagram" class="form-control"
+                            value="<?= old('instagram', $profile['instagram']) ?>" required>
                     </div>
                 </div>
 
                 <div class="mt-3">
                     <label class="fw-bold">Alamat</label>
                     <textarea name="alamat" class="form-control" rows="2"
-                        required>Jl. Contoh No. 123, Jakarta</textarea>
+                        required><?= old('alamat', $profile['alamat']) ?></textarea>
                 </div>
 
                 <div class="mt-4 text-center">

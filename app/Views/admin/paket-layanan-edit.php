@@ -31,7 +31,8 @@
 
                 <div class="mb-3">
                     <label class="fw-bold">Foto</label>
-                    <input type="file" name="foto" class="form-control" onchange="previewImage(this, 'previewFoto')">
+                    <input type="file" name="foto" class="form-control" accept="image/png, image/jpeg, image/jpg"
+                        onchange="previewImage(this, 'previewFoto')">
                     <small class="text-muted">Biarkan kosong jika tidak ingin mengubah foto. Maksimal ukuran file: 2MB
                         (JPG, JPEG, PNG).</small>
                     <div class="mt-2">

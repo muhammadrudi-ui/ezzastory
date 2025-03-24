@@ -28,7 +28,10 @@ class ProfilePerusahaanModel extends Model
         'no_telp',
         'email',
         'instagram',
-        'alamat'
+        'alamat',
+        'created_at',
+        'updated_at',
     ];
+
     protected $useTimestamps = true;
 }

@@ -22,13 +22,14 @@
     <?php endif; ?>
 
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
-                aria-describedby="button-addon2" id="searchInput">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+        <form class="input-group" style="max-width: 250px;" method="GET"
+            action="<?= base_url('paket-layanan-view'); ?>">
+            <input type="text" class="form-control" placeholder="Search..." name="search"
+                value="<?= isset($search) ? esc($search) : ''; ?>">
+            <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </div>
+        </form>
         <a href="paket-layanan-add" class="btn btn-success">Tambah Data</a>
     </div>
 
@@ -72,7 +73,9 @@
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="5" class="text-center">Tidak ada data paket layanan</td>
+                                <td class="text-center fw-bold py-3" style="width: 100%;" colspan="100%">
+                                    Tidak ada data paket layanan
+                                </td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -103,21 +106,6 @@
             }
         });
     }
-
-    // Simple search functionality
-    document.getElementById('searchInput').addEventListener('keyup', function () {
-        const searchValue = this.value.toLowerCase();
-        const tableRows = document.querySelectorAll('tbody tr');
-
-        tableRows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            if (text.includes(searchValue)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
-        });
-    });
 </script>
 
 <!-- Tambahkan link SweetAlert2 -->

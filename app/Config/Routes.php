@@ -20,9 +20,15 @@ $routes->get('/register', 'RegisterController::index');
 // Admin
 $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
+
+// Profile Perusahaan Admin
 $routes->get('/profile-perusahaan', 'ProfileController::index_admin');
 $routes->get('/profile-perusahaan-add', 'ProfileController::add_admin');
-$routes->get('/profile-perusahaan-edit', 'ProfileController::edit_admin');
+$routes->post('/profile-perusahaan-store', 'ProfileController::store');
+$routes->get('/profile-perusahaan-edit/(:num)', 'ProfileController::edit_admin/$1');
+$routes->post('/profile-perusahaan-update/(:num)', 'ProfileController::update/$1');
+$routes->get('/profile-perusahaan-delete/(:num)', 'ProfileController::delete/$1');
+
 $routes->get('/data-pemesanan', 'PemesananController::index_admin');
 $routes->get('/data-pemesanan-edit', 'PemesananController::edit_admin');
 $routes->get('/laporan-keuangan', 'LaporanKeuanganController::index');
@@ -32,7 +38,6 @@ $routes->get('/portofolio-add', 'PortofolioController::add_admin');
 $routes->get('/portofolio-edit', 'PortofolioController::edit_admin');
 
 // Paket Layanan Admin
-// Routes for Paket Layanan
 $routes->get('/paket-layanan-view', 'PaketLayananController::view_admin');
 $routes->get('/paket-layanan-add', 'PaketLayananController::add_admin');
 $routes->post('/paket-layanan-store', 'PaketLayananController::store');

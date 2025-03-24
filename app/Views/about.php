@@ -155,7 +155,7 @@
     <!-- About Us Section -->
     <section class="about-section">
         <div class="container">
-            <h2>About Ezzastory</h2>
+            <h2>Tentang Ezzastory</h2>
 
             <!-- Description -->
             <div class="about-description">
