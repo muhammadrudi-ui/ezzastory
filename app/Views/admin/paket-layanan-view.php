@@ -53,7 +53,7 @@
                                     <td><?= $paket['nama'] ?></td>
                                     <td>
                                         <img src="<?= base_url($paket['foto']) ?>" class="rectangle" width="75" height="75"
-                                            style="object-fit: cover; border-radius: 3px;" alt="Foto Paket">
+                                            style="object-fit: cover; border-radius: 3px;" alt="Foto Paket" loading="lazy">
                                     </td>
                                     <td><?= $paket['benefit'] ?></td>
                                     <td>Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>

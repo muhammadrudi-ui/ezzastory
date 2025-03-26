@@ -66,7 +66,7 @@
                                     <td><?= $profile['nama_perusahaan'] ?></td>
                                     <td>
                                         <img src="<?= base_url($profile['logo']) ?>" class="rectangle" width="75" height="75"
-                                            style="object-fit: cover; border-radius: 3px;" alt="Logo Perusahaan">
+                                            style="object-fit: cover; border-radius: 3px;" alt="Logo Perusahaan" loading="lazy">
                                     </td>
                                     <td>
                                         <div class="text-justify overflow-auto"
@@ -76,29 +76,34 @@
                                     </td>
                                     <td>
                                         <img src="<?= base_url($profile['slider_1']) ?>" class="rectangle" width="75"
-                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 1">
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 1"
+                                            loading="lazy">
                                     </td>
                                     <td>
                                         <img src="<?= base_url($profile['slider_2']) ?>" class="rectangle" width="75"
-                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 2">
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 2"
+                                            loading="lazy">
                                     </td>
                                     <td>
                                         <img src="<?= base_url($profile['slider_3']) ?>" class="rectangle" width="75"
-                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 3">
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Slider 3"
+                                            loading="lazy">
                                     </td>
                                     <td><?= $profile['keunggulan_1'] ?></td>
                                     <td><?= $profile['keunggulan_2'] ?></td>
                                     <td><?= $profile['keunggulan_3'] ?></td>
                                     <td>
                                         <img src="<?= base_url($profile['background_judul']) ?>" class="rectangle" width="75"
-                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Background Judul">
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Background Judul"
+                                            loading="lazy">
                                     </td>
                                     <td><?= $profile['visi'] ?></td>
                                     <td><?= $profile['misi'] ?></td>
                                     <td><?= $profile['nama_owner'] ?></td>
                                     <td>
                                         <img src="<?= base_url($profile['foto_owner']) ?>" class="rectangle" width="75"
-                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Foto Owner">
+                                            height="75" style="object-fit: cover; border-radius: 3px;" alt="Foto Owner"
+                                            loading="lazy">
                                     </td>
                                     <td>
                                         <div class="text-justify overflow-auto"

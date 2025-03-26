@@ -127,84 +127,85 @@
 
 <body>
     <!-- Slider -->
-    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <div class="carousel-item active">
-                <img src="/IMG/1.jpg" class="d-block w-100" alt="Slide 1">
+    <?php foreach ($profile_perusahaan as $profile): ?>
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img src="<?= base_url($profile['slider_1']) ?>" class="d-block w-100" alt="Slide 1">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= base_url($profile['slider_2']) ?>" class="d-block w-100" alt="Slide 2">
+                </div>
+                <div class="carousel-item">
+                    <img src="<?= base_url($profile['slider_3']) ?>" class="d-block w-100" alt="Slide 3">
+                </div>
             </div>
-            <div class="carousel-item">
-                <img src="/IMG/3.jpg" class="d-block w-100" alt="Slide 2">
-            </div>
-            <div class="carousel-item">
-                <img src="/IMG/2.jpg" class="d-block w-100" alt="Slide 3">
-            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-    </div>
+    <?php endforeach; ?>
 
     <!-- Informasi Layanan -->
     <section class="services">
-        <div class="container">
-            <div class="row">
-                <!-- Layanan Fotografi -->
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <i class="bi bi-camera"></i>
-                        <h5>Fotografi</h5>
-                        <p>Abadikan setiap momen berharga dengan layanan fotografi profesional.</p>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <div class="container">
+                <div class="row">
+                    <!-- Layanan Fotografi -->
+                    <div class="col-md-4">
+                        <div class="service-item">
+                            <i class="bi bi-camera"></i>
+                            <h5>Fotografi</h5>
+                            <p><?= ($profile['keunggulan_1']) ?></p>
+                        </div>
                     </div>
-                </div>
-                <!-- Layanan Videografi -->
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <i class="bi bi-camera-video"></i>
-                        <h5>Videografi</h5>
-                        <p>Ciptakan video berkualitas tinggi untuk berbagai kebutuhan Anda.</p>
+                    <!-- Layanan Videografi -->
+                    <div class="col-md-4">
+                        <div class="service-item">
+                            <i class="bi bi-camera-video"></i>
+                            <h5>Videografi</h5>
+                            <p><?= ($profile['keunggulan_2']) ?></p>
+                        </div>
                     </div>
-                </div>
-                <!-- Layanan Editing -->
-                <div class="col-md-4">
-                    <div class="service-item">
-                        <i class="bi bi-pencil"></i>
-                        <h5>Editing</h5>
-                        <p>Kami menawarkan editing foto dan video untuk hasil yang sempurna.</p>
+                    <!-- Layanan Editing -->
+                    <div class="col-md-4">
+                        <div class="service-item">
+                            <i class="bi bi-pencil"></i>
+                            <h5>Editing</h5>
+                            <p><?= ($profile['keunggulan_3']) ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </section>
 
     <!-- Informasi Perusahaan (About Us) -->
     <section class="about-us">
-        <div class="container">
-            <div class="row align-items-center">
-                <!-- Foto Perusahaan -->
-                <div class="col-md-6">
-                    <img src="/IMG/1.jpg" class="img-fluid" alt="Foto Perusahaan">
-                </div>
-                <!-- Deskripsi Perusahaan -->
-                <div class="col-md-6">
-                    <h2 class="about-us-title">About Us</h2>
-                    <p class="about-us-description">
-                        Kami adalah perusahaan yang bergerak di bidang layanan kreatif, menawarkan solusi
-                        inovatif dalam fotografi, videografi, dan editing. Dengan pengalaman bertahun-tahun,
-                        kami berkomitmen untuk memberikan hasil yang memuaskan dan berkualitas tinggi untuk
-                        setiap proyek yang kami tangani. Dari pemotretan untuk acara pribadi hingga pembuatan video
-                        perusahaan dan proyek editing, kami siap membantu Anda mencapai visi kreatif Anda dengan
-                        pendekatan profesional
-                        yang unik
-                    </p>
-                    <a href="#" class="btn btn-dark">Lihat Selengkapnya</a>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <div class="container">
+                <div class="row align-items-center">
+                    <!-- Foto Perusahaan -->
+                    <div class="col-md-6">
+                        <img src="<?= base_url($profile['background_judul']) ?>" class="img-fluid" alt="Foto Perusahaan"
+                            loading="lazy">
+                    </div>
+                    <!-- Deskripsi Perusahaan -->
+                    <div class="col-md-6">
+                        <h2 class="about-us-title">About Us</h2>
+                        <p class="about-us-description">
+                            <?= ($profile['deskripsi']) ?>
+                        </p>
+                        <a href="<?= base_url('about-us') ?>" class="btn btn-dark">Lihat Selengkapnya</a>
+                    </div>
                 </div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </section>
 
     <!-- Galeri Portofolio -->
@@ -266,10 +267,12 @@
 
     <!-- Call to Action - Reservasi -->
     <section class="cta-section">
-        <div class="container">
-            <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
-            <a href="#" class="btn btn-dark">Reservasi Sekarang</a>
-        </div>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <div class="container">
+                <p class="lead"><?= ($profile['cta']) ?></p>
+                <a href="<?= base_url('reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
+            </div>
+        <?php endforeach; ?>
     </section>
 
 </body>

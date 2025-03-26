@@ -36,7 +36,7 @@
                             <tr>
                                 <td>Jhon & Anne</td>
                                 <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75">
+                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75" loading="lazy">
                                 </td>
                                 <td>Wedding</td>
                                 <td class="text-nowrap align-middle">

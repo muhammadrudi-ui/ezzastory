@@ -50,7 +50,23 @@
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
     }
 
+    .card-img-top {
+        width: 100%;
+        height: 230px;
+        object-fit: cover;
+        border-top-left-radius: 8px;
+        border-top-right-radius: 8px;
+    }
+
+    .modal-img {
+        width: 100%;
+        max-height: 280px;
+        object-fit: cover;
+        border-radius: 8px;
+    }
+
     .card-body {
+        flex-grow: 1;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -92,8 +108,10 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
-    <img src="/IMG/1.jpg" alt="Hero Background">
-    <h1>Paket Layanan</h1>
+    <?php foreach ($profile_perusahaan as $profile): ?>
+        <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+        <h1>Paket Layanan</h1>
+    <?php endforeach; ?>
 </section>
 
 <!-- Paket Layanan Section -->
@@ -103,7 +121,8 @@
             <?php foreach ($paket_layanan as $paket): ?>
                 <div class="col-md-4 col-sm-6">
                     <div class="card">
-                        <img src="<?= base_url($paket['foto']) ?>" class="card-img-top" alt="<?= $paket['nama'] ?>">
+                        <img src="<?= base_url($paket['foto']) ?>" class="card-img-top" alt="<?= $paket['nama'] ?>"
+                            loading="lazy">
                         <div class="card-body text-center">
                             <h5 class="card-title"><?= esc($paket['nama']) ?></h5>
                             <p class="card-text"><?= esc($paket['benefit']) ?></p>
@@ -126,8 +145,8 @@
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
                             <div class="modal-body text-center">
-                                <img src="<?= base_url($paket['foto']) ?>" class="img-fluid rounded mb-3"
-                                    alt="<?= $paket['nama'] ?>">
+                                <img src="<?= base_url($paket['foto']) ?>" class="modal-img img-fluid rounded mb-3"
+                                    alt="<?= $paket['nama'] ?>" loading="lazy">
                                 <p><?= esc($paket['benefit']) ?></p>
                             </div>
                             <div class="modal-footer d-flex justify-content-center">

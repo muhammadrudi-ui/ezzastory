@@ -148,84 +148,57 @@
 
     <!-- Hero Section -->
     <section class="hero-section">
-        <img src="/IMG/1.jpg" alt="Hero Background">
-        <h1>About Us</h1>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+            <h1>About Us</h1>
+        <?php endforeach; ?>
     </section>
 
     <!-- About Us Section -->
     <section class="about-section">
         <div class="container">
-            <h2>Tentang Ezzastory</h2>
+            <?php foreach ($profile_perusahaan as $profile): ?>
+                <h2>Tentang Ezzastory</h2>
 
-            <!-- Description -->
-            <div class="about-description">
-                <p>Ezzastory is a leading digital content creator company that specializes in storytelling, multimedia
-                    production, and brand development. We aim to empower brands and individuals by crafting meaningful
-                    narratives and connecting them with their audiences. Through innovative digital solutions, we create
-                    content that resonates deeply, inspiring action and fostering lasting relationships. With a diverse
-                    and creative team, Ezzastory strives to remain at the forefront of digital content creation,
-                    continually pushing the boundaries of creativity and technology to deliver top-notch results.</p>
-            </div>
-
-            <!-- Vision and Mission -->
-            <div class="vision-mission">
-                <!-- Vision -->
-                <div>
-                    <h3>Visi</h3>
-                    <ul>
-                        <li>To be a globally recognized leader in digital content creation.</li>
-                        <li>To inspire and connect people worldwide through storytelling.</li>
-                        <li>To drive innovation and creativity in every project we undertake.</li>
-                    </ul>
+                <!-- Description -->
+                <div class="about-description">
+                    <p><?= ($profile['deskripsi']) ?></p>
                 </div>
 
-                <!-- Mission -->
-                <div>
-                    <h3>Misi</h3>
-                    <ul>
-                        <li>To provide high-quality content that engages and resonates with audiences.</li>
-                        <li>To support brands in building meaningful connections with their customers.</li>
-                        <li>To create stories that inspire, inform, and entertain.</li>
-                        <li>To foster creativity and innovation within our team and clients.</li>
-                    </ul>
-                </div>
-            </div>
+                <!-- Vision and Mission -->
+                <div class="vision-mission">
+                    <!-- Vision -->
+                    <div>
+                        <h3>Visi</h3>
+                        <ul>
+                            <?= esc($profile['visi']) ?>
+                        </ul>
+                    </div>
 
-            <!-- Team Section -->
-            <h2>Our Team</h2>
-            <div class="team-section">
-                <!-- Owner Card -->
-                <div class="team-card">
-                    <img src="/IMG/1.jpg" alt="Owner">
-                    <div class="overlay">
-                        <div>
-                            <h4>John Doe</h4>
-                            <p>Founder & CEO</p>
-                        </div>
+                    <!-- Mission -->
+                    <div>
+                        <h3>Misi</h3>
+                        <ul>
+                            <?= ($profile['misi']) ?>
+                        </ul>
                     </div>
                 </div>
 
-                <!-- Employee Card -->
-                <div class="team-card">
-                    <img src="/IMG/2.jpg" alt="Employee">
-                    <div class="overlay">
-                        <div>
-                            <h4>Jane Smith</h4>
-                            <p>Creative Director</p>
+                <!-- Team Section -->
+                <h2>Our Team</h2>
+                <div class="team-section">
+                    <!-- Owner Card -->
+                    <div class="team-card">
+                        <img src="<?= base_url($profile['foto_owner']) ?>" alt="Owner" loading="lazy">
+                        <div class="overlay">
+                            <div>
+                                <h4><?= ($profile['nama_owner']) ?></h4>
+                                <p>Owner</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <div class="team-card">
-                    <img src="/IMG/3.jpg" alt="Employee">
-                    <div class="overlay">
-                        <div>
-                            <h4>Mark Johnson</h4>
-                            <p>Marketing Manager</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </section>
 

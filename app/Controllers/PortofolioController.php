@@ -3,12 +3,15 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\ProfilePerusahaanModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class PortofolioController extends BaseController
 {
     public function index()
     {
+        $profileModel = new ProfilePerusahaanModel();
+        $data['profile_perusahaan'] = $profileModel->findAll();
         return view('portofolio');
     }
 

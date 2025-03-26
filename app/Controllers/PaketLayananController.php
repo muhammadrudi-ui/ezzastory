@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\PaketLayananModel;
+use App\Models\ProfilePerusahaanModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class PaketLayananController extends BaseController
@@ -12,10 +13,12 @@ class PaketLayananController extends BaseController
     public function __construct()
     {
         $this->paketLayananModel = new PaketLayananModel();
+        $this->profileModel = new ProfilePerusahaanModel();
     }
 
     public function index()
     {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
         $data['paket_layanan'] = $this->paketLayananModel->findAll();
         return view('paket-layanan', $data);
     }
