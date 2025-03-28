@@ -84,7 +84,6 @@
             <div class="d-flex justify-content-center mt-3">
                 <?= $pager->links('default', 'bootstrap_pagination') ?>
             </div>
-
         </div>
     </div>
 </div>

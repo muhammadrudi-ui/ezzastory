@@ -45,3 +45,11 @@ $routes->get('/paket-layanan-edit/(:num)', 'PaketLayananController::edit_admin/$
 $routes->post('/paket-layanan-update/(:num)', 'PaketLayananController::update/$1');
 $routes->get('/paket-layanan-delete/(:num)', 'PaketLayananController::delete/$1');
 
+// Portofolio Admin
+$routes->get('/portofolio-view', 'PortofolioController::view_admin');
+$routes->get('/portofolio-add', 'PortofolioController::add_admin');
+$routes->post('/portofolio-store', 'PortofolioController::store');
+$routes->get('/portofolio-edit/(:num)', 'PortofolioController::edit_admin/$1');
+$routes->post('/portofolio-update/(:num)', 'PortofolioController::update/$1');
+$routes->get('/portofolio-delete/(:num)', 'PortofolioController::delete/$1');
+

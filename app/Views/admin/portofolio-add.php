@@ -7,31 +7,47 @@
         <h3 class="text-start text-dark fw-bold">Tambah Portofolio</h3>
     </div>
 
+    <?php if (session()->has('errors')): ?>
+        <div class="alert alert-danger">
+            <ul>
+                <?php foreach (session('errors') as $error): ?>
+                    <li><?= esc($error) ?></li>
+                <?php endforeach ?>
+            </ul>
+        </div>
+    <?php endif ?>
+
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('portofolio/store'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('portofolio-store'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
                         <label class="fw-bold">Nama Mempelai</label>
                         <input type="text" name="nama_mempelai" class="form-control"
-                            placeholder="Masukkan nama mempelai" required>
+                            placeholder="Masukkan nama mempelai" value="<?= old('nama_mempelai') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="fw-bold">Foto</label>
-                        <input type="file" name="foto" class="form-control"
-                            onchange="previewImage(event, 'previewFoto')">
-                        <img id="previewFoto" src="#" alt="Preview Foto" class="mt-2 d-none" width="100">
+                        <label class="fw-bold">Foto (Maksimal 10)</label>
+                        <input type="file" name="foto[]" class="form-control" multiple
+                            onchange="previewMultipleImages(event)" accept="image/png, image/jpeg, image/jpg">
+                        <small class="text-muted">Maksimal ukuran file: 1MB (JPG, JPEG, PNG).</small>
+                        <div id="previewContainer" class="mt-2 d-flex flex-wrap"></div>
                     </div>
                 </div>
 
                 <div class="mt-3">
                     <label class="fw-bold">Jenis Layanan</label>
                     <select name="jenis_layanan" class="form-select" required>
-                        <option value="" selected disabled>Pilih Jenis Layanan</option>
-                        <option value="Wedding">Wedding</option>
-                        <option value="Engagement">Engagement</option>
-                        <option value="Pre-Wedding">Pre-Wedding</option>
-                        <option value="Other">Lainnya</option>
+                        <option value="" disabled selected>Pilih Jenis Layanan</option>
+                        <option value="Wedding" <?= old('jenis_layanan') == 'Wedding' ? 'selected' : '' ?>>Wedding</option>
+                        <option value="Engagement" <?= old('jenis_layanan') == 'Engagement' ? 'selected' : '' ?>>Engagement
+                        </option>
+                        <option value="Pre-Wedding" <?= old('jenis_layanan') == 'Pre-Wedding' ? 'selected' : '' ?>>
+                            Pre-Wedding</option>
+                        <option value="Wisuda" <?= old('jenis_layanan') == 'Wisuda' ? 'selected' : '' ?>>
+                            Wisuda</option>
+                        <option value="Event Lainnya" <?= old('jenis_layanan') == 'Event Lainnya' ? 'selected' : '' ?>>
+                            Event Lainnya</option>
                     </select>
                 </div>
 
@@ -45,14 +61,31 @@
 </div>
 
 <script>
-    function previewImage(event, id) {
-        let reader = new FileReader();
-        reader.onload = function () {
-            let output = document.getElementById(id);
-            output.src = reader.result;
-            output.classList.remove('d-none');
-        };
-        reader.readAsDataURL(event.target.files[0]);
+    function previewMultipleImages(event) {
+        let files = event.target.files;
+        let previewContainer = document.getElementById("previewContainer");
+        previewContainer.innerHTML = ""; // Bersihkan preview sebelumnya
+
+        if (files.length > 10) {
+            alert("Maksimal 10 gambar yang dapat diunggah.");
+            event.target.value = ""; // Reset input file
+            return;
+        }
+
+        for (let i = 0; i < files.length; i++) {
+            let reader = new FileReader();
+            reader.onload = function () {
+                let img = document.createElement("img");
+                img.src = reader.result;
+                img.classList.add("m-1", "border", "rounded");
+                img.style.width = "100px";
+                img.style.height = "100px";
+                img.style.objectFit = "cover"; // Pastikan gambar tetap proporsional tanpa distorsi
+                img.style.display = "inline-block"; // Agar gambar tetap sejajar
+                previewContainer.appendChild(img);
+            };
+            reader.readAsDataURL(files[i]);
+        }
     }
 </script>
 

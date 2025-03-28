@@ -43,7 +43,7 @@ class ProfileController extends BaseController
 
         $data['profileModel'] = $this->profileModel->paginate($perPage);
         $data['pager'] = $this->profileModel->pager;
-        $data['search'] = $search; // Kirim data pencarian ke view
+        $data['search'] = $search;
 
         return view('admin/profile-view', $data);
     }

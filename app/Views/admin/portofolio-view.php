@@ -8,16 +8,15 @@
     </div>
 
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+        <form class="input-group" style="max-width: 250px;" method="GET" action="<?= base_url('portofolio-view'); ?>">
+            <input type="text" class="form-control" placeholder="Search..." name="search"
+                value="<?= isset($search) ? esc($search) : ''; ?>">
+            <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </div>
+        </form>
         <a href="portofolio-add" class="btn btn-success">Tambah Data</a>
     </div>
-
 
     <div class="card">
         <div class="card-body">
@@ -32,28 +31,42 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
+                        <?php if (isset($portofolio) && count($portofolio) > 0): ?>
+                            <?php foreach ($portofolio as $key => $porto): ?>
+                                <tr>
+                                    <td><?= ($porto['nama_mempelai']) ?></td>
+                                    <td>
+                                        <img src="<?= base_url('uploads/portofolio/' . $porto['foto_utama']) ?>"
+                                            class="rectangle" width="75" height="75"
+                                            style="object-fit: cover; border-radius: 3px;" alt="Foto Paket" loading="lazy">
+                                    </td>
+                                    <td><?= ($porto['jenis_layanan']) ?></td>
+                                    <td class="text-nowrap align-middle">
+                                        <div class="d-flex gap-2 justify-content-center align-items-center">
+                                            <a href="<?= base_url('portofolio-edit/' . $porto['id']) ?>"
+                                                class="btn btn-warning btn-sm" title="Edit">
+                                                <i class="fas fa-edit text-white"></i>
+                                            </a>
+                                            <button class="btn btn-danger btn-sm" title="Hapus"
+                                                onclick="confirmDelete(<?= $porto['id'] ?>)">
+                                                <i class="fas fa-trash-alt text-white"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else: ?>
                             <tr>
-                                <td>Jhon & Anne</td>
-                                <td>
-                                    <img src="/IMG/1.jpg" class="rectangle" width="75" height="75" loading="lazy">
-                                </td>
-                                <td>Wedding</td>
-                                <td class="text-nowrap align-middle">
-                                    <div class="d-flex gap-2 justify-content-center align-items-center">
-                                        <a href="portofolio-edit" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit text-white"></i>
-                                        </a>
-                                        <button class="btn btn-danger btn-sm" title="Hapus"
-                                            onclick="confirmDelete(<?= $i ?>)">
-                                            <i class="fas fa-trash-alt text-white"></i>
-                                        </button>
-                                    </div>
+                                <td class="text-center fw-bold py-3" style="width: 100%;" colspan="100%">
+                                    Tidak ada data Portofolio
                                 </td>
                             </tr>
-                        <?php endfor; ?>
+                        <?php endif; ?>
                     </tbody>
                 </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <?= $pager->links('default', 'bootstrap_pagination') ?>
             </div>
         </div>
     </div>
@@ -72,7 +85,7 @@
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "profile-perusahaan-delete/" + id;
+                window.location.href = "portofolio-delete/" + id;
             }
         });
     }
