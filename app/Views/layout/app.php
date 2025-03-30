@@ -126,8 +126,8 @@
             <!-- Navbar Links -->
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/beranda">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about-us">About Us</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/beranda">Beranda</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/about-us">Tentang Kami</a></li>
                     <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
                     <li class="nav-item"><a class="nav-link" href="/paket-layanan">Paket Layanan</a></li>
                     <li class="nav-item"><a class="nav-link" href="/reservasi">Reservasi</a></li>

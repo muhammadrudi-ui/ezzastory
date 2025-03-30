@@ -150,7 +150,7 @@
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-            <h1>About Us</h1>
+            <h1>Tentang Kami</h1>
         <?php endforeach; ?>
     </section>
 
@@ -185,7 +185,7 @@
                 </div>
 
                 <!-- Team Section -->
-                <h2>Our Team</h2>
+                <h2>Owner</h2>
                 <div class="team-section">
                     <!-- Owner Card -->
                     <div class="team-card">

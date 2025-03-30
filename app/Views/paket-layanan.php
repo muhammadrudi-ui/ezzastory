@@ -129,7 +129,7 @@
                             <p class="card-price">Rp <?= number_format($paket['harga'], 0, ',', '.') ?></p>
                             <div class="btn-group">
                                 <button class="btn btn-outline-dark" data-bs-toggle="modal"
-                                    data-bs-target="#modalPaket<?= $paket['id'] ?>">Baca Selengkapnya</button>
+                                    data-bs-target="#modalPaket<?= $paket['id'] ?>">Lihat Selengkapnya</button>
                                 <a href="#" class="btn btn-dark">Reservasi</a>
                             </div>
                         </div>
