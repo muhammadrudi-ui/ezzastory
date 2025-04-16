@@ -24,18 +24,54 @@ class PortofolioController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
-        $data['wedding'] = $this->portofolioModel->where('jenis_layanan', 'Wedding')->limit(3)->find();
-        $data['engagement'] = $this->portofolioModel->where('jenis_layanan', 'Engagement')->limit(3)->find();
-        $data['prewedding'] = $this->portofolioModel->where('jenis_layanan', 'Pre-Wedding')->limit(3)->find();
-        $data['wisuda'] = $this->portofolioModel->where('jenis_layanan', 'Wisuda')->limit(3)->find();
-        $data['event'] = $this->portofolioModel->where('jenis_layanan', 'Event Lainnya')->limit(3)->find();
+        // Daftar kategori layanan
+        $kategori = ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'];
 
+        foreach ($kategori as $jenis) {
+            // Ubah nama kategori menjadi key array dengan huruf kecil
+            $key = strtolower(str_replace(['-', ' '], '', $jenis)); // agar "Event Lainnya" jadi "eventlainnya"
+
+
+            // Ambil portofolio berdasarkan jenis layanan
+            $builder = $this->portofolioModel
+                ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+                ->join(
+                    '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
+                    'foto_portofolio.id_portofolio = portofolio.id',
+                    'left'
+                )
+                ->where('jenis_layanan', $jenis)
+                ->orderBy('created_at', 'DESC')
+                ->limit(3);
+
+            // Simpan hasil query ke dalam array data sesuai key kategori
+            $data[$key] = $builder->find();
+        }
+
+        // Return view dengan data portofolio per kategori
         return view('portofolio', $data);
     }
 
     public function kategori($jenis_layanan)
     {
-        $data['portofolio'] = $this->portofolioModel->where('jenis_layanan', $jenis_layanan)->findAll();
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+
+        // Ambil semua portofolio untuk kategori yang dipilih
+        $data['portofolio'] = $this->portofolioModel
+            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+            ->join(
+                '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
+                'foto_portofolio.id_portofolio = portofolio.id',
+                'left'
+            )
+            ->where('jenis_layanan', $jenis_layanan)
+            ->orderBy('created_at', 'DESC')
+            ->findAll();
+
+        // Pass jenis_layanan untuk ditampilkan di judul
+        $data['jenis_layanan'] = $jenis_layanan;
+
+        // Tampilkan view untuk portofolio kategori
         return view('portofolio-kategori', $data);
     }
 

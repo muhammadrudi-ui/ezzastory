@@ -10,7 +10,13 @@ $routes->get('/', 'Home::index');
 $routes->get('/beranda', 'BerandaController::index');
 $routes->get('/about-us', 'ProfileController::index');
 $routes->get('/paket-layanan', 'PaketLayananController::index');
+
+// Portofolio
 $routes->get('/portofolio', 'PortofolioController::index');
+$routes->get('portofolio-kategori-(:segment)', 'PortofolioController::kategori/$1');
+$routes->get('portofolio-detail-(:num)', 'PortofolioController::detail/$1');
+
+
 $routes->get('/portofolio-kategori', 'PortofolioController::kategori');
 $routes->get('/portofolio-detail', 'PortofolioController::detail');
 $routes->get('/reservasi', 'ReservasiController::index');

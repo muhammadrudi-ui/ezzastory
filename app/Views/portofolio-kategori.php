@@ -45,6 +45,15 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        .card-img-top {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            object-position: center;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
         .card:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
@@ -66,90 +75,41 @@
 <body>
     <!-- Hero Section -->
     <section class="hero-section">
-        <img src="/IMG/1.jpg" alt="Hero Background">
-        <h1>Portofolio Kategori</h1>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+            <h1>Portofolio Kategori</h1>
+        <?php endforeach; ?>
     </section>
 
-    <!-- Portofolio Section -->
+    <!-- Portofolio Category Page -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4">Wedding</h2>
+            <h2 class="text-center mb-4"><?= ucwords(str_replace('-', ' ', $jenis_layanan)) ?></h2>
             <div class="row g-4">
-                <!-- Card Portfolio -->
-                <div class="col-md-4">
-                    <a href="/portofolio-detail" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/1.jpg" class="card-img-top" alt="Wedding 1">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 1</h5>
-                                <p class="card-text">Beautiful wedding moments captured elegantly.</p>
-                            </div>
+                <?php if (!empty($portofolio)): ?>
+                    <?php foreach ($portofolio as $item): ?>
+                        <div class="col-md-4">
+                            <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <div class="card">
+                                    <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>" class="card-img-top"
+                                        alt="<?= $item['nama_mempelai'] ?>">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                        <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/2.jpg" class="card-img-top" alt="Wedding 2">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 2</h5>
-                                <p class="card-text">Cherishing the love and joy of the special day.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 3</h5>
-                                <p class="card-text">Timeless wedding photography for your memories.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 3</h5>
-                                <p class="card-text">Timeless wedding photography for your memories.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 3</h5>
-                                <p class="card-text">Timeless wedding photography for your memories.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Wedding 3</h5>
-                                <p class="card-text">Timeless wedding photography for your memories.</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-12 text-center">
+                        <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                    </div>
+                <?php endif; ?>
             </div>
         </div>
     </section>
+
 
 </body>
 

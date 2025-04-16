@@ -388,13 +388,17 @@
                                         required></textarea>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Waktu Pemotretan</label>
-                                    <input type="date" class="form-control" required>
+                                    <label class="form-label">Harga</label>
+                                    <input type="tel" class="form-control" placeholder="Harga sudah Tertera" required>
                                 </div>
                             </div>
 
                             <!-- Kolom Kanan -->
                             <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Waktu Pemotretan</label>
+                                    <input type="date" class="form-control" required>
+                                </div>
                                 <div class="mb-3">
                                     <label class="form-label">Jenis Pembayaran</label>
                                     <select class="form-select" required>
@@ -403,15 +407,7 @@
                                         <option>DP (Down Payment)</option>
                                     </select>
                                 </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Metode Pembayaran</label>
-                                    <select class="form-select" required>
-                                        <option value="" selected disabled>Pilih Metode Pembayaran</option>
-                                        <option>Transfer Bank</option>
-                                        <option>Kartu Kredit</option>
-                                        <option>e-Wallet</option>
-                                    </select>
-                                </div>
+
                                 <div class="mb-3">
                                     <label class="form-label">Lokasi Pemotretan (Ex. Rogojampi/Srono/Banyuwangi)</label>
                                     <input type="text" class="form-control" placeholder="Masukkan lokasi pemotretan"

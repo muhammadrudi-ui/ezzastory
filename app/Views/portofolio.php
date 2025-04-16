@@ -60,6 +60,15 @@
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
         }
 
+        .card-img-top {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            object-position: center;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
         .card-title {
             font-size: 16px;
             font-weight: 500;
@@ -83,57 +92,71 @@
 <body>
     <!-- Hero Section -->
     <section class="hero-section">
-        <img src="/IMG/1.jpg" alt="Hero Background">
-        <h1>Portofolio</h1>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+            <h1>Portofolio</h1>
+        <?php endforeach; ?>
     </section>
 
     <!-- Portofolio Section -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4">Our Works</h2>
+            <h2 class="text-center mb-4">Karya-karya Kami</h2>
 
             <!-- Wedding Category -->
             <div class="portofolio-category mb-5">
                 <h3>Wedding</h3>
                 <div class="row g-4">
-                    <!-- Card Portfolio -->
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/1.jpg" class="card-img-top" alt="Wedding 1">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Wedding 1</h5>
-                                    <p class="card-text">Beautiful wedding moments captured elegantly.</p>
-                                </div>
+                    <?php if (!empty($wedding)): ?>
+                        <?php foreach ($wedding as $item): ?>
+                            <div class="col-md-4">
+                                <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                    <div class="card">
+                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                            class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                            <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/2.jpg" class="card-img-top" alt="Wedding 2">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Wedding 2</h5>
-                                    <p class="card-text">Cherishing the love and joy of the special day.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/3.jpg" class="card-img-top" alt="Wedding 3">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Wedding 3</h5>
-                                    <p class="card-text">Timeless wedding photography for your memories.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <a href="/portofolio-kategori" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('portofolio-kategori-Wedding') ?>" class="btn btn-dark see-more-btn">See More</a>
+            </div>
+
+            <!-- Engagement Category -->
+            <div class="portofolio-category mb-5">
+                <h3>Engagement</h3>
+                <div class="row g-4">
+                    <?php if (!empty($engagement)): ?>
+                        <?php foreach ($engagement as $item): ?>
+                            <div class="col-md-4">
+                                <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                    <div class="card">
+                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                            class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                            <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <a href="<?= base_url('portofolio-kategori-engagement') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -141,87 +164,86 @@
             <div class="portofolio-category mb-5">
                 <h3>Pre-Wedding</h3>
                 <div class="row g-4">
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/1.jpg" class="card-img-top" alt="Pre-Wedding 1">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Pre-Wedding 1</h5>
-                                    <p class="card-text">Romantic pre-wedding shoot in scenic locations.</p>
-                                </div>
+                    <?php if (!empty($prewedding)): ?>
+                        <?php foreach ($prewedding as $item): ?>
+                            <div class="col-md-4">
+                                <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                    <div class="card">
+                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                            class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                            <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/2.jpg" class="card-img-top" alt="Pre-Wedding 2">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Pre-Wedding 2</h5>
-                                    <p class="card-text">Capturing the love story before the big day.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/3.jpg" class="card-img-top" alt="Pre-Wedding 3">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Pre-Wedding 3</h5>
-                                    <p class="card-text">Candid and cinematic moments of love.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <a href="#" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('portofolio-kategori-Pre-Wedding') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
-            <!-- Event Photography Category -->
-            <div class="portofolio-category">
-                <h3>Event Photography</h3>
+            <!-- Wisuda Category -->
+            <div class="portofolio-category mb-5">
+                <h3>Wisuda</h3>
                 <div class="row g-4">
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/1.jpg" class="card-img-top" alt="Event 1">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Event 1</h5>
-                                    <p class="card-text">Capturing unforgettable moments at events.</p>
-                                </div>
+                    <?php if (!empty($wisuda)): ?>
+                        <?php foreach ($wisuda as $item): ?>
+                            <div class="col-md-4">
+                                <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                    <div class="card">
+                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                            class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                            <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/2.jpg" class="card-img-top" alt="Event 2">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Event 2</h5>
-                                    <p class="card-text">Professional event photography with a creative touch.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="col-md-4">
-                        <a href="#" class="text-decoration-none">
-                            <div class="card">
-                                <img src="/IMG/3.jpg" class="card-img-top" alt="Event 3">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title">Event 3</h5>
-                                    <p class="card-text">Documenting special occasions with clarity and style.</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                        </div>
+                    <?php endif; ?>
                 </div>
-                <a href="#" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('portofolio-kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
+                    More</a>
+            </div>
+
+            <!-- Event Lainnya Category -->
+            <div class="portofolio-category mb-5">
+                <h3>Event Lainnya</h3>
+                <div class="row g-4">
+                    <?php if (!empty($eventlainnya)): ?>
+                        <?php foreach ($eventlainnya as $item): ?>
+                            <div class="col-md-4">
+                                <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                    <div class="card">
+                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                            class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                            <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <div class="col-12 text-center">
+                            <p class="text-muted">Data portofolio belum tersedia untuk kategori ini.</p>
+                        </div>
+                    <?php endif; ?>
+                </div>
+                <a href="<?= base_url('portofolio-kategori-event-lainnya') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
         </div>
