@@ -230,23 +230,29 @@ class PortofolioController extends BaseController
     }
 
 
-    public function delete($id)
+    public function delete($id = null)
     {
-        // Cek apakah data ada di database
-        $portofolio = $this->portofolioModel->find($id);
-
-        if (!$portofolio) {
-            return redirect()->to(base_url('portofolio-view'))->with('error', 'Data tidak ditemukan');
+        if ($id == null) {
+            return redirect()->to('/portofolio-view')->with('error', 'ID Portofolio tidak ditemukan');
         }
 
-        // Hapus data dari tabel foto_portofolio terlebih dahulu
+        // Ambil semua foto yang terkait dengan portofolio
+        $fotos = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
+
+        // Hapus file gambar dari folder
+        foreach ($fotos as $foto) {
+            $filePath = 'uploads/portofolio/' . $foto['nama_file'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+
+        // Hapus data dari tabel foto_portofolio
         $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
 
-        // Hapus data dari tabel portofolio
+        // Hapus portofolio
         $this->portofolioModel->delete($id);
 
-        return redirect()->to(base_url('portofolio-view'))->with('success', 'Data berhasil dihapus');
+        return redirect()->to('/portofolio-view')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
     }
-
-
 }
