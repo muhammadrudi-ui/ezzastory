@@ -120,31 +120,17 @@
 <body>
     <!-- Hero Section -->
     <section class="hero-section">
-        <img src="/IMG/1.jpg" alt="Hero Background">
-        <h1>Portofolio Detail</h1>
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+            <h1>Portofolio Detail</h1>
+        <?php endforeach; ?>
     </section>
 
     <!-- Detail Section -->
     <section class="detail-section">
         <div class="container">
-            <h2 class="text-center">Jhon & Ratna</h2>
-            <div class="row justify-content-center mt-4 gy-4">
-                <!-- Kolom Kiri -->
-                <div class="col-md-5">
-                    <div class="detail-card">
-                        <p><strong>Harga:</strong> Rp 10.000.000</p>
-                        <p><strong>Layanan:</strong> Photography & Videography</p>
-                        <p><strong>Paket:</strong> Premium Wedding Package</p>
-                    </div>
-                </div>
-                <!-- Kolom Kanan -->
-                <div class="col-md-5">
-                    <div class="detail-card">
-                        <p><strong>Durasi:</strong> 10 Jam Pemotretan</p>
-                        <p><strong>Include:</strong> Album Eksklusif, 100 Edited Photos, 2-Minute Cinematic Video</p>
-                    </div>
-                </div>
-            </div>
+            <h2 class="text-center"><?= esc($portofolio['nama_mempelai']) ?></h2>
+            <h6 class="text-center"><?= esc($portofolio['jenis_layanan']) ?></h6>
         </div>
     </section>
 
@@ -153,12 +139,13 @@
         <div class="container">
             <h2 class="text-center mb-4">Hasil</h2>
             <div class="gallery-container">
-                <img src="/IMG/1.jpg" alt="Wedding 1">
-                <img src="/IMG/2.jpg" alt="Wedding 2">
-                <img src="/IMG/3.jpg" alt="Wedding 3">
-                <img src="/IMG/3.jpg" alt="Wedding 4">
-                <img src="/IMG/2.jpg" alt="Wedding 5">
-                <img src="/IMG/1.jpg" alt="Wedding 6">
+                <?php if (!empty($fotos)): ?>
+                    <?php foreach ($fotos as $foto): ?>
+                        <img src="<?= base_url('uploads/portofolio/' . $foto['nama_file']) ?>" alt="Foto Portofolio">
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-center text-muted">Belum ada foto portofolio yang ditambahkan.</p>
+                <?php endif; ?>
             </div>
         </div>
     </section>

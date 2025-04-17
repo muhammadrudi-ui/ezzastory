@@ -24,7 +24,6 @@ class PortofolioController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
-        // Daftar kategori layanan
         $kategori = ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'];
 
         foreach ($kategori as $jenis) {
@@ -44,11 +43,9 @@ class PortofolioController extends BaseController
                 ->orderBy('created_at', 'DESC')
                 ->limit(3);
 
-            // Simpan hasil query ke dalam array data sesuai key kategori
             $data[$key] = $builder->find();
         }
 
-        // Return view dengan data portofolio per kategori
         return view('portofolio', $data);
     }
 
@@ -56,7 +53,6 @@ class PortofolioController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
-        // Ambil semua portofolio untuk kategori yang dipilih
         $data['portofolio'] = $this->portofolioModel
             ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
             ->join(
@@ -68,15 +64,15 @@ class PortofolioController extends BaseController
             ->orderBy('created_at', 'DESC')
             ->findAll();
 
-        // Pass jenis_layanan untuk ditampilkan di judul
         $data['jenis_layanan'] = $jenis_layanan;
 
-        // Tampilkan view untuk portofolio kategori
         return view('portofolio-kategori', $data);
     }
 
     public function detail($id)
     {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+
         $data['portofolio'] = $this->portofolioModel->find($id);
         $data['fotos'] = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
         return view('portofolio-detail', $data);

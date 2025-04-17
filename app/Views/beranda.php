@@ -85,6 +85,15 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        .portofolio .card-img-top {
+            width: 100%;
+            height: 230px;
+            object-fit: cover;
+            object-position: center;
+            border-top-left-radius: 0.5rem;
+            border-top-right-radius: 0.5rem;
+        }
+
         .portofolio .card:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
@@ -213,55 +222,28 @@
         <div class="container">
             <h2 class="text-center mb-4">Portofolio</h2>
             <div class="row g-4">
-                <!-- Card Portofolio 1 -->
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/3.jpg" class="card-img-top" alt="Portofolio 1">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">John & Jane</h5>
-                                <p class="card-text">Wedding</p>
-                            </div>
+                <?php if (!empty($portofolio)): ?>
+                    <?php foreach ($portofolio as $item): ?>
+                        <div class="col-md-4">
+                            <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <div class="card">
+                                    <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>" class="card-img-top"
+                                        alt="<?= esc($item['nama_mempelai']) ?>">
+                                    <div class="card-body text-center">
+                                        <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
+                                        <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
+                                    </div>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-                <!-- Card Portofolio 2 -->
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/2.jpg" class="card-img-top" alt="Portofolio 2">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Michael & Sarah</h5>
-                                <p class="card-text">Pre-Wedding</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- Card Portofolio 3 -->
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/1.jpg" class="card-img-top" alt="Portofolio 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">David & Emily</h5>
-                                <p class="card-text">Wedding</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- Card Portofolio 4 -->
-                <div class="col-md-4">
-                    <a href="#" class="text-decoration-none">
-                        <div class="card">
-                            <img src="/IMG/1.jpg" class="card-img-top" alt="Portofolio 3">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">David & Emily</h5>
-                                <p class="card-text">Wedding</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="col-12">
+                        <p class="text-center">Belum ada data portofolio tersedia.</p>
+                    </div>
+                <?php endif; ?>
             </div>
+
         </div>
     </section>
 
