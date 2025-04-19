@@ -23,6 +23,19 @@ $routes->get('/reservasi', 'ReservasiController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/register', 'RegisterController::index');
 
+// Users
+$routes->get('/login', 'AuthController::login');
+$routes->post('/login', 'AuthController::loginPost');
+$routes->get('/register', 'AuthController::register');
+$routes->post('/register', 'AuthController::registerPost');
+$routes->get('/logout', 'AuthController::logout');
+
+// Dashboard sesuai role
+$routes->get('/admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
+$routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:user']);
+
+
+
 // Admin
 $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');

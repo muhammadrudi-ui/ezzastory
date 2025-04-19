@@ -54,19 +54,32 @@
 
     <div class="card">
         <h4 class="text-center mb-3">Login</h4>
-        <form>
+        <form action="/login" method="post">
+            <!-- CSRF Token -->
+            <?= csrf_field() ?>
+
+            <!-- Tampilkan pesan error jika ada -->
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+            <?php endif; ?>
+
             <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
-                <input type="text" class="form-control" id="username" placeholder="Enter your username" required>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username"
+                    required>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
-                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                <input type="password" class="form-control" id="password" name="password"
+                    placeholder="Enter your password" required>
             </div>
             <button type="submit" class="btn btn-dark w-100 mt-3">Login</button>
         </form>
         <p class="text-center mt-3">Don't have an account? <a href="/register">Register</a></p>
     </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

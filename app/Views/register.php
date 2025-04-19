@@ -54,25 +54,39 @@
 
     <div class="card">
         <h4 class="text-center mb-3">Register</h4>
-        <form>
+        <form action="/register" method="post">
+            <?= csrf_field() ?>
+
+            <!-- Tampilkan pesan error -->
+            <?php if (session()->getFlashdata('error')): ?>
+                <div class="alert alert-danger">
+                    <?= session()->getFlashdata('error') ?>
+                </div>
+            <?php endif; ?>
+
             <div class="mb-3">
                 <label for="regUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="regUsername" placeholder="Choose a username" required>
+                <input type="text" class="form-control" id="regUsername" name="username" placeholder="Choose a username"
+                    value="<?= old('username') ?>" required>
             </div>
             <div class="mb-3">
                 <label for="regEmail" class="form-label">Email</label>
-                <input type="email" class="form-control" id="regEmail" placeholder="Enter your email" required>
+                <input type="email" class="form-control" id="regEmail" name="email" placeholder="Enter your email"
+                    value="<?= old('email') ?>" required>
             </div>
             <div class="mb-3">
                 <label for="regPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="regPassword" placeholder="Create a password" required>
+                <input type="password" class="form-control" id="regPassword" name="password"
+                    placeholder="Create a password" required>
             </div>
             <div class="mb-3">
                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" placeholder="Repeat password" required>
+                <input type="password" class="form-control" id="confirmPassword" name="confirm_password"
+                    placeholder="Repeat password" required>
             </div>
             <button type="submit" class="btn btn-dark w-100 mt-3">Register</button>
         </form>
+
         <p class="text-center mt-3">Already have an account? <a href="/login">Login</a></p>
     </div>
 

@@ -98,92 +98,109 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg">
-        <div class="container d-flex justify-content-between align-items-center">
-            <!-- Logo -->
-            <a class="navbar-brand" href="#">
-                <img src="IMG/1.jpg" alt="Brand Logo" class="img-fluid" style="height: 50px;">
-            </a>
+    <?php foreach ($profile_perusahaan as $profile): ?>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container d-flex justify-content-between align-items-center">
+                <!-- Logo -->
+                <a class="navbar-brand" href="#">
+                    <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid" style="height: 50px;">
+                </a>
 
-            <!-- Toggler Button (Mobile) -->
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <!-- Profile (Tetap di Kanan) -->
-            <div class="dropdown ms-auto order-lg-last">
-                <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle"></i> Profile
+                <!-- Toggler Button (Mobile) -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
-                </ul>
-            </div>
 
-            <!-- Navbar Links -->
-            <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" href="/beranda">Beranda</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/about-us">Tentang Kami</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/portofolio">Portofolio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/paket-layanan">Paket Layanan</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/reservasi">Reservasi</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-
-    <!-- Konten -->
-    <?= $this->renderSection('content') ?>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row text-center text-md-start">
-                <!-- Kolom 1: Logo & Deskripsi -->
-                <div class="col-md-4 mb-4">
-                    <h5>Brand Name</h5>
-                    <p class="small">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae
-                        vestibulum.</p>
-                </div>
-
-                <!-- Kolom 2: Navigasi -->
-                <div class="col-md-4 mb-4">
-                    <h5>Quick Links</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Portofolio</a></li>
-                        <li><a href="#">Reservasi</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Contact</a></li>
+                <!-- Profile (Tetap di Kanan) -->
+                <div class="dropdown ms-auto order-lg-last">
+                    <?php
+                    $username = session('username');
+                    $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
+                    ?>
+                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle"></i> <?= esc($displayName) ?>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
                     </ul>
                 </div>
 
-                <!-- Kolom 3: Kontak -->
-                <div class="col-md-4">
-                    <h5>Contact Us</h5>
-                    <div class="contact-info">
-                        <p><i class="bi bi-instagram"></i> <a href="#">@brandname</a></p>
-                        <p><i class="bi bi-envelope"></i> <a href="mailto:info@brand.com">info@brand.com</a></p>
-                        <p><i class="bi bi-telephone"></i> <a href="tel:+62123456789">+62 123 456 789</a></p>
-                        <p><i class="bi bi-geo-alt"></i> Jl. Contoh No. 123, Jakarta</p>
-                    </div>
+
+                <!-- Navbar Links -->
+                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('beranda') ?>">Beranda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('about-us') ?>">Tentang Kami</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('portofolio') ?>">Portofolio</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('paket-layanan') ?>">Paket Layanan</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('reservasi') ?>">Reservasi</a></li>
+                    </ul>
                 </div>
             </div>
+        </nav>
 
-            <!-- Garis -->
-            <hr class="my-4 border-light">
+        <!-- Konten -->
+        <?= $this->renderSection('content') ?>
 
-            <!-- Copyright -->
-            <div class="text-center">
-                <p class="mb-0 small">&copy; 2024 Brand Name. All Rights Reserved.</p>
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="container">
+                <div class="row text-center text-md-start">
+                    <!-- Kolom 1: Logo & Deskripsi -->
+                    <div class="col-md-4 mb-4">
+                        <h5><?= ($profile['nama_perusahaan']) ?></h5>
+                        <p class="small"><?= ($profile['deskripsi']) ?>.</p>
+                    </div>
+
+                    <!-- Kolom 2: Navigasi -->
+                    <div class="col-md-4 mb-4">
+                        <h5>Quick Links</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="<?= base_url('beranda') ?>">Beranda</a></li>
+                            <li><a href="<?= base_url('about-us') ?>">Tentang Kami</a></li>
+                            <li><a href="<?= base_url('portofolio') ?>">Portofolio</a></li>
+                            <li><a href="<?= base_url('paket-layanan') ?>">Paket Layanan</a></li>
+                            <li><a href="<?= base_url('reservasi') ?>">Reservasi</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Kolom 3: Kontak -->
+                    <div class="col-md-4">
+                        <h5>Contact Us</h5>
+                        <div class="contact-info">
+                            <p><i class="bi bi-instagram"></i> <a
+                                    href="https://www.instagram.com/<?= ($profile['instagram']) ?>" target="_blank">
+                                    <?= ($profile['instagram']) ?>
+                                </a></p>
+                            <p><i class="bi bi-envelope"></i> <a href="mailto:<?= esc($profile['email']) ?>">
+                                    <?= esc($profile['email']) ?>
+                                </a>
+                            </p>
+                            <p><i class="bi bi-telephone"></i> <a
+                                    href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $profile['no_telp']) ?>"
+                                    target="_blank">
+                                    <?= esc($profile['no_telp']) ?>
+                                </a>
+                            </p>
+                            <p><i class="bi bi-geo-alt"></i><?= ($profile['alamat']) ?></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garis -->
+                <hr class="my-4 border-light">
+
+                <!-- Copyright -->
+                <div class="text-center">
+                    <p class="mb-0 small">&copy; 2025 <?= ($profile['nama_perusahaan']) ?>. All Rights Reserved.</p>
+                </div>
             </div>
-        </div>
-    </footer>
+        </footer>
+    <?php endforeach; ?>
 
     <!-- JavaScript untuk Navbar Scroll Effect -->
     <script>

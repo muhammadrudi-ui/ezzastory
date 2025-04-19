@@ -127,8 +127,8 @@
                 <!-- Navbar Links -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('beranda') ?>">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('about-us') ?>">About Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('beranda') ?>">Beranda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('about-us') ?>">Tentang Kami</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('portofolio') ?>">Portofolio</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('paket-layanan') ?>">Paket Layanan</a>
                         </li>
@@ -155,11 +155,11 @@
                     <div class="col-md-4 mb-4">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">Portofolio</a></li>
-                            <li><a href="#">Reservasi</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="<?= base_url('beranda') ?>">Beranda</a></li>
+                            <li><a href="<?= base_url('about-us') ?>">Tentang Kami</a></li>
+                            <li><a href="<?= base_url('portofolio') ?>">Portofolio</a></li>
+                            <li><a href="<?= base_url('paket-layanan') ?>">Paket Layanan</a></li>
+                            <li><a href="<?= base_url('reservasi') ?>">Reservasi</a></li>
                         </ul>
                     </div>
 
