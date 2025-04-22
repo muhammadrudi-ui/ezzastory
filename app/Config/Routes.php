@@ -34,13 +34,12 @@ $routes->get('user/tentang-kami', 'ProfileController::index');
 $routes->get('user/paket-layanan', 'PaketLayananController::index');
 
 // Portofolio
-$routes->get('/portofolio', 'PortofolioController::index');
-$routes->get('portofolio-kategori-(:segment)', 'PortofolioController::kategori/$1');
-$routes->get('portofolio-detail/(:num)', 'PortofolioController::detail/$1');
+$routes->get('user/portofolio/index', 'PortofolioController::index');
+$routes->get('user/portofolio/kategori-(:segment)', 'PortofolioController::kategori/$1');
+$routes->get('user/portofolio/detail/(:num)', 'PortofolioController::detail/$1');
 
 
-$routes->get('/portofolio-kategori', 'PortofolioController::kategori');
-$routes->get('/portofolio-detail', 'PortofolioController::detail');
+
 $routes->get('/reservasi', 'ReservasiController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/register', 'RegisterController::index');

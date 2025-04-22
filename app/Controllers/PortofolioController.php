@@ -46,7 +46,7 @@ class PortofolioController extends BaseController
             $data[$key] = $builder->find();
         }
 
-        return view('portofolio', $data);
+        return view('user/portofolio/index', $data);
     }
 
     public function kategori($jenis_layanan)
@@ -66,7 +66,7 @@ class PortofolioController extends BaseController
 
         $data['jenis_layanan'] = $jenis_layanan;
 
-        return view('portofolio-kategori', $data);
+        return view('user/portofolio/kategori', $data);
     }
 
     public function detail($id)
@@ -75,7 +75,7 @@ class PortofolioController extends BaseController
 
         $data['portofolio'] = $this->portofolioModel->find($id);
         $data['fotos'] = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
-        return view('portofolio-detail', $data);
+        return view('user/portofolio/detail', $data);
     }
 
     public function index_admin()

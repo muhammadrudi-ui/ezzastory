@@ -135,8 +135,7 @@
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/beranda') ?>">Beranda</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/tentang-kami') ?>">Tentang
                                 Kami</a></li>
-                        <li class="nav-item"><a class="nav-link"
-                                href="<?= base_url('user/portofolio/index') ?>">Portofolio</a>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/portofolio') ?>">Portofolio</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/paket-layanan') ?>">Paket
                                 Layanan</a>
@@ -166,7 +165,7 @@
                         <ul class="list-unstyled">
                             <li><a href="<?= base_url('user/beranda') ?>">Beranda</a></li>
                             <li><a href="<?= base_url('user/tentang-kami') ?>">Tentang Kami</a></li>
-                            <li><a href="<?= base_url('user/portofolio/index') ?>">Portofolio</a></li>
+                            <li><a href="<?= base_url('user/portofolio') ?>">Portofolio</a></li>
                             <li><a href="<?= base_url('user/paket-layanan') ?>">Paket Layanan</a></li>
                             <li><a href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
                         </ul>
