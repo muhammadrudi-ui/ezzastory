@@ -163,11 +163,11 @@
                     <div class="col-md-4 mb-4">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="<?= base_url('beranda') ?>">Beranda</a></li>
-                            <li><a href="<?= base_url('about-us') ?>">Tentang Kami</a></li>
-                            <li><a href="<?= base_url('portofolio') ?>">Portofolio</a></li>
-                            <li><a href="<?= base_url('paket-layanan') ?>">Paket Layanan</a></li>
-                            <li><a href="<?= base_url('reservasi') ?>">Reservasi</a></li>
+                            <li><a href="<?= base_url('user/beranda') ?>">Beranda</a></li>
+                            <li><a href="<?= base_url('user/tentang-kami') ?>">Tentang Kami</a></li>
+                            <li><a href="<?= base_url('user/portofolio') ?>">Portofolio</a></li>
+                            <li><a href="<?= base_url('user/paket-layanan') ?>">Paket Layanan</a></li>
+                            <li><a href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
                         </ul>
                     </div>
 
