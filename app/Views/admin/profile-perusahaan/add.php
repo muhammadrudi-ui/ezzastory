@@ -19,7 +19,8 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('profile-perusahaan-store'); ?>" method="POST" enctype="multipart/form-data">
+            <form action="<?= base_url('admin/profile-perusahaan/proses-add'); ?>" method="POST"
+                enctype="multipart/form-data">
                 <?= csrf_field() ?>
 
                 <div class="row">
@@ -170,7 +171,7 @@
 
                 <div class="mt-4 text-center">
                     <button type="submit" class="btn btn-success">Simpan</button>
-                    <a href="<?= base_url('paket-layanan-view'); ?>" class="btn btn-secondary">Kembali</a>
+                    <a href="<?= base_url('admin/profile-perusahaan/index'); ?>" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>

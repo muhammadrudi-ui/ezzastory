@@ -46,12 +46,12 @@ $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
 
 // Profile Perusahaan Admin
-$routes->get('/profile-perusahaan', 'ProfileController::index_admin');
-$routes->get('/profile-perusahaan-add', 'ProfileController::add_admin');
-$routes->post('/profile-perusahaan-store', 'ProfileController::store');
-$routes->get('/profile-perusahaan-edit/(:num)', 'ProfileController::edit_admin/$1');
-$routes->post('/profile-perusahaan-update/(:num)', 'ProfileController::update/$1');
-$routes->get('/profile-perusahaan-delete/(:num)', 'ProfileController::delete/$1');
+$routes->get('admin/profile-perusahaan/index', 'ProfileController::index_admin');
+$routes->get('admin/profile-perusahaan/add', 'ProfileController::add_admin');
+$routes->post('admin/profile-perusahaan/proses-add', 'ProfileController::store');
+$routes->get('admin/profile-perusahaan/edit/(:num)', 'ProfileController::edit_admin/$1');
+$routes->post('admin/profile-perusahaan/proses-edit/(:num)', 'ProfileController::update/$1');
+$routes->get('admin/profile-perusahaan/delete/(:num)', 'ProfileController::delete/$1');
 
 $routes->get('/data-pemesanan', 'PemesananController::index_admin');
 $routes->get('/data-pemesanan-edit', 'PemesananController::edit_admin');

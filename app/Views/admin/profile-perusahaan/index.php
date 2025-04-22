@@ -22,14 +22,15 @@
     <?php endif; ?>
 
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <form action="<?= site_url('profile-perusahaan') ?>" method="GET" class="input-group" style="max-width: 250px;">
+        <form action="<?= base_url('admin/profile-perusahaan/index'); ?>" method="GET" class="input-group"
+            style="max-width: 250px;">
             <input type="text" name="search" class="form-control" placeholder="Search..."
                 value="<?= isset($search) ? esc($search) : '' ?>">
             <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
         </form>
-        <a href="profile-perusahaan-add" class="btn btn-success">Tambah Data</a>
+        <a href="<?= base_url('admin/profile-perusahaan/add') ?>" class="btn btn-success">Tambah Data</a>
     </div>
     <div class="card">
         <div class="card-body">
@@ -121,7 +122,7 @@
                                     </td>
                                     <td class="text-nowrap">
                                         <div class="d-flex gap-2">
-                                            <a href="<?= base_url('profile-perusahaan-edit/' . $profile['id']) ?>"
+                                            <a href="<?= base_url('admin/profile-perusahaan/edit/' . $profile['id']) ?>"
                                                 class="btn btn-warning btn-sm" title="Edit">
                                                 <i class="fas fa-edit text-white"></i>
                                             </a>
@@ -166,7 +167,7 @@
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "<?= base_url('profile-perusahaan-delete/') ?>" + id;
+                window.location.href = "<?= base_url('admin/profile-perusahaan/delete/') ?>" + id;
             }
         });
     }

@@ -19,7 +19,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('profile-perusahaan-update/' . $profile['id']); ?>" method="POST"
+            <form action="<?= base_url('admin/profile-perusahaan/proses-edit/' . $profile['id']); ?>" method="POST"
                 enctype="multipart/form-data">
                 <?= csrf_field() ?>
                 <div class="row">
@@ -179,7 +179,7 @@
 
                 <div class="mt-4 text-center">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="<?= base_url('profile-perusahaan'); ?>" class="btn btn-secondary">Kembali</a>
+                    <a href="<?= base_url('admin/profile-perusahaan/index'); ?>" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>

@@ -181,7 +181,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/profile-perusahaan">
+                <a class="nav-link" href="<?= base_url('admin/profile-perusahaan/index') ?>">
                     <i class="bi bi-building"></i> <span>Profile Perusahaan</span>
                 </a>
             </li>

@@ -45,12 +45,12 @@ class ProfileController extends BaseController
         $data['pager'] = $this->profileModel->pager;
         $data['search'] = $search;
 
-        return view('admin/profile-view', $data);
+        return view('admin/profile-perusahaan/index', $data);
     }
 
     public function add_admin()
     {
-        return view('admin/profile-add');
+        return view('admin/profile-perusahaan/add');
     }
 
     public function store()
@@ -126,28 +126,28 @@ class ProfileController extends BaseController
         ];
 
         $this->profileModel->insert($data);
-        return redirect()->to('/profile-perusahaan')->with('message', 'Profile perusahaan berhasil ditambahkan');
+        return redirect()->to('admin/profile-perusahaan/index')->with('message', 'Profile perusahaan berhasil ditambahkan');
     }
 
     public function edit_admin($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/profile-perusahaan')->with('error', 'ID Profile Perusahaan tidak ditemukan');
+            return redirect()->to('admin/profile-perusahaan/index')->with('error', 'ID Profile Perusahaan tidak ditemukan');
         }
 
         $data['profile'] = $this->profileModel->find($id);
 
         if (!$data['profile']) {
-            return redirect()->to('/profile-perusahaan')->with('error', 'Data Profile Perusahaan tidak ditemukan');
+            return redirect()->to('admin/profile-perusahaan/index')->with('error', 'Data Profile Perusahaan tidak ditemukan');
         }
 
-        return view('admin/profile-edit', $data);
+        return view('admin/profile-perusahaan/edit', $data);
     }
 
     public function update($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/profile-perusahaan')->with('error', 'ID Profile Perusahaan tidak ditemukan');
+            return redirect()->to('admin/profile-perusahaan/index')->with('error', 'ID Profile Perusahaan tidak ditemukan');
         }
 
         // Validasi input
@@ -219,13 +219,13 @@ class ProfileController extends BaseController
         }
 
         $this->profileModel->update($id, $data);
-        return redirect()->to('/profile-perusahaan')->with('success', 'Data Profile Perusahaan berhasil diperbarui');
+        return redirect()->to('admin/profile-perusahaan/index')->with('success', 'Data Profile Perusahaan berhasil diperbarui');
     }
 
     public function delete($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/profile-perusahaan')->with('error', 'ID Profile Perusahaan tidak ditemukan');
+            return redirect()->to('admin/profile-perusahaan/index')->with('error', 'ID Profile Perusahaan tidak ditemukan');
         }
 
         // Ambil data profile berdasarkan ID
@@ -244,10 +244,10 @@ class ProfileController extends BaseController
             // Hapus data dari database
             $this->profileModel->delete($id);
 
-            return redirect()->to('/profile-perusahaan')->with('success', 'Profile Perusahaan berhasil dihapus');
+            return redirect()->to('admin/profile-perusahaan/index')->with('success', 'Profile Perusahaan berhasil dihapus');
         }
 
-        return redirect()->to('/profile-perusahaan')->with('error', 'Data Profile Perusahaan tidak ditemukan');
+        return redirect()->to('admin/profile-perusahaan/index')->with('error', 'Data Profile Perusahaan tidak ditemukan');
     }
 
 }
