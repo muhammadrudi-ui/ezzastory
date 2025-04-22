@@ -23,7 +23,7 @@ class PaketLayananController extends BaseController
         return view('paket-layanan', $data);
     }
 
-    public function view_admin()
+    public function index_admin()
     {
         $perPage = 5; // Jumlah data per halaman
         $search = $this->request->getGet('search'); // Ambil nilai input pencarian
@@ -41,13 +41,13 @@ class PaketLayananController extends BaseController
         $data['pager'] = $this->paketLayananModel->pager;
         $data['search'] = $search; // Kirim data pencarian ke view
 
-        return view('admin/paket-layanan-view', $data);
+        return view('admin/paket-layanan/index', $data);
     }
 
 
     public function add_admin()
     {
-        return view('admin/paket-layanan-add');
+        return view('admin/paket-layanan/add');
     }
 
     public function store()
@@ -78,28 +78,28 @@ class PaketLayananController extends BaseController
         ];
 
         $this->paketLayananModel->insert($data);
-        return redirect()->to('/paket-layanan-view')->with('success', 'Paket Layanan berhasil ditambahkan');
+        return redirect()->to('admin/paket-layanan/index')->with('success', 'Paket Layanan berhasil ditambahkan');
     }
 
     public function edit_admin($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'ID Paket Layanan tidak ditemukan');
+            return redirect()->to('paket-layanan/index')->with('error', 'ID Paket Layanan tidak ditemukan');
         }
 
         $data['paket'] = $this->paketLayananModel->find($id);
 
         if (!$data['paket']) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'Paket Layanan tidak ditemukan');
+            return redirect()->to('admin/paket-layanan/index')->with('error', 'Paket Layanan tidak ditemukan');
         }
 
-        return view('admin/paket-layanan-edit', $data);
+        return view('admin/paket-layanan/edit', $data);
     }
 
     public function update($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'ID Paket Layanan tidak ditemukan');
+            return redirect()->to('admin/paket-layanan/index')->with('error', 'ID Paket Layanan tidak ditemukan');
         }
 
         // Validasi input
@@ -142,13 +142,13 @@ class PaketLayananController extends BaseController
         }
 
         $this->paketLayananModel->update($id, $data);
-        return redirect()->to('/paket-layanan-view')->with('success', 'Paket Layanan berhasil diperbarui');
+        return redirect()->to('admin/paket-layanan/index')->with('success', 'Paket Layanan berhasil diperbarui');
     }
 
     public function delete($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/paket-layanan-view')->with('error', 'ID Paket Layanan tidak ditemukan');
+            return redirect()->to('admin/paket-layanan/index')->with('error', 'ID Paket Layanan tidak ditemukan');
         }
 
         // Hapus file foto
@@ -158,6 +158,6 @@ class PaketLayananController extends BaseController
         }
 
         $this->paketLayananModel->delete($id);
-        return redirect()->to('/paket-layanan-view')->with('success', 'Paket Layanan berhasil dihapus');
+        return redirect()->to('admin/paket-layanan/index')->with('success', 'Paket Layanan berhasil dihapus');
     }
 }

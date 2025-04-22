@@ -19,7 +19,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="<?= base_url('paket-layanan-update/' . $paket['id']); ?>" method="POST"
+            <form action="<?= base_url('admin/paket-layanan/proses-edit/' . $paket['id']); ?>" method="POST"
                 enctype="multipart/form-data">
                 <?= csrf_field() ?>
 
@@ -54,7 +54,7 @@
 
                 <div class="mt-4 text-center">
                     <button type="submit" class="btn btn-primary">Update</button>
-                    <a href="<?= base_url('paket-layanan-view'); ?>" class="btn btn-secondary">Kembali</a>
+                    <a href="<?= base_url('admin/paket-layanan/index'); ?>" class="btn btn-secondary">Kembali</a>
                 </div>
             </form>
         </div>
