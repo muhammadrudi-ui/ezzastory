@@ -210,7 +210,7 @@
                         <p class="about-us-description">
                             <?= ($profile['deskripsi']) ?>
                         </p>
-                        <a href="<?= base_url('about-us') ?>" class="btn btn-dark">Lihat Selengkapnya</a>
+                        <a href="<?= base_url('user/tentang-kami') ?>" class="btn btn-dark">Lihat Selengkapnya</a>
                     </div>
                 </div>
             </div>
@@ -225,7 +225,7 @@
                 <?php if (!empty($portofolio)): ?>
                     <?php foreach ($portofolio as $item): ?>
                         <div class="col-md-4">
-                            <a href="<?= base_url('portofolio-detail/' . $item['id']) ?>" class="text-decoration-none">
+                            <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
                                     <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>" class="card-img-top"
                                         alt="<?= esc($item['nama_mempelai']) ?>">
@@ -252,7 +252,7 @@
         <?php foreach ($profile_perusahaan as $profile): ?>
             <div class="container">
                 <p class="lead"><?= ($profile['cta']) ?></p>
-                <a href="<?= base_url('reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
+                <a href="<?= base_url('user/reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
             </div>
         <?php endforeach; ?>
     </section>

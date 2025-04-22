@@ -34,7 +34,7 @@ class BerandaController extends BaseController
             ->limit(6) // ambil 6 terbaru, bebas kamu atur
             ->find();
 
-        return view('beranda', $data);
+        return view('user/beranda', $data);
     }
 
     public function index_admin()

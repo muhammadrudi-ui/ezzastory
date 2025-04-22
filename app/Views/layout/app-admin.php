@@ -225,13 +225,19 @@
             <button class="btn btn-outline-dark d-md-none" id="mobileSidebarToggle">
                 <i class="bi bi-list"></i>
             </button>
+
+            <?php
+            $username = session('username');
+            $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
+            ?>
+
             <div class="dropdown ms-auto">
                 <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
-                    Admin1 <i class="bi bi-person-circle"></i>
+                    <?= esc($displayName) ?> <i class="bi bi-person-circle"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item text-danger" href="#">Logout</a></li>
+                    <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
                 </ul>
             </div>
         </div>

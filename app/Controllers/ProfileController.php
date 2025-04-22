@@ -15,7 +15,7 @@ class ProfileController extends BaseController
     public function index()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
-        return view('about', $data);
+        return view('user/tentang-kami', $data);
     }
 
     public function index_admin()

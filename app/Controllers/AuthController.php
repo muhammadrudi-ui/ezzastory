@@ -43,7 +43,7 @@ class AuthController extends BaseController
             ]);
 
             // Redirect berdasarkan role (admin atau user)
-            return redirect()->to($user['role'] === 'admin' ? '/dashboard' : '/beranda');
+            return redirect()->to($user['role'] === 'admin' ? '/dashboard' : 'user/beranda');
         } else {
             // Menyimpan pesan error menggunakan flashdata jika login gagal
             return redirect()->back()->with('error', 'Username atau password salah.');

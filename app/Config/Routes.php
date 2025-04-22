@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // VISITOR
+
+
+// Auth User
 // Users
 $routes->get('/login', 'AuthController::login');
 $routes->post('/login', 'AuthController::loginPost');
@@ -14,12 +17,20 @@ $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::registerPost');
 $routes->get('/logout', 'AuthController::logout');
 
+// Dashboard sesuai role
+$routes->get('/admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
+$routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:user']);
+
 
 
 // CUSTOMER
 $routes->get('/', 'Home::index');
-$routes->get('/beranda', 'BerandaController::index');
-$routes->get('/about-us', 'ProfileController::index');
+
+// Profile Perusahaan
+$routes->get('user/beranda', 'BerandaController::index');
+$routes->get('user/tentang-kami', 'ProfileController::index');
+
+// Paket Payanan
 $routes->get('/paket-layanan', 'PaketLayananController::index');
 
 // Portofolio
@@ -33,11 +44,6 @@ $routes->get('/portofolio-detail', 'PortofolioController::detail');
 $routes->get('/reservasi', 'ReservasiController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/register', 'RegisterController::index');
-
-
-// Dashboard sesuai role
-$routes->get('/admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
-$routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:user']);
 
 
 
