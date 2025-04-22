@@ -78,7 +78,7 @@ class PortofolioController extends BaseController
         return view('portofolio-detail', $data);
     }
 
-    public function view_admin()
+    public function index_admin()
     {
         $perPage = 5;
         $search = $this->request->getGet('search');
@@ -99,12 +99,12 @@ class PortofolioController extends BaseController
         $data['pager'] = $this->portofolioModel->pager;
         $data['search'] = $search;
 
-        return view('admin/portofolio-view', $data);
+        return view('admin/portofolio/index', $data);
     }
 
     public function add_admin()
     {
-        return view('admin/portofolio-add');
+        return view('admin/portofolio/add');
     }
 
     public function store()
@@ -156,7 +156,7 @@ class PortofolioController extends BaseController
             $this->portofolioModel->update($portofolioId, ['foto_utama' => $fotoUtamaId]);
         }
 
-        return redirect()->to('/portofolio-view')->with('message', 'Portofolio berhasil ditambahkan!');
+        return redirect()->to('admin/portofolio/index')->with('message', 'Portofolio berhasil ditambahkan!');
     }
 
     public function edit_admin($id)
@@ -165,14 +165,14 @@ class PortofolioController extends BaseController
         $portofolio = $this->portofolioModel->find($id);
 
         if (!$portofolio) {
-            return redirect()->to('/portofolio-view')->with('error', 'Data portofolio tidak ditemukan.');
+            return redirect()->to('admin/portofolio/index')->with('error', 'Data portofolio tidak ditemukan.');
         }
 
         // Ambil semua foto yang terkait dengan portofolio ini
         $foto_portofolio = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
 
         // Kirim data ke view
-        return view('admin/portofolio-edit', [
+        return view('admin/portofolio/edit', [
             'portofolio' => $portofolio,
             'foto_portofolio' => $foto_portofolio // <-- Kirim foto ke view
         ]);
@@ -226,14 +226,14 @@ class PortofolioController extends BaseController
             }
         }
 
-        return redirect()->to('/portofolio-view')->with('message', 'Portofolio berhasil diperbarui!');
+        return redirect()->to('admin/portofolio/index')->with('message', 'Portofolio berhasil diperbarui!');
     }
 
 
     public function delete($id = null)
     {
         if ($id == null) {
-            return redirect()->to('/portofolio-view')->with('error', 'ID Portofolio tidak ditemukan');
+            return redirect()->to('admin/portofolio/index')->with('error', 'ID Portofolio tidak ditemukan');
         }
 
         // Ambil semua foto yang terkait dengan portofolio
@@ -253,6 +253,6 @@ class PortofolioController extends BaseController
         // Hapus portofolio
         $this->portofolioModel->delete($id);
 
-        return redirect()->to('/portofolio-view')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
+        return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
     }
 }

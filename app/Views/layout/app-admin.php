@@ -187,13 +187,13 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/portofolio-view">
+                <a class="nav-link" href="<?= base_url('admin/portofolio/index') ?>">
                     <i class="bi bi-collection"></i> <span>Portofolio</span>
                 </a>
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/paket-layanan-view">
+                <a class="nav-link" href="<?= base_url('admin/paket-layanan/index') ?>">
                     <i class="bi bi-box-seam"></i> <span>Paket Layanan</span>
                 </a>
             </li>

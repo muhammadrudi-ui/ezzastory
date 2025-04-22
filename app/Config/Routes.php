@@ -5,7 +5,18 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-// Customer
+
+// VISITOR
+// Users
+$routes->get('/login', 'AuthController::login');
+$routes->post('/login', 'AuthController::loginPost');
+$routes->get('/register', 'AuthController::register');
+$routes->post('/register', 'AuthController::registerPost');
+$routes->get('/logout', 'AuthController::logout');
+
+
+
+// CUSTOMER
 $routes->get('/', 'Home::index');
 $routes->get('/beranda', 'BerandaController::index');
 $routes->get('/about-us', 'ProfileController::index');
@@ -23,12 +34,6 @@ $routes->get('/reservasi', 'ReservasiController::index');
 $routes->get('/login', 'LoginController::index');
 $routes->get('/register', 'RegisterController::index');
 
-// Users
-$routes->get('/login', 'AuthController::login');
-$routes->post('/login', 'AuthController::loginPost');
-$routes->get('/register', 'AuthController::register');
-$routes->post('/register', 'AuthController::registerPost');
-$routes->get('/logout', 'AuthController::logout');
 
 // Dashboard sesuai role
 $routes->get('/admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
@@ -36,7 +41,7 @@ $routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:
 
 
 
-// Admin
+// ADMIN
 $routes->get('/dashboard', 'BerandaController::index_admin');
 $routes->get('/ketersediaan-jadwal', 'JadwalController::index');
 
@@ -57,18 +62,18 @@ $routes->get('/portofolio-add', 'PortofolioController::add_admin');
 $routes->get('/portofolio-edit', 'PortofolioController::edit_admin');
 
 // Paket Layanan Admin
-$routes->get('/paket-layanan-view', 'PaketLayananController::view_admin');
-$routes->get('/paket-layanan-add', 'PaketLayananController::add_admin');
-$routes->post('/paket-layanan-store', 'PaketLayananController::store');
-$routes->get('/paket-layanan-edit/(:num)', 'PaketLayananController::edit_admin/$1');
-$routes->post('/paket-layanan-update/(:num)', 'PaketLayananController::update/$1');
-$routes->get('/paket-layanan-delete/(:num)', 'PaketLayananController::delete/$1');
+$routes->get('admin/paket-layanan/index', 'PaketLayananController::index_admin');
+$routes->get('admin/paket-layanan/add', 'PaketLayananController::add_admin');
+$routes->post('admin/paket-layanan/proses-add', 'PaketLayananController::store');
+$routes->get('admin/paket-layanan/edit/(:num)', 'PaketLayananController::edit_admin/$1');
+$routes->post('admin/paket-layanan/proses-edit/(:num)', 'PaketLayananController::update/$1');
+$routes->get('admin/paket-layanan/delete/(:num)', 'PaketLayananController::delete/$1');
 
 // Portofolio Admin
-$routes->get('/portofolio-view', 'PortofolioController::view_admin');
-$routes->get('/portofolio-add', 'PortofolioController::add_admin');
-$routes->post('/portofolio-store', 'PortofolioController::store');
-$routes->get('/portofolio-edit/(:num)', 'PortofolioController::edit_admin/$1');
-$routes->post('/portofolio-update/(:num)', 'PortofolioController::update/$1');
-$routes->get('/portofolio-delete/(:num)', 'PortofolioController::delete/$1');
+$routes->get('admin/portofolio/index', 'PortofolioController::index_admin');
+$routes->get('admin/portofolio/add', 'PortofolioController::add_admin');
+$routes->post('admin/portofolio/proses-add', 'PortofolioController::store');
+$routes->get('admin/portofolio/edit/(:num)', 'PortofolioController::edit_admin/$1');
+$routes->post('admin/portofolio/proses-edit/(:num)', 'PortofolioController::update/$1');
+$routes->get('admin/portofolio/delete/(:num)', 'PortofolioController::delete/$1');
 
