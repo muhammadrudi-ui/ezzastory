@@ -20,7 +20,7 @@ class PaketLayananController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
         $data['paket_layanan'] = $this->paketLayananModel->findAll();
-        return view('paket-layanan', $data);
+        return view('user/paket-layanan', $data);
     }
 
     public function index_admin()

@@ -31,7 +31,7 @@ $routes->get('user/beranda', 'BerandaController::index');
 $routes->get('user/tentang-kami', 'ProfileController::index');
 
 // Paket Payanan
-$routes->get('/paket-layanan', 'PaketLayananController::index');
+$routes->get('user/paket-layanan', 'PaketLayananController::index');
 
 // Portofolio
 $routes->get('/portofolio', 'PortofolioController::index');
