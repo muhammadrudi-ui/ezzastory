@@ -7,6 +7,9 @@ use CodeIgniter\Router\RouteCollection;
  */
 
 // VISITOR
+// Profile Perusahaan
+$routes->get('/', 'BerandaController::index_visitor');
+$routes->get('visitor/tentang-kami', 'ProfileController::index_visitor');
 
 
 // Auth User
@@ -24,7 +27,7 @@ $routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:
 
 
 // CUSTOMER
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
 
 // Profile Perusahaan
 $routes->get('user/beranda', 'BerandaController::index');

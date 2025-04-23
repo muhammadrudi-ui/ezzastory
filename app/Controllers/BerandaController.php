@@ -37,6 +37,29 @@ class BerandaController extends BaseController
         return view('user/beranda', $data);
     }
 
+    public function index_visitor()
+    {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+
+        // Ambil semua portofolio terbaru beserta 1 foto utama (jika ada)
+        $data['portofolio'] = $this->portofolioModel
+            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+            ->join(
+                '(SELECT id_portofolio, nama_file 
+              FROM foto_portofolio 
+              WHERE id IN (SELECT MAX(id) 
+                           FROM foto_portofolio 
+                           GROUP BY id_portofolio)) AS foto_portofolio',
+                'foto_portofolio.id_portofolio = portofolio.id',
+                'left'
+            )
+            ->orderBy('created_at', 'DESC')
+            ->limit(6) // ambil 6 terbaru, bebas kamu atur
+            ->find();
+
+        return view('visitor/beranda', $data);
+    }
+
     public function index_admin()
     {
         return view('admin/dashboard');

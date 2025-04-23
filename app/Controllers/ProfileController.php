@@ -18,6 +18,12 @@ class ProfileController extends BaseController
         return view('user/tentang-kami', $data);
     }
 
+    public function index_visitor()
+    {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+        return view('visitor/tentang-kami', $data);
+    }
+
     public function index_admin()
     {
         $perPage = 5; // Jumlah data per halaman

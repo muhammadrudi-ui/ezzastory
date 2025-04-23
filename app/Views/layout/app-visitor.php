@@ -112,22 +112,12 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
-                <!-- Profile (Tetap di Kanan) -->
-                <div class="dropdown ms-auto order-lg-last">
-                    <?php
-                    $username = session('username');
-                    $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
-                    ?>
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> <?= esc($displayName) ?>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
-                    </ul>
+                <!-- Button Login -->
+                <div class="ms-auto order-lg-last">
+                    <a href="<?= base_url('/login') ?>" class="btn btn-outline-light">
+                        <i class="bi bi-person-circle"></i> Login
+                    </a>
                 </div>
-
 
                 <!-- Navbar Links -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
@@ -135,7 +125,8 @@
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/beranda') ?>">Beranda</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/tentang-kami') ?>">Tentang
                                 Kami</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/portofolio') ?>">Portofolio</a>
+                        <li class="nav-item"><a class="nav-link"
+                                href="<?= base_url('user/portofolio/index') ?>">Portofolio</a>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('user/paket-layanan') ?>">Paket
                                 Layanan</a>
@@ -165,7 +156,7 @@
                         <ul class="list-unstyled">
                             <li><a href="<?= base_url('user/beranda') ?>">Beranda</a></li>
                             <li><a href="<?= base_url('user/tentang-kami') ?>">Tentang Kami</a></li>
-                            <li><a href="<?= base_url('user/portofolio') ?>">Portofolio</a></li>
+                            <li><a href="<?= base_url('user/portofolio/index') ?>">Portofolio</a></li>
                             <li><a href="<?= base_url('user/paket-layanan') ?>">Paket Layanan</a></li>
                             <li><a href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
                         </ul>
