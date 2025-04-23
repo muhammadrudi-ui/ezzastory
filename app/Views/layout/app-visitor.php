@@ -122,16 +122,19 @@
                 <!-- Navbar Links -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/beranda') ?>">Beranda</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/tentang-kami') ?>">Tentang
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('visitor/beranda') ?>">Beranda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('visitor/tentang-kami') ?>">Tentang
                                 Kami</a></li>
                         <li class="nav-item"><a class="nav-link"
-                                href="<?= base_url('user/portofolio/index') ?>">Portofolio</a>
+                                href="<?= base_url('visitor/portofolio/index') ?>">Portofolio</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/paket-layanan') ?>">Paket
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="confirmRedirect('<?= base_url('login') ?>')">Paket
                                 Layanan</a>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="confirmRedirect('<?= base_url('login') ?>')">Reservasi</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -154,11 +157,13 @@
                     <div class="col-md-4 mb-4">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="<?= base_url('user/beranda') ?>">Beranda</a></li>
-                            <li><a href="<?= base_url('user/tentang-kami') ?>">Tentang Kami</a></li>
-                            <li><a href="<?= base_url('user/portofolio/index') ?>">Portofolio</a></li>
-                            <li><a href="<?= base_url('user/paket-layanan') ?>">Paket Layanan</a></li>
-                            <li><a href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
+                            <li><a href="<?= base_url('visitor/beranda') ?>">Beranda</a></li>
+                            <li><a href="<?= base_url('visitor/tentang-kami') ?>">Tentang Kami</a></li>
+                            <li><a href="<?= base_url('visitor/portofolio/index') ?>">Portofolio</a></li>
+                            <li><a href="#" onclick="confirmRedirect('<?= base_url('login') ?>')">Paket
+                                    Layanan</a></li>
+                            <li> <a class="nav-link" href="#"
+                                    onclick="confirmRedirect('<?= base_url('login') ?>')">Reservasi</a></li>
                         </ul>
                     </div>
 
@@ -209,6 +214,26 @@
                 }
             });
         });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmRedirect(redirectUrl) {
+            Swal.fire({
+                title: "Login Diperlukan",
+                text: "Anda harus login terlebih dahulu untuk mengakses halaman ini.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login Sekarang",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = redirectUrl;
+                }
+            });
+        }
     </script>
 
 </body>
