@@ -11,6 +11,11 @@ use CodeIgniter\Router\RouteCollection;
 $routes->get('/', 'BerandaController::index_visitor');
 $routes->get('visitor/tentang-kami', 'ProfileController::index_visitor');
 
+// Portofolio
+$routes->get('visitor/portofolio/index', 'PortofolioController::index_visitor');
+$routes->get('visitor/portofolio/kategori-(:segment)', 'PortofolioController::kategori_visitor/$1');
+$routes->get('visitor/portofolio/detail/(:num)', 'PortofolioController::detail_visitor/$1');
+
 
 // Auth User
 // Users

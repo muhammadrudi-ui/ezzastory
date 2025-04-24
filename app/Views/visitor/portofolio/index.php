@@ -1,4 +1,4 @@
-<?= $this->extend('layout/app') ?>
+<?= $this->extend('layout/app-visitor') ?>
 
 <?= $this->section('content') ?>
 
@@ -110,7 +110,8 @@
                     <?php if (!empty($wedding)): ?>
                         <?php foreach ($wedding as $item): ?>
                             <div class="col-md-4">
-                                <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
+                                    class="text-decoration-none">
                                     <div class="card">
                                         <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
@@ -128,7 +129,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio/kategori-Wedding') ?>" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('visitor/portofolio/kategori-Wedding') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -139,7 +140,8 @@
                     <?php if (!empty($engagement)): ?>
                         <?php foreach ($engagement as $item): ?>
                             <div class="col-md-4">
-                                <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
+                                    class="text-decoration-none">
                                     <div class="card">
                                         <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
@@ -157,7 +159,8 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio/kategori-engagement') ?>" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('visitor/portofolio/kategori-engagement') ?>"
+                    class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -168,7 +171,8 @@
                     <?php if (!empty($prewedding)): ?>
                         <?php foreach ($prewedding as $item): ?>
                             <div class="col-md-4">
-                                <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
+                                    class="text-decoration-none">
                                     <div class="card">
                                         <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
@@ -186,7 +190,8 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio/kategori-Pre-Wedding') ?>" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('visitor/portofolio/kategori-Pre-Wedding') ?>"
+                    class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -197,7 +202,8 @@
                     <?php if (!empty($wisuda)): ?>
                         <?php foreach ($wisuda as $item): ?>
                             <div class="col-md-4">
-                                <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
+                                    class="text-decoration-none">
                                     <div class="card">
                                         <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
@@ -215,7 +221,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio-kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('visitor/portofolio-kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -226,7 +232,8 @@
                     <?php if (!empty($eventlainnya)): ?>
                         <?php foreach ($eventlainnya as $item): ?>
                             <div class="col-md-4">
-                                <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
+                                <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
+                                    class="text-decoration-none">
                                     <div class="card">
                                         <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
@@ -244,7 +251,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio/kategori-event-lainnya') ?>"
+                <a href="<?= base_url('visitor/portofolio/kategori-event-lainnya') ?>"
                     class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
