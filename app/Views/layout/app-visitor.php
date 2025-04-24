@@ -102,7 +102,7 @@
         <nav class="navbar navbar-expand-lg">
             <div class="container d-flex justify-content-between align-items-center">
                 <!-- Logo -->
-                <a class="navbar-brand" href="#">
+                <a class="navbar-brand" href="<?= base_url('/') ?>">
                     <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid" style="height: 28px;">
                 </a>
 
