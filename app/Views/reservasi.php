@@ -429,9 +429,9 @@
                                         placeholder="Masukkan nama mempelai pria & wanita" required>
                                 </div>
                                 <div class="mb-3">
-                                    <label class="form-label">Link Instagram</label>
-                                    <input type="text" class="form-control" placeholder="Masukkan link Instagram"
-                                        required>
+                                    <label class="form-label">Link atau Username Instagram</label>
+                                    <input type="text" class="form-control"
+                                        placeholder="Masukkan link atau username Instagram Anda" required>
                                 </div>
                             </div>
                         </div>

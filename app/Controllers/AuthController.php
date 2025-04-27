@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\ProfilePerusahaanModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class AuthController extends BaseController
@@ -17,6 +18,7 @@ class AuthController extends BaseController
         $this->userModel = new UserModel();
         $this->session = session();
         $this->request = \Config\Services::request();
+        $this->profileModel = new ProfilePerusahaanModel();
     }
 
     public function login()
@@ -75,12 +77,12 @@ class AuthController extends BaseController
 
         // Validasi username sudah ada atau belum
         if ($this->userModel->where('username', $username)->first()) {
-            return redirect()->back()->withInput()->with('error', 'Username sudah digunakan.');
+            return redirect()->back()->withInput()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
         }
 
         // Validasi email sudah ada atau belum
         if ($this->userModel->where('email', $email)->first()) {
-            return redirect()->back()->withInput()->with('error', 'Email sudah digunakan.');
+            return redirect()->back()->withInput()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
         }
 
         // Validasi konfirmasi password
@@ -104,4 +106,69 @@ class AuthController extends BaseController
         $this->session->destroy();
         return redirect()->to('/login');
     }
+
+    public function profile()
+    {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+        $userId = session('user_id');
+        $data['user'] = $this->userModel->find($userId);
+
+        return view('user/profile', $data);
+    }
+
+    public function updateProfile()
+    {
+        $userId = session('user_id');
+
+        // Ambil data input
+        $username = $this->request->getPost('username');
+        $email = $this->request->getPost('email');
+        $newPassword = $this->request->getPost('password');
+
+        // Ambil data user saat ini
+        $currentUser = $this->userModel->find($userId);
+
+        // Cek apakah username baru sudah dipakai orang lain (kecuali dirinya sendiri)
+        $existingUsername = $this->userModel
+            ->where('username', $username)
+            ->where('id !=', $userId)
+            ->first();
+
+        if ($existingUsername) {
+            return redirect()->back()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
+        }
+
+        // Cek apakah email baru sudah dipakai orang lain (kecuali dirinya sendiri)
+        $existingEmail = $this->userModel
+            ->where('email', $email)
+            ->where('id !=', $userId)
+            ->first();
+
+        if ($existingEmail) {
+            return redirect()->back()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
+        }
+
+        // Siapkan data untuk update
+        $data = [
+            'username' => $username,
+            'email' => $email,
+        ];
+
+        $passwordChanged = false;
+
+        if (!empty($newPassword)) {
+            $data['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+            $passwordChanged = true;
+        }
+
+        $this->userModel->update($userId, $data);
+
+        if ($passwordChanged) {
+            session()->destroy();
+            return redirect()->to('/login')->with('success', 'Password diperbarui. Silakan login kembali.');
+        }
+
+        return redirect()->to('user/profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
 }

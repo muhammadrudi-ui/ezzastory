@@ -25,6 +25,10 @@ $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::registerPost');
 $routes->get('/logout', 'AuthController::logout');
 
+$routes->get('user/profile', 'AuthController::profile', ['filter' => 'auth']);
+$routes->post('user/profile/update', 'AuthController::updateProfile', ['filter' => 'auth']);
+
+
 // Dashboard sesuai role
 $routes->get('/admin/dashboard', 'AdminController::dashboard', ['filter' => 'auth:admin']);
 $routes->get('/user/dashboard', 'UserController::dashboard', ['filter' => 'auth:user']);
