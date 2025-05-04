@@ -13,6 +13,7 @@ class AuthController extends BaseController
     protected $session;
     protected $request;
 
+    
     public function __construct()
     {
         $this->userModel = new UserModel();
