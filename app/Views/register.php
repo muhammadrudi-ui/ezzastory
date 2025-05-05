@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -75,15 +76,25 @@
                     value="<?= old('email') ?>" required>
             </div>
             <div class="mb-3">
-                <label for="regPassword" class="form-label">Password</label>
-                <input type="password" class="form-control" id="regPassword" name="password"
-                    placeholder="Create a password" required>
-            </div>
+    <label for="regPassword" class="form-label">Password</label>
+    <div class="input-group">
+        <input type="password" class="form-control" id="regPassword" name="password" placeholder="Create a password" required>
+        <button type="button" class="btn btn-light input-group-text" id="togglePasswordRegister">
+            <i class="fas fa-eye-slash text-muted"></i> <!-- Ikon mata tersembunyi -->
+        </button>
+    </div>
+</div>
+
             <div class="mb-3">
-                <label for="confirmPassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="confirmPassword" name="confirm_password"
-                    placeholder="Repeat password" required>
-            </div>
+    <label for="confirmPassword" class="form-label">Confirm Password</label>
+    <div class="input-group">
+        <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Repeat password" required>
+        <button type="button" class="btn btn-light input-group-text" id="toggleConfirmPassword">
+            <i class="fas fa-eye-slash text-muted"></i> <!-- Ikon mata tersembunyi -->
+        </button>
+    </div>
+</div>
+
             <button type="submit" class="btn btn-dark w-100 mt-3">Register</button>
         </form>
 
@@ -92,5 +103,34 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
+<script>
+    // Untuk form registrasi Password
+    const togglePasswordRegister = document.querySelector("#togglePasswordRegister");
+    const passwordRegister = document.querySelector("#regPassword");
+
+    togglePasswordRegister.addEventListener("click", function () {
+        // Toggle type antara password dan text
+        const type = passwordRegister.type === "password" ? "text" : "password";
+        passwordRegister.type = type;
+
+        // Ganti ikon mata
+        this.innerHTML = type === "password" ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+    });
+
+    // Untuk form registrasi Confirm Password
+    const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+    const confirmPassword = document.querySelector("#confirmPassword");
+
+    toggleConfirmPassword.addEventListener("click", function () {
+        // Toggle type antara password dan text
+        const type = confirmPassword.type === "password" ? "text" : "password";
+        confirmPassword.type = type;
+
+        // Ganti ikon mata
+        this.innerHTML = type === "password" ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
+    });
+</script>
+
 
 </html>
