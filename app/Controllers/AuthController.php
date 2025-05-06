@@ -4,18 +4,21 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\UserModel;
+use App\Models\UserProfileModel;
 use App\Models\ProfilePerusahaanModel;
 use CodeIgniter\HTTP\ResponseInterface;
 
 class AuthController extends BaseController
 {
     protected $userModel;
+    protected $userProfileModel;
     protected $session;
     protected $request;
 
     public function __construct()
     {
         $this->userModel = new UserModel();
+        $this->userProfileModel = new UserProfileModel();
         $this->session = session();
         $this->request = \Config\Services::request();
         $this->profileModel = new ProfilePerusahaanModel();
@@ -111,7 +114,7 @@ class AuthController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
         $userId = session('user_id');
-        $data['user'] = $this->userModel->find($userId);
+        $data['user'] = $this->userModel->getUserWithProfile($userId);
 
         return view('user/profile', $data);
     }
@@ -148,8 +151,8 @@ class AuthController extends BaseController
             return redirect()->back()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
         }
 
-        // Siapkan data untuk update
-        $data = [
+        // Siapkan data untuk update pada tabel user
+        $dataUser = [
             'username' => $username,
             'email' => $email,
         ];
@@ -157,11 +160,31 @@ class AuthController extends BaseController
         $passwordChanged = false;
 
         if (!empty($newPassword)) {
-            $data['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+            $dataUser['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
             $passwordChanged = true;
         }
 
-        $this->userModel->update($userId, $data);
+        // Update data user
+        $this->userModel->update($userId, $dataUser);
+
+        // Siapkan data untuk update pada tabel user_profile
+        $dataProfile = [
+            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
+            'no_telepon' => $this->request->getPost('no_telepon'),
+            'instagram' => $this->request->getPost('instagram'),
+        ];
+
+        // Cek apakah profil user sudah ada
+        $profile = $this->userProfileModel->where('user_id', $userId)->first();
+
+        if ($profile) {
+            // Update data profil
+            $this->userProfileModel->update($profile['user_id'], $dataProfile);
+        } else {
+            // Insert data profil baru
+            $dataProfile['user_id'] = $userId;
+            $this->userProfileModel->insert($dataProfile);
+        }
 
         if ($passwordChanged) {
             session()->destroy();

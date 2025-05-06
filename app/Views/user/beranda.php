@@ -137,7 +137,7 @@
 <body>
     <!-- Slider -->
     <?php foreach ($profile_perusahaan as $profile): ?>
-        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img src="<?= base_url($profile['slider_1']) ?>" class="d-block w-100" alt="Slide 1">
