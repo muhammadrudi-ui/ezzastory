@@ -122,7 +122,7 @@
                 <!-- Navbar Links -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('visitor/beranda') ?>">Beranda</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?= base_url('/') ?>">Beranda</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('visitor/tentang-kami') ?>">Tentang
                                 Kami</a></li>
                         <li class="nav-item"><a class="nav-link"
