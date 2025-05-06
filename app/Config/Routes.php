@@ -6,86 +6,102 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 
-// VISITOR
+// VISITOR (Akses Publik, Tanpa Login)
 // Profile Perusahaan
 $routes->get('/', 'BerandaController::index_visitor');
 $routes->get('visitor/tentang-kami', 'ProfileController::index_visitor');
 
-// Portofolio
+// Portofolio untuk pengunjung
 $routes->get('visitor/portofolio/index', 'PortofolioController::index_visitor');
 $routes->get('visitor/portofolio/kategori-(:segment)', 'PortofolioController::kategori_visitor/$1');
 $routes->get('visitor/portofolio/detail/(:num)', 'PortofolioController::detail_visitor/$1');
 
 
-// Auth User
-// Users
+
+
+
+// Auth User (Akses Publik)
 $routes->get('/login', 'AuthController::login');
 $routes->post('/login', 'AuthController::loginPost');
 $routes->get('/register', 'AuthController::register');
 $routes->post('/register', 'AuthController::registerPost');
 $routes->get('/logout', 'AuthController::logout');
 
-$routes->get('user/profile', 'AuthController::profile', ['filter' => 'auth']);
-$routes->post('user/profile/update', 'AuthController::updateProfile', ['filter' => 'auth']);
 
 
 
-// CUSTOMER
-// $routes->get('/', 'Home::index');
 
-// Profile Perusahaan
-$routes->get('user/beranda', 'BerandaController::index');
-$routes->get('user/tentang-kami', 'ProfileController::index');
+// CUSTOMER (role = user)
+// Grup route untuk USER dengan filter user
+$routes->group('user', ['filter' => 'user'], function($routes) {
+    // Profile
+    $routes->get('profile', 'AuthController::profile');
+    $routes->post('profile/update', 'AuthController::updateProfile');
+    
+    // Beranda dan Profile Perusahaan
+    $routes->get('beranda', 'BerandaController::index');
+    $routes->get('tentang-kami', 'ProfileController::index');
+    
+    // Paket Layanan
+    $routes->get('paket-layanan', 'PaketLayananController::index');
+    
+    // Portofolio
+    $routes->get('portofolio/index', 'PortofolioController::index');
+    $routes->get('portofolio/kategori-(:segment)', 'PortofolioController::kategori/$1');
+    $routes->get('portofolio/detail/(:num)', 'PortofolioController::detail/$1');
+    
+    // Reservasi (jika ada)
+    $routes->get('reservasi', 'ReservasiController::index');
+});
 
-// Paket Payanan
-$routes->get('user/paket-layanan', 'PaketLayananController::index');
-
-// Portofolio
-$routes->get('user/portofolio/index', 'PortofolioController::index');
-$routes->get('user/portofolio/kategori-(:segment)', 'PortofolioController::kategori/$1');
-$routes->get('user/portofolio/detail/(:num)', 'PortofolioController::detail/$1');
 
 
-
-$routes->get('/reservasi', 'ReservasiController::index');
-$routes->get('/login', 'LoginController::index');
-$routes->get('/register', 'RegisterController::index');
 
 
 
 // ADMIN
-$routes->get('/dashboard', 'BerandaController::index_admin');
-$routes->get('/ketersediaan-jadwal', 'JadwalController::index');
+// Grup route untuk ADMIN dengan filter admin
+$routes->group('admin', ['filter' => 'admin'], function($routes) {
+    // Dashboard
+    $routes->get('dashboard', 'BerandaController::index_admin');
+    $routes->get('jadwal', 'JadwalController::index');
+    
+    // Profile Perusahaan Admin
+    $routes->get('profile-perusahaan/index', 'ProfileController::index_admin');
+    $routes->get('profile-perusahaan/add', 'ProfileController::add_admin');
+    $routes->post('profile-perusahaan/proses-add', 'ProfileController::store');
+    $routes->get('profile-perusahaan/edit/(:num)', 'ProfileController::edit_admin/$1');
+    $routes->post('profile-perusahaan/proses-edit/(:num)', 'ProfileController::update/$1');
+    $routes->get('profile-perusahaan/delete/(:num)', 'ProfileController::delete/$1');
+    
+    // Pemesanan, Laporan, dll
+    $routes->get('data-pemesanan', 'PemesananController::index_admin');
+    $routes->get('data-pemesanan-edit', 'PemesananController::edit_admin');
+    $routes->get('laporan-keuangan', 'LaporanKeuanganController::index');
+    $routes->get('riwayat-pemesanan', 'RiwayatPemesananController::index');
+    
+    // Portofolio Admin
+    $routes->get('portofolio/index', 'PortofolioController::index_admin');
+    $routes->get('portofolio/add', 'PortofolioController::add_admin');
+    $routes->post('portofolio/proses-add', 'PortofolioController::store');
+    $routes->get('portofolio/edit/(:num)', 'PortofolioController::edit_admin/$1');
+    $routes->post('portofolio/proses-edit/(:num)', 'PortofolioController::update/$1');
+    $routes->get('portofolio/delete/(:num)', 'PortofolioController::delete/$1');
+    
+    // Paket Layanan Admin
+    $routes->get('paket-layanan/index', 'PaketLayananController::index_admin');
+    $routes->get('paket-layanan/add', 'PaketLayananController::add_admin');
+    $routes->post('paket-layanan/proses-add', 'PaketLayananController::store');
+    $routes->get('paket-layanan/edit/(:num)', 'PaketLayananController::edit_admin/$1');
+    $routes->post('paket-layanan/proses-edit/(:num)', 'PaketLayananController::update/$1');
+    $routes->get('paket-layanan/delete/(:num)', 'PaketLayananController::delete/$1');
+});
 
-// Profile Perusahaan Admin
-$routes->get('admin/profile-perusahaan/index', 'ProfileController::index_admin');
-$routes->get('admin/profile-perusahaan/add', 'ProfileController::add_admin');
-$routes->post('admin/profile-perusahaan/proses-add', 'ProfileController::store');
-$routes->get('admin/profile-perusahaan/edit/(:num)', 'ProfileController::edit_admin/$1');
-$routes->post('admin/profile-perusahaan/proses-edit/(:num)', 'ProfileController::update/$1');
-$routes->get('admin/profile-perusahaan/delete/(:num)', 'ProfileController::delete/$1');
+// Redirect untuk URL lama menuju ke struktur baru
+$routes->get('/dashboard', function() {
+    return redirect()->to('/admin/dashboard');
+});
 
-$routes->get('/data-pemesanan', 'PemesananController::index_admin');
-$routes->get('/data-pemesanan-edit', 'PemesananController::edit_admin');
-$routes->get('/laporan-keuangan', 'LaporanKeuanganController::index');
-$routes->get('/riwayat-pemesanan', 'RiwayatPemesananController::index');
-$routes->get('/portofolio-view', 'PortofolioController::view_admin');
-$routes->get('/portofolio-add', 'PortofolioController::add_admin');
-$routes->get('/portofolio-edit', 'PortofolioController::edit_admin');
-
-// Paket Layanan Admin
-$routes->get('admin/paket-layanan/index', 'PaketLayananController::index_admin');
-$routes->get('admin/paket-layanan/add', 'PaketLayananController::add_admin');
-$routes->post('admin/paket-layanan/proses-add', 'PaketLayananController::store');
-$routes->get('admin/paket-layanan/edit/(:num)', 'PaketLayananController::edit_admin/$1');
-$routes->post('admin/paket-layanan/proses-edit/(:num)', 'PaketLayananController::update/$1');
-$routes->get('admin/paket-layanan/delete/(:num)', 'PaketLayananController::delete/$1');
-
-// Portofolio Admin
-$routes->get('admin/portofolio/index', 'PortofolioController::index_admin');
-$routes->get('admin/portofolio/add', 'PortofolioController::add_admin');
-$routes->post('admin/portofolio/proses-add', 'PortofolioController::store');
-$routes->get('admin/portofolio/edit/(:num)', 'PortofolioController::edit_admin/$1');
-$routes->post('admin/portofolio/proses-edit/(:num)', 'PortofolioController::update/$1');
-$routes->get('admin/portofolio/delete/(:num)', 'PortofolioController::delete/$1');
-
+$routes->get('/ketersediaan-jadwal', function() {
+    return redirect()->to('/admin/jadwal');
+});

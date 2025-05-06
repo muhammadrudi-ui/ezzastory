@@ -14,6 +14,7 @@ class AuthController extends BaseController
     protected $userProfileModel;
     protected $session;
     protected $request;
+    protected $profileModel;
 
     public function __construct()
     {
@@ -26,6 +27,11 @@ class AuthController extends BaseController
 
     public function login()
     {
+        // Jika pengguna sudah login, arahkan ke halaman sesuai role
+        if ($this->session->get('logged_in')) {
+            return $this->redirectByRole();
+        }
+        
         return view('login');
     }
 
@@ -48,15 +54,32 @@ class AuthController extends BaseController
             ]);
 
             // Redirect berdasarkan role (admin atau user)
-            return redirect()->to($user['role'] === 'admin' ? '/dashboard' : 'user/beranda');
+            return $this->redirectByRole();
         } else {
             // Menyimpan pesan error menggunakan flashdata jika login gagal
             return redirect()->back()->with('error', 'Username atau password salah.');
         }
     }
 
+    // Helper function untuk redirect berdasarkan role
+    private function redirectByRole()
+    {
+        $role = $this->session->get('role');
+        
+        if ($role === 'admin') {
+            return redirect()->to('/admin/dashboard');
+        } else {
+            return redirect()->to('/user/beranda');
+        }
+    }
+
     public function register()
     {
+        // Jika pengguna sudah login, arahkan ke halaman sesuai role
+        if ($this->session->get('logged_in')) {
+            return $this->redirectByRole();
+        }
+        
         return view('register');
     }
 
@@ -104,10 +127,11 @@ class AuthController extends BaseController
         // Redirect ke halaman login
         return redirect()->to('/login')->with('success', 'Akun berhasil dibuat. Silakan login.');
     }
+    
     public function logout()
     {
         $this->session->destroy();
-        return redirect()->to('/login');
+        return redirect()->to('/login')->with('success', 'Anda berhasil logout.');
     }
 
     public function profile()
@@ -160,6 +184,11 @@ class AuthController extends BaseController
         $passwordChanged = false;
 
         if (!empty($newPassword)) {
+            // Validasi password minimal 6 karakter
+            if (strlen($newPassword) < 6) {
+                return redirect()->back()->with('error', 'Password baru harus memiliki minimal 6 karakter.');
+            }
+            
             $dataUser['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
             $passwordChanged = true;
         }
@@ -191,7 +220,6 @@ class AuthController extends BaseController
             return redirect()->to('/login')->with('success', 'Password diperbarui. Silakan login kembali.');
         }
 
-        return redirect()->to('user/profile')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->to('/user/profile')->with('success', 'Profil berhasil diperbarui.');
     }
-
 }

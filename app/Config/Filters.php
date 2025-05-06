@@ -12,6 +12,9 @@ use CodeIgniter\Filters\InvalidChars;
 use CodeIgniter\Filters\PageCache;
 use CodeIgniter\Filters\PerformanceMetrics;
 use CodeIgniter\Filters\SecureHeaders;
+use App\Filters\AuthFilter;
+use App\Filters\AdminFilter;
+use App\Filters\UserFilter;
 
 class Filters extends BaseFilters
 {
@@ -35,6 +38,8 @@ class Filters extends BaseFilters
         'pagecache' => PageCache::class,
         'performance' => PerformanceMetrics::class,
         'auth' => \App\Filters\AuthFilter::class,
+        'admin' => AdminFilter::class,
+        'user' => UserFilter::class,
     ];
 
     /**
@@ -73,7 +78,6 @@ class Filters extends BaseFilters
             // 'honeypot',
             // 'csrf',
             // 'invalidchars',
-            'auth' => ['except' => ['/', 'visitor/*', 'login', 'register', 'logout']],
         ],
         'after' => [
             // 'honeypot',

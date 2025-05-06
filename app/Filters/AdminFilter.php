@@ -6,7 +6,7 @@ use CodeIgniter\Filters\FilterInterface;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 
-class AuthFilter implements FilterInterface
+class AdminFilter implements FilterInterface
 {
     /**
      * Do whatever processing this filter needs to do.
@@ -23,12 +23,18 @@ class AuthFilter implements FilterInterface
      *
      * @return RequestInterface|ResponseInterface|string|void
      */
-     public function before(RequestInterface $request, $arguments = null)
+    public function before(RequestInterface $request, $arguments = null)
     {
         // Cek apakah pengguna sudah login
         if (!session()->get('logged_in')) {
             // Jika tidak, redirect ke halaman login
             return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu.');
+        }
+
+        // Cek apakah pengguna memiliki role admin
+        if (session()->get('role') !== 'admin') {
+            // Jika bukan admin, redirect ke halaman user
+            return redirect()->to('/user/beranda')->with('error', 'Anda tidak memiliki akses ke halaman admin.');
         }
     }
 
