@@ -31,7 +31,7 @@
                     <div id="previewContainer" class="mt-2 d-flex flex-wrap">
                         <?php foreach ($foto_portofolio as $foto): ?>
                             <div class="image-preview position-relative m-1" id="preview-<?= $foto['id']; ?>">
-                                <img src="<?= base_url('uploads/portofolio/' . $foto['nama_file']); ?>"
+                                <img src="<?= base_url($porto['foto_utama']) ?>"
                                     class="border rounded" width="100" height="100" style="object-fit:cover;">
                                 <button type="button" class="btn btn-danger btn-sm position-absolute top-0 end-0"
                                     onclick="removeExistingImage(<?= $foto['id']; ?>)">✖</button>

@@ -37,7 +37,7 @@
                                 <tr>
                                     <td><?= ($porto['nama_mempelai']) ?></td>
                                     <td>
-                                        <img src="<?= base_url('uploads/portofolio/' . $porto['foto_utama']) ?>"
+                                        <img src="<?= base_url($porto['foto_utama']) ?>"
                                             class="rectangle" width="75" height="75"
                                             style="object-fit: cover; border-radius: 3px;" alt="Foto Paket" loading="lazy">
                                     </td>

@@ -113,7 +113,7 @@
                                 <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
                                     class="text-decoration-none">
                                     <div class="card">
-                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                        <img src="<?= base_url($item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
                                         <div class="card-body text-center">
                                             <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
@@ -143,7 +143,7 @@
                                 <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
                                     class="text-decoration-none">
                                     <div class="card">
-                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                        <img src="<?= base_url($item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
                                         <div class="card-body text-center">
                                             <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
@@ -174,7 +174,7 @@
                                 <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
                                     class="text-decoration-none">
                                     <div class="card">
-                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                        <img src="<?= base_url($item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
                                         <div class="card-body text-center">
                                             <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
@@ -205,7 +205,7 @@
                                 <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
                                     class="text-decoration-none">
                                     <div class="card">
-                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                        <img src="<?= base_url($item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
                                         <div class="card-body text-center">
                                             <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
@@ -235,7 +235,7 @@
                                 <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>"
                                     class="text-decoration-none">
                                     <div class="card">
-                                        <img src="<?= base_url('uploads/portofolio/' . $item['foto_utama']) ?>"
+                                        <img src="<?= base_url($item['foto_utama']) ?>"
                                             class="card-img-top" alt="<?= $item['nama_mempelai'] ?>">
                                         <div class="card-body text-center">
                                             <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>

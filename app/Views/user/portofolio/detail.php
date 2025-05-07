@@ -141,7 +141,7 @@
             <div class="gallery-container">
                 <?php if (!empty($fotos)): ?>
                     <?php foreach ($fotos as $foto): ?>
-                        <img src="<?= base_url('uploads/portofolio/' . $foto['nama_file']) ?>" alt="Foto Portofolio">
+                        <img src="<?= base_url($foto['nama_file']) ?>" alt="Foto Portofolio">
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="text-center text-muted">Belum ada foto portofolio yang ditambahkan.</p>
