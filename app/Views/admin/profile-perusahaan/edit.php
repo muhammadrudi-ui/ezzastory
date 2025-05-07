@@ -43,7 +43,7 @@
 
                 <div class="mt-3">
                     <label class="fw-bold">Deskripsi</label>
-                    <textarea name="deskripsi" class="form-control" rows="3"
+                    <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3"
                         required><?= old('deskripsi', $profile['deskripsi']) ?></textarea>
                 </div>
 
@@ -118,12 +118,12 @@
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="fw-bold">Visi</label>
-                        <textarea name="visi" class="form-control" rows="2"
+                        <textarea name="visi" id="visi" class="form-control" rows="2"
                             required><?= old('visi', $profile['visi']) ?></textarea>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Misi</label>
-                        <textarea name="misi" class="form-control" rows="2"
+                        <textarea name="misi" id="misi" class="form-control" rows="2"
                             required><?= old('misi', $profile['misi']) ?></textarea>
                     </div>
                 </div>
@@ -185,6 +185,26 @@
         </div>
     </div>
 </div>
+
+<!-- CDN CKEditor 5 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#deskripsi'))
+        .catch(error => {
+            console.error(error);
+            });
+            ClassicEditor
+        .create(document.querySelector('#visi'))
+        .catch(error => {
+            console.error(error);
+            });
+            ClassicEditor
+        .create(document.querySelector('#misi'))
+        .catch(error => {
+            console.error(error);
+            });
+</script>
 
 <script>
     function previewImage(input, previewId) {

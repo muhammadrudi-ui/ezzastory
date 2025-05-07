@@ -55,7 +55,7 @@
             text-align: justify;
             margin-bottom: 15px;
             display: -webkit-box;
-            -webkit-line-clamp: 12;
+            -webkit-line-clamp: 10;
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -208,7 +208,7 @@
                     <div class="col-md-6">
                         <h2 class="about-us-title">About Us</h2>
                         <p class="about-us-description">
-                            <?= ($profile['deskripsi']) ?>
+                            <?= esc(strip_tags($profile['deskripsi'])) ?>
                         </p>
                         <a href="<?= base_url('user/tentang-kami') ?>" class="btn btn-dark">Lihat Selengkapnya</a>
                     </div>

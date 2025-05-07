@@ -48,7 +48,7 @@
 
         .about-description {
             text-align: justify;
-            font-size: 18px;
+            font-size: 16px;
             margin-bottom: 40px;
             color: #555;
         }
@@ -171,7 +171,7 @@
                     <div>
                         <h3>Visi</h3>
                         <ul>
-                            <?= esc($profile['visi']) ?>
+                            <?= ($profile['visi']) ?>
                         </ul>
                     </div>
 
