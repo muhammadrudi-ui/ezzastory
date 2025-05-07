@@ -108,6 +108,13 @@
             color:rgb(117, 117, 117);
         }
 
+        .footer-description {
+            display: -webkit-box;
+            -webkit-line-clamp: 5;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
         .contact-info i {
             font-size: 16px;
             margin-right: 10px;
@@ -183,7 +190,7 @@
                     <!-- Kolom 1: Logo & Deskripsi -->
                     <div class="col-md-4 mb-4">
                         <h5><?= ($profile['nama_perusahaan']) ?></h5>
-                        <p class="small"><?= ($profile['deskripsi']) ?>.</p>
+                        <p class="footer-description"><?= esc(strip_tags ($profile['deskripsi'])) ?>.</p>
                     </div>
 
                     <!-- Kolom 2: Navigasi -->
