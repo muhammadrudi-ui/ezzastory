@@ -25,8 +25,8 @@ class PaketLayananController extends BaseController
 
     public function index_admin()
     {
-        $perPage = 5; // Jumlah data per halaman
-        $search = $this->request->getGet('search'); // Ambil nilai input pencarian
+        $perPage = 5;
+        $search = $this->request->getGet('search');
 
         if ($search) {
             $this->paketLayananModel
@@ -39,7 +39,7 @@ class PaketLayananController extends BaseController
 
         $data['paketLayanan'] = $this->paketLayananModel->paginate($perPage);
         $data['pager'] = $this->paketLayananModel->pager;
-        $data['search'] = $search; // Kirim data pencarian ke view
+        $data['search'] = $search;
 
         return view('admin/paket-layanan/index', $data);
     }
@@ -52,7 +52,6 @@ class PaketLayananController extends BaseController
 
     public function store()
     {
-        // Validasi input
         $rules = [
             'nama_paket' => 'required',
             'benefit' => 'required',

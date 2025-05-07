@@ -30,9 +30,9 @@ class BerandaController extends BaseController
                 'foto_portofolio.id_portofolio = portofolio.id',
                 'left'
             )
-            ->orderBy('created_at', 'DESC')
-            ->limit(6) // ambil 6 terbaru, bebas kamu atur
-            ->find();
+        ->orderBy('created_at', 'DESC')
+        ->limit(6)
+        ->find();
 
         return view('user/beranda', $data);
     }
@@ -54,7 +54,7 @@ class BerandaController extends BaseController
                 'left'
             )
             ->orderBy('created_at', 'DESC')
-            ->limit(6) // ambil 6 terbaru, bebas kamu atur
+            ->limit(6)
             ->find();
 
         return view('visitor/beranda', $data);

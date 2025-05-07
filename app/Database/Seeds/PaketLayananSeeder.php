@@ -29,10 +29,8 @@ class PaketLayananSeeder extends Seeder
             ],
         ];
 
-        // Kosongkan tabel dan reset auto-increment
-    $this->db->table('paket_layanan')->truncate();
+        $this->db->table('paket_layanan')->truncate();
 
-        // Insert data ke table paket_layanan
         $this->db->table('paket_layanan')->insertBatch($data);
     }
 }

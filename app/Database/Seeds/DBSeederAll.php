@@ -12,5 +12,7 @@ class DBSeederAll extends Seeder
         $this->call('UserProfileSeeder');
         $this->call('ProfileSeeder');
         $this->call('PaketLayananSeeder');
+        $this->call('PortofolioSeeder');
+
     }
 }

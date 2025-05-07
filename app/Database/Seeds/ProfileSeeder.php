@@ -6,7 +6,7 @@ use CodeIgniter\Database\Seeder;
 
 class ProfileSeeder extends Seeder
 {
-     public function run()
+    public function run()
     {
         $data = [
             'nama_perusahaan'   => 'Ezzastory',
@@ -32,8 +32,7 @@ class ProfileSeeder extends Seeder
             'updated_at'        => date('Y-m-d H:i:s'),
         ];
 
-        // Kosongkan tabel dan reset auto-increment
-    $this->db->table('profile_perusahaan')->truncate();
+        $this->db->table('profile_perusahaan')->truncate();
         $this->db->table('profile_perusahaan')->insert($data);
     }
 }

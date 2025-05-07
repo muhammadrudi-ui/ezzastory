@@ -26,8 +26,8 @@ class ProfileController extends BaseController
 
     public function index_admin()
     {
-        $perPage = 5; // Jumlah data per halaman
-        $search = $this->request->getGet('search'); // Ambil input pencarian
+        $perPage = 5;
+        $search = $this->request->getGet('search');
 
         if ($search) {
             $this->profileModel->groupStart()
@@ -61,7 +61,6 @@ class ProfileController extends BaseController
 
     public function store()
     {
-        // Validate input
         $rules = [
             'nama_perusahaan' => 'required',
             'deskripsi' => 'required',
@@ -168,7 +167,7 @@ class ProfileController extends BaseController
             'alamat' => 'required',
         ];
 
-        // Tambahkan aturan validasi untuk file hanya jika ada file yang diupload
+        // Validasi untuk hanya file
         $fileFields = ['logo', 'slider_1', 'slider_2', 'slider_3', 'background_judul', 'foto_owner'];
         foreach ($fileFields as $field) {
             $file = $this->request->getFile($field);
@@ -181,7 +180,7 @@ class ProfileController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Siapkan data untuk update
+        // Data untuk update
         $data = [
             'nama_perusahaan' => $this->request->getPost('nama_perusahaan'),
             'deskripsi' => $this->request->getPost('deskripsi'),
@@ -205,7 +204,6 @@ class ProfileController extends BaseController
         foreach ($fileFields as $field) {
             $file = $this->request->getFile($field);
 
-            // Check if the file is not null and is valid
             if ($file && $file->isValid() && !$file->hasMoved()) {
                 $fileName = $file->getRandomName();
                 $file->move('uploads/profile_perusahaan', $fileName);
@@ -217,7 +215,6 @@ class ProfileController extends BaseController
 
                 $data[$field] = 'uploads/profile_perusahaan/' . $fileName;
             } else {
-                // If no new file is uploaded, keep the old value
                 if ($profile && isset($profile[$field])) {
                     $data[$field] = $profile[$field];
                 }
@@ -234,20 +231,17 @@ class ProfileController extends BaseController
             return redirect()->to('admin/profile-perusahaan/index')->with('error', 'ID Profile Perusahaan tidak ditemukan');
         }
 
-        // Ambil data profile berdasarkan ID
         $profile = $this->profileModel->find($id);
 
         if ($profile) {
-            // Daftar kolom yang berisi file gambar
             $imageFields = ['logo', 'slider_1', 'slider_2', 'slider_3', 'background_judul', 'foto_owner'];
 
             foreach ($imageFields as $field) {
                 if (!empty($profile[$field]) && file_exists($profile[$field])) {
-                    unlink($profile[$field]); // Hapus file jika ada
+                    unlink($profile[$field]);
                 }
             }
 
-            // Hapus data dari database
             $this->profileModel->delete($id);
 
             return redirect()->to('admin/profile-perusahaan/index')->with('success', 'Profile Perusahaan berhasil dihapus');

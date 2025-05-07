@@ -27,11 +27,10 @@ class AuthController extends BaseController
 
     public function login()
     {
-        // Jika pengguna sudah login, arahkan ke halaman sesuai role
         if ($this->session->get('logged_in')) {
             return $this->redirectByRole();
         }
-        
+
         return view('login');
     }
 
@@ -45,7 +44,6 @@ class AuthController extends BaseController
 
         // Jika user ditemukan dan password cocok
         if ($user && password_verify($password, $user['password'])) {
-            // Set session jika login berhasil
             $this->session->set([
                 'user_id' => $user['id'],
                 'username' => $user['username'],
@@ -53,19 +51,16 @@ class AuthController extends BaseController
                 'logged_in' => true
             ]);
 
-            // Redirect berdasarkan role (admin atau user)
             return $this->redirectByRole();
         } else {
-            // Menyimpan pesan error menggunakan flashdata jika login gagal
             return redirect()->back()->with('error', 'Username atau password salah.');
         }
     }
 
-    // Helper function untuk redirect berdasarkan role
     private function redirectByRole()
     {
         $role = $this->session->get('role');
-        
+
         if ($role === 'admin') {
             return redirect()->to('/admin/dashboard');
         } else {
@@ -75,43 +70,36 @@ class AuthController extends BaseController
 
     public function register()
     {
-        // Jika pengguna sudah login, arahkan ke halaman sesuai role
         if ($this->session->get('logged_in')) {
             return $this->redirectByRole();
         }
-        
+
         return view('register');
     }
 
     public function registerPost()
     {
-        // Ambil data dari form
         $username = $this->request->getPost('username');
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         $confirm = $this->request->getPost('confirm_password');
 
-        // Validasi password minimal 6 karakter
         if (strlen($password) < 6) {
             return redirect()->back()->withInput()->with('error', 'Password harus memiliki minimal 6 karakter.');
         }
 
-        // Validasi email dengan format yang benar
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return redirect()->back()->withInput()->with('error', 'Format email tidak valid.');
         }
 
-        // Validasi username sudah ada atau belum
         if ($this->userModel->where('username', $username)->first()) {
             return redirect()->back()->withInput()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
         }
 
-        // Validasi email sudah ada atau belum
         if ($this->userModel->where('email', $email)->first()) {
             return redirect()->back()->withInput()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
         }
 
-        // Validasi konfirmasi password
         if ($password !== $confirm) {
             return redirect()->back()->withInput()->with('error', 'Konfirmasi password tidak sesuai.');
         }
@@ -121,13 +109,12 @@ class AuthController extends BaseController
             'username' => $username,
             'email' => $email,
             'password' => password_hash($password, PASSWORD_DEFAULT),
-            'role' => 'user', // default role 'user'
+            'role' => 'user',
         ]);
 
-        // Redirect ke halaman login
         return redirect()->to('/login')->with('success', 'Akun berhasil dibuat. Silakan login.');
     }
-    
+
     public function logout()
     {
         $this->session->destroy();
@@ -147,15 +134,13 @@ class AuthController extends BaseController
     {
         $userId = session('user_id');
 
-        // Ambil data input
         $username = $this->request->getPost('username');
         $email = $this->request->getPost('email');
         $newPassword = $this->request->getPost('password');
 
-        // Ambil data user saat ini
         $currentUser = $this->userModel->find($userId);
 
-        // Cek apakah username baru sudah dipakai orang lain (kecuali dirinya sendiri)
+        // Cek Username sudah dipakai atau belum
         $existingUsername = $this->userModel
             ->where('username', $username)
             ->where('id !=', $userId)
@@ -165,7 +150,7 @@ class AuthController extends BaseController
             return redirect()->back()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
         }
 
-        // Cek apakah email baru sudah dipakai orang lain (kecuali dirinya sendiri)
+        // Cek Email sudah dipakai atau belum
         $existingEmail = $this->userModel
             ->where('email', $email)
             ->where('id !=', $userId)
@@ -175,7 +160,6 @@ class AuthController extends BaseController
             return redirect()->back()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
         }
 
-        // Siapkan data untuk update pada tabel user
         $dataUser = [
             'username' => $username,
             'email' => $email,
@@ -184,33 +168,27 @@ class AuthController extends BaseController
         $passwordChanged = false;
 
         if (!empty($newPassword)) {
-            // Validasi password minimal 6 karakter
             if (strlen($newPassword) < 6) {
                 return redirect()->back()->with('error', 'Password baru harus memiliki minimal 6 karakter.');
             }
-            
+
             $dataUser['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
             $passwordChanged = true;
         }
 
-        // Update data user
         $this->userModel->update($userId, $dataUser);
 
-        // Siapkan data untuk update pada tabel user_profile
         $dataProfile = [
             'nama_lengkap' => $this->request->getPost('nama_lengkap'),
             'no_telepon' => $this->request->getPost('no_telepon'),
             'instagram' => $this->request->getPost('instagram'),
         ];
 
-        // Cek apakah profil user sudah ada
         $profile = $this->userProfileModel->where('user_id', $userId)->first();
 
         if ($profile) {
-            // Update data profil
             $this->userProfileModel->update($profile['user_id'], $dataProfile);
         } else {
-            // Insert data profil baru
             $dataProfile['user_id'] = $userId;
             $this->userProfileModel->insert($dataProfile);
         }

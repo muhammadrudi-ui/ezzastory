@@ -183,7 +183,8 @@
                     </div>
                     <!-- Layanan Editing -->
                     <div class="col-md-4">
-                        <div class="service-item">
+                        <div class="service-it
+                        em">
                             <i class="bi bi-pencil"></i>
                             <h5>Editing</h5>
                             <p><?= ($profile['keunggulan_3']) ?></p>
@@ -227,7 +228,7 @@
                         <div class="col-md-4">
                             <a href="<?= base_url('visitor/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
-                                    <img src="<?= base_url( $item['foto_utama']) ?>" class="card-img-top"
+                                    <img src="<?= base_url($item['foto_utama']) ?>" class="card-img-top"
                                         alt="<?= esc($item['nama_mempelai']) ?>">
                                     <div class="card-body text-center">
                                         <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>

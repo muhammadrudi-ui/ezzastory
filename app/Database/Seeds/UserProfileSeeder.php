@@ -8,7 +8,6 @@ class UserProfileSeeder extends Seeder
 {
     public function run()
     {
-        // Ambil ID user admin
         $user = $this->db->table('users')->where('email', 'adminezzastory@gmail.com')->get()->getRow();
 
         if (!$user) {

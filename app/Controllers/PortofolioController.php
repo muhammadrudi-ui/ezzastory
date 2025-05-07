@@ -28,7 +28,7 @@ class PortofolioController extends BaseController
 
         foreach ($kategori as $jenis) {
             // Ubah nama kategori menjadi key array dengan huruf kecil
-            $key = strtolower(str_replace(['-', ' '], '', $jenis)); // agar "Event Lainnya" jadi "eventlainnya"
+            $key = strtolower(str_replace(['-', ' '], '', $jenis));
 
 
             // Ambil portofolio berdasarkan jenis layanan
@@ -195,13 +195,11 @@ class PortofolioController extends BaseController
                     $newName = $file->getRandomName();
                     $file->move('uploads/portofolio', $newName);
 
-                    // Simpan foto ke tabel foto_portofolio
                     $fotoId = $this->fotoPortofolioModel->insert([
                         'id_portofolio' => $portofolioId,
                         'nama_file' => $newName
                     ], true);
 
-                    // Set foto pertama sebagai foto utama
                     if ($index == 0) {
                         $fotoUtamaId = $fotoId;
                     }
@@ -209,7 +207,6 @@ class PortofolioController extends BaseController
             }
         }
 
-        // Simpan foto utama di tabel portofolio
         if ($fotoUtamaId) {
             $this->portofolioModel->update($portofolioId, ['foto_utama' => $fotoUtamaId]);
         }
@@ -219,7 +216,6 @@ class PortofolioController extends BaseController
 
     public function edit_admin($id)
     {
-        // Ambil data portofolio berdasarkan ID
         $portofolio = $this->portofolioModel->find($id);
 
         if (!$portofolio) {
@@ -229,7 +225,6 @@ class PortofolioController extends BaseController
         // Ambil semua foto yang terkait dengan portofolio ini
         $foto_portofolio = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
 
-        // Kirim data ke view
         return view('admin/portofolio/edit', [
             'portofolio' => $portofolio,
             'foto_portofolio' => $foto_portofolio // <-- Kirim foto ke view
@@ -248,7 +243,6 @@ class PortofolioController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Update data portofolio
         $this->portofolioModel->update($id, [
             'nama_mempelai' => $this->request->getPost('nama_mempelai'),
             'jenis_layanan' => $this->request->getPost('jenis_layanan'),
@@ -261,9 +255,9 @@ class PortofolioController extends BaseController
                 $foto = $this->fotoPortofolioModel->find($fotoId);
                 if ($foto) {
                     if (file_exists('uploads/portofolio/' . $foto['nama_file'])) {
-                        unlink('uploads/portofolio/' . $foto['nama_file']); // Hapus file dari server
+                        unlink('uploads/portofolio/' . $foto['nama_file']);
                     }
-                    $this->fotoPortofolioModel->delete($fotoId); // Hapus dari database
+                    $this->fotoPortofolioModel->delete($fotoId);
                 }
             }
         }
@@ -305,10 +299,8 @@ class PortofolioController extends BaseController
             }
         }
 
-        // Hapus data dari tabel foto_portofolio
         $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
 
-        // Hapus portofolio
         $this->portofolioModel->delete($id);
 
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
