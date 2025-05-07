@@ -38,7 +38,7 @@
         }
 
         .navbar .nav-link:hover {
-            color: #87D5C8;
+            color:rgb(117, 117, 117);
         }
 
         .navbar-toggler {
@@ -51,6 +51,32 @@
 
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30' fill='white'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+        }
+
+         /* Dropdown Profile User */
+        .dropdown-menu {
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+
+        .dropdown-menu a.dropdown-item {
+            color: white;
+            transition: color 0.3s ease;
+        }
+
+        .dropdown-menu a.dropdown-item:hover {
+            color: rgb(117, 117, 117);
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .dropdown-menu a.dropdown-item:focus,
+        .dropdown-menu a.dropdown-item.active {
+            color: white;
+            background-color: rgba(0, 0, 0, 0.7);
+        }
+
+        .dropdown-menu a.dropdown-item.text-danger:hover {
+            color: #dc3545;
+            background-color: rgba(0, 0, 0, 0.7);
         }
 
         /* Mengubah background menu dropdown di mobile */
@@ -79,7 +105,7 @@
         }
 
         .footer a:hover {
-            color: #87D5C8;
+            color:rgb(117, 117, 117);
         }
 
         .contact-info i {

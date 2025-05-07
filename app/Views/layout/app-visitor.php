@@ -38,7 +38,7 @@
         }
 
         .navbar .nav-link:hover {
-            color: #87D5C8;
+            color:rgb(117, 117, 117);
         }
 
         .navbar-toggler {
@@ -79,7 +79,7 @@
         }
 
         .footer a:hover {
-            color: #87D5C8;
+            color:rgb(117, 117, 117);
         }
 
         .contact-info i {

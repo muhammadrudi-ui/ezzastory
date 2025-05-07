@@ -110,6 +110,44 @@
             transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
         }
 
+        /* Dropdown Profile Admin */
+        .dropdown .btn-light {
+            background-color: #f8f9fa; /* Warna default */
+            color: #343a40;
+            border: 1px solid #ccc;
+            transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        /* Hover */
+        .dropdown .btn-light:hover {
+            background-color: #e0e0e0;
+            color: #000;
+            border-color: #bbb;
+        }
+
+        /* Saat diklik (focus/active) */
+        .dropdown .btn-light:focus,
+        .dropdown .btn-light:active,
+        .dropdown.show .btn-light {
+            background-color: #d6d6d6;
+            color: #000;
+            border-color: #aaa;
+            box-shadow: none; /* Hilangkan efek shadow biru */
+        }
+
+        /* Dropdown menu item hover */
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        /* Aktif di menu (misal saat di halaman profile) */
+        .dropdown-menu .dropdown-item.active,
+        .dropdown-menu .dropdown-item:active {
+            background-color: #343a40;
+            color: #fff;
+        }
+
         /* Main Content */
         .content {
             flex: 1;
