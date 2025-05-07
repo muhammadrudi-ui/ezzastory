@@ -193,7 +193,6 @@
         .tracking-container {
             display: flex;
             gap: var(--gap-size, 60px);
-            /* Mengurangi jarak antar proses */
         }
 
         .tracking-step {
@@ -327,7 +326,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="reservationList">
-                                            <!-- Data reservasi akan ditambahkan via JavaScript -->
                                         </tbody>
                                     </table>
                                 </div>
@@ -349,7 +347,7 @@
 
             <!-- FORM RESERVASI -->
             <div class="tab-pane fade" id="reservasi">
-                <div class="reservasi-card" style="max-width: 1000px;"> <!-- Memperlebar card -->
+                <div class="reservasi-card" style="max-width: 1000px;">
                     <h4 class="text-center mb-3">Formulir Reservasi</h4>
                     <form>
                         <div class="row">

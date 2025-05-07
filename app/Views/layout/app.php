@@ -53,7 +53,6 @@
             background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30' fill='white'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
         }
 
-         /* Dropdown Profile User */
         .dropdown-menu {
             background-color: rgba(0, 0, 0, 0.9);
         }
@@ -149,8 +148,8 @@
                 <div class="dropdown ms-auto order-lg-last">
                     <?php
                     $username = session('username');
-                    $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
-                    ?>
+        $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
+        ?>
                     <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
                         data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="bi bi-person-circle"></i> <?= esc($displayName) ?>
@@ -190,7 +189,7 @@
                     <!-- Kolom 1: Logo & Deskripsi -->
                     <div class="col-md-4 mb-4">
                         <h5><?= ($profile['nama_perusahaan']) ?></h5>
-                        <p class="footer-description"><?= esc(strip_tags ($profile['deskripsi'])) ?>.</p>
+                        <p class="footer-description"><?= esc(strip_tags($profile['deskripsi'])) ?>.</p>
                     </div>
 
                     <!-- Kolom 2: Navigasi -->
@@ -239,7 +238,6 @@
         </footer>
     <?php endforeach; ?>
 
-    <!-- JavaScript untuk Navbar Scroll Effect -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var navbar = document.querySelector(".navbar");

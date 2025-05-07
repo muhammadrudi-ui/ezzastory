@@ -53,7 +53,7 @@
             color: #555;
         }
 
-        /* Vision and Mission */
+        /* Visi dan Misi */
         .vision-mission {
             display: flex;
             justify-content: space-around;
@@ -100,7 +100,6 @@
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
-            /* Mengatur jarak antar card */
         }
 
         .team-card img {
@@ -160,14 +159,14 @@
             <?php foreach ($profile_perusahaan as $profile): ?>
                 <h2>Tentang Ezzastory</h2>
 
-                <!-- Description -->
+                <!-- Deskripsi -->
                 <div class="about-description">
                     <p><?= ($profile['deskripsi']) ?></p>
                 </div>
 
-                <!-- Vision and Mission -->
+                <!-- Visi dan Misi -->
                 <div class="vision-mission">
-                    <!-- Vision -->
+                    <!-- Visi -->
                     <div>
                         <h3>Visi</h3>
                         <ul>
@@ -175,7 +174,7 @@
                         </ul>
                     </div>
 
-                    <!-- Mission -->
+                    <!-- Misi -->
                     <div>
                         <h3>Misi</h3>
                         <ul>

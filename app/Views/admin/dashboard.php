@@ -39,7 +39,7 @@
     <div class="col-lg-12">
         <div class="card p-4 shadow-sm">
             <h5 class="mb-3 fw-bold">Jumlah Pemesanan dalam 1 Tahun</h5>
-            <div style="height: 300px;"> <!-- Tambahkan batasan tinggi -->
+            <div style="height: 300px;">
                 <canvas id="chartPemesanan"></canvas>
             </div>
         </div>
@@ -67,7 +67,7 @@
                 backgroundColor: 'rgba(0, 123, 255, 0.2)',
                 borderColor: '#007bff',
                 borderWidth: 2,
-                tension: 0.3, // Membuat garis lebih halus
+                tension: 0.3,
                 pointRadius: 5,
                 pointBackgroundColor: '#007bff'
             }]

@@ -248,7 +248,7 @@
         </div>
     </section>
 
-    <!-- Call to Action - Reservasi -->
+    <!-- CTA untuk Reservasi -->
     <section class="cta-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <div class="container">

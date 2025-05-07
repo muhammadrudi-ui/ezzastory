@@ -64,11 +64,11 @@
     function previewMultipleImages(event) {
         let files = event.target.files;
         let previewContainer = document.getElementById("previewContainer");
-        previewContainer.innerHTML = ""; // Bersihkan preview sebelumnya
+        previewContainer.innerHTML = "";
 
         if (files.length > 10) {
             alert("Maksimal 10 gambar yang dapat diunggah.");
-            event.target.value = ""; // Reset input file
+            event.target.value = "";
             return;
         }
 
@@ -80,8 +80,8 @@
                 img.classList.add("m-1", "border", "rounded");
                 img.style.width = "100px";
                 img.style.height = "100px";
-                img.style.objectFit = "cover"; // Pastikan gambar tetap proporsional tanpa distorsi
-                img.style.display = "inline-block"; // Agar gambar tetap sejajar
+                img.style.objectFit = "cover";
+                img.style.display = "inline-block";
                 previewContainer.appendChild(img);
             };
             reader.readAsDataURL(files[i]);

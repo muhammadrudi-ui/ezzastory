@@ -32,7 +32,6 @@
             z-index: 1000;
         }
 
-        /* Saat sidebar di-minimize */
         .sidebar.minimized {
             width: 80px;
         }
@@ -82,7 +81,6 @@
             margin: 10px 0;
         }
 
-        /* Sidebar Toggler */
         .sidebar-toggler {
             text-align: center;
             margin-top: 15px;
@@ -110,38 +108,34 @@
             transition: left 0.3s ease-in-out, width 0.3s ease-in-out;
         }
 
-        /* Dropdown Profile Admin */
         .dropdown .btn-light {
-            background-color: #f8f9fa; /* Warna default */
+            background-color: #f8f9fa;
+            /* Warna default */
             color: #343a40;
             border: 1px solid #ccc;
             transition: background 0.3s, color 0.3s, border 0.3s;
         }
 
-        /* Hover */
         .dropdown .btn-light:hover {
             background-color: #e0e0e0;
             color: #000;
             border-color: #bbb;
         }
 
-        /* Saat diklik (focus/active) */
         .dropdown .btn-light:focus,
         .dropdown .btn-light:active,
         .dropdown.show .btn-light {
             background-color: #d6d6d6;
             color: #000;
             border-color: #aaa;
-            box-shadow: none; /* Hilangkan efek shadow biru */
+            box-shadow: none;
         }
 
-        /* Dropdown menu item hover */
         .dropdown-menu .dropdown-item:hover {
             background-color: #000;
             color: #fff;
         }
 
-        /* Aktif di menu (misal saat di halaman profile) */
         .dropdown-menu .dropdown-item.active,
         .dropdown-menu .dropdown-item:active {
             background-color: #343a40;
@@ -156,10 +150,8 @@
             background: #f8f9fa;
             overflow-y: auto;
             height: calc(100vh - 60px);
-            /* Sesuaikan tinggi dengan navbar */
             transition: margin-left 0.3s ease-in-out;
             margin-top: 55px;
-            /* Pastikan tidak tertutup navbar */
         }
 
         .sidebar.minimized~.content {
@@ -266,8 +258,8 @@
 
             <?php
             $username = session('username');
-            $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
-            ?>
+                $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
+                ?>
 
             <div class="dropdown ms-auto">
                 <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
@@ -289,17 +281,14 @@
 
     <script>
         // Disebar Active
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             let navLinks = document.querySelectorAll(".sidebar .nav-link");
 
-            // Dapatkan path URL saat ini
             let currentPath = window.location.pathname;
 
-            navLinks.forEach(function (link) {
-                // Hapus semua kelas 'active' terlebih dahulu
+            navLinks.forEach(function(link) {
                 link.classList.remove("active");
 
-                // Periksa apakah href dari link cocok dengan URL saat ini
                 if (link.getAttribute("href") === currentPath) {
                     link.classList.add("active");
                 }
@@ -307,19 +296,18 @@
         });
 
         // Toggler untuk mode desktop
-        document.getElementById('sidebarToggle').addEventListener('click', function () {
+        document.getElementById('sidebarToggle').addEventListener('click', function() {
             let sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('minimized');
         });
 
         // Toggler untuk mode mobile
-        document.getElementById('mobileSidebarToggle').addEventListener('click', function () {
+        document.getElementById('mobileSidebarToggle').addEventListener('click', function() {
             let sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('show');
         });
 
-        // Klik di luar sidebar untuk menutup di mode mobile
-        document.addEventListener('click', function (event) {
+        document.addEventListener('click', function(event) {
             let sidebar = document.getElementById('sidebar');
             let toggleButton = document.getElementById('mobileSidebarToggle');
 

@@ -150,7 +150,7 @@
         </div>
     </section>
 
-    <!-- Call to Action - Reservasi -->
+    <!-- CTA untuk Reservasi -->
     <section class="cta-section">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>

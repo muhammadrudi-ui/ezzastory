@@ -162,7 +162,4 @@
     </div>
 </section>
 
-
-<!-- Modal untuk Paket Wedding 3 bisa ditambahkan dengan format serupa -->
-
 <?= $this->endSection() ?>

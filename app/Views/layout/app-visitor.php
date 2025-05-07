@@ -126,7 +126,7 @@
                     </a>
                 </div>
 
-                <!-- Navbar Links -->
+                <!-- Navbar -->
                 <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                     <ul class="navbar-nav">
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('/') ?>">Beranda</a></li>
@@ -157,7 +157,7 @@
                     <!-- Kolom 1: Logo & Deskripsi -->
                     <div class="col-md-4 mb-4">
                         <h5><?= ($profile['nama_perusahaan']) ?></h5>
-                        <p class="footer-description"><?= esc(strip_tags ($profile['deskripsi'])) ?>.</p>
+                        <p class="footer-description"><?= esc(strip_tags($profile['deskripsi'])) ?>.</p>
                     </div>
 
                     <!-- Kolom 2: Navigasi -->
@@ -208,7 +208,6 @@
         </footer>
     <?php endforeach; ?>
 
-    <!-- JavaScript untuk Navbar Scroll Effect -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var navbar = document.querySelector(".navbar");

@@ -186,7 +186,6 @@
     </div>
 </div>
 
-<!-- CDN CKEditor 5 -->
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
     ClassicEditor

@@ -49,9 +49,9 @@
                         <div class="col-md-6">
                             <?php
                             $namaLengkapKosong = empty($user['nama_lengkap']);
-                            $noTeleponKosong = empty($user['no_telepon']);
-                            $instagramKosong = empty($user['instagram']);
-                            ?>
+$noTeleponKosong = empty($user['no_telepon']);
+$instagramKosong = empty($user['instagram']);
+?>
 
                             <div class="mb-3">
                                 <label class="form-label">Nama Lengkap</label>
@@ -91,7 +91,6 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Simpan dan Batal -->
                     <div class="d-flex justify-content-end gap-2 mt-4">
                         <a href="<?= base_url('user/beranda') ?>" class="btn btn-outline-dark">Batal</a>
                         <button type="submit" class="btn btn-dark">Simpan Perubahan</button>

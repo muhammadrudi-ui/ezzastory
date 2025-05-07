@@ -73,7 +73,7 @@
 </div>
 
 <script>
-    let deletedFotos = []; // Array untuk menyimpan foto yang akan dihapus
+    let deletedFotos = [];
 
     function previewNewImages(event) {
         let files = event.target.files;
@@ -87,7 +87,7 @@
             return;
         }
 
-        previewContainer.innerHTML = ""; // Hapus preview baru sebelum update
+        previewContainer.innerHTML = "";
 
         for (let i = 0; i < files.length; i++) {
             let reader = new FileReader();
@@ -106,9 +106,9 @@
 
     function removeExistingImage(id) {
         let imgDiv = document.getElementById("preview-" + id);
-        imgDiv.remove(); // Hapus dari tampilan
-        deletedFotos.push(id); // Tambahkan ke daftar foto yang akan dihapus
-        document.getElementById("deleted_foto").value = deletedFotos.join(","); // Update hidden input
+        imgDiv.remove();
+        deletedFotos.push(id);
+        document.getElementById("deleted_foto").value = deletedFotos.join(",");
     }
 </script>
 

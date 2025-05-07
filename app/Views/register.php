@@ -80,7 +80,7 @@
     <div class="input-group">
         <input type="password" class="form-control" id="regPassword" name="password" placeholder="Create a password" required>
         <button type="button" class="btn btn-light input-group-text" id="togglePasswordRegister">
-            <i class="fas fa-eye-slash text-muted"></i> <!-- Ikon mata tersembunyi -->
+            <i class="fas fa-eye-slash text-muted"></i>
         </button>
     </div>
 </div>
@@ -90,7 +90,7 @@
     <div class="input-group">
         <input type="password" class="form-control" id="confirmPassword" name="confirm_password" placeholder="Repeat password" required>
         <button type="button" class="btn btn-light input-group-text" id="toggleConfirmPassword">
-            <i class="fas fa-eye-slash text-muted"></i> <!-- Ikon mata tersembunyi -->
+            <i class="fas fa-eye-slash text-muted"></i>
         </button>
     </div>
 </div>
@@ -105,29 +105,23 @@
 </body>
 
 <script>
-    // Untuk form registrasi Password
     const togglePasswordRegister = document.querySelector("#togglePasswordRegister");
     const passwordRegister = document.querySelector("#regPassword");
 
     togglePasswordRegister.addEventListener("click", function () {
-        // Toggle type antara password dan text
         const type = passwordRegister.type === "password" ? "text" : "password";
         passwordRegister.type = type;
 
-        // Ganti ikon mata
         this.innerHTML = type === "password" ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
     });
 
-    // Untuk form registrasi Confirm Password
     const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
     const confirmPassword = document.querySelector("#confirmPassword");
 
     toggleConfirmPassword.addEventListener("click", function () {
-        // Toggle type antara password dan text
         const type = confirmPassword.type === "password" ? "text" : "password";
         confirmPassword.type = type;
 
-        // Ganti ikon mata
         this.innerHTML = type === "password" ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
     });
 </script>
