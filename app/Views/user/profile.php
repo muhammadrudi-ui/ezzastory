@@ -78,10 +78,10 @@ $instagramKosong = empty($user['instagram']);
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Link Instagram / Username</label>
+                                <label class="form-label">Username Instagram</label>
                                 <input type="text" name="instagram" value="<?= esc($user['instagram'] ?? '') ?>"
                                     class="form-control <?= $instagramKosong ? 'is-invalid' : '' ?>"
-                                    placeholder="Masukkan Link Instagram" <?= $instagramKosong ? 'required' : '' ?>>
+                                    placeholder="Masukkan Username Instagram" <?= $instagramKosong ? 'required' : '' ?>>
                                 <?php if ($instagramKosong): ?>
                                     <div class="invalid-feedback">
                                         Instagram harus diisi.

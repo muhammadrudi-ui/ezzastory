@@ -17,7 +17,7 @@ class CreateUser extends Migration
             ],
             'username' => [
                 'type' => 'VARCHAR',
-                'constraint' => '255',
+                'constraint' => '30',
                 'unique' => true
             ],
             'email' => [

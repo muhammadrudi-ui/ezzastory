@@ -4,23 +4,29 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateFotoPortofolio extends Migration
+class CreatePortofolio extends Migration
 {
     public function up()
     {
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
+                'constraint' => 11,
                 'auto_increment' => true,
                 'unsigned' => true,
             ],
-            'id_portofolio' => [
-                'type' => 'INT',
-                'unsigned' => true,
-            ],
-            'nama_file' => [
+            'nama_mempelai' => [
                 'type' => 'VARCHAR',
                 'constraint' => 255,
+            ],
+            'foto_utama' => [
+                'type' => 'VARCHAR',
+                'constraint' => 255,
+                'null' => true,
+            ],
+            'jenis_layanan' => [
+                'type' => 'ENUM',
+                'constraint' => ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'],
             ],
             'created_at' => [
                 'type' => 'DATETIME',
@@ -30,15 +36,13 @@ class CreateFotoPortofolio extends Migration
                 'type' => 'DATETIME',
                 'null' => true,
             ],
-
         ]);
         $this->forge->addPrimaryKey('id');
-        $this->forge->addForeignKey('id_portofolio', 'portofolio', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->createTable('foto_portofolio');
+        $this->forge->createTable('portofolio');
     }
 
     public function down()
     {
-        $this->forge->dropTable('foto_portofolio');
+        $this->forge->dropTable('portofolio');
     }
 }

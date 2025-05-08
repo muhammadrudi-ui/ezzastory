@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateProfilePerusahaan extends Migration
+class CreateProfilPerusahaan extends Migration
 {
     public function up()
     {
@@ -70,7 +70,7 @@ class CreateProfilePerusahaan extends Migration
             ],
             'no_telp' => [
                 'type' => 'VARCHAR',
-                'constraint' => 20,
+                'constraint' => 13,
             ],
             'email' => [
                 'type' => 'VARCHAR',

@@ -11,6 +11,7 @@ class CreateUserProfile extends Migration
         $this->forge->addField([
             'user_id' => [
                 'type' => 'INT',
+                'constraint' => 11,
                 'unsigned' => true,
                 'auto_increment' => true
             ],
@@ -21,12 +22,12 @@ class CreateUserProfile extends Migration
             ],
             'no_telepon' => [
                 'type' => 'VARCHAR',
-                'constraint' => '20',
+                'constraint' => '13',
                 'null' => true,
             ],
             'instagram' => [
                 'type' => 'VARCHAR',
-                'constraint' => '255',
+                'constraint' => '30',
                 'null' => true,
             ],
         ]);

@@ -205,7 +205,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/data-pemesanan">
+                <a class="nav-link" href="<?= base_url('admin/data-pemesanan/index') ?>">
                     <i class="bi bi-receipt"></i> <span>Data Pemesanan</span>
                 </a>
             </li>
