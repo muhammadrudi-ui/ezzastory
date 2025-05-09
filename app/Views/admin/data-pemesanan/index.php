@@ -7,14 +7,29 @@
         <h3 class="text-start text-dark fw-bold">Data Pemesanan</h3>
     </div>
 
+    <?php if (session()->getFlashdata('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('success') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if (session()->getFlashdata('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?= session()->getFlashdata('error') ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <div class="input-group" style="max-width: 250px;">
-            <input type="text" class="form-control" placeholder="Search..." aria-label="Search"
-                aria-describedby="button-addon2">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
+    <form class="input-group" style="max-width: 250px;" method="GET"
+            action="<?= base_url('admin/data-pemesanan/index'); ?>">
+            <input type="text" class="form-control" placeholder="Search..." name="search"
+                value="<?= isset($search) ? esc($search) : ''; ?>">
+            <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </div>
+        </form>
 
         <div class="input-group" style="max-width: 180px;">
             <input type="month" class="form-control" id="filterBulan" placeholder="Pilih Bulan">
