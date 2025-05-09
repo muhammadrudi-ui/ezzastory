@@ -50,4 +50,33 @@ class PemesananModel extends Model
     {
         return $this->where('status', 'Selesai');
     }
+
+    // Untuk Payment
+    public function getWithPayments($id)
+    {
+        $pemesanan = $this->find($id);
+        if (!$pemesanan) {
+            return null;
+        }
+
+        $pembayaranModel = new PembayaranModel();
+        $pemesanan['pembayaran'] = $pembayaranModel->getByPemesanan($id);
+
+        return $pemesanan;
+    }
+
+    public function getTotalPaid($pemesananId)
+    {
+        $pembayaranModel = new PembayaranModel();
+        $pembayaran = $pembayaranModel->where('pemesanan_id', $pemesananId)
+                                     ->where('status', 'Success')
+                                     ->findAll();
+
+        $total = 0;
+        foreach ($pembayaran as $bayar) {
+            $total += $bayar['jumlah'];
+        }
+
+        return $total;
+    }
 }

@@ -8,6 +8,7 @@ use App\Models\PemesananModel;
 use App\Models\PaketLayananModel;
 use App\Models\ProfilePerusahaanModel;
 use App\Models\UserModel;
+use App\Models\PembayaranModel;
 
 class PemesananController extends BaseController
 {
@@ -15,6 +16,7 @@ class PemesananController extends BaseController
     protected $paketLayananModel;
     protected $profileModel;
     protected $userModel;
+    protected $pembayaranModel;
 
     public function __construct()
     {
@@ -22,22 +24,36 @@ class PemesananController extends BaseController
         $this->profileModel = new ProfilePerusahaanModel();
         $this->paketLayananModel = new PaketLayananModel();
         $this->userModel = new UserModel();
+        $this->pembayaranModel = new PembayaranModel();
+
     }
 
     public function index()
     {
-        // Ambil data user yang sedang login
         $userId = session()->get('user_id');
         $userData = $this->userModel->getUserWithProfile($userId);
-
-        // Cek apakah data penting kosong
         $isProfileComplete = !(empty($userData['nama_lengkap']) || empty($userData['email']) || empty($userData['no_telepon']) || empty($userData['instagram']));
+
+        // Ambil SEMUA data pemesanan user (bukan hanya yang terbaru)
+        $pemesanan = $this->pemesananModel->where('user_id', $userId)
+                        ->orderBy('created_at', 'DESC')
+                        ->findAll();
+
+        // Ambil data pembayaran untuk semua pemesanan
+        $pembayaran = [];
+        if ($pemesanan) {
+            foreach ($pemesanan as $pesan) {
+                $pembayaran[$pesan['id']] = $this->pembayaranModel->where('pemesanan_id', $pesan['id'])->findAll();
+            }
+        }
 
         $data = [
             'profile_perusahaan' => $this->profileModel->findAll(),
             'paket_layanan' => $this->paketLayananModel->findAll(),
             'user_data' => $userData,
-            'isProfileComplete' => $isProfileComplete
+            'isProfileComplete' => $isProfileComplete,
+            'pembayaran' => $pembayaran,
+            'all_pemesanan' => $pemesanan // Ubah nama variabel untuk lebih jelas
         ];
 
         return view('user/reservasi', $data);
@@ -64,8 +80,32 @@ class PemesananController extends BaseController
         ];
 
         $this->pemesananModel->insert($data);
+        // Ambil ID pemesanan yang baru dibuat
+        $pemesananId = $this->pemesananModel->insertID();
 
-        return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
+        // Ambil data paket
+        $paket = $this->paketLayananModel->find($data['paket_id']);
+
+        // Hitung jumlah pembayaran
+        if ($data['jenis_pembayaran'] === 'DP') {
+            $jumlah = $paket['harga'] * 0.5;
+            $jenisPembayaran = 'DP';
+        } else {
+            $jumlah = $paket['harga'];
+            $jenisPembayaran = 'Pelunasan';
+        }
+
+        // Simpan data pembayaran
+        $this->pembayaranModel->save([
+            'pemesanan_id' => $pemesananId,
+            'jumlah' => $jumlah,
+            'jenis' => $jenisPembayaran,
+            'status' => 'pending'
+        ]);
+
+
+        return redirect()->to('user/reservasi#pembayaran')->with('success', 'Reservasi berhasil dikirim!');
+
     }
 
     public function index_admin()

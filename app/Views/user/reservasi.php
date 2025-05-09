@@ -250,6 +250,9 @@
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reservasi">Reservasi</button>
             </li>
             <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pembayaran">Pembayaran</button>
+            </li>
+            <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tracking">Tracking</button>
             </li>
             <li class="nav-item">
@@ -475,6 +478,103 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
     </div>
 </div>
 
+<!-- Pembayaran -->
+<!-- Pembayaran -->
+<div class="tab-pane fade" id="pembayaran">
+    <div class="card mt-4 border-0 shadow-sm">
+        <div class="card-body p-4">
+            <h4 class="mb-4 d-flex align-items-center fw-semibold">
+                <i class="fas fa-credit-card me-2 text-primary"></i> Informasi Pembayaran
+            </h4>
+
+            <?php if (empty($all_pemesanan)): ?>
+                <div class="alert alert-info d-flex align-items-center">
+                    <i class="fa-solid fa-circle-info me-3 fs-4"></i>
+                    <div>
+                        <strong class="mb-1">Belum ada data pemesanan</strong>
+                        <p class="mb-0 text-muted small">Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.</p>
+                    </div>
+                </div>
+            <?php else: ?>
+                <div class="accordion" id="paymentAccordion">
+                    <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                        <div class="accordion-item border rounded-3 mb-3">
+                            <h2 class="accordion-header" id="heading<?= $index ?>">
+                                <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="collapse<?= $index ?>">
+                                    <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                        <div>
+                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Paket</span>
+                                            <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Mempelai</span>
+                                            <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status</span>
+                                            <span class="badge bg-<?= $pemesanan['status'] === 'pemesanan' ? 'success' : ($pemesanan['status'] === 'pending' ? 'warning' : 'secondary') ?> bg-opacity-25 text-dark text-capitalize ms-1">
+                                                <?= esc($pemesanan['status']) ?>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="collapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#paymentAccordion">
+                                <div class="accordion-body pt-3">
+                                    <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
+                                        <div class="row g-3">
+                                            <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
+                                                <div class="col-md-6">
+                                                    <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
+                                                        <div class="card-body">
+                                                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                <h6 class="mb-0 text-capitalize"><?= esc($bayar['jenis']) ?></h6>
+                                                                <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
+                                                                    <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
+                                                                    <?= esc($bayar['status']) ?>
+                                                                </span>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <span class="text-muted small">Jumlah</span>
+                                                                <div class="fs-5 fw-semibold text-primary">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
+                                                            </div>
+                                                            <?php if ($bayar['status'] === 'pending'): ?>
+                                                                <form action="<?= base_url('user/pembayaran/bayar/' . $bayar['id']) ?>" method="post">
+                                                                    <?= csrf_field() ?>
+                                                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                                                        <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
+                                                                    </button>
+                                                                </form>
+                                                            <?php else: ?>
+                                                                <div class="alert alert-success p-2 small mb-0 d-flex align-items-center">
+                                                                    <i class="fa-solid fa-check-circle me-2"></i>
+                                                                    <div>
+                                                                        <strong>Sudah Dibayar</strong><br>
+                                                                        <?php if (!empty($bayar['tanggal_bayar'])): ?>
+                                                                            <span class="text-muted"><?= date('d M Y H:i', strtotime($bayar['tanggal_bayar'])) ?></span>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                </div>
+                                                            <?php endif; ?>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    <?php else: ?>
+                                        <div class="alert alert-secondary text-muted small">
+                                            <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
+                                        </div>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
 
 
             <!-- Tracking -->

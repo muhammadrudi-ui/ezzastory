@@ -52,6 +52,11 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     // Reservasi (jika ada)
     $routes->get('reservasi', 'PemesananController::index');
     $routes->post('pemesanan/simpan', 'PemesananController::simpan');
+
+
+    $routes->post('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
+
+
 });
 
 
