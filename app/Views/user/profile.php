@@ -26,11 +26,14 @@
                     <div class="row g-4">
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label">Username</label>
-                                <input type="text" name="username" value="<?= esc($user['username']) ?>"
-                                    class="form-control" required>
-                            </div>
+                        <div class="mb-3">
+    <label class="form-label">Username</label>
+    <input type="text" name="username" value="<?= esc($user['username']) ?>" 
+           class="form-control" 
+           pattern="^\S{1,30}$"
+           title="Username maksimal 30 karakter dan tidak boleh mengandung spasi"
+           required>
+</div>
 
                             <div class="mb-3">
                                 <label class="form-label">Email</label>
@@ -67,9 +70,13 @@ $instagramKosong = empty($user['instagram']);
 
                             <div class="mb-3">
                                 <label class="form-label">No Telepon</label>
-                                <input type="text" name="no_telepon" value="<?= esc($user['no_telepon'] ?? '') ?>"
+                                <input type="text" name="no_telepon"
+                                    value="<?= esc($user['no_telepon'] ?? '') ?>"
                                     class="form-control <?= $noTeleponKosong ? 'is-invalid' : '' ?>"
-                                    placeholder="Masukkan No Telepon" <?= $noTeleponKosong ? 'required' : '' ?>>
+                                    placeholder="Masukkan No Telepon"
+                                    pattern="\d{10,13}" maxlength="13"
+                                    title="Nomor telepon harus antara 10 hingga 13 digit angka"
+                                    <?= $noTeleponKosong ? 'required' : '' ?>>
                                 <?php if ($noTeleponKosong): ?>
                                     <div class="invalid-feedback">
                                         No Telepon harus diisi.

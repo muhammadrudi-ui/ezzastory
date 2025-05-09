@@ -66,10 +66,14 @@
             <?php endif; ?>
 
             <div class="mb-3">
-                <label for="regUsername" class="form-label">Username</label>
-                <input type="text" class="form-control" id="regUsername" name="username" placeholder="Choose a username"
-                    value="<?= old('username') ?>" required>
-            </div>
+    <label for="regUsername" class="form-label">Username</label>
+    <input type="text" class="form-control" id="regUsername" name="username" 
+           placeholder="Choose a username (max 30 chars, no spaces)" 
+           value="<?= old('username') ?>" 
+           pattern="^\S{1,30}$" 
+           title="Username maksimal 30 karakter dan tidak boleh mengandung spasi"
+           required>
+</div>
             <div class="mb-3">
                 <label for="regEmail" class="form-label">Email</label>
                 <input type="email" class="form-control" id="regEmail" name="email" placeholder="Enter your email"

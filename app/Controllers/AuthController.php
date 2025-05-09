@@ -92,6 +92,10 @@ class AuthController extends BaseController
             return redirect()->back()->withInput()->with('error', 'Format email tidak valid.');
         }
 
+        if (!preg_match('/^[^\s]{1,30}$/', $username)) {
+            return redirect()->back()->withInput()->with('error', 'Username maksimal 30 karakter dan tidak boleh mengandung spasi.');
+        }
+
         if ($this->userModel->where('username', $username)->first()) {
             return redirect()->back()->withInput()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
         }
@@ -137,6 +141,11 @@ class AuthController extends BaseController
         $username = $this->request->getPost('username');
         $email = $this->request->getPost('email');
         $newPassword = $this->request->getPost('password');
+        $noTelepon = $this->request->getPost('no_telepon');
+        if (!preg_match('/^\d{10,13}$/', $noTelepon)) {
+            return redirect()->back()->with('error', 'No Telepon harus terdiri dari 10 hingga 13 digit angka.');
+        }
+
 
         $currentUser = $this->userModel->find($userId);
 
@@ -145,6 +154,10 @@ class AuthController extends BaseController
             ->where('username', $username)
             ->where('id !=', $userId)
             ->first();
+
+        if (!preg_match('/^[^\s]{1,30}$/', $username)) {
+            return redirect()->back()->with('error', 'Username maksimal 30 karakter dan tidak boleh mengandung spasi.');
+        }
 
         if ($existingUsername) {
             return redirect()->back()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
@@ -180,7 +193,7 @@ class AuthController extends BaseController
 
         $dataProfile = [
             'nama_lengkap' => $this->request->getPost('nama_lengkap'),
-            'no_telepon' => $this->request->getPost('no_telepon'),
+            'no_telepon' => $noTelepon,
             'instagram' => $this->request->getPost('instagram'),
         ];
 
