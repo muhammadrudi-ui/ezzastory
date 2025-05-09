@@ -68,18 +68,41 @@ class PemesananController extends BaseController
         return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
     }
 
-
     public function index_admin()
     {
-        $data['pemesanans'] = $this->pemesananModel
-            ->withUser()
-            ->withPaket()
-            ->aktif()
-            ->orderBy('created_at', 'DESC')
-            ->findAll();
+        $perPage = 5;
+        $search = $this->request->getGet('search');
+
+        $this->pemesananModel
+            ->select('pemesanan.*, users.username AS nama_user, user_profile.nama_lengkap, paket_layanan.nama AS nama_paket')
+            ->join('users', 'users.id = pemesanan.user_id', 'left')
+            ->join('user_profile', 'user_profile.user_id = users.id', 'left')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->where('pemesanan.status !=', 'Selesai')
+            ->orderBy('pemesanan.created_at', 'DESC');
+
+        // Tambahkan pencarian jika ada keyword
+        if ($search) {
+            $this->pemesananModel
+                ->groupStart()
+                ->like('user_profile.nama_lengkap', $search)
+                ->orLike('users.username', $search)
+                ->orLike('paket_layanan.nama', $search)
+                ->orLike('pemesanan.jenis_pembayaran', $search)
+                ->orLike('pemesanan.lokasi_pemotretan', $search)
+                ->orLike('pemesanan.nama_mempelai', $search)
+                ->orLike('pemesanan.status', $search)
+                ->groupEnd();
+        }
+
+        // Ambil data dengan paginasi
+        $data['pemesanans'] = $this->pemesananModel->paginate($perPage);
+        $data['pager']       = $this->pemesananModel->pager;
+        $data['search']      = $search;
 
         return view('admin/data-pemesanan/index', $data);
     }
+
 
     public function riwayat()
     {
