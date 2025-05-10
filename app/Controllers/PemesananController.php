@@ -25,7 +25,6 @@ class PemesananController extends BaseController
         $this->paketLayananModel = new PaketLayananModel();
         $this->userModel = new UserModel();
         $this->pembayaranModel = new PembayaranModel();
-
     }
 
     public function index()
@@ -165,22 +164,24 @@ class PemesananController extends BaseController
         return view('admin/data-pemesanan/index', $data);
     }
 
-
-    public function riwayat()
-    {
-        $data['pemesanans'] = $this->pemesananModel
-            ->withUser()
-            ->withPaket()
-            ->riwayat()
-            ->orderBy('status_selesai_at', 'DESC')
-            ->findAll();
-
-        return view('admin/data-pemesanan/riwayat', $data);
-    }
-
     public function edit_admin($id)
     {
-        $data['pemesanan'] = $this->pemesananModel->find($id);
+        $data['pemesanan'] = $this->pemesananModel
+            ->select('
+                pemesanan.*, 
+                users.username AS nama_user, 
+                users.email, 
+                user_profile.nama_lengkap, 
+                user_profile.no_telepon, 
+                user_profile.instagram, 
+                paket_layanan.nama AS nama_paket,
+                paket_layanan.harga AS harga
+            ')
+            ->join('users', 'users.id = pemesanan.user_id', 'left')
+            ->join('user_profile', 'user_profile.user_id = users.id', 'left')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->where('pemesanan.id', $id)
+            ->first();
 
         if (!$data['pemesanan']) {
             return redirect()->back()->with('error', 'Data pemesanan tidak ditemukan');
@@ -188,6 +189,7 @@ class PemesananController extends BaseController
 
         return view('admin/data-pemesanan/edit', $data);
     }
+
 
     public function update_admin($id)
     {
@@ -201,6 +203,6 @@ class PemesananController extends BaseController
 
         $this->pemesananModel->update($id, $updateData);
 
-        return redirect()->to('/admin/pemesanan')->with('success', 'Status pemesanan diperbarui.');
+        return redirect()->to('admin/data-pemesanan/index')->with('success', 'Status pemesanan diperbarui.');
     }
 }

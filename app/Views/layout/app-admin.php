@@ -235,7 +235,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/riwayat-pemesanan">
+                <a class="nav-link" href="<?= base_url('admin/data-pemesanan/riwayat') ?>">
                     <i class="bi bi-clock-history"></i> <span>Riwayat Pemesanan</span>
                 </a>
             </li>
