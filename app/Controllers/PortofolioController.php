@@ -185,6 +185,9 @@ class PortofolioController extends BaseController
 
         $portofolioId = $this->portofolioModel->insert($portofolioData, true);
 
+        // Path untuk upload foto
+        $uploadPath = 'uploads/portofolio/';
+
         // Proses Upload Foto
         $files = $this->request->getFileMultiple('foto');
         $fotoUtamaId = null;
@@ -193,11 +196,15 @@ class PortofolioController extends BaseController
             foreach ($files as $index => $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
                     $newName = $file->getRandomName();
-                    $file->move('uploads/portofolio', $newName);
+                    $filePath = $uploadPath . $newName;  // Menyimpan path lengkap
 
+                    // Simpan file di dalam folder uploads/portofolio
+                    $file->move($uploadPath, $newName);
+
+                    // Simpan path lengkap file ke dalam database
                     $fotoId = $this->fotoPortofolioModel->insert([
                         'id_portofolio' => $portofolioId,
-                        'nama_file' => $newName
+                        'nama_file' => $filePath  // Simpan path lengkap
                     ], true);
 
                     if ($index == 0) {
@@ -211,8 +218,9 @@ class PortofolioController extends BaseController
             $this->portofolioModel->update($portofolioId, ['foto_utama' => $fotoUtamaId]);
         }
 
-        return redirect()->to('admin/portofolio/index')->with('message', 'Portofolio berhasil ditambahkan!');
+        return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil ditambahkan!');
     }
+
 
     public function edit_admin($id)
     {
@@ -243,6 +251,7 @@ class PortofolioController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
+        // Update informasi portofolio
         $this->portofolioModel->update($id, [
             'nama_mempelai' => $this->request->getPost('nama_mempelai'),
             'jenis_layanan' => $this->request->getPost('jenis_layanan'),
@@ -254,10 +263,11 @@ class PortofolioController extends BaseController
             foreach ($deletedFotos as $fotoId) {
                 $foto = $this->fotoPortofolioModel->find($fotoId);
                 if ($foto) {
-                    if (file_exists('uploads/portofolio/' . $foto['nama_file'])) {
-                        unlink('uploads/portofolio/' . $foto['nama_file']);
+                    $filePath = 'uploads/portofolio/' . $foto['nama_file'];
+                    if (file_exists($filePath)) {
+                        unlink($filePath); // Hapus file foto
                     }
-                    $this->fotoPortofolioModel->delete($fotoId);
+                    $this->fotoPortofolioModel->delete($fotoId); // Hapus data foto dari database
                 }
             }
         }
@@ -267,20 +277,23 @@ class PortofolioController extends BaseController
         if (!empty($files) && count($files) > 0) {
             foreach ($files as $file) {
                 if ($file->isValid() && !$file->hasMoved()) {
+                    // Tentukan nama file baru
                     $newName = $file->getRandomName();
+
+                    // Pindahkan file ke folder uploads/portofolio
                     $file->move('uploads/portofolio', $newName);
 
+                    // Simpan nama file dan path ke database
                     $this->fotoPortofolioModel->insert([
                         'id_portofolio' => $id,
-                        'nama_file' => $newName
+                        'nama_file' => 'uploads/portofolio/' . $newName
                     ]);
                 }
             }
         }
 
-        return redirect()->to('admin/portofolio/index')->with('message', 'Portofolio berhasil diperbarui!');
+        return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil diperbarui!');
     }
-
 
     public function delete($id = null)
     {
@@ -288,21 +301,100 @@ class PortofolioController extends BaseController
             return redirect()->to('admin/portofolio/index')->with('error', 'ID Portofolio tidak ditemukan');
         }
 
+        // Ambil data portofolio
+        $portofolio = $this->portofolioModel->find($id);
+        if (!$portofolio) {
+            return redirect()->to('admin/portofolio/index')->with('error', 'Portofolio tidak ditemukan');
+        }
+
         // Ambil semua foto yang terkait dengan portofolio
         $fotos = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
 
-        // Hapus file gambar dari folder
+        // Hapus foto-foto terkait dari folder
         foreach ($fotos as $foto) {
-            $filePath = 'uploads/portofolio/' . $foto['nama_file'];
-            if (file_exists($filePath)) {
-                unlink($filePath);
+            // Coba beberapa kemungkinan path untuk foto
+            $possiblePaths = [
+                FCPATH . 'uploads/portofolio/' . $foto['nama_file'],
+                ROOTPATH . 'public/uploads/portofolio/' . $foto['nama_file'],
+                './uploads/portofolio/' . $foto['nama_file'],
+                '../uploads/portofolio/' . $foto['nama_file'],
+                '/uploads/portofolio/' . $foto['nama_file'],
+                $foto['nama_file'], // Jika nama file sudah berisi path lengkap
+            ];
+
+            $deleted = false;
+            foreach ($possiblePaths as $path) {
+                log_message('info', 'Mencoba menghapus file: ' . $path);
+                if (file_exists($path)) {
+                    try {
+                        if (unlink($path)) {
+                            log_message('info', 'Berhasil menghapus file: ' . $path);
+                            $deleted = true;
+                            break;
+                        } else {
+                            log_message('error', 'Gagal menghapus file: ' . $path . ' (unlink return false)');
+                        }
+                    } catch (\Exception $e) {
+                        log_message('error', 'Exception saat menghapus file: ' . $path . ' - ' . $e->getMessage());
+                    }
+                } else {
+                    log_message('info', 'File tidak ditemukan: ' . $path);
+                }
+            }
+
+            if (!$deleted) {
+                log_message('warning', 'Tidak dapat menghapus file untuk foto ID: ' . $foto['id'] . ' dengan nama file: ' . $foto['nama_file']);
             }
         }
 
-        $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
+        // Hapus foto utama jika ada
+        if (!empty($portofolio['foto_utama'])) {
+            $mainPhotoPaths = [
+                FCPATH . 'uploads/portofolio/' . $portofolio['foto_utama'],
+                ROOTPATH . 'public/uploads/portofolio/' . $portofolio['foto_utama'],
+                './uploads/portofolio/' . $portofolio['foto_utama'],
+                '../uploads/portofolio/' . $portofolio['foto_utama'],
+                '/uploads/portofolio/' . $portofolio['foto_utama'],
+                $portofolio['foto_utama'], // Jika nama file sudah berisi path lengkap
+            ];
 
-        $this->portofolioModel->delete($id);
+            $mainPhotoDeleted = false;
+            foreach ($mainPhotoPaths as $path) {
+                log_message('info', 'Mencoba menghapus foto utama: ' . $path);
+                if (file_exists($path)) {
+                    try {
+                        if (unlink($path)) {
+                            log_message('info', 'Berhasil menghapus foto utama: ' . $path);
+                            $mainPhotoDeleted = true;
+                            break;
+                        } else {
+                            log_message('error', 'Gagal menghapus foto utama: ' . $path . ' (unlink return false)');
+                        }
+                    } catch (\Exception $e) {
+                        log_message('error', 'Exception saat menghapus foto utama: ' . $path . ' - ' . $e->getMessage());
+                    }
+                } else {
+                    log_message('info', 'Foto utama tidak ditemukan: ' . $path);
+                }
+            }
 
-        return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
+            if (!$mainPhotoDeleted) {
+                log_message('warning', 'Tidak dapat menghapus foto utama: ' . $portofolio['foto_utama']);
+            }
+        }
+
+        // Hapus data dari database
+        try {
+            $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
+            log_message('info', 'Berhasil menghapus data foto dari database untuk portofolio ID: ' . $id);
+
+            $this->portofolioModel->delete($id);
+            log_message('info', 'Berhasil menghapus data portofolio dari database dengan ID: ' . $id);
+
+            return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
+        } catch (\Exception $e) {
+            log_message('error', 'Error saat menghapus dari database: ' . $e->getMessage());
+            return redirect()->to('admin/portofolio/index')->with('error', 'Terjadi kesalahan saat menghapus portofolio');
+        }
     }
 }
