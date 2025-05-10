@@ -91,6 +91,36 @@
             }
         }
 
+        /* WhatsApp Icon */
+            .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: #25D366;
+            color: #FFF;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+            color: #FFF;
+        }
+        
+        .whatsapp-float i {
+            margin-top: 2px;
+        }
+
         /* Footer */
         .footer {
             background: #1b1b1b;
@@ -237,6 +267,15 @@
             </div>
         </footer>
     <?php endforeach; ?>
+
+    <?php foreach ($profile_perusahaan as $profile): ?>
+        <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $profile['no_telp']) ?>" 
+       class="whatsapp-float" 
+       target="_blank"
+       title="Hubungi Kami via WhatsApp">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+<?php endforeach; ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
