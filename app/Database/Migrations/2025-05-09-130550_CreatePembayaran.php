@@ -66,5 +66,4 @@ class CreatePembayaran extends Migration
     {
         $this->forge->dropTable('pembayaran'); // Misalnya, menghapus tabel 'pembayaran'
     }
-
 }

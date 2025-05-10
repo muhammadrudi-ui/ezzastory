@@ -37,6 +37,4 @@ class PembayaranController extends BaseController
 
         return redirect()->back()->with('success', 'Pembayaran berhasil dicatat dan status pemesanan diperbarui');
     }
-
-
 }

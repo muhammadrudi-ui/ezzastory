@@ -104,29 +104,39 @@ class PemesananController extends BaseController
         ]);
 
 
-        return redirect()->to('user/reservasi#pembayaran')->with('success', 'Reservasi berhasil dikirim!');
+        return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
 
     }
 
     public function index_admin()
     {
-        $perPage = 5;
+        $perPage = 10;
         $search = $this->request->getGet('search');
+        $filterBulan = $this->request->getGet('filter_bulan');
+        $filterStatus = $this->request->getGet('filter_status');
+
 
         $this->pemesananModel
-            ->select('pemesanan.*, users.username AS nama_user, user_profile.nama_lengkap, paket_layanan.nama AS nama_paket')
-            ->join('users', 'users.id = pemesanan.user_id', 'left')
-            ->join('user_profile', 'user_profile.user_id = users.id', 'left')
-            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
-            ->where('pemesanan.status !=', 'Selesai')
-            ->orderBy('pemesanan.created_at', 'DESC');
+        ->select('
+            pemesanan.*, 
+            users.username AS nama_user, 
+            users.email, 
+            user_profile.nama_lengkap, 
+            user_profile.no_telepon, 
+            user_profile.instagram, 
+            paket_layanan.nama AS nama_paket,
+            paket_layanan.harga AS harga
+        ')
+        ->join('users', 'users.id = pemesanan.user_id', 'left')
+        ->join('user_profile', 'user_profile.user_id = users.id', 'left')
+        ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+        ->where('pemesanan.status !=', 'Selesai')
+        ->orderBy('pemesanan.created_at', 'DESC');
 
-        // Tambahkan pencarian jika ada keyword
         if ($search) {
             $this->pemesananModel
                 ->groupStart()
                 ->like('user_profile.nama_lengkap', $search)
-                ->orLike('users.username', $search)
                 ->orLike('paket_layanan.nama', $search)
                 ->orLike('pemesanan.jenis_pembayaran', $search)
                 ->orLike('pemesanan.lokasi_pemotretan', $search)
@@ -135,10 +145,22 @@ class PemesananController extends BaseController
                 ->groupEnd();
         }
 
+        if ($filterBulan) {
+            $this->pemesananModel->where("DATE_FORMAT(pemesanan.waktu_pemesanan, '%Y-%m') =", $filterBulan);
+        }
+
+        if ($filterStatus) {
+            $this->pemesananModel->where('pemesanan.status', $filterStatus);
+        } else {
+            $this->pemesananModel->where('pemesanan.status !=', 'Selesai');
+        }
+
         // Ambil data dengan paginasi
-        $data['pemesanans'] = $this->pemesananModel->paginate($perPage);
+        $data['pemesanan'] = $this->pemesananModel->paginate($perPage);
         $data['pager']       = $this->pemesananModel->pager;
         $data['search']      = $search;
+        $data['filterBulan'] = $filterBulan;
+        $data['filterStatus'] = $filterStatus;
 
         return view('admin/data-pemesanan/index', $data);
     }

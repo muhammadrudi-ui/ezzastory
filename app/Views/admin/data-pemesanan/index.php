@@ -21,33 +21,34 @@
         </div>
     <?php endif; ?>
 
-    <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-    <form class="input-group" style="max-width: 250px;" method="GET"
-            action="<?= base_url('admin/data-pemesanan/index'); ?>">
+    <!-- Filter Search, Bulan, dan Status -->
+    <form id="filterForm" class="d-flex flex-wrap justify-content-end gap-2 mb-3" method="GET" action="<?= base_url('admin/data-pemesanan/index'); ?>">
+
+        <!-- Search Manual (tetap pakai tombol) -->
+        <div class="input-group" style="max-width: 250px;">
             <input type="text" class="form-control" placeholder="Search..." name="search"
-                value="<?= isset($search) ? esc($search) : ''; ?>">
+                value="<?= esc($search ?? '') ?>">
             <button class="btn btn-outline-secondary" type="submit">
                 <i class="fas fa-search"></i>
             </button>
-        </form>
+        </div>
 
+        <!-- Filter Bulan (auto submit) -->
         <div class="input-group" style="max-width: 180px;">
-            <input type="month" class="form-control" id="filterBulan" placeholder="Pilih Bulan">
+            <input type="month" class="form-control" name="filter_bulan" value="<?= esc($filterBulan ?? '') ?>" onchange="document.getElementById('filterForm').submit();">
         </div>
 
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle d-flex align-items-center gap-2" type="button"
-                id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fas fa-filter"></i> Filter Status
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <li><a class="dropdown-item" href="#"><i class="fas fa-camera"></i> Proses Pemotretan</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-edit"></i> Proses Editing</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-print"></i> Pencetakan Album</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-check-circle"></i> Pemesanan Diterima</a></li>
-            </ul>
-        </div>
-    </div>
+        <!-- Filter Status (auto submit) -->
+        <select name="filter_status" class="form-select" style="max-width: 200px;" onchange="document.getElementById('filterForm').submit();">
+            <option value="">-- Semua Status --</option>
+            <option value="Pemesanan" <?= $filterStatus == 'Pemesanan' ? 'selected' : '' ?>>Pemesanan</option>
+            <option value="Pemotretan" <?= $filterStatus == 'Pemotretan' ? 'selected' : '' ?>>Pemotretan</option>
+            <option value="Editing" <?= $filterStatus == 'Editing' ? 'selected' : '' ?>>Editing</option>
+            <option value="Pencetakan Album" <?= $filterStatus == 'Pencetakan Album' ? 'selected' : '' ?>>Pencetakan Album</option>
+            <option value="Pengiriman Album" <?= $filterStatus == 'Pengiriman Album' ? 'selected' : '' ?>>Pengiriman Album</option>
+        </select>
+    </form>
+
 
 
     <div class="card">
@@ -57,44 +58,60 @@
                     <thead class="bg-dark text-white">
                         <tr>
                             <th class="align-middle">Nama</th>
+                            <th class="align-middle">Email</th>
                             <th class="align-middle">No. Telepon</th>
                             <th class="align-middle">Waktu Pemesanan</th>
                             <th class="align-middle">Paket Layanan</th>
                             <th class="align-middle">Harga</th>
                             <th class="align-middle">Waktu Pemotretan</th>
                             <th class="align-middle">Jenis Pembayaran</th>
-                            <th class="align-middle">Metode Pembayaran</th>
                             <th class="align-middle">Lokasi Pemotretan</th>
-                            <th class="align-middle">Lokasi Pengiriman Album</th>
+                            <th class="align-middle">Link Maps Lokasi Pemotretan</th>
+                            <th class="align-middle">Link Maps Lokasi Pengiriman Album</th>
+                            <th class="align-middle">Nama Mempelai</th>
+                            <th class="align-middle">Instagram</th>
                             <th class="align-middle">Status</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php for ($i = 0; $i < 4; $i++): ?>
-                            <tr>
-                                <td>Andreas</td>
-                                <td>081234567891</td>
-                                <td>2025-03-05 08:00</td>
-                                <td>Paket Platinum</td>
-                                <td>Rp. 2.000.000</td>
-                                <td>2025-03-05 08:00</td>
-                                <td>Lunas</td>
-                                <td>Bank BNI</td>
-                                <td>Link Maps</td>
-                                <td>Link Maps</td>
-                                <td>Editing</td>
-                                <td class="text-nowrap">
-                                    <div class="d-flex gap-2">
-                                        <a href="data-pemesanan-edit" class="btn btn-warning btn-sm" title="Edit">
-                                            <i class="fas fa-edit text-white"></i>
-                                        </a>
-                                    </div>
-                                </td>
-                            </tr>
-                        <?php endfor; ?>
-                    </tbody>
+                    <?php if (isset($pemesanan) && count($pemesanan) > 0): ?>
+                        <?php foreach ($pemesanan as $key => $item): ?>
+                    <tr>
+                        <td><?= esc($item['nama_lengkap']) ?></td>
+                        <td><?= esc($item['email']) ?></td>
+                        <td><?= esc($item['no_telepon']) ?></td>
+                        <td><?= esc(date('d M Y H:i', strtotime($item['waktu_pemesanan']))) ?></td>
+                        <td><?= esc($item['nama_paket']) ?></td>
+                        <td>Rp<?= number_format($item['harga'], 0, ',', '.') ?></td>
+                        <td><?= esc(date('d M Y H:i', strtotime($item['waktu_pemotretan']))) ?></td>
+                        <td><?= esc($item['jenis_pembayaran']) ?></td>
+                        <td><?= esc($item['lokasi_pemotretan']) ?></td>
+                        <td><a href="<?= esc($item['link_maps_pemotretan']) ?>" target="_blank">Lihat Maps</a></td>
+                        <td><a href="<?= esc($item['link_maps_pengiriman']) ?>" target="_blank">Lihat Maps</a></td>
+                        <td><?= esc($item['nama_mempelai']) ?></td>
+                        <td>
+                            <a href="https://instagram.com/<?= esc($item['instagram']) ?>" target="_blank">@<?= esc($item['instagram']) ?></a>
+                        </td>
+                        <td><?= esc($item['status']) ?></td>
+                        <td>
+                            <a href="<?= base_url('admin/data-pemesanan/edit/' . $item['id']) ?>" class="btn btn-warning btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                <?php else: ?>
+        <tr>
+            <td colspan="15">Tidak ada data ditemukan.</td>
+        </tr>
+    <?php endif; ?>
+</tbody>
+
                 </table>
+            </div>
+            <div class="d-flex justify-content-center mt-3">
+                <?= $pager->links('default', 'bootstrap_pagination') ?>
             </div>
         </div>
     </div>
