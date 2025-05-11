@@ -74,6 +74,7 @@ class RiwayatPemesananController extends BaseController
         return view('admin/data-pemesanan/riwayat', $data);
     }
 
+
     public function exportExcel()
     {
         $search = $this->request->getGet('search');

@@ -119,7 +119,6 @@ class PemesananController extends BaseController
 
 
         return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
-
     }
 
     public function index_admin()
