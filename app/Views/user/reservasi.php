@@ -4,8 +4,6 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
-
-<head>
     <style>
         /* Hero Section */
         .hero-section {
@@ -382,9 +380,7 @@
             }
         }
     </style>
-</head>
 
-<body>
     <!-- Hero Section -->
 <section class="hero-section">
     <?php foreach ($profile_perusahaan as $profile): ?>
@@ -914,7 +910,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
             
         </div>
     </div>
-</body>
 
 
 <?php if (!$isProfileComplete): ?>
