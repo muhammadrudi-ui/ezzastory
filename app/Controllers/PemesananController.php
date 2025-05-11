@@ -38,6 +38,21 @@ class PemesananController extends BaseController
                         ->orderBy('created_at', 'DESC')
                         ->findAll();
 
+        // Ambil data riwayat (pemesanan selesai)
+        $riwayatPemesanan = $this->pemesananModel
+            ->select('
+                pemesanan.*, 
+                user_profile.instagram, 
+                paket_layanan.nama AS nama_paket,
+                paket_layanan.harga AS harga
+            ')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->join('user_profile', 'user_profile.user_id = pemesanan.user_id', 'left')
+            ->where('pemesanan.user_id', $userId) // perbaiki di sini
+            ->where('status', 'Selesai')
+            ->orderBy('status_selesai_at', 'DESC')
+            ->findAll();
+
         // Ambil data pembayaran untuk semua pemesanan
         $pembayaran = [];
         $trackingSteps = [];
@@ -46,7 +61,6 @@ class PemesananController extends BaseController
             foreach ($pemesanan as $pesan) {
                 $pembayaran[$pesan['id']] = $this->pembayaranModel->where('pemesanan_id', $pesan['id'])->findAll();
 
-                // Buat data tracking untuk setiap pemesanan
                 $trackingSteps[$pesan['id']] = [
                     'Pemesanan' => $pesan['status'] === 'Pemesanan',
                     'Pemotretan' => $pesan['status'] === 'Pemotretan',
@@ -66,6 +80,7 @@ class PemesananController extends BaseController
             'isProfileComplete' => $isProfileComplete,
             'pembayaran' => $pembayaran,
             'all_pemesanan' => $pemesanan,
+            'riwayat_pemesanan' => $riwayatPemesanan,  // Pastikan variabel ini ada di sini
             'tracking_steps' => $trackingSteps,
             'page_title' => 'Reservasi & Tracking'
         ];

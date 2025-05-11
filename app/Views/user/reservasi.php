@@ -868,95 +868,48 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 
 
             <!-- Riwayat -->
-            <div class="tab-pane fade" id="riwayat">
-                <h4 class="text-center mb-4">Riwayat Pemesanan</h4>
-                <div class="table-responsive">
-                    <table class="table table-bordered">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>No</th>
-                                <th>Nama Lengkap</th>
-                                <th>Nomor Telepon</th>
-                                <th>Email</th>
-                                <th>Metode Pembayaran</th>
-                                <th>Waktu Pemesanan</th>
-                                <th>Jenis Layanan</th>
-                                <th>Paket Layanan</th>
-                                <th>Harga</th>
-                                <th>Waktu Pemotretan</th>
-                                <th>Lokasi Pemotretan</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>John Doe</td>
-                                <td>+62 812-3456-7890</td>
-                                <td>johndoe@email.com</td>
-                                <td>Transfer Bank</td>
-                                <td>2024-09-18 14:30</td>
-                                <td>Fotografi</td>
-                                <td>Wedding</td>
-                                <td>Rp 5.000.000</td>
-                                <td>2024-09-20 10:00</td>
-                                <td>Jakarta</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Jane Smith</td>
-                                <td>+62 813-9876-5432</td>
-                                <td>janesmith@email.com</td>
-                                <td>Kartu Kredit</td>
-                                <td>2024-09-17 09:45</td>
-                                <td>Videografi</td>
-                                <td>Prewedding</td>
-                                <td>Rp 3.500.000</td>
-                                <td>2024-09-22 15:30</td>
-                                <td>Bandung</td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Michael Lee</td>
-                                <td>+62 815-6543-2109</td>
-                                <td>michaellee@email.com</td>
-                                <td>e-Wallet</td>
-                                <td>2024-09-16 18:20</td>
-                                <td>Fotografi</td>
-                                <td>Family Portrait</td>
-                                <td>Rp 2.000.000</td>
-                                <td>2024-09-25 11:00</td>
-                                <td>Surabaya</td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Lisa Wong</td>
-                                <td>+62 819-2233-4455</td>
-                                <td>lisawong@email.com</td>
-                                <td>Transfer Bank</td>
-                                <td>2024-09-15 20:00</td>
-                                <td>Fotografi & Videografi</td>
-                                <td>Corporate Event</td>
-                                <td>Rp 7.500.000</td>
-                                <td>2024-09-30 08:00</td>
-                                <td>Yogyakarta</td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>David Kim</td>
-                                <td>+62 812-1122-3344</td>
-                                <td>davidkim@email.com</td>
-                                <td>e-Wallet</td>
-                                <td>2024-09-14 16:10</td>
-                                <td>Videografi</td>
-                                <td>Music Video</td>
-                                <td>Rp 10.000.000</td>
-                                <td>2024-10-02 19:00</td>
-                                <td>Bali</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<!-- Riwayat -->
+<div class="tab-pane fade" id="riwayat">
+    <h4 class="text-center mb-4">Riwayat Pemesanan</h4>
+    <?php if (empty($riwayat_pemesanan)) : ?>
+        <div class="alert alert-info">Belum ada riwayat pemesanan yang selesai.</div>
+    <?php else : ?>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nama Mempelai</th>
+                        <th>Paket Layanan</th>
+                        <th>Harga</th>
+                        <th>Waktu Pemesanan</th>
+                        <th>Tanggal Pemotretan</th>
+                        <th>Jenis Pembayaran</th>
+                        <th>Instagram</th>
+                        <th>Status</th>
+                        <th>Tanggal Selesai</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($riwayat_pemesanan as $riwayat) : ?>
+                        <tr>
+                            <td><?= $riwayat['nama_mempelai'] ?></td>
+                            <td><?= $riwayat['nama_paket'] ?></td>
+                            <td>Rp <?= number_format($riwayat['harga'], 0, ',', '.') ?></td>
+                            <td><?= date('d M Y H:i', strtotime($riwayat['waktu_pemesanan'])) ?></td>
+                            <td><?= date('d/m/Y', strtotime($riwayat['waktu_pemotretan'])) ?></td>
+                            <td><?=$riwayat['jenis_pembayaran'] ?></td>
+                            <td>
+                            <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" target="_blank">@<?= $riwayat['instagram'] ?></a>
+                        </td>
+                            <td><span class="badge bg-success"><?= $riwayat['status'] ?></span></td>
+                            <td><?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    <?php endif; ?>
+</div>
 
             
         </div>
