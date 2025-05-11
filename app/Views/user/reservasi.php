@@ -189,44 +189,204 @@
             margin: auto;
         }
 
-        /* TRACKING */
+        /* TRACKING STYLES */
         .tracking-container {
             display: flex;
-            gap: var(--gap-size, 60px);
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto 20px;
+            position: relative;
+            padding: 20px 10px;
         }
 
         .tracking-step {
+            flex: 1;
             display: flex;
             flex-direction: column;
             align-items: center;
+            position: relative;
+            z-index: 1;
         }
 
         .tracking-icon {
-            width: 80px;
-            height: 80px;
-            background: grey;
-            color: white;
+            width: 60px;
+            height: 60px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 24px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background: #f8f9fa;
+            color: #adb5bd;
+            position: relative;
+            transition: all 0.3s ease;
+            border: 2px solid #e9ecef;
         }
 
-        .tracking-step:first-child .tracking-icon {
-            background: black;
+        .tracking-icon.pending {
+            background: #f8f9fa;
+            color: #adb5bd;
+            border-color: #e9ecef;
+        }
+
+        .tracking-icon.active {
+            background: #0d6efd;
+            color: white;
+            border-color: #0d6efd;
+            transform: scale(1.1);
+        }
+
+        .tracking-icon.completed {
+            background: #198754;
+            color: white;
+            border-color: #198754;
+        }
+
+        .tracking-connector {
+            position: absolute;
+            top: 30px;
+            left: 60px;
+            height: 3px;
+            background: #e9ecef;
+            width: calc(100% - 60px);
+            z-index: -1;
+        }
+
+        .tracking-connector.active {
+            background: #0d6efd;
+        }
+
+        .tracking-step:last-child .tracking-connector {
+            display: none;
+        }
+
+        .tracking-label {
+            margin-top: 15px;
+            text-align: center;
+            width: 100%;
         }
 
         .tracking-text {
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: block;
+            color: #6c757d;
+        }
+
+        .tracking-text.active {
+            color: #0d6efd;
+            font-weight: 700;
+        }
+
+        .tracking-text.completed {
+            color: #198754;
             font-weight: 600;
         }
 
-        .tracking-estimate {
-            margin-top: 60px;
-            font-size: 18px;
-            color: grey;
-            text-align: center;
+        .tracking-status {
+            font-size: 12px;
+            color: #0d6efd;
+            background-color: rgba(13, 110, 253, 0.1);
+            border-radius: 12px;
+            padding: 2px 10px;
+            display: inline-block;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .tracking-info {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(13, 110, 253, 0.05);
+            color: #0d6efd;
+            box-shadow: none;
+            border-bottom: 1px solid rgba(0,0,0,.125);
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(0,0,0,.125);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 991px) {
+            .tracking-container {
+                padding: 10px 0;
+            }
+            
+            .tracking-connector {
+                width: calc(100% - 40px);
+            }
+        }
+
+        @media (max-width: 767px) {
+            .tracking-container {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 40px;
+                padding-left: 30px;
+            }
+            
+            .tracking-step {
+                flex-direction: row;
+                width: 100%;
+                align-items: flex-start;
+            }
+            
+            .tracking-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .tracking-connector {
+                top: 70px;
+                left: 25px;
+                width: 3px;
+                height: calc(100% - 30px);
+            }
+            
+            .tracking-label {
+                margin-top: 0;
+                margin-left: 15px;
+                text-align: left;
+            }
+            
+            .tracking-text {
+                font-size: 14px;
+            }
+            
+            .tracking-status {
+                margin-top: 3px;
+            }
+            
+            .tracking-step:last-child .tracking-connector {
+                display: none;
+            }
+        }
+
+        @media (max-width: 575px) {
+            .tracking-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .tracking-connector {
+                left: 20px;
+            }
+            
+            .tracking-text {
+                font-size: 13px;
+            }
+            
+            .tracking-status {
+                font-size: 11px;
+            }
         }
     </style>
 </head>
@@ -479,7 +639,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 </div>
 
 <!-- Pembayaran -->
-<!-- Pembayaran -->
 <div class="tab-pane fade" id="pembayaran">
     <div class="card mt-4 border-0 shadow-sm">
         <div class="card-body p-4">
@@ -579,34 +738,136 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 
             <!-- Tracking -->
             <div class="tab-pane fade" id="tracking">
-                <h4 class="text-center mb-4">Tracking Proses</h4>
-                <div class="d-flex justify-content-center text-center tracking-container" style="--gap-size: 60px;">
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-camera"></i></div>
-                        <div class="tracking-text mt-2">Pemesanan</div>
+                <?php if (empty($all_pemesanan)): ?>
+                    <div class="alert alert-primary d-flex align-items-center rounded-4 shadow-sm">
+                        <i class="fa-solid fa-circle-info me-3 fs-3 text-primary"></i>
+                        <div>
+                            <strong class="d-block mb-1 fs-5">Belum ada data pemesanan</strong>
+                            <p class="mb-0 text-muted">Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.</p>
+                        </div>
                     </div>
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-camera"></i></div>
-                        <div class="tracking-text mt-2">Pemotretan</div>
+                <?php else: ?>
+                    <div class="accordion" id="trackingAccordion">
+                        <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                            <div class="accordion-item border rounded-4 mb-3 shadow-sm overflow-hidden">
+                                <h2 class="accordion-header" id="trackingHeading<?= $index ?>">
+                                    <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
+                                        <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                            <div>
+                                                <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Paket</span>
+                                                <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
+                                            </div>
+                                            <div>
+                                                <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Mempelai</span>
+                                                <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                            </div>
+                                            <?php if (!empty($pemesanan['tanggal_acara'])): ?>
+                                            <div class="ms-md-auto">
+                                                <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Tanggal</span>
+                                                <strong class="ms-1"><?= date('d M Y', strtotime($pemesanan['tanggal_acara'])) ?></strong>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="trackingCollapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#trackingAccordion">
+                                    <div class="accordion-body pt-4 pb-4">
+                                        <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
+                                        <div class="tracking-container">
+                                            <?php
+                                            $steps = [
+                                                'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
+                                                'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
+                                                'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
+                                                'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
+                                                'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
+                                                'Selesai' => ['icon' => 'fa-check', 'label' => 'Selesai']
+                                            ];
+
+                            $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
+                            $statusOrder = array_keys($steps);
+                            $currentIndex = array_search($currentStatus, $statusOrder);
+
+                            foreach ($steps as $status => $step):
+                                $isActive = $tracking_steps[$pemesanan['id']][$status];
+                                $isPast = array_search($status, $statusOrder) < $currentIndex;
+                                ?>
+                                                <div class="tracking-step">
+                                                    <?php if ($isActive): ?>
+                                                        <div class="tracking-icon active">
+                                                            <i class="fa-solid <?= $step['icon'] ?>"></i>
+                                                        </div>
+                                                    <?php elseif ($isPast): ?>
+                                                        <div class="tracking-icon completed">
+                                                            <i class="fa-solid fa-check"></i>
+                                                        </div>
+                                                    <?php else: ?>
+                                                        <div class="tracking-icon pending">
+                                                            <i class="fa-solid <?= $step['icon'] ?>"></i>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                    
+                                                    <div class="tracking-connector <?= $isPast || $isActive ? 'active' : '' ?>"></div>
+                                                    
+                                                    <div class="tracking-label">
+                                                        <span class="tracking-text <?= $isActive ? 'active' : ($isPast ? 'completed' : '') ?>">
+                                                            <?= $step['label'] ?>
+                                                        </span>
+                                                        <?php if ($isActive): ?>
+                                                            <span class="tracking-status">Sedang Diproses</span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                        
+                                        <div class="tracking-info mt-4">
+                                            <?php if ($currentStatus !== 'Selesai'): ?>
+                                                <div class="alert alert-info d-flex align-items-center rounded-4">
+                                                    <i class="fa-solid fa-circle-info text-info me-3 fs-4"></i>
+                                                    <div>
+                                                        <strong class="d-block mb-1">Status Pemesanan: <?= $currentStatus ?></strong>
+                                                        <p class="mb-0">
+                                                            <?php
+                                                $descriptions = [
+                                                    'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses konfirmasi.',
+                                                    'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
+                                                    'Editing' => 'Tim kami sedang melakukan proses editing dan pemilihan foto terbaik.',
+                                                    'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
+                                                    'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
+                                                ];
+                                                echo $descriptions[$currentStatus] ?? 'Pesanan Anda sedang diproses.';
+                                                ?>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            <?php else: ?>
+                                                <div class="alert alert-success d-flex align-items-center rounded-4">
+                                                    <i class="fa-solid fa-circle-check text-success me-3 fs-4"></i>
+                                                    <div>
+                                                        <strong class="d-block mb-1">Pemesanan Selesai</strong>
+                                                        <p class="mb-0">
+                                                            Pemesanan Anda telah selesai pada <?= date('d M Y', strtotime($pemesanan['status_selesai_at'])) ?>.
+                                                            Terima kasih telah menggunakan layanan kami.
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                            
+                                            <?php if (!empty($pemesanan['catatan_status'])): ?>
+                                            <div class="alert alert-light border rounded-4 mt-3">
+                                                <i class="fa-solid fa-comment-dots me-2 text-primary"></i>
+                                                <strong>Catatan:</strong>
+                                                <p class="mb-0 mt-2"><?= nl2br(esc($pemesanan['catatan_status'])) ?></p>
+                                            </div>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-pen-to-square"></i></div>
-                        <div class="tracking-text mt-2">Editing</div>
-                    </div>
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-print"></i></div>
-                        <div class="tracking-text mt-2">Pencetakan</div>
-                    </div>
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-truck"></i></div>
-                        <div class="tracking-text mt-2">Pengiriman</div>
-                    </div>
-                    <div class="tracking-step">
-                        <div class="tracking-icon"><i class="fa-solid fa-check"></i></div>
-                        <div class="tracking-text mt-2">Pesanan Selesai</div>
-                    </div>
-                </div>
-                <div class="tracking-estimate">Pesanan Anda diperkirakan selesai pada 21 Desember 2024.</div>
+                <?php endif; ?>
             </div>
 
 
