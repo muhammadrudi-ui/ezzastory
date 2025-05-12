@@ -12,6 +12,7 @@ class PortofolioController extends BaseController
 {
     protected $portofolioModel;
     protected $fotoPortofolioModel;
+    protected $profileModel;
 
     public function __construct()
     {
@@ -20,48 +21,52 @@ class PortofolioController extends BaseController
         $this->profileModel = new ProfilePerusahaanModel();
     }
 
+    /**
+     * Menampilkan halaman utama portofolio (user)
+     */
     public function index()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
-
         $kategori = ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'];
 
         foreach ($kategori as $jenis) {
-            // Ubah nama kategori menjadi key array dengan huruf kecil
             $key = strtolower(str_replace(['-', ' '], '', $jenis));
 
-
-            // Ambil portofolio berdasarkan jenis layanan
-            $builder = $this->portofolioModel
+            // Query builder dengan join yang lebih optimal
+            $data[$key] = $this->portofolioModel
                 ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-                ->join(
-                    '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
-                    'foto_portofolio.id_portofolio = portofolio.id',
-                    'left'
-                )
+                ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
                 ->where('jenis_layanan', $jenis)
-                ->orderBy('created_at', 'DESC')
-                ->limit(3);
-
-            $data[$key] = $builder->find();
+                ->where('foto_portofolio.id', function ($builder) {
+                    return $builder->selectMax('id')
+                                  ->from('foto_portofolio')
+                                  ->where('foto_portofolio.id_portofolio = portofolio.id');
+                })
+                ->orderBy('portofolio.created_at', 'DESC')
+                ->limit(3)
+                ->find();
         }
 
         return view('user/portofolio/index', $data);
     }
 
+    /**
+     * Menampilkan portofolio berdasarkan kategori (user)
+     */
     public function kategori($jenis_layanan)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
         $data['portofolio'] = $this->portofolioModel
             ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-            ->join(
-                '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
-                'foto_portofolio.id_portofolio = portofolio.id',
-                'left'
-            )
+            ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
             ->where('jenis_layanan', $jenis_layanan)
-            ->orderBy('created_at', 'DESC')
+            ->where('foto_portofolio.id', function ($builder) {
+                return $builder->selectMax('id')
+                              ->from('foto_portofolio')
+                              ->where('foto_portofolio.id_portofolio = portofolio.id');
+            })
+            ->orderBy('portofolio.created_at', 'DESC')
             ->findAll();
 
         $data['jenis_layanan'] = $jenis_layanan;
@@ -69,102 +74,90 @@ class PortofolioController extends BaseController
         return view('user/portofolio/kategori', $data);
     }
 
+    /**
+     * Menampilkan detail portofolio (user)
+     */
     public function detail($id)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
-
         $data['portofolio'] = $this->portofolioModel->find($id);
         $data['fotos'] = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
+
         return view('user/portofolio/detail', $data);
     }
 
+    /**
+     * Menampilkan halaman utama portofolio (visitor)
+     */
     public function index_visitor()
     {
-        $data['profile_perusahaan'] = $this->profileModel->findAll();
-
-        $kategori = ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'];
-
-        foreach ($kategori as $jenis) {
-            // Ubah nama kategori menjadi key array dengan huruf kecil
-            $key = strtolower(str_replace(['-', ' '], '', $jenis));
-
-
-            // Ambil portofolio berdasarkan jenis layanan
-            $builder = $this->portofolioModel
-                ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-                ->join(
-                    '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
-                    'foto_portofolio.id_portofolio = portofolio.id',
-                    'left'
-                )
-                ->where('jenis_layanan', $jenis)
-                ->orderBy('created_at', 'DESC')
-                ->limit(3);
-
-            $data[$key] = $builder->find();
-        }
-
+        // Menggunakan method index() yang sudah ada untuk menghindari duplikasi kode
+        $data = $this->index();
         return view('visitor/portofolio/index', $data);
     }
 
+    /**
+     * Menampilkan portofolio berdasarkan kategori (visitor)
+     */
     public function kategori_visitor($jenis_layanan)
     {
-        $data['profile_perusahaan'] = $this->profileModel->findAll();
-
-        $data['portofolio'] = $this->portofolioModel
-            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-            ->join(
-                '(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio',
-                'foto_portofolio.id_portofolio = portofolio.id',
-                'left'
-            )
-            ->where('jenis_layanan', $jenis_layanan)
-            ->orderBy('created_at', 'DESC')
-            ->findAll();
-
-        $data['jenis_layanan'] = $jenis_layanan;
-
+        // Menggunakan method kategori() yang sudah ada untuk menghindari duplikasi kode
+        $data = $this->kategori($jenis_layanan);
         return view('visitor/portofolio/kategori', $data);
     }
 
+    /**
+     * Menampilkan detail portofolio (visitor)
+     */
     public function detail_visitor($id)
     {
-        $data['profile_perusahaan'] = $this->profileModel->findAll();
-
-        $data['portofolio'] = $this->portofolioModel->find($id);
-        $data['fotos'] = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
+        // Menggunakan method detail() yang sudah ada untuk menghindari duplikasi kode
+        $data = $this->detail($id);
         return view('visitor/portofolio/detail', $data);
     }
 
+    /**
+     * Menampilkan daftar portofolio (admin)
+     */
     public function index_admin()
     {
         $perPage = 5;
         $search = $this->request->getGet('search');
 
-        $this->portofolioModel
+        $builder = $this->portofolioModel
             ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-            ->join('(SELECT id_portofolio, nama_file FROM foto_portofolio WHERE id IN (SELECT MAX(id) FROM foto_portofolio GROUP BY id_portofolio)) AS foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left');
+            ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
+            ->where('foto_portofolio.id', function ($builder) {
+                return $builder->selectMax('id')
+                              ->from('foto_portofolio')
+                              ->where('foto_portofolio.id_portofolio = portofolio.id');
+            });
 
         if ($search) {
-            $this->portofolioModel
-                ->groupStart()
+            $builder->groupStart()
                 ->like('portofolio.nama_mempelai', $search)
                 ->orLike('portofolio.jenis_layanan', $search)
                 ->groupEnd();
         }
 
-        $data['portofolio'] = $this->portofolioModel->paginate($perPage);
+        $data['portofolio'] = $builder->paginate($perPage);
         $data['pager'] = $this->portofolioModel->pager;
         $data['search'] = $search;
 
         return view('admin/portofolio/index', $data);
     }
 
+    /**
+     * Menampilkan form tambah portofolio (admin)
+     */
     public function add_admin()
     {
         return view('admin/portofolio/add');
     }
 
+    /**
+     * Menyimpan data portofolio baru (admin)
+     */
     public function store()
     {
         $rules = [
@@ -177,7 +170,7 @@ class PortofolioController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Simpan ke tabel portofolio
+        // Simpan data portofolio
         $portofolioData = [
             'nama_mempelai' => $this->request->getPost('nama_mempelai'),
             'jenis_layanan' => $this->request->getPost('jenis_layanan'),
@@ -185,43 +178,40 @@ class PortofolioController extends BaseController
 
         $portofolioId = $this->portofolioModel->insert($portofolioData, true);
 
-        // Path untuk upload foto
-        $uploadPath = 'uploads/portofolio/';
-
-        // Proses Upload Foto
+        // Proses upload foto
         $files = $this->request->getFileMultiple('foto');
-        $fotoUtamaId = null;
+        $uploadPath = WRITEPATH . '../public/uploads/portofolio/';
 
-        if (!empty($files) && count($files) > 0) {
-            foreach ($files as $index => $file) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    $newName = $file->getRandomName();
-                    $filePath = $uploadPath . $newName;  // Menyimpan path lengkap
-
-                    // Simpan file di dalam folder uploads/portofolio
-                    $file->move($uploadPath, $newName);
-
-                    // Simpan path lengkap file ke dalam database
-                    $fotoId = $this->fotoPortofolioModel->insert([
-                        'id_portofolio' => $portofolioId,
-                        'nama_file' => $filePath  // Simpan path lengkap
-                    ], true);
-
-                    if ($index == 0) {
-                        $fotoUtamaId = $fotoId;
-                    }
-                }
-            }
+        // Buat direktori jika belum ada
+        if (!is_dir($uploadPath)) {
+            mkdir($uploadPath, 0777, true);
         }
 
-        if ($fotoUtamaId) {
-            $this->portofolioModel->update($portofolioId, ['foto_utama' => $fotoUtamaId]);
+        foreach ($files as $index => $file) {
+            if ($file->isValid() && !$file->hasMoved()) {
+                $newName = $file->getRandomName();
+                $file->move($uploadPath, $newName);
+
+                $fotoData = [
+                    'id_portofolio' => $portofolioId,
+                    'nama_file' => 'uploads/portofolio/' . $newName
+                ];
+
+                $fotoId = $this->fotoPortofolioModel->insert($fotoData);
+
+                // Set foto pertama sebagai foto utama
+                if ($index === 0) {
+                    $this->portofolioModel->update($portofolioId, ['foto_utama' => $fotoId]);
+                }
+            }
         }
 
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil ditambahkan!');
     }
 
-
+    /**
+     * Menampilkan form edit portofolio (admin)
+     */
     public function edit_admin($id)
     {
         $portofolio = $this->portofolioModel->find($id);
@@ -230,15 +220,17 @@ class PortofolioController extends BaseController
             return redirect()->to('admin/portofolio/index')->with('error', 'Data portofolio tidak ditemukan.');
         }
 
-        // Ambil semua foto yang terkait dengan portofolio ini
         $foto_portofolio = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
 
         return view('admin/portofolio/edit', [
             'portofolio' => $portofolio,
-            'foto_portofolio' => $foto_portofolio // <-- Kirim foto ke view
+            'foto_portofolio' => $foto_portofolio
         ]);
     }
 
+    /**
+     * Memperbarui data portofolio (admin)
+     */
     public function update($id)
     {
         $rules = [
@@ -251,150 +243,93 @@ class PortofolioController extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Update informasi portofolio
+        // Foto yang ada sebelumnya di DB
+        $existingPhotos = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
+
+        // Foto yang akan dihapus
+        $deletedFotos = $this->request->getPost('deleted_foto') ? explode(",", $this->request->getPost('deleted_foto')) : [];
+
+        // Hitung jumlah foto baru yang valid
+        $newPhotos = 0;
+        $files = $this->request->getFileMultiple('foto');
+        foreach ($files as $file) {
+            if ($file->isValid() && !$file->hasMoved()) {
+                $newPhotos++;
+            }
+        }
+
+        // Validasi minimal 1 foto tersisa
+        $remainingPhotos = count($existingPhotos) - count($deletedFotos);
+        if (($remainingPhotos + $newPhotos) < 1) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Portofolio harus memiliki minimal 1 foto. Tidak boleh menghapus semua foto tanpa menambahkan yang baru.');
+        }
+
+        // Update portofolio
         $this->portofolioModel->update($id, [
             'nama_mempelai' => $this->request->getPost('nama_mempelai'),
             'jenis_layanan' => $this->request->getPost('jenis_layanan'),
         ]);
 
-        // Hapus foto yang dipilih untuk dihapus
-        $deletedFotos = explode(",", $this->request->getPost('deleted_foto'));
-        if (!empty($deletedFotos)) {
-            foreach ($deletedFotos as $fotoId) {
-                $foto = $this->fotoPortofolioModel->find($fotoId);
-                if ($foto) {
-                    $filePath = 'uploads/portofolio/' . $foto['nama_file'];
-                    if (file_exists($filePath)) {
-                        unlink($filePath); // Hapus file foto
-                    }
-                    $this->fotoPortofolioModel->delete($fotoId); // Hapus data foto dari database
+        // Hapus foto
+        foreach ($deletedFotos as $fotoId) {
+            $foto = $this->fotoPortofolioModel->find($fotoId);
+            if ($foto) {
+                $filePath = FCPATH . $foto['nama_file'];
+                if (file_exists($filePath)) {
+                    unlink($filePath);
                 }
+                $this->fotoPortofolioModel->delete($fotoId);
             }
         }
 
-        // Proses upload gambar baru
-        $files = $this->request->getFileMultiple('foto');
-        if (!empty($files) && count($files) > 0) {
-            foreach ($files as $file) {
-                if ($file->isValid() && !$file->hasMoved()) {
-                    // Tentukan nama file baru
-                    $newName = $file->getRandomName();
+        // Upload foto baru
+        $uploadPath = FCPATH . 'uploads/portofolio/';
+        foreach ($files as $file) {
+            if ($file->isValid() && !$file->hasMoved()) {
+                $newName = $file->getRandomName();
+                $file->move($uploadPath, $newName);
 
-                    // Pindahkan file ke folder uploads/portofolio
-                    $file->move('uploads/portofolio', $newName);
-
-                    // Simpan nama file dan path ke database
-                    $this->fotoPortofolioModel->insert([
-                        'id_portofolio' => $id,
-                        'nama_file' => 'uploads/portofolio/' . $newName
-                    ]);
-                }
+                $this->fotoPortofolioModel->insert([
+                    'id_portofolio' => $id,
+                    'nama_file' => 'uploads/portofolio/' . $newName
+                ]);
             }
         }
 
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil diperbarui!');
     }
 
+
+    /**
+     * Menghapus portofolio (admin)
+     */
     public function delete($id = null)
     {
-        if ($id == null) {
+        if (!$id) {
             return redirect()->to('admin/portofolio/index')->with('error', 'ID Portofolio tidak ditemukan');
         }
 
-        // Ambil data portofolio
         $portofolio = $this->portofolioModel->find($id);
         if (!$portofolio) {
             return redirect()->to('admin/portofolio/index')->with('error', 'Portofolio tidak ditemukan');
         }
 
-        // Ambil semua foto yang terkait dengan portofolio
+        // Hapus semua foto terkait
         $fotos = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
 
-        // Hapus foto-foto terkait dari folder
         foreach ($fotos as $foto) {
-            // Coba beberapa kemungkinan path untuk foto
-            $possiblePaths = [
-                FCPATH . 'uploads/portofolio/' . $foto['nama_file'],
-                ROOTPATH . 'public/uploads/portofolio/' . $foto['nama_file'],
-                './uploads/portofolio/' . $foto['nama_file'],
-                '../uploads/portofolio/' . $foto['nama_file'],
-                '/uploads/portofolio/' . $foto['nama_file'],
-                $foto['nama_file'], // Jika nama file sudah berisi path lengkap
-            ];
-
-            $deleted = false;
-            foreach ($possiblePaths as $path) {
-                log_message('info', 'Mencoba menghapus file: ' . $path);
-                if (file_exists($path)) {
-                    try {
-                        if (unlink($path)) {
-                            log_message('info', 'Berhasil menghapus file: ' . $path);
-                            $deleted = true;
-                            break;
-                        } else {
-                            log_message('error', 'Gagal menghapus file: ' . $path . ' (unlink return false)');
-                        }
-                    } catch (\Exception $e) {
-                        log_message('error', 'Exception saat menghapus file: ' . $path . ' - ' . $e->getMessage());
-                    }
-                } else {
-                    log_message('info', 'File tidak ditemukan: ' . $path);
-                }
-            }
-
-            if (!$deleted) {
-                log_message('warning', 'Tidak dapat menghapus file untuk foto ID: ' . $foto['id'] . ' dengan nama file: ' . $foto['nama_file']);
-            }
-        }
-
-        // Hapus foto utama jika ada
-        if (!empty($portofolio['foto_utama'])) {
-            $mainPhotoPaths = [
-                FCPATH . 'uploads/portofolio/' . $portofolio['foto_utama'],
-                ROOTPATH . 'public/uploads/portofolio/' . $portofolio['foto_utama'],
-                './uploads/portofolio/' . $portofolio['foto_utama'],
-                '../uploads/portofolio/' . $portofolio['foto_utama'],
-                '/uploads/portofolio/' . $portofolio['foto_utama'],
-                $portofolio['foto_utama'], // Jika nama file sudah berisi path lengkap
-            ];
-
-            $mainPhotoDeleted = false;
-            foreach ($mainPhotoPaths as $path) {
-                log_message('info', 'Mencoba menghapus foto utama: ' . $path);
-                if (file_exists($path)) {
-                    try {
-                        if (unlink($path)) {
-                            log_message('info', 'Berhasil menghapus foto utama: ' . $path);
-                            $mainPhotoDeleted = true;
-                            break;
-                        } else {
-                            log_message('error', 'Gagal menghapus foto utama: ' . $path . ' (unlink return false)');
-                        }
-                    } catch (\Exception $e) {
-                        log_message('error', 'Exception saat menghapus foto utama: ' . $path . ' - ' . $e->getMessage());
-                    }
-                } else {
-                    log_message('info', 'Foto utama tidak ditemukan: ' . $path);
-                }
-            }
-
-            if (!$mainPhotoDeleted) {
-                log_message('warning', 'Tidak dapat menghapus foto utama: ' . $portofolio['foto_utama']);
+            $filePath = FCPATH . $foto['nama_file'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
             }
         }
 
         // Hapus data dari database
-        try {
-            $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
-            log_message('info', 'Berhasil menghapus data foto dari database untuk portofolio ID: ' . $id);
+        $this->fotoPortofolioModel->where('id_portofolio', $id)->delete();
+        $this->portofolioModel->delete($id);
 
-            $this->portofolioModel->delete($id);
-            log_message('info', 'Berhasil menghapus data portofolio dari database dengan ID: ' . $id);
-
-            return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
-        } catch (\Exception $e) {
-            log_message('error', 'Error saat menghapus dari database: ' . $e->getMessage());
-            return redirect()->to('admin/portofolio/index')->with('error', 'Terjadi kesalahan saat menghapus portofolio');
-        }
+        return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil dihapus beserta semua fotonya');
     }
 }

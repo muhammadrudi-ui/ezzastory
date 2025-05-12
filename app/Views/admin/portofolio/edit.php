@@ -17,6 +17,14 @@
         </div>
     <?php endif ?>
 
+    <?php if (session()->getFlashdata('error')): ?>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <?= session()->getFlashdata('error') ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
+
+
     <div class="card">
         <div class="card-body">
             <form action="<?= base_url('admin/portofolio/proses-edit/' . $portofolio['id']); ?>" method="POST"
