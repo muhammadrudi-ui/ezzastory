@@ -215,8 +215,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio-kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
-                    More</a>
+                <a href="<?= base_url('user/portofolio/kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See More</a>
             </div>
 
             <!-- Event Lainnya Category -->
@@ -244,7 +243,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('user/portofolio/kategori-event-lainnya') ?>"
+                <a href="<?= base_url('user/portofolio/kategori-Event Lainnya') ?>"
                     class="btn btn-dark see-more-btn">See
                     More</a>
             </div>

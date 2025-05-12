@@ -114,6 +114,42 @@
             background-color: dark;
             color: white;
         }
+
+        /* Button Kembali */
+        .icon-back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 999px;
+            background-color: #f8f9fa;
+            color: #6c757d;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: 1px solid #dee2e6;
+            text-decoration: none;
+        }
+
+        .icon-back-button:hover {
+            background-color: #e9ecef;
+            color: #343a40;
+            transform: translateX(-2px);
+        }
+
+        .icon-back-button:active {
+            transform: translateX(0);
+        }
+
+        /* Responsive: hide text on very small screens */
+        @media (max-width: 576px) {
+            .icon-back-button {
+                border-radius: 50%;
+            }
+
+            .icon-back-button span {
+                display: none;
+            }
+        }
     </style>
 </head>
 
@@ -129,6 +165,12 @@
     <!-- Detail Section -->
     <section class="detail-section">
         <div class="container scroll-animate scale-up">
+        <div class="mb-4 scroll-animate slide-right">
+            <a href="javascript:history.back()" class="icon-back-button" aria-label="Kembali">
+                <i class="bi bi-arrow-left"></i>
+                <span class="ms-1 d-none d-sm-inline">Kembali</span>
+            </a>
+        </div>
             <h2 class="text-center"><?= esc($portofolio['nama_mempelai']) ?></h2>
             <h6 class="text-center"><?= esc($portofolio['jenis_layanan']) ?></h6>
         </div>

@@ -221,7 +221,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('visitor/portofolio-kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
+                <a href="<?= base_url('visitor/portofolio/kategori-wisuda') ?>" class="btn btn-dark see-more-btn">See
                     More</a>
             </div>
 
@@ -251,7 +251,7 @@
                         </div>
                     <?php endif; ?>
                 </div>
-                <a href="<?= base_url('visitor/portofolio/kategori-event-lainnya') ?>"
+                <a href="<?= base_url('visitor/portofolio/kategori-Event Lainnya') ?>"
                     class="btn btn-dark see-more-btn">See
                     More</a>
             </div>

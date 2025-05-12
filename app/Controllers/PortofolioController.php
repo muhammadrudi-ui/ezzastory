@@ -91,8 +91,27 @@ class PortofolioController extends BaseController
      */
     public function index_visitor()
     {
-        // Menggunakan method index() yang sudah ada untuk menghindari duplikasi kode
-        $data = $this->index();
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+        $kategori = ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'];
+
+        foreach ($kategori as $jenis) {
+            $key = strtolower(str_replace(['-', ' '], '', $jenis));
+
+            // Query builder dengan join yang lebih optimal
+            $data[$key] = $this->portofolioModel
+                ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+                ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
+                ->where('jenis_layanan', $jenis)
+                ->where('foto_portofolio.id', function ($builder) {
+                    return $builder->selectMax('id')
+                                  ->from('foto_portofolio')
+                                  ->where('foto_portofolio.id_portofolio = portofolio.id');
+                })
+                ->orderBy('portofolio.created_at', 'DESC')
+                ->limit(3)
+                ->find();
+        }
+
         return view('visitor/portofolio/index', $data);
     }
 
@@ -101,9 +120,24 @@ class PortofolioController extends BaseController
      */
     public function kategori_visitor($jenis_layanan)
     {
-        // Menggunakan method kategori() yang sudah ada untuk menghindari duplikasi kode
-        $data = $this->kategori($jenis_layanan);
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+
+        $data['portofolio'] = $this->portofolioModel
+            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+            ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
+            ->where('jenis_layanan', $jenis_layanan)
+            ->where('foto_portofolio.id', function ($builder) {
+                return $builder->selectMax('id')
+                              ->from('foto_portofolio')
+                              ->where('foto_portofolio.id_portofolio = portofolio.id');
+            })
+            ->orderBy('portofolio.created_at', 'DESC')
+            ->findAll();
+
+        $data['jenis_layanan'] = $jenis_layanan;
+
         return view('visitor/portofolio/kategori', $data);
+
     }
 
     /**
@@ -111,8 +145,10 @@ class PortofolioController extends BaseController
      */
     public function detail_visitor($id)
     {
-        // Menggunakan method detail() yang sudah ada untuk menghindari duplikasi kode
-        $data = $this->detail($id);
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+        $data['portofolio'] = $this->portofolioModel->find($id);
+        $data['fotos'] = $this->fotoPortofolioModel->where('id_portofolio', $id)->findAll();
+
         return view('visitor/portofolio/detail', $data);
     }
 
