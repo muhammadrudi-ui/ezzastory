@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<head>
     <style>
         /* Slider */
         .carousel-item img {
@@ -131,10 +130,10 @@
             background-color: dark;
             color: white;
         }
-    </style>
-</head>
 
-<body>
+       
+    </style>
+
     <!-- Slider -->
     <?php foreach ($profile_perusahaan as $profile): ?>
         <div id="carouselExample" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
@@ -166,7 +165,7 @@
             <div class="container">
                 <div class="row">
                     <!-- Layanan Fotografi -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 scroll-animate slide-left">
                         <div class="service-item">
                             <i class="bi bi-camera"></i>
                             <h5>Fotografi</h5>
@@ -174,7 +173,7 @@
                         </div>
                     </div>
                     <!-- Layanan Videografi -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 scroll-animate fade-in">
                         <div class="service-item">
                             <i class="bi bi-camera-video"></i>
                             <h5>Videografi</h5>
@@ -182,7 +181,7 @@
                         </div>
                     </div>
                     <!-- Layanan Editing -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 scroll-animate slide-right">
                         <div class="service-item">
                             <i class="bi bi-pencil"></i>
                             <h5>Editing</h5>
@@ -200,12 +199,12 @@
             <div class="container">
                 <div class="row align-items-center">
                     <!-- Foto Perusahaan -->
-                    <div class="col-md-6">
+                    <div class="col-md-6 scroll-animate slide-left">
                         <img src="<?= base_url($profile['background_judul']) ?>" class="img-fluid" alt="Foto Perusahaan"
                             loading="lazy">
                     </div>
                     <!-- Deskripsi Perusahaan -->
-                    <div class="col-md-6">
+                    <div class="col-md-6 scroll-animate fade-in">
                         <h2 class="about-us-title">About Us</h2>
                         <p class="about-us-description">
                             <?= esc(strip_tags($profile['deskripsi'])) ?>
@@ -220,11 +219,11 @@
     <!-- Galeri Portofolio -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4">Portofolio</h2>
+            <h2 class="text-center mb-4 scroll-animate scale-up">Portofolio</h2>
             <div class="row g-4">
                 <?php if (!empty($portofolio)): ?>
                     <?php foreach ($portofolio as $item): ?>
-                        <div class="col-md-4">
+                        <div class="col-md-4 scroll-animate fade-in">
                             <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
                                     <img src="<?= base_url($item['foto_utama']) ?>" class="card-img-top"
@@ -248,7 +247,7 @@
     </section>
 
     <!-- CTA untuk Reservasi -->
-    <section class="cta-section">
+    <section class="cta-section scroll-animate fade-in">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <div class="container">
                 <p class="lead"><?= ($profile['cta']) ?></p>
@@ -257,6 +256,6 @@
         <?php endforeach; ?>
     </section>
 
-</body>
+    
 
 <?= $this->endSection() ?>

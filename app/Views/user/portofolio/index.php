@@ -94,17 +94,17 @@
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-            <h1>Portofolio</h1>
+            <h1 class="title-portofolio scroll-animate scale-up">Portofolio</h1>
         <?php endforeach; ?>
     </section>
 
     <!-- Portofolio Section -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4">Karya-karya Kami</h2>
+            <h2 class="text-center mb-4 scroll-animate scale-up">Karya-karya Kami</h2>
 
             <!-- Wedding Category -->
-            <div class="portofolio-category mb-5">
+            <div class="portofolio-category mb-5 scroll-animate fade-in">
                 <h3>Wedding</h3>
                 <div class="row g-4">
                     <?php if (!empty($wedding)): ?>
@@ -133,7 +133,7 @@
             </div>
 
             <!-- Engagement Category -->
-            <div class="portofolio-category mb-5">
+            <div class="portofolio-category mb-5 scroll-animate fade-in">
                 <h3>Engagement</h3>
                 <div class="row g-4">
                     <?php if (!empty($engagement)): ?>
@@ -162,7 +162,7 @@
             </div>
 
             <!-- Pre-Wedding Category -->
-            <div class="portofolio-category mb-5">
+            <div class="portofolio-category mb-5 scroll-animate fade-in">
                 <h3>Pre-Wedding</h3>
                 <div class="row g-4">
                     <?php if (!empty($prewedding)): ?>
@@ -191,7 +191,7 @@
             </div>
 
             <!-- Wisuda Category -->
-            <div class="portofolio-category mb-5">
+            <div class="portofolio-category mb-5 scroll-animate fade-in">
                 <h3>Wisuda</h3>
                 <div class="row g-4">
                     <?php if (!empty($wisuda)): ?>
@@ -220,7 +220,7 @@
             </div>
 
             <!-- Event Lainnya Category -->
-            <div class="portofolio-category mb-5">
+            <div class="portofolio-category mb-5 scroll-animate fade-in">
                 <h3>Event Lainnya</h3>
                 <div class="row g-4">
                     <?php if (!empty($eventlainnya)): ?>

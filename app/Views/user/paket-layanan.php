@@ -110,7 +110,7 @@
 <section class="hero-section">
     <?php foreach ($profile_perusahaan as $profile): ?>
         <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-        <h1>Paket Layanan</h1>
+        <h1 class="title-paket-layanan scroll-animate scale-up">Paket Layanan</h1>
     <?php endforeach; ?>
 </section>
 
@@ -119,7 +119,7 @@
     <div class="container mb-5">
         <div class="row g-4">
             <?php foreach ($paket_layanan as $paket): ?>
-                <div class="col-md-4 col-sm-6">
+                <div class="col-md-4 col-sm-6 scroll-animate fade-in">
                     <div class="card">
                         <img src="<?= base_url($paket['foto']) ?>" class="card-img-top" alt="<?= $paket['nama'] ?>"
                             loading="lazy">

@@ -77,18 +77,18 @@
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-            <h1>Portofolio Kategori</h1>
+            <h1 class="title-portofolio scroll-animate scale-up">Portofolio Kategori</h1>
         <?php endforeach; ?>
     </section>
 
     <!-- Portofolio Category Page -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4"><?= ucwords(str_replace('-', ' ', $jenis_layanan)) ?></h2>
+            <h2 class="text-center mb-4 scroll-animate scale-up"><?= ucwords(str_replace('-', ' ', $jenis_layanan)) ?></h2>
             <div class="row g-4">
                 <?php if (!empty($portofolio)): ?>
                     <?php foreach ($portofolio as $item): ?>
-                        <div class="col-md-4">
+                        <div class="col-md-4 scroll-animate fade-in">
                             <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
                                     <img src="<?= base_url($item['foto_utama']) ?>" class="card-img-top"

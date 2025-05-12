@@ -3,7 +3,7 @@
 <?= $this->section('content') ?>
 
 <section class="py-5" style="margin-top: 100px;">
-    <div class="container">
+    <div class="container scroll-animate fade-in">
         <?php if (session()->getFlashdata('success')): ?>
             <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
                 <?= session()->getFlashdata('success') ?>

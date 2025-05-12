@@ -122,13 +122,13 @@
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-            <h1>Portofolio Detail</h1>
+            <h1 class="title-portofolio scroll-animate scale-up">Portofolio Detail</h1>
         <?php endforeach; ?>
     </section>
 
     <!-- Detail Section -->
     <section class="detail-section">
-        <div class="container">
+        <div class="container scroll-animate scale-up">
             <h2 class="text-center"><?= esc($portofolio['nama_mempelai']) ?></h2>
             <h6 class="text-center"><?= esc($portofolio['jenis_layanan']) ?></h6>
         </div>
@@ -137,8 +137,8 @@
     <!-- Portofolio Section -->
     <section class="portofolio">
         <div class="container">
-            <h2 class="text-center mb-4">Hasil</h2>
-            <div class="gallery-container">
+            <h2 class="text-center mb-4 scroll-animate scale-up">Hasil</h2>
+            <div class="gallery-container scroll-animate fade-in">
                 <?php if (!empty($fotos)): ?>
                     <?php foreach ($fotos as $foto): ?>
                         <img src="<?= base_url($foto['nama_file']) ?>" alt="Foto Portofolio">
@@ -151,7 +151,7 @@
     </section>
 
     <!-- CTA untuk Reservasi -->
-    <section class="cta-section">
+    <section class="cta-section scroll-animate fade-in">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
             <a href="#" class="btn btn-dark">Reservasi Sekarang</a>

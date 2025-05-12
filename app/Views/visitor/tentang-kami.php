@@ -149,23 +149,23 @@
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
             <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-            <h1>Tentang Kami</h1>
+            <h1 class="title-about-us scroll-animate scale-up">Tentang Kami</h1>
         <?php endforeach; ?>
     </section>
 
     <!-- About Us Section -->
     <section class="about-section">
-        <div class="container">
+        <div class="container scroll-animate fade-in">
             <?php foreach ($profile_perusahaan as $profile): ?>
                 <h2>Tentang Ezzastory</h2>
 
                 <!-- Deskripsi -->
-                <div class="about-description">
+                <div class="about-description scroll-animate fade-in">
                     <p><?= ($profile['deskripsi']) ?></p>
                 </div>
 
                 <!-- Visi dan Misi -->
-                <div class="vision-mission">
+                <div class="vision-mission scroll-animate fade-in">
                     <!-- Visi -->
                     <div>
                         <h3>Visi</h3>
@@ -184,8 +184,8 @@
                 </div>
 
                 <!-- Team Section -->
-                <h2>Owner</h2>
-                <div class="team-section">
+                <h2 class="tittle-owner scroll-animate fade-in">Owner</h2>
+                <div class="team-section scroll-animate fade-in">
                     <!-- Owner Card -->
                     <div class="team-card">
                         <img src="<?= base_url($profile['foto_owner']) ?>" alt="Owner" loading="lazy">

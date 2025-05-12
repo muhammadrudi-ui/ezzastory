@@ -131,6 +131,52 @@
         .footer h5 {
             font-weight: normal;
         }
+
+         /* Animasi Scroll */
+         .scroll-animate {
+            opacity: 0;
+            transition: all 0.6s ease-out;
+        }
+
+        .scroll-animate.animate {
+            opacity: 1;
+        }
+
+        /* Animasi Fade In */
+        .fade-in {
+            transform: translateY(20px);
+        }
+
+        .fade-in.animate {
+            transform: translateY(0);
+        }
+
+        /* Animasi Slide Kiri */
+        .slide-left {
+            transform: translateX(-50px);
+        }
+
+        .slide-left.animate {
+            transform: translateX(0);
+        }
+
+        /* Animasi Slide Kanan */
+        .slide-right {
+            transform: translateX(50px);
+        }
+
+        .slide-right.animate {
+            transform: translateX(0);
+        }
+
+        /* Animasi Scale Up */
+        .scale-up {
+            transform: scale(0.95);
+        }
+
+        .scale-up.animate {
+            transform: scale(1);
+        }
     </style>
 </head>
 
@@ -181,17 +227,17 @@
         <?= $this->renderSection('content') ?>
 
         <!-- Footer -->
-        <footer class="footer">
+        <footer class="footer scroll-animate fade-in">
             <div class="container">
                 <div class="row text-center text-md-start">
                     <!-- Kolom 1: Logo & Deskripsi -->
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-4 scroll-animate scale-up">
                         <h5><?= ($profile['nama_perusahaan']) ?></h5>
                         <p class="footer-description"><?= esc(strip_tags($profile['deskripsi'])) ?>.</p>
                     </div>
 
                     <!-- Kolom 2: Navigasi -->
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-4 scroll-animate scale-up">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
                             <li><a href="<?= base_url('visitor/beranda') ?>">Beranda</a></li>
@@ -205,7 +251,7 @@
                     </div>
 
                     <!-- Kolom 3: Kontak -->
-                    <div class="col-md-4">
+                    <div class="col-md-4 scroll-animate scale-up">
                         <h5>Contact Us</h5>
                         <div class="contact-info">
                             <p><i class="bi bi-instagram"></i> <a
@@ -279,6 +325,32 @@
                 }
             });
         }
+    </script>
+
+    <!-- Scoll Animation -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Fungsi untuk memeriksa elemen yang terlihat di viewport
+        function checkScroll() {
+            const elements = document.querySelectorAll('.scroll-animate');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                
+                // Jika elemen masuk ke viewport (dengan offset 100px)
+                if (elementPosition < windowHeight - 100) {
+                    element.classList.add('animate');
+                }
+            });
+        }
+        
+        // Jalankan saat pertama kali load
+        checkScroll();
+        
+        // Jalankan saat scrolling
+        window.addEventListener('scroll', checkScroll);
+    });
     </script>
 
 </body>
