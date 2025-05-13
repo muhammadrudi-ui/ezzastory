@@ -669,6 +669,30 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                             </h2>
                             <div id="collapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#paymentAccordion">
                                 <div class="accordion-body pt-3">
+                                    <!-- Tambahkan informasi paket di sini -->
+                                    <div class="row mb-4">
+                                        <div class="col-md-3">
+                                            <?php if (!empty($pemesanan['foto'])): ?>
+                                                <img src="<?= base_url($pemesanan['foto']) ?>" class="img-fluid rounded-3" alt="<?= esc($pemesanan['nama_paket']) ?>">
+                                            <?php else: ?>
+                                                <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" style="height: 150px;">
+                                                    <i class="fas fa-image fa-3x text-muted"></i>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <h5><?= esc($pemesanan['nama_paket']) ?></h5>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
+                                                <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal Pemotretan</span>
+                                                <span><?= date('d M Y', strtotime($pemesanan['waktu_pemotretan'])) ?></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
                                         <div class="row g-3">
                                             <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
@@ -723,7 +747,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
         </div>
     </div>
 </div>
-
 
           <!-- Tracking -->
         <div class="tab-pane fade" id="tracking">
@@ -862,8 +885,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
         </div>
 
 
-
-            <!-- Riwayat -->
 <!-- Riwayat -->
 <div class="tab-pane fade" id="riwayat">
     <h4 class="text-center mb-4">Riwayat Pemesanan</h4>

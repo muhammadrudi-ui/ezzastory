@@ -33,10 +33,13 @@ class PemesananController extends BaseController
         $userData = $this->userModel->getUserWithProfile($userId);
         $isProfileComplete = !(empty($userData['nama_lengkap']) || empty($userData['email']) || empty($userData['no_telepon']) || empty($userData['instagram']));
 
-        // Ambil SEMUA data pemesanan user (bukan hanya yang terbaru)
-        $pemesanan = $this->pemesananModel->where('user_id', $userId)
-                        ->orderBy('created_at', 'DESC')
-                        ->findAll();
+        // Ambil SEMUA data pemesanan user
+        $pemesanan = $this->pemesananModel
+        ->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.harga, paket_layanan.foto')
+        ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+        ->where('pemesanan.user_id', $userId)
+        ->orderBy('created_at', 'DESC')
+        ->findAll();
 
         // Ambil data riwayat (pemesanan selesai)
         $riwayatPemesanan = $this->pemesananModel
@@ -48,7 +51,7 @@ class PemesananController extends BaseController
             ')
             ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
             ->join('user_profile', 'user_profile.user_id = pemesanan.user_id', 'left')
-            ->where('pemesanan.user_id', $userId) // perbaiki di sini
+            ->where('pemesanan.user_id', $userId)
             ->where('status', 'Selesai')
             ->orderBy('status_selesai_at', 'DESC')
             ->findAll();
@@ -80,7 +83,7 @@ class PemesananController extends BaseController
             'isProfileComplete' => $isProfileComplete,
             'pembayaran' => $pembayaran,
             'all_pemesanan' => $pemesanan,
-            'riwayat_pemesanan' => $riwayatPemesanan,  // Pastikan variabel ini ada di sini
+            'riwayat_pemesanan' => $riwayatPemesanan,
             'tracking_steps' => $trackingSteps,
             'page_title' => 'Reservasi & Tracking'
         ];
@@ -132,7 +135,6 @@ class PemesananController extends BaseController
             'status' => 'pending'
         ]);
 
-
         return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
     }
 
@@ -142,7 +144,6 @@ class PemesananController extends BaseController
         $search = $this->request->getGet('search');
         $filterBulan = $this->request->getGet('filter_bulan');
         $filterStatus = $this->request->getGet('filter_status');
-
 
         $this->pemesananModel
         ->select('
@@ -183,7 +184,7 @@ class PemesananController extends BaseController
             $this->pemesananModel->where('pemesanan.status !=', 'Selesai');
         }
 
-        // Ambil data dengan paginasi
+        // Ambil data dengan pagination
         $data['pemesanan'] = $this->pemesananModel->paginate($perPage);
         $data['pager']       = $this->pemesananModel->pager;
         $data['search']      = $search;
