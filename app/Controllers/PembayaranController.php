@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use CodeIgniter\HTTP\ResponseInterface;
 use App\Models\PembayaranModel;
+use App\Models\PemesananModel;
 
 class PembayaranController extends BaseController
 {
@@ -13,11 +14,11 @@ class PembayaranController extends BaseController
     public function __construct()
     {
         $this->pembayaranModel = new PembayaranModel();
+        $this->pemesananModel = new PemesananModel();
     }
 
     public function bayar($id)
     {
-        // Ambil data pembayaran
         $pembayaran = $this->pembayaranModel->find($id);
         if (!$pembayaran) {
             return redirect()->back()->with('error', 'Data pembayaran tidak ditemukan');
@@ -29,11 +30,23 @@ class PembayaranController extends BaseController
             'tanggal_bayar' => date('Y-m-d H:i:s')
         ]);
 
-        // Update status pemesanan ke "pemesanan"
-        $pemesananModel = new \App\Models\PemesananModel();
-        $pemesananModel->update($pembayaran['pemesanan_id'], [
-            'status' => 'pemesanan'
-        ]);
+        $pemesanan = $this->pemesananModel->find($pembayaran['pemesanan_id']);
+
+        // Update status pemesanan dan status_pembayaran
+        $updateData = [];
+        if ($pembayaran['jenis'] === 'DP') {
+            $updateData = [
+                'status' => 'Pemesanan',
+                'status_pembayaran' => 'DP'
+            ];
+        } elseif ($pembayaran['jenis'] === 'Pelunasan') {
+            $updateData = [
+                'status' => 'Pemotretan',
+                'status_pembayaran' => 'Lunas'
+            ];
+        }
+
+        $this->pemesananModel->update($pembayaran['pemesanan_id'], $updateData);
 
         return redirect()->back()->with('success', 'Pembayaran berhasil dicatat dan status pemesanan diperbarui');
     }

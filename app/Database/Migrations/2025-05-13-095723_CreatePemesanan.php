@@ -35,6 +35,12 @@ class CreatePemesanan extends Migration
                 'type'       => 'ENUM',
                 'constraint' => ['Lunas', 'DP'],
             ],
+            'status_pembayaran' => [
+                'type'       => 'ENUM',
+                'constraint' => ['Belum Bayar', 'DP', 'Lunas'],
+                'default'    => 'Belum Bayar',
+                'after'      => 'status',
+            ],
             'lokasi_pemotretan' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 255,

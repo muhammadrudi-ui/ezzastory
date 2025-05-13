@@ -108,46 +108,85 @@ class PemesananController extends BaseController
             'link_maps_pengiriman'  => $this->request->getPost('link_maps_pengiriman'),
             'nama_mempelai'         => $this->request->getPost('nama_mempelai'),
             'instagram'             => $this->request->getPost('instagram'),
+            'status_pembayaran'     => 'Belum Bayar', // Set default status pembayaran
             'created_at'            => date('Y-m-d H:i:s')
         ];
 
         $this->pemesananModel->insert($data);
-        // Ambil ID pemesanan yang baru dibuat
         $pemesananId = $this->pemesananModel->insertID();
-
-        // Ambil data paket
         $paket = $this->paketLayananModel->find($data['paket_id']);
 
-        // Hitung jumlah pembayaran
+        // Logika pembayaran
         if ($data['jenis_pembayaran'] === 'DP') {
-            $jumlah = $paket['harga'] * 0.5;
-            $jenisPembayaran = 'DP';
-        } else {
-            $jumlah = $paket['harga'];
-            $jenisPembayaran = 'Pelunasan';
-        }
+            $this->pembayaranModel->insert([
+                'pemesanan_id' => $pemesananId,
+                'jumlah' => $paket['harga'] * 0.5,
+                'jenis' => 'DP',
+                'status' => 'pending',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
 
-        // Simpan data pembayaran
-        $this->pembayaranModel->save([
-            'pemesanan_id' => $pemesananId,
-            'jumlah' => $jumlah,
-            'jenis' => $jenisPembayaran,
-            'status' => 'pending'
-        ]);
+            $this->pembayaranModel->insert([
+                'pemesanan_id' => $pemesananId,
+                'jumlah' => $paket['harga'] * 0.5,
+                'jenis' => 'Pelunasan',
+                'status' => 'pending',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        } else {
+            $this->pembayaranModel->insert([
+                'pemesanan_id' => $pemesananId,
+                'jumlah' => $paket['harga'],
+                'jenis' => 'Pelunasan',
+                'status' => 'pending',
+                'created_at' => date('Y-m-d H:i:s')
+            ]);
+        }
 
         return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
     }
 
+    public function batal($id)
+    {
+        // Ambil data pemesanan
+        $pemesanan = $this->pemesananModel->find($id);
+
+        if (!$pemesanan) {
+            return redirect()->to('user/reservasi')->with('error', 'Pemesanan tidak ditemukan.');
+        }
+
+        // Periksa apakah user yang login adalah pemilik pemesanan
+        if ($pemesanan['user_id'] != session()->get('user_id')) {
+            return redirect()->to('user/reservasi')->with('error', 'Anda tidak memiliki akses untuk membatalkan pemesanan ini.');
+        }
+
+        // Ambil semua pembayaran terkait pemesanan
+        $pembayaran = $this->pembayaranModel->where('pemesanan_id', $id)->findAll();
+
+        // Periksa apakah ada pembayaran dengan status 'success'
+        foreach ($pembayaran as $bayar) {
+            if ($bayar['status'] === 'success') {
+                return redirect()->to('user/reservasi')->with('error', 'Pemesanan tidak dapat dibatalkan karena sudah ada pembayaran yang berhasil.');
+            }
+        }
+
+        // Jika semua pembayaran masih 'pending' atau tidak ada pembayaran, hapus data
+        $this->pembayaranModel->where('pemesanan_id', $id)->delete();
+        $this->pemesananModel->delete($id);
+
+        return redirect()->to('user/reservasi')->with('success', 'Pemesanan berhasil dibatalkan.');
+    }
+
     public function index_admin()
     {
-        $perPage = 10;
         $search = $this->request->getGet('search');
         $filterBulan = $this->request->getGet('filter_bulan');
         $filterStatus = $this->request->getGet('filter_status');
 
         $this->pemesananModel
-        ->select('
+            ->select('
             pemesanan.*, 
+            pemesanan.status_pembayaran, 
             users.username AS nama_user, 
             users.email, 
             user_profile.nama_lengkap, 
@@ -156,11 +195,11 @@ class PemesananController extends BaseController
             paket_layanan.nama AS nama_paket,
             paket_layanan.harga AS harga
         ')
-        ->join('users', 'users.id = pemesanan.user_id', 'left')
-        ->join('user_profile', 'user_profile.user_id = users.id', 'left')
-        ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
-        ->where('pemesanan.status !=', 'Selesai')
-        ->orderBy('pemesanan.created_at', 'DESC');
+            ->join('users', 'users.id = pemesanan.user_id', 'left')
+            ->join('user_profile', 'user_profile.user_id = users.id', 'left')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->where('pemesanan.status !=', 'Selesai')
+            ->orderBy('pemesanan.created_at', 'DESC');
 
         if ($search) {
             $this->pemesananModel
@@ -171,6 +210,7 @@ class PemesananController extends BaseController
                 ->orLike('pemesanan.lokasi_pemotretan', $search)
                 ->orLike('pemesanan.nama_mempelai', $search)
                 ->orLike('pemesanan.status', $search)
+                ->orLike('pemesanan.status_pembayaran', $search) // Tambahkan pencarian berdasarkan status_pembayaran
                 ->groupEnd();
         }
 
@@ -184,10 +224,8 @@ class PemesananController extends BaseController
             $this->pemesananModel->where('pemesanan.status !=', 'Selesai');
         }
 
-        // Ambil data dengan pagination
-        $data['pemesanan'] = $this->pemesananModel->paginate($perPage);
-        $data['pager']       = $this->pemesananModel->pager;
-        $data['search']      = $search;
+        $data['pemesanan'] = $this->pemesananModel->findAll();
+        $data['search'] = $search;
         $data['filterBulan'] = $filterBulan;
         $data['filterStatus'] = $filterStatus;
 
@@ -199,6 +237,7 @@ class PemesananController extends BaseController
         $data['pemesanan'] = $this->pemesananModel
             ->select('
                 pemesanan.*, 
+                pemesanan.status_pembayaran,
                 users.username AS nama_user, 
                 users.email, 
                 user_profile.nama_lengkap, 

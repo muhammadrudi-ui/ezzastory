@@ -65,6 +65,7 @@
                             <th class="align-middle">Harga</th>
                             <th class="align-middle">Waktu Pemotretan</th>
                             <th class="align-middle">Jenis Pembayaran</th>
+                            <th class="align-middle">Status Pembayaran</th>
                             <th class="align-middle">Lokasi Pemotretan</th>
                             <th class="align-middle">Link Maps Lokasi Pemotretan</th>
                             <th class="align-middle">Link Maps Lokasi Pengiriman Album</th>
@@ -86,6 +87,11 @@
                         <td>Rp<?= number_format($item['harga'], 0, ',', '.') ?></td>
                         <td><?= esc(date('d M Y H:i', strtotime($item['waktu_pemotretan']))) ?></td>
                         <td><?= esc($item['jenis_pembayaran']) ?></td>
+                        <td>
+                                    <span class="badge bg-<?= $item['status_pembayaran'] === 'Lunas' ? 'success' : ($item['status_pembayaran'] === 'DP' ? 'warning' : 'danger') ?>">
+                                        <?= esc($item['status_pembayaran']) ?>
+                                    </span>
+                                </td>
                         <td><?= esc($item['lokasi_pemotretan']) ?></td>
                         <td><a href="<?= esc($item['link_maps_pemotretan']) ?>" target="_blank">Lihat Maps</a></td>
                         <td><a href="<?= esc($item['link_maps_pengiriman']) ?>" target="_blank">Lihat Maps</a></td>
@@ -109,9 +115,6 @@
 </tbody>
 
                 </table>
-            </div>
-            <div class="d-flex justify-content-center mt-3">
-                <?= $pager->links('default', 'bootstrap_pagination') ?>
             </div>
         </div>
     </div>

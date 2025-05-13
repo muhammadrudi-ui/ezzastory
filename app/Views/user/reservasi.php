@@ -627,7 +627,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
     </div>
 </div>
 
-<!-- Pembayaran -->
+<!-- Payment -->
 <div class="tab-pane fade" id="pembayaran">
     <div class="card mt-4 border-0 shadow-sm">
         <div class="card-body p-4">
@@ -659,17 +659,14 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                             <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
                                         </div>
                                         <div>
-                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status</span>
-                                            <span class="badge bg-<?= $pemesanan['status'] === 'pemesanan' ? 'success' : ($pemesanan['status'] === 'pending' ? 'warning' : 'secondary') ?> bg-opacity-25 text-dark text-capitalize ms-1">
-                                                <?= esc($pemesanan['status']) ?>
-                                            </span>
+                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Jenis Bayar</span>
+                                            <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
                                         </div>
                                     </div>
                                 </button>
                             </h2>
                             <div id="collapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#paymentAccordion">
                                 <div class="accordion-body pt-3">
-                                    <!-- Tambahkan informasi paket di sini -->
                                     <div class="row mb-4">
                                         <div class="col-md-3">
                                             <?php if (!empty($pemesanan['foto'])): ?>
@@ -690,17 +687,34 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                 <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal Pemotretan</span>
                                                 <span><?= date('d M Y', strtotime($pemesanan['waktu_pemotretan'])) ?></span>
                                             </div>
+                                            <div>
+                                                <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
+                                                <strong class="ms-1"><?= esc($pemesanan['status_pembayaran'] ?? '-') ?></strong>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
-                                        <div class="row g-3">
+                                    <div class="row g-3">
+                                        <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
+                                            <?php $canCancel = true; ?>
                                             <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
-                                                <div class="col-md-6">
+                                                <?php if ($bayar['status'] === 'success') {
+                                                    $canCancel = false;
+                                                } ?>
+                                                <div class="col-md-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? '6' : '12' ?>">
                                                     <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
                                                         <div class="card-body">
                                                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                <h6 class="mb-0 text-capitalize"><?= esc($bayar['jenis']) ?></h6>
+                                                                <h6 class="mb-0 text-capitalize">
+                                                                    <?= esc($bayar['jenis']) ?>
+                                                                    <?php if ($bayar['jenis'] === 'DP'): ?>
+                                                                        <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
+                                                                    <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
+                                                                        <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
+                                                                            <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
+                                                                        </span>
+                                                                    <?php endif; ?>
+                                                                </h6>
                                                                 <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
                                                                     <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
                                                                     <?= esc($bayar['status']) ?>
@@ -732,12 +746,25 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                     </div>
                                                 </div>
                                             <?php endforeach; ?>
-                                        </div>
-                                    <?php else: ?>
-                                        <div class="alert alert-secondary text-muted small">
-                                            <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
-                                        </div>
-                                    <?php endif; ?>
+                                            <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
+                                            <?php if ($canCancel): ?>
+                                                <div class="col-12 mt-3">
+                                                    <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" method="post" id="cancelForm<?= $pemesanan['id'] ?>">
+                                                        <?= csrf_field() ?>
+                                                        <button type="button" class="btn btn-danger w-100" onclick="confirmCancel(<?= $pemesanan['id'] ?>)">
+                                                            <i class="fa-solid fa-times-circle me-1"></i> Batalkan Pemesanan
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <div class="col-12">
+                                                <div class="alert alert-secondary text-muted small">
+                                                    <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -929,10 +956,33 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 </div>
 
             
-        </div>
-    </div>
 
+</div>
+</div>
 
+<!-- Alert Batalkan Pemesanan -->
+ <!-- SweetAlert2 Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmCancel(pemesananId) {
+        Swal.fire({
+            title: "Batalkan Pemesanan",
+            text: "Apakah Anda yakin ingin membatalkan pemesanan ini?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Batalkan",
+            cancelButtonText: "Tidak"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('cancelForm' + pemesananId).submit();
+            }
+        });
+    }
+</script>
+
+<!-- Jika USer Belum Melengkapi Profil Pribadi -->
 <?php if (!$isProfileComplete): ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>

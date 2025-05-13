@@ -20,6 +20,7 @@ class PemesananModel extends Model
         'link_maps_pengiriman',
         'nama_mempelai',
         'status',
+        'status_pembayaran', // Tambahkan field ini
         'status_selesai_at',
     ];
 
@@ -28,14 +29,14 @@ class PemesananModel extends Model
     // Join dengan tabel paket layanan
     public function withPaket()
     {
-        return $this->select('pemesanan.*, paket_layanan.nama AS nama_paket')
+        return $this->select('pemesanan.*, pemesanan.status_pembayaran, paket_layanan.nama AS nama_paket') // Tambahkan status_pembayaran
                     ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id');
     }
 
     // Join dengan tabel users
     public function withUser()
     {
-        return $this->select('pemesanan.*, users.username AS nama_user')
+        return $this->select('pemesanan.*, pemesanan.status_pembayaran, users.username AS nama_user') // Tambahkan status_pembayaran
                     ->join('users', 'users.id = pemesanan.user_id');
     }
 
@@ -54,7 +55,8 @@ class PemesananModel extends Model
     // Untuk Payment
     public function getWithPayments($id)
     {
-        $pemesanan = $this->find($id);
+        $pemesanan = $this->select('pemesanan.*, pemesanan.status_pembayaran') // Tambahkan status_pembayaran
+                          ->find($id);
         if (!$pemesanan) {
             return null;
         }
@@ -69,7 +71,7 @@ class PemesananModel extends Model
     {
         $pembayaranModel = new PembayaranModel();
         $pembayaran = $pembayaranModel->where('pemesanan_id', $pemesananId)
-                                     ->where('status', 'Success')
+                                     ->where('status', 'success') // Perbaiki kapitalisasi
                                      ->findAll();
 
         $total = 0;

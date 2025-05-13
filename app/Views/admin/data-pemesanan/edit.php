@@ -57,9 +57,15 @@
                 </div>
             </div>
 
-            <div class="mt-3">
-                <label class="fw-bold">Lokasi Pemotretan</label>
-                <input type="text" name="lokasi_pemotretan" class="form-control text-muted" value="<?= esc($pemesanan['lokasi_pemotretan']) ?>" readonly>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label class="fw-bold">Lokasi Pemotretan</label>
+                    <input type="text" name="lokasi_pemotretan" class="form-control text-muted" value="<?= esc($pemesanan['lokasi_pemotretan']) ?>" readonly>
+                </div>
+                <div class="col-md-6">
+                    <label class="fw-bold">Status Pembayaran</label>
+                    <input type="text" name="status_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['status_pembayaran']) ?>" readonly>
+                </div>
             </div>
 
             <div class="mt-3">
