@@ -187,7 +187,7 @@
             margin: auto;
         }
 
-        /* TRACKING STYLES - IMPROVED */
+        /* TRACKING */
         .tracking-container {
             display: flex;
             width: 100%;
@@ -197,6 +197,16 @@
             padding: 20px 10px;
         }
 
+        /* Dark Accordion Styles */
+        .accordion-button:not(.collapsed) {
+            background-color:rgb(42, 42, 42);
+            color:rgb(255, 255, 255);
+        }
+        
+        .accordion-button:focus {
+            box-shadow: 0 0 0 0.25rem rgba(144, 144, 144, 0.5); /* Abu-abu gelap */
+            border-color:rgb(144, 144, 144, 0.5);
+        }
         .tracking-step {
             flex: 1;
             display: flex;
@@ -378,6 +388,16 @@
             .tracking-status {
                 font-size: 11px;
             }
+        }
+
+        /* Riwayat */
+        .card-hover-effect {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card-hover-effect:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
     </style>
 
@@ -658,18 +678,11 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
 id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
     <div class="card mt-4 border-0 shadow-sm">
-        <div class="card-body p-4">
-            <h4 class="mb-4 d-flex align-items-center fw-semibold">
-                <i class="fas fa-credit-card me-2 text-primary"></i> Informasi Pembayaran
-            </h4>
-
+        <div class="card-body p-2">
+        <h4 class="text-center mb-4 fw-bold text-dark">Informasi Pembayaran</h4>
             <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
-                <div class="alert alert-info d-flex align-items-center">
-                    <i class="fa-solid fa-circle-info me-3 fs-4"></i>
-                    <div>
-                        <strong class="mb-1">Belum ada data pemesanan</strong>
-                        <p class="mb-0 text-muted small">Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.</p>
-                    </div>
+                <div class="alert alert-dark text-center">
+                    <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.
                 </div>
             <?php else: ?>
                 <div class="accordion" id="paymentAccordion">
@@ -680,15 +693,15 @@ id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
                                 <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="collapse<?= $index ?>">
                                     <div class="d-flex flex-column flex-md-row w-100 gap-3">
                                         <div>
-                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Paket</span>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
                                             <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
                                         </div>
                                         <div>
-                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Mempelai</span>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
                                             <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
                                         </div>
                                         <div>
-                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Jenis Bayar</span>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
                                             <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
                                         </div>
                                     </div>
@@ -751,12 +764,12 @@ id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
                                                             </div>
                                                             <div class="mb-3">
                                                                 <span class="text-muted small">Jumlah</span>
-                                                                <div class="fs-5 fw-semibold text-primary">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
+                                                                <div class="fs-5 fw-semibold text-dark">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
                                                             </div>
                                                             <?php if ($bayar['status'] === 'pending'): ?>
                                                                 <form action="<?= base_url('user/pembayaran/bayar/' . $bayar['id']) ?>" method="post">
                                                                     <?= csrf_field() ?>
-                                                                    <button type="submit" class="btn btn-outline-primary w-100">
+                                                                    <button type="submit" class="btn btn-outline-dark w-100">
                                                                         <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
                                                                     </button>
                                                                 </form>
@@ -808,13 +821,10 @@ id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
 <!-- Tracking -->
 <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'tracking' ? 'show active' : '' ?>" 
 id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
+    <h4 class="text-center mb-4 fw-bold text-dark">Tracking Pemesanan Anda</h4>
     <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
-        <div class="alert alert-primary d-flex align-items-center rounded-4 shadow-sm">
-            <i class="fa-solid fa-circle-info me-3 fs-3 text-primary"></i>
-            <div>
-                <strong class="d-block mb-1 fs-5">Belum ada data pemesanan</strong>
-                <p class="mb-0 text-muted">Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.</p>
-            </div>
+        <div class="alert alert-dark text-center">
+            <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.
         </div>
     <?php else: ?>
         <div class="accordion" id="trackingAccordion">
@@ -825,19 +835,13 @@ id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
                         <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
                             <div class="d-flex flex-column flex-md-row w-100 gap-3">
                                 <div>
-                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Paket</span>
+                                    <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
                                     <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
                                 </div>
                                 <div>
-                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Mempelai</span>
+                                    <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
                                     <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
                                 </div>
-                                <?php if (!empty($pemesanan['tanggal_acara'])): ?>
-                                <div class="ms-md-auto">
-                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Tanggal</span>
-                                    <strong class="ms-1"><?= date('d M Y', strtotime($pemesanan['tanggal_acara'])) ?></strong>
-                                </div>
-                                <?php endif; ?>
                             </div>
                         </button>
                     </h2>
@@ -897,7 +901,7 @@ id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
                                 <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
                                     <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
                                         <?= csrf_field() ?>
-                                        <button type="button" class="btn btn-success w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
+                                        <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
                                             <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
                                         </button>
                                     </form>
@@ -938,48 +942,67 @@ id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
     <?php endif; ?>
 </div>
 
-<!-- Riwayat -->
+<!-- Riwayat Pemesanan -->
 <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'riwayat' ? 'show active' : '' ?>" 
 id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
-    <h4 class="text-center mb-4">Riwayat Pemesanan</h4>
-    <?php if (empty($riwayat_pemesanan)) : ?>
-        <div class="alert alert-info">Belum ada riwayat pemesanan yang selesai.</div>
-    <?php else : ?>
-        <div class="table-responsive">
-            <table class="table table-bordered table-hover">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Nama Mempelai</th>
-                        <th>Paket Layanan</th>
-                        <th>Harga</th>
-                        <th>Waktu Pemesanan</th>
-                        <th>Tanggal Pemotretan</th>
-                        <th>Jenis Pembayaran</th>
-                        <th>Instagram</th>
-                        <th>Status</th>
-                        <th>Tanggal Selesai</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($riwayat_pemesanan as $riwayat) : ?>
-                        <tr>
-                            <td><?= $riwayat['nama_mempelai'] ?></td>
-                            <td><?= $riwayat['nama_paket'] ?></td>
-                            <td>Rp <?= number_format($riwayat['harga'], 0, ',', '.') ?></td>
-                            <td><?= date('d M Y H:i', strtotime($riwayat['waktu_pemesanan'])) ?></td>
-                            <td><?= date('d/m/Y', strtotime($riwayat['waktu_pemotretan'])) ?></td>
-                            <td><?=$riwayat['jenis_pembayaran'] ?></td>
-                            <td>
-                            <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" target="_blank">@<?= $riwayat['instagram'] ?></a>
-                        </td>
-                            <td><span class="badge bg-success"><?= $riwayat['status'] ?></span></td>
-                            <td><?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    <?php endif; ?>
+    <div class="container-fluid">
+        <h4 class="text-center mb-4 fw-bold text-dark">Riwayat Pemesanan Anda</h4>
+        
+        <?php if (empty($riwayat_pemesanan)) : ?>
+            <div class="alert alert-dark text-center">
+                <i class="fas fa-info-circle me-2"></i> Belum ada riwayat pemesanan yang selesai.
+            </div>
+        <?php else : ?>
+            <div class="row">
+                <?php foreach ($riwayat_pemesanan as $riwayat) : ?>
+                    <div class="col-md-6 col-lg-4 mb-4">
+                        <div class="card h-100 shadow border-0 card-hover-effect">
+                            <div class="card-header bg-dark text-white">
+                                <h5 class="card-title mb-0"><?= $riwayat['nama_mempelai'] ?></h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Paket:</span>
+                                    <strong><?= $riwayat['nama_paket'] ?></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Harga:</span>
+                                    <strong>Rp <?= number_format($riwayat['harga'], 0, ',', '.') ?></strong>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Pemesanan:</span>
+                                    <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemesanan'])) ?></small>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Pemotretan:</span>
+                                    <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemotretan'])) ?></small>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Pembayaran:</span>
+                                    <span><?= $riwayat['jenis_pembayaran'] ?></span>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Instagram:</span>
+                                    <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" 
+                                       target="_blank" class="text-decoration-none">
+                                       @<?= $riwayat['instagram'] ?>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                                <span class="badge rounded-pill bg-dark p-2">
+                                    <i class="fas fa-check-circle me-1"></i> <?= $riwayat['status'] ?>
+                                </span>
+                                <small class="text-muted">
+                                    Selesai: <?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?>
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php endif; ?>
+    </div>
 </div>
 
 

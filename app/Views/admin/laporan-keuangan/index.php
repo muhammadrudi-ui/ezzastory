@@ -4,7 +4,6 @@
 
 <div class="container">
     <div class="title mt-4">
-        <p class="text-start text-dark fw-bold mb-0">Dashboard Admin</p>
         <h3 class="text-start text-dark fw-bold">Laporan Keuangan</h3>
     </div>
 
@@ -32,7 +31,14 @@
         </select>
 
         <!-- Tombol Cetak Laporan dengan Filter -->
-        <a href="<?= site_url('admin/laporan-keuangan/cetak?search=' . urlencode($search ?? '') . '&filter_bulan=' . urlencode($filter_bulan ?? '') . '&filter_status_pembayaran=' . urlencode($filter_status_pembayaran ?? '')) ?>" class="btn btn-primary">Cetak Laporan</a>
+        <a href="<?= site_url('admin/laporan-keuangan/cetak') .
+                    '?search=' . urlencode($search ?? '') .
+                    '&filter_bulan=' . urlencode($filter_bulan ?? '') .
+                    '&filter_status_pembayaran=' . urlencode($filter_status_pembayaran ?? '')
+?>" 
+        class="btn btn-danger">
+            <i class="fas fa-file-pdf me-1"></i> Cetak Laporan
+        </a>
     </form>
 
     <div class="card">
