@@ -35,11 +35,11 @@ class PemesananController extends BaseController
 
         // Ambil SEMUA data pemesanan user
         $pemesanan = $this->pemesananModel
-        ->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.harga, paket_layanan.foto')
-        ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
-        ->where('pemesanan.user_id', $userId)
-        ->orderBy('created_at', 'DESC')
-        ->findAll();
+            ->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.harga, paket_layanan.foto')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->where('pemesanan.user_id', $userId)
+            ->orderBy('created_at', 'DESC')
+            ->findAll();
 
         // Ambil data riwayat (pemesanan selesai)
         $riwayatPemesanan = $this->pemesananModel
@@ -76,6 +76,22 @@ class PemesananController extends BaseController
             }
         }
 
+        // Tentukan tab aktif berdasarkan parameter tab atau paket_id
+        $tabParam = $this->request->getGet('tab');
+        $paketId = $this->request->getGet('paket_id');
+        $activeTab = 'jadwal'; // Default tab
+        if ($tabParam === 'pembayaran') {
+            $activeTab = 'pembayaran';
+        } elseif ($tabParam === 'reservasi') {
+            $activeTab = 'reservasi';
+        } elseif ($tabParam === 'tracking') {
+            $activeTab = 'tracking';
+        } elseif ($tabParam === 'riwayat') {
+            $activeTab = 'riwayat';
+        } elseif ($paketId) {
+            $activeTab = 'reservasi';
+        }
+
         $data = [
             'profile_perusahaan' => $this->profileModel->findAll(),
             'paket_layanan' => $this->paketLayananModel->findAll(),
@@ -85,7 +101,8 @@ class PemesananController extends BaseController
             'all_pemesanan' => $pemesanan,
             'riwayat_pemesanan' => $riwayatPemesanan,
             'tracking_steps' => $trackingSteps,
-            'page_title' => 'Reservasi & Tracking'
+            'page_title' => 'Reservasi & Tracking',
+            'active_tab' => $activeTab
         ];
 
         return view('user/reservasi', $data);
@@ -108,7 +125,7 @@ class PemesananController extends BaseController
             'link_maps_pengiriman'  => $this->request->getPost('link_maps_pengiriman'),
             'nama_mempelai'         => $this->request->getPost('nama_mempelai'),
             'instagram'             => $this->request->getPost('instagram'),
-            'status_pembayaran'     => 'Belum Bayar', // Set default status pembayaran
+            'status_pembayaran'     => 'Belum Bayar',
             'created_at'            => date('Y-m-d H:i:s')
         ];
 
@@ -143,7 +160,7 @@ class PemesananController extends BaseController
             ]);
         }
 
-        return redirect()->to('user/reservasi')->with('success', 'Reservasi berhasil dikirim!');
+        return redirect()->to('user/reservasi?tab=pembayaran')->with('success', 'Reservasi berhasil dikirim!');
     }
 
     public function batal($id)
@@ -152,12 +169,12 @@ class PemesananController extends BaseController
         $pemesanan = $this->pemesananModel->find($id);
 
         if (!$pemesanan) {
-            return redirect()->to('user/reservasi')->with('error', 'Pemesanan tidak ditemukan.');
+            return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Pemesanan tidak ditemukan.');
         }
 
         // Periksa apakah user yang login adalah pemilik pemesanan
         if ($pemesanan['user_id'] != session()->get('user_id')) {
-            return redirect()->to('user/reservasi')->with('error', 'Anda tidak memiliki akses untuk membatalkan pemesanan ini.');
+            return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Anda tidak memiliki akses untuk membatalkan pemesanan ini.');
         }
 
         // Ambil semua pembayaran terkait pemesanan
@@ -166,7 +183,7 @@ class PemesananController extends BaseController
         // Periksa apakah ada pembayaran dengan status 'success'
         foreach ($pembayaran as $bayar) {
             if ($bayar['status'] === 'success') {
-                return redirect()->to('user/reservasi')->with('error', 'Pemesanan tidak dapat dibatalkan karena sudah ada pembayaran yang berhasil.');
+                return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Pemesanan tidak dapat dibatalkan karena sudah ada pembayaran yang berhasil.');
             }
         }
 
@@ -174,7 +191,35 @@ class PemesananController extends BaseController
         $this->pembayaranModel->where('pemesanan_id', $id)->delete();
         $this->pemesananModel->delete($id);
 
-        return redirect()->to('user/reservasi')->with('success', 'Pemesanan berhasil dibatalkan.');
+        return redirect()->to('user/reservasi?tab=pembayaran')->with('success', 'Pemesanan berhasil dibatalkan.');
+    }
+
+    public function selesai($id)
+    {
+        // Ambil data pemesanan
+        $pemesanan = $this->pemesananModel->find($id);
+
+        if (!$pemesanan) {
+            return redirect()->to('user/reservasi?tab=riwayat')->with('error', 'Pemesanan tidak ditemukan.');
+        }
+
+        // Periksa apakah user yang login adalah pemilik pemesanan
+        if ($pemesanan['user_id'] != session()->get('user_id')) {
+            return redirect()->to('user/reservasi?tab=riwayat')->with('error', 'Anda tidak memiliki akses untuk menyelesaikan pemesanan ini.');
+        }
+
+        // Periksa apakah status adalah Pengiriman
+        if ($pemesanan['status'] !== 'Pengiriman') {
+            return redirect()->to('user/reservasi?tab=riwayat')->with('error', 'Pemesanan hanya dapat diselesaikan pada status Pengiriman.');
+        }
+
+        // Update status pemesanan ke Selesai
+        $this->pemesananModel->update($id, [
+            'status' => 'Selesai',
+            'status_selesai_at' => date('Y-m-d H:i:s')
+        ]);
+
+        return redirect()->to('user/reservasi?tab=riwayat')->with('success', 'Pemesanan telah diselesaikan.');
     }
 
     public function index_admin()
@@ -264,11 +309,13 @@ class PemesananController extends BaseController
     {
         $status = $this->request->getPost('status');
 
-        $updateData = ['status' => $status];
-
-        if ($status === 'Selesai') {
-            $updateData['status_selesai_at'] = date('Y-m-d H:i:s');
+        // Validasi status agar tidak bisa memilih Selesai
+        $validStatuses = ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman'];
+        if (!in_array($status, $validStatuses)) {
+            return redirect()->to('admin/data-pemesanan/index')->with('error', 'Status tidak valid.');
         }
+
+        $updateData = ['status' => $status];
 
         $this->pemesananModel->update($id, $updateData);
 

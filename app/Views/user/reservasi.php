@@ -391,27 +391,48 @@
 
     <div class="container mt-5">
         <!-- Tabs -->
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs scroll-animate fade-in" id="reservasiTabs" role="tablist">
             <li class="nav-item">
-                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#jadwal">Jadwal</button>
+                <button class="nav-link <?= isset($active_tab) && $active_tab === 'jadwal' ? 'active' : '' ?>" 
+                        id="jadwal-tab" data-bs-toggle="tab" data-bs-target="#jadwal" 
+                        type="button" role="tab" aria-controls="jadwal" aria-selected="<?= $active_tab === 'jadwal' ? 'true' : 'false' ?>">
+                        Jadwal
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#reservasi">Reservasi</button>
+                <button class="nav-link <?= isset($active_tab) && $active_tab === 'reservasi' ? 'active' : '' ?>" 
+                        id="reservasi-tab" data-bs-toggle="tab" data-bs-target="#reservasi" 
+                        type="button" role="tab" aria-controls="reservasi" aria-selected="<?= $active_tab === 'reservasi' ? 'true' : 'false' ?>">
+                        Reservasi
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#pembayaran">Pembayaran</button>
+                <button class="nav-link <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'active' : '' ?>" 
+                        id="pembayaran-tab" data-bs-toggle="tab" data-bs-target="#pembayaran" 
+                        type="button" role="tab" aria-controls="pembayaran" aria-selected="<?= $active_tab === 'pembayaran' ? 'true' : 'false' ?>">
+                        Pembayaran
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tracking">Tracking</button>
+                <button class="nav-link <?= isset($active_tab) && $active_tab === 'tracking' ? 'active' : '' ?>" 
+                        id="tracking-tab" data-bs-toggle="tab" data-bs-target="#tracking" 
+                        type="button" role="tab" aria-controls="tracking" aria-selected="<?= $active_tab === 'tracking' ? 'true' : 'false' ?>">
+                        Tracking
+                </button>
             </li>
             <li class="nav-item">
-                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#riwayat">Riwayat</button>
+                <button class="nav-link <?= isset($active_tab) && $active_tab === 'riwayat' ? 'active' : '' ?>" 
+                        id="riwayat-tab" data-bs-toggle="tab" data-bs-target="#riwayat" 
+                        type="button" role="tab" aria-controls="riwayat" aria-selected="<?= $active_tab === 'riwayat' ? 'true' : 'false' ?>">
+                        Riwayat
+                </button>
             </li>
         </ul>
 
-        <div class="tab-content mt-4">
+        <div class="tab-content mt-4" id="reservasiTabContent">
             <!-- Jadwal -->
-            <div class="tab-pane fade show active" id="jadwal">
+            <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'jadwal' ? 'show active' : '' ?>" 
+            id="jadwal" role="tabpanel" aria-labelledby="jadwal-tab">
                 <div class="calendar-container">
                     <div class="calendar-header">
                         <div>
@@ -443,7 +464,6 @@
                         <p><small>*Dalam 1 Hari Tidak Ada Batasan untuk Jenis Layanan Selain Wedding.</small></p>
                     </div>
                 </div>
-
 
                 <!-- Modal Bootstrap -->
                 <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel"
@@ -500,7 +520,8 @@
             </div>
 
             <!-- FORM RESERVASI -->
-<div class="tab-pane fade" id="reservasi">
+            <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'reservasi' ? 'show active' : '' ?>" 
+            id="reservasi" role="tabpanel" aria-labelledby="reservasi-tab">
     <div class="reservasi-card" style="max-width: 1000px;">
        <?php if (session()->getFlashdata('error')): ?>
         <div class="alert alert-danger">
@@ -538,14 +559,14 @@
                         placeholder="Masukkan nomor telepon" required readonly>
                 </div>
                     <?php
-$now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+                        $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 $waktuSekarang = $now->format('Y-m-d\TH:i');
 ?>
-<div class="mb-3">
-    <label class="form-label">Waktu Pemesanan</label>
-    <input type="datetime-local" name="waktu_pemesanan" class="form-control"
-        value="<?= $waktuSekarang ?>" readonly required>
-</div>
+                    <div class="mb-3">
+                        <label class="form-label">Waktu Pemesanan</label>
+                        <input type="datetime-local" name="waktu_pemesanan" class="form-control"
+                            value="<?= $waktuSekarang ?>" readonly required>
+                    </div>
 
                     <div class="mb-3">
                         <label class="form-label">Paket Layanan</label>
@@ -553,9 +574,10 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                             <option value="" selected disabled>Pilih Paket Layanan</option>
                             <?php foreach ($paket_layanan as $paket): ?>
                                 <option value="<?= $paket['id'] ?>" 
-                                    data-deskripsi="<?= $paket['benefit'] ?>"
-                                    data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>">
-                                    <?= $paket['nama'] ?>
+                                    data-deskripsi="<?= esc($paket['benefit']) ?>"
+                                    data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
+                                    <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'selected' : '' ?>>
+                                    <?= esc($paket['nama']) ?>
                                 </option>
                             <?php endforeach; ?>
                         </select>
@@ -573,8 +595,12 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                 <!-- Kolom Kanan -->
                 <div class="col-md-6">
                     <div class="mb-3">
+                    <?php
+    $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+$waktuSekarang = $now->format('Y-m-d\TH:i');
+?>       
     <label class="form-label">Waktu Pemotretan</label>
-    <input type="datetime-local" name="waktu_pemotretan" class="form-control" required>
+    <input type="datetime-local" name="waktu_pemotretan" class="form-control" value="<?= $waktuSekarang ?>" required>
 </div>
                     <div class="mb-3">
                         <label class="form-label">Jenis Pembayaran</label>
@@ -617,10 +643,11 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
             <div class="mt-4 p-3 border rounded bg-light">
                 <h6 class="text-danger"><strong>Catatan:</strong></h6>
                 <ul class="mb-0">
-                    <li>DP Minimal 500rb</li>
-                    <li>Pelunasan Maksimal H+3 Setelah Acara</li>
-                    <li>Setelah Ada Pelunasan Baru kami edit dan Cetak</li>
-                    <li>(Pengerjaan Album Kisaran 2-4 Minggu)</li>
+                    <li>DP sebesar 50% dari harga paket layanan.</li>
+                    <li>Pembayaran DP maksimal H-3 sebelum acara.</li>
+                    <li>Pelunasan maksimal H+3 setelah acara.</li>
+                    <li>Proses editing dan pencetakan dilakukan setelah pelunasan.</li>
+                    <li>Estimasi pengerjaan album sekitar 2–4 minggu.</li>
                 </ul>
             </div>
         </form>
@@ -628,14 +655,15 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 </div>
 
 <!-- Payment -->
-<div class="tab-pane fade" id="pembayaran">
+<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
+id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
     <div class="card mt-4 border-0 shadow-sm">
         <div class="card-body p-4">
             <h4 class="mb-4 d-flex align-items-center fw-semibold">
                 <i class="fas fa-credit-card me-2 text-primary"></i> Informasi Pembayaran
             </h4>
 
-            <?php if (empty($all_pemesanan)): ?>
+            <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
                 <div class="alert alert-info d-flex align-items-center">
                     <i class="fa-solid fa-circle-info me-3 fs-4"></i>
                     <div>
@@ -646,6 +674,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
             <?php else: ?>
                 <div class="accordion" id="paymentAccordion">
                     <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                        <?php if ($pemesanan['status'] !== 'Selesai'): ?>
                         <div class="accordion-item border rounded-3 mb-3">
                             <h2 class="accordion-header" id="heading<?= $index ?>">
                                 <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="collapse<?= $index ?>">
@@ -683,9 +712,9 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                 <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
                                                 <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
                                             </div>
-                                            <div class="d-flex align-items-center">
-                                                <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal Pemotretan</span>
-                                                <span><?= date('d M Y', strtotime($pemesanan['waktu_pemotretan'])) ?></span>
+                                            <div class="d-flex align-items-center mb-2">
+                                                <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
+                                                <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
                                             </div>
                                             <div>
                                                 <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
@@ -768,6 +797,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                 </div>
                             </div>
                         </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
@@ -775,101 +805,109 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
     </div>
 </div>
 
-          <!-- Tracking -->
-        <div class="tab-pane fade" id="tracking">
-            <?php if (empty($all_pemesanan)): ?>
-                <div class="alert alert-primary d-flex align-items-center rounded-4 shadow-sm">
-                    <i class="fa-solid fa-circle-info me-3 fs-3 text-primary"></i>
-                    <div>
-                        <strong class="d-block mb-1 fs-5">Belum ada data pemesanan</strong>
-                        <p class="mb-0 text-muted">Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.</p>
-                    </div>
-                </div>
-            <?php else: ?>
-                <div class="accordion" id="trackingAccordion">
-                    <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
-                        <div class="accordion-item border rounded-4 mb-3 shadow-sm overflow-hidden">
-                            <h2 class="accordion-header" id="trackingHeading<?= $index ?>">
-                                <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
-                                    <div class="d-flex flex-column flex-md-row w-100 gap-3">
-                                        <div>
-                                            <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Paket</span>
-                                            <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
-                                        </div>
-                                        <div>
-                                            <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Mempelai</span>
-                                            <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                        </div>
-                                        <?php if (!empty($pemesanan['tanggal_acara'])): ?>
-                                        <div class="ms-md-auto">
-                                            <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Tanggal</span>
-                                            <strong class="ms-1"><?= date('d M Y', strtotime($pemesanan['tanggal_acara'])) ?></strong>
-                                        </div>
-                                        <?php endif; ?>
-                                    </div>
-                                </button>
-                            </h2>
-                            <div id="trackingCollapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#trackingAccordion">
-                                <div class="accordion-body pt-4 pb-4">
-                                    <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
-                                    <div class="tracking-container">
-                                        <?php
-                                        $steps = [
-                                            'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
-                                            'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
-                                            'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
-                                            'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
-                                            'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
-                                            'Selesai' => ['icon' => 'fa-check', 'label' => 'Selesai']
-                                        ];
+<!-- Tracking -->
+<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'tracking' ? 'show active' : '' ?>" 
+id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
+    <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
+        <div class="alert alert-primary d-flex align-items-center rounded-4 shadow-sm">
+            <i class="fa-solid fa-circle-info me-3 fs-3 text-primary"></i>
+            <div>
+                <strong class="d-block mb-1 fs-5">Belum ada data pemesanan</strong>
+                <p class="mb-0 text-muted">Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.</p>
+            </div>
+        </div>
+    <?php else: ?>
+        <div class="accordion" id="trackingAccordion">
+            <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                <?php if ($pemesanan['status'] !== 'Selesai'): ?>
+                <div class="accordion-item border rounded-4 mb-3 shadow-sm overflow-hidden">
+                    <h2 class="accordion-header" id="trackingHeading<?= $index ?>">
+                        <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
+                            <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                <div>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Paket</span>
+                                    <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
+                                </div>
+                                <div>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Mempelai</span>
+                                    <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                </div>
+                                <?php if (!empty($pemesanan['tanggal_acara'])): ?>
+                                <div class="ms-md-auto">
+                                    <span class="badge bg-primary bg-opacity-10 text-primary fw-medium">Tanggal</span>
+                                    <strong class="ms-1"><?= date('d M Y', strtotime($pemesanan['tanggal_acara'])) ?></strong>
+                                </div>
+                                <?php endif; ?>
+                            </div>
+                        </button>
+                    </h2>
+                    <div id="trackingCollapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#trackingAccordion">
+                        <div class="accordion-body pt-4 pb-4">
+                            <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
+                            <div class="tracking-container">
+                                <?php
+                                $steps = [
+                                    'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
+                                    'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
+                                    'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
+                                    'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
+                                    'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
+                                ];
 
-                        $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
-                        $statusOrder = array_keys($steps);
-                        $currentIndex = array_search($currentStatus, $statusOrder);
+                    $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
+                    $statusOrder = array_keys($steps);
+                    $currentIndex = array_search($currentStatus, $statusOrder);
 
-                        foreach ($steps as $status => $step):
-                            $isActive = $status === $currentStatus;
-                            $isPast = array_search($status, $statusOrder) < $currentIndex;
-                            ?>
-                                            <div class="tracking-step">
-                                                <?php if ($isActive): ?>
-                                                    <div class="tracking-icon active">
-                                                        <i class="fa-solid <?= $step['icon'] ?>"></i>
-                                                    </div>
-                                                <?php elseif ($isPast): ?>
-                                                    <div class="tracking-icon completed">
-                                                        <i class="fa-solid fa-check"></i>
-                                                    </div>
-                                                <?php else: ?>
-                                                    <div class="tracking-icon pending">
-                                                        <i class="fa-solid <?= $step['icon'] ?>"></i>
-                                                    </div>
-                                                <?php endif; ?>
-                                                
-                                                <?php if ($status !== 'Selesai'): ?>
-                                                    <div class="tracking-connector <?= $isPast ? 'active' : '' ?>"></div>
-                                                <?php endif; ?>
-                                                
-                                                <div class="tracking-label">
-                                                    <span class="tracking-text <?= $isActive ? 'active' : ($isPast ? 'completed' : '') ?>">
-                                                        <?= $step['label'] ?>
-                                                    </span>
-                                                    <?php if ($isActive): ?>
-                                                        <span class="tracking-status">Sedang Diproses</span>
-                                                    <?php endif; ?>
-                                                </div>
+                    foreach ($steps as $status => $step):
+                        $isActive = $status === $currentStatus;
+                        $isPast = array_search($status, $statusOrder) < $currentIndex;
+                        ?>
+                                    <div class="tracking-step">
+                                        <?php if ($isActive): ?>
+                                            <div class="tracking-icon active">
+                                                <i class="fa-solid <?= $step['icon'] ?>"></i>
                                             </div>
-                                        <?php endforeach; ?>
+                                        <?php elseif ($isPast): ?>
+                                            <div class="tracking-icon completed">
+                                                <i class="fa-solid fa-check"></i>
+                                            </div>
+                                        <?php else: ?>
+                                            <div class="tracking-icon pending">
+                                                <i class="fa-solid fa-<?= $step['icon'] ?>"></i>
+                                            </div>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($status !== 'Pengiriman'): ?>
+                                            <div class="tracking-connector <?= $isPast ? 'active' : '' ?>"></div>
+                                        <?php endif; ?>
+                                        
+                                        <div class="tracking-label">
+                                            <span class="tracking-text <?= $isActive ? 'active' : ($isPast ? 'completed' : '') ?>">
+                                                <?= $step['label'] ?>
+                                            </span>
+                                            <?php if ($isActive): ?>
+                                                <span class="tracking-status">Sedang Diproses</span>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
-                                    
-                                    <div class="tracking-info mt-4">
-                                        <?php if ($currentStatus !== 'Selesai'): ?>
-                                            <div class="alert alert-light border d-flex align-items-center rounded-4">
-                                                <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
-                                                <div>
-                                                    <strong class="d-block mb-1">Status Pemesanan: <?= $currentStatus ?></strong>
-                                                    <p class="mb-0">
-                                                        <?php
+                                <?php endforeach; ?>
+                            </div>
+                            
+                            <div class="tracking-info mt-4">
+                                <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
+                                    <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
+                                        <?= csrf_field() ?>
+                                        <button type="button" class="btn btn-success w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
+                                            <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
+                                        </button>
+                                    </form>
+                                <?php elseif ($pemesanan['status'] !== 'Selesai'): ?>
+                                    <div class="alert alert-light border d-flex align-items-center rounded-4">
+                                        <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
+                                        <div>
+                                            <strong class="d-block mb-1">Status Pemesanan: <?= $pemesanan['status'] ?></strong>
+                                            <p class="mb-0">
+                                                <?php
                                         $descriptions = [
                                             'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses.',
                                             'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
@@ -877,43 +915,32 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                             'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
                                             'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
                                         ];
-                                            echo $descriptions[$currentStatus] ?? 'Pesanan Anda sedang diproses.';
-                                            ?>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        <?php else: ?>
-                                            <div class="alert alert-light border d-flex align-items-center rounded-4">
-                                                <i class="fa-solid fa-circle-check text-success me-3 fs-4"></i>
-                                                <div>
-                                                    <strong class="d-block mb-1">Pemesanan Selesai</strong>
-                                                    <p class="mb-0">
-                                                        Pemesanan Anda telah selesai pada <?= date('d M Y', strtotime($pemesanan['status_selesai_at'])) ?>.
-                                                        Terima kasih telah menggunakan layanan kami.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        <?php endif; ?>
-                                        
-                                        <?php if (!empty($pemesanan['catatan_status'])): ?>
-                                        <div class="alert alert-light border rounded-4 mt-3">
-                                            <i class="fa-solid fa-comment-dots me-2 text-dark"></i>
-                                            <strong>Catatan:</strong>
-                                            <p class="mb-0 mt-2"><?= nl2br(esc($pemesanan['catatan_status'])) ?></p>
+                                    echo $descriptions[$pemesanan['status']] ?? 'Pesanan Anda sedang diproses.';
+                                    ?>
+                                            </p>
                                         </div>
-                                        <?php endif; ?>
                                     </div>
-                                </div>
+                                <?php endif; ?>
+                                <?php if (!empty($pemesanan['catatan_status'])): ?>
+                                    <div class="alert alert-light border rounded-4 mt-3">
+                                        <i class="fa-solid fa-comment-dots me-2 text-dark"></i>
+                                        <strong>Catatan:</strong>
+                                        <p class="mb-0 mt-2"><?= nl2br(esc($pemesanan['catatan_status'])) ?></p>
+                                    </div>
+                                <?php endif; ?>
                             </div>
                         </div>
-                    <?php endforeach; ?>
+                    </div>
                 </div>
-            <?php endif; ?>
+                <?php endif; ?>
+            <?php endforeach; ?>
         </div>
-
+    <?php endif; ?>
+</div>
 
 <!-- Riwayat -->
-<div class="tab-pane fade" id="riwayat">
+<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'riwayat' ? 'show active' : '' ?>" 
+id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
     <h4 class="text-center mb-4">Riwayat Pemesanan</h4>
     <?php if (empty($riwayat_pemesanan)) : ?>
         <div class="alert alert-info">Belum ada riwayat pemesanan yang selesai.</div>
@@ -955,13 +982,11 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
     <?php endif; ?>
 </div>
 
-            
 
 </div>
 </div>
 
-<!-- Alert Batalkan Pemesanan -->
- <!-- SweetAlert2 Script -->
+ <!-- SweetAlert Batalkan Pemesanan Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmCancel(pemesananId) {
@@ -980,7 +1005,28 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
             }
         });
     }
+
+    // SweetAlert Menyelesaikan Pemesanan
+    function confirmComplete(pemesananId) {
+        Swal.fire({
+            title: "Konfirmasi Penyelesaian",
+            text: "Apakah Anda yakin ingin menyelesaikan pemesanan ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Selesaikan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form secara langsung
+                document.getElementById(`completeForm${pemesananId}`).submit();
+            }
+        });
+    }
 </script>
+
+
 
 <!-- Jika USer Belum Melengkapi Profil Pribadi -->
 <?php if (!$isProfileComplete): ?>

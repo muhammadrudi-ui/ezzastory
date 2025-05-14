@@ -21,7 +21,7 @@ class PembayaranController extends BaseController
     {
         $pembayaran = $this->pembayaranModel->find($id);
         if (!$pembayaran) {
-            return redirect()->back()->with('error', 'Data pembayaran tidak ditemukan');
+            return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Data pembayaran tidak ditemukan');
         }
 
         // Update status pembayaran
@@ -48,6 +48,6 @@ class PembayaranController extends BaseController
 
         $this->pemesananModel->update($pembayaran['pemesanan_id'], $updateData);
 
-        return redirect()->back()->with('success', 'Pembayaran berhasil dicatat dan status pemesanan diperbarui');
+        return redirect()->to('user/reservasi?tab=pembayaran')->with('success', 'Pembayaran berhasil dicatat dan status pemesanan diperbarui');
     }
 }

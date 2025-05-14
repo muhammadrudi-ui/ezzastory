@@ -80,7 +80,6 @@
         <option value="Editing" <?= $pemesanan['status'] == 'Editing' ? 'selected' : '' ?>>Proses Editing</option>
         <option value="Pencetakan" <?= $pemesanan['status'] == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan Album</option>
         <option value="Pengiriman" <?= $pemesanan['status'] == 'Pengiriman' ? 'selected' : '' ?>>Pengiriman</option>
-        <option value="Selesai" <?= $pemesanan['status'] == 'Selesai' ? 'selected' : '' ?>>Selesai</option>
     </select>
 </div>
 
