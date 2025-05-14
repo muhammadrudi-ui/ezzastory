@@ -251,11 +251,10 @@
         <?php foreach ($profile_perusahaan as $profile): ?>
             <div class="container">
                 <p class="lead"><?= ($profile['cta']) ?></p>
-                <a href="<?= base_url('user/reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
+                <a href="<?= base_url('user/reservasi#reservasi') ?>" class="btn btn-dark" onclick="activateReservasiTab()">Reservasi Sekarang</a>
             </div>
         <?php endforeach; ?>
     </section>
-
     
 
 <?= $this->endSection() ?>

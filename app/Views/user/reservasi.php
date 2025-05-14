@@ -1009,49 +1009,8 @@ id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
 </div>
 </div>
 
- <!-- SweetAlert Batalkan Pemesanan Script -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-    function confirmCancel(pemesananId) {
-        Swal.fire({
-            title: "Batalkan Pemesanan",
-            text: "Apakah Anda yakin ingin membatalkan pemesanan ini?",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, Batalkan",
-            cancelButtonText: "Tidak"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                document.getElementById('cancelForm' + pemesananId).submit();
-            }
-        });
-    }
 
-    // SweetAlert Menyelesaikan Pemesanan
-    function confirmComplete(pemesananId) {
-        Swal.fire({
-            title: "Konfirmasi Penyelesaian",
-            text: "Apakah Anda yakin ingin menyelesaikan pemesanan ini?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Selesaikan",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Submit form secara langsung
-                document.getElementById(`completeForm${pemesananId}`).submit();
-            }
-        });
-    }
-</script>
-
-
-
-<!-- Jika USer Belum Melengkapi Profil Pribadi -->
+<!-- Jika User Belum Melengkapi Profil Pribadi -->
 <?php if (!$isProfileComplete): ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
@@ -1068,28 +1027,7 @@ id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
 </script>
 <?php endif; ?>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const paketSelect = document.getElementById('paketLayanan');
-    const deskripsiTextarea = document.getElementById('deskripsiPaket');
-    const hargaDisplay = document.getElementById('hargaPaket');
-
-    paketSelect.addEventListener('change', function() {
-        const selectedOption = paketSelect.options[paketSelect.selectedIndex];
-        const deskripsi = selectedOption.getAttribute('data-deskripsi');
-        const harga = selectedOption.getAttribute('data-harga');
-        
-        deskripsiTextarea.value = deskripsi || '';
-        hargaDisplay.textContent = harga ? 'Rp ' + harga : 'Rp 0';
-    });
-
-    // Trigger change event initially if there's a selected value
-    if (paketSelect.value) {
-        paketSelect.dispatchEvent(new Event('change'));
-    }
-});
-</script>
-
+<!-- Kalender -->
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const modal = new bootstrap.Modal(document.getElementById("reservationModal"));
@@ -1216,35 +1154,85 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<!-- Deskripsi & Harga Paket Layanan -->
 <script>
-    document.getElementById("paketLayanan").addEventListener("change", function () {
-        let paket = this.value;
-        let deskripsiPaket = document.getElementById("deskripsiPaket");
-        let hargaPaket = document.getElementById("hargaPaket");
+document.addEventListener('DOMContentLoaded', function() {
+    const paketSelect = document.getElementById('paketLayanan');
+    const deskripsiTextarea = document.getElementById('deskripsiPaket');
+    const hargaDisplay = document.getElementById('hargaPaket');
 
-        let paketData = {
-            silver: {
-                deskripsi: "Paket Silver mencakup sesi foto 2 jam dengan 30 hasil editan terbaik.",
-                harga: "Rp 2.000.000"
-            },
-            gold: {
-                deskripsi: "Paket Gold mencakup sesi foto 4 jam dengan 60 hasil editan terbaik dan album cetak.",
-                harga: "Rp 4.500.000"
-            },
-            platinum: {
-                deskripsi: "Paket Platinum mencakup sesi foto 6 jam, unlimited hasil editan, album premium, dan video highlight.",
-                harga: "Rp 8.000.000"
-            }
-        };
-
-        if (paketData[paket]) {
-            deskripsiPaket.value = paketData[paket].deskripsi;
-            hargaPaket.value = paketData[paket].harga;
-        } else {
-            deskripsiPaket.value = "";
-            hargaPaket.value = "";
-        }
+    paketSelect.addEventListener('change', function() {
+        const selectedOption = paketSelect.options[paketSelect.selectedIndex];
+        const deskripsi = selectedOption.getAttribute('data-deskripsi');
+        const harga = selectedOption.getAttribute('data-harga');
+        
+        deskripsiTextarea.value = deskripsi || '';
+        hargaDisplay.textContent = harga ? 'Rp ' + harga : 'Rp 0';
     });
+
+    // Trigger change event initially if there's a selected value
+    if (paketSelect.value) {
+        paketSelect.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+
+<!-- SweetAlert Batalkan Pemesanan Script -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function confirmCancel(pemesananId) {
+        Swal.fire({
+            title: "Batalkan Pemesanan",
+            text: "Apakah Anda yakin ingin membatalkan pemesanan ini?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, Batalkan",
+            cancelButtonText: "Tidak"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('cancelForm' + pemesananId).submit();
+            }
+        });
+    }
+
+    // SweetAlert Menyelesaikan Pemesanan
+    function confirmComplete(pemesananId) {
+        Swal.fire({
+            title: "Konfirmasi Penyelesaian",
+            text: "Apakah Anda yakin ingin menyelesaikan pemesanan ini?",
+            icon: "question",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Ya, Selesaikan",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Submit form secara langsung
+                document.getElementById(`completeForm${pemesananId}`).submit();
+            }
+        });
+    }
+</script>
+
+<!-- CTA to Tab Reservasi -->
+<script>
+function activateReservasiTab() {
+    // Pastikan Bootstrap Tab tersedia
+    if (typeof bootstrap !== 'undefined') {
+        const reservasiTab = new bootstrap.Tab(document.querySelector('#reservasi-tab'));
+        reservasiTab.show();
+    }
+}
+
+// Aktifkan tab Reservasi secara otomatis jika URL memiliki hash #reservasi
+document.addEventListener('DOMContentLoaded', function() {
+    if (window.location.hash === '#reservasi') {
+        activateReservasiTab();
+    }
+});
 </script>
 
 <?= $this->endSection() ?>

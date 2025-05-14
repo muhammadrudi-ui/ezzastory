@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<head>
     <style>
         /* Hero Section */
         .hero-section {
@@ -151,9 +150,7 @@
             }
         }
     </style>
-</head>
 
-<body>
     <!-- Hero Section -->
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
@@ -196,10 +193,8 @@
     <section class="cta-section scroll-animate fade-in">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
-            <a href="#" class="btn btn-dark">Reservasi Sekarang</a>
+            <a href="<?= base_url('user/reservasi#reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
         </div>
     </section>
-
-</body>
 
 <?= $this->endSection() ?>

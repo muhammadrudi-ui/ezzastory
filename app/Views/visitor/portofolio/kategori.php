@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<head>
     <style>
         /* Hero Section */
         .hero-section {
@@ -106,9 +105,7 @@
             }
         }
     </style>
-</head>
 
-<body>
     <!-- Hero Section -->
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
@@ -152,7 +149,5 @@
         </div>
     </section>
 
-
-</body>
 
 <?= $this->endSection() ?>

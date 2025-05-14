@@ -241,7 +241,7 @@
                     <div class="col-md-4 mb-4 scroll-animate scale-up">
                         <h5>Quick Links</h5>
                         <ul class="list-unstyled">
-                            <li><a href="<?= base_url('visitor/beranda') ?>">Beranda</a></li>
+                            <li><a href="<?= base_url('') ?>">Beranda</a></li>
                             <li><a href="<?= base_url('visitor/tentang-kami') ?>">Tentang Kami</a></li>
                             <li><a href="<?= base_url('visitor/portofolio/index') ?>">Portofolio</a></li>
                             <li><a href="#" onclick="confirmRedirect('<?= base_url('login') ?>')">Paket
@@ -285,6 +285,7 @@
         </footer>
     <?php endforeach; ?>
 
+<!-- WhatsApp -->
     <?php foreach ($profile_perusahaan as $profile): ?>
         <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $profile['no_telp']) ?>" 
        class="whatsapp-float" 
@@ -294,6 +295,7 @@
     </a>
 <?php endforeach; ?>
 
+    <!-- Scroll Navbar -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             var navbar = document.querySelector(".navbar");
@@ -308,6 +310,7 @@
         });
     </script>
 
+    <!-- SweetAlert to Login -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         function confirmRedirect(redirectUrl) {

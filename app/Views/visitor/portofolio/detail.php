@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<head>
     <style>
         /* Hero Section */
         .hero-section {
@@ -151,9 +150,7 @@
             }
         }
     </style>
-</head>
 
-<body>
     <!-- Hero Section -->
     <section class="hero-section">
         <?php foreach ($profile_perusahaan as $profile): ?>
@@ -196,10 +193,29 @@
     <section class="cta-section scroll-animate fade-in">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
-            <a href="#" class="btn btn-dark">Reservasi Sekarang</a>
+            <a href="#" onclick="confirmRedirect('<?= base_url('login') ?>')" class="btn btn-dark">Reservasi Sekarang</a>
         </div>
     </section>
 
-</body>
+    <!-- SweetAlert to Login -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmRedirect(redirectUrl) {
+            Swal.fire({
+                title: "Login Diperlukan",
+                text: "Anda harus login terlebih dahulu untuk mengakses halaman ini.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login Sekarang",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = redirectUrl;
+                }
+            });
+        }
+    </script>
 
 <?= $this->endSection() ?>

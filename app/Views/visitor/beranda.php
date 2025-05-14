@@ -249,9 +249,30 @@
         <?php foreach ($profile_perusahaan as $profile): ?>
             <div class="container">
                 <p class="lead"><?= ($profile['cta']) ?></p>
-                <a href="<?= base_url('user/reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
+                <a href="#" onclick="confirmRedirect('<?= base_url('login') ?>')" class="btn btn-dark">Reservasi Sekarang</a>
             </div>
         <?php endforeach; ?>
     </section>
 
+    <!-- SweetAlert to Login -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function confirmRedirect(redirectUrl) {
+            Swal.fire({
+                title: "Login Diperlukan",
+                text: "Anda harus login terlebih dahulu untuk mengakses halaman ini.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Login Sekarang",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = redirectUrl;
+                }
+            });
+        }
+    </script>
+    
 <?= $this->endSection() ?>

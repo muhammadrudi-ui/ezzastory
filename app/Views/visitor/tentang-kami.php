@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-<head>
     <style>
         /* Hero Section */
         .hero-section {
@@ -141,9 +140,6 @@
             color: #ddd;
         }
     </style>
-</head>
-
-<body>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -200,7 +196,5 @@
             <?php endforeach; ?>
         </div>
     </section>
-
-</body>
 
 <?= $this->endSection() ?>
