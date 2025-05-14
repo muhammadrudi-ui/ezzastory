@@ -229,7 +229,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/laporan-keuangan">
+                <a class="nav-link" href="<?= base_url('admin/laporan-keuangan/index') ?>">
                     <i class="bi bi-cash-stack"></i> <span>Laporan Keuangan</span>
                 </a>
             </li>

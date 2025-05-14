@@ -79,15 +79,19 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->post('profile-perusahaan/proses-edit/(:num)', 'ProfileController::update/$1');
     $routes->get('profile-perusahaan/delete/(:num)', 'ProfileController::delete/$1');
 
-    // Pemesanan, Laporan, dll
+    // Data Pemesanan
     $routes->get('data-pemesanan/index', 'PemesananController::index_admin');
     $routes->get('data-pemesanan/edit/(:segment)', 'PemesananController::edit_admin/$1');
     $routes->post('data-pemesanan/update/(:segment)', 'PemesananController::update_admin/$1');
-    $routes->get('laporan-keuangan', 'LaporanKeuanganController::index');
+
+    // Laporan Keuangan
+    $routes->get('laporan-keuangan/index', 'LaporanKeuanganController::index');
+    $routes->get('laporan-keuangan/cetak', 'LaporanKeuanganController::cetak');
+
+
     // Riwayat Pemesanan
     $routes->get('data-pemesanan/riwayat', 'RiwayatPemesananController::riwayat');
     $routes->get('data-pemesanan/export-excel', 'RiwayatPemesananController::exportExcel');
-
 
     // Portofolio Admin
     $routes->get('portofolio/index', 'PortofolioController::index_admin');
