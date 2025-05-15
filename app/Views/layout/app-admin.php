@@ -199,7 +199,7 @@
             </li>
             <hr class="sidebar-divider" />
             <li class="nav-item">
-                <a class="nav-link" href="/ketersediaan-jadwal">
+                <a class="nav-link" href="<?= base_url('admin/ketersediaan-jadwal') ?>">
                     <i class="bi bi-calendar-check"></i> <span>Ketersediaan Jadwal</span>
                 </a>
             </li>

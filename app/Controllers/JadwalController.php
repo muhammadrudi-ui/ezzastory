@@ -9,6 +9,11 @@ class JadwalController extends BaseController
 {
     public function index()
     {
+        return view('user/reservasi');
+    }
+
+    public function index_admin()
+    {
         return view('admin/ketersediaan-jadwal');
     }
 }

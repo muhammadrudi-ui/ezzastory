@@ -55,7 +55,6 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     $routes->post('pemesanan/batal/(:num)', 'PemesananController::batal/$1');
     $routes->post('pemesanan/selesai/(:num)', 'PemesananController::selesai/$1');
 
-
     $routes->post('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
 
 
@@ -83,6 +82,9 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('data-pemesanan/index', 'PemesananController::index_admin');
     $routes->get('data-pemesanan/edit/(:segment)', 'PemesananController::edit_admin/$1');
     $routes->post('data-pemesanan/update/(:segment)', 'PemesananController::update_admin/$1');
+
+    // Ketersediaan Jadwal
+    $routes->get('ketersediaan-jadwal', 'JadwalController::index_admin');
 
     // Laporan Keuangan
     $routes->get('laporan-keuangan/index', 'LaporanKeuanganController::index');
@@ -117,8 +119,4 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 // Redirect untuk URL lama menuju ke struktur baru
 $routes->get('/dashboard', function () {
     return redirect()->to('/admin/dashboard');
-});
-
-$routes->get('/ketersediaan-jadwal', function () {
-    return redirect()->to('/admin/jadwal');
 });
