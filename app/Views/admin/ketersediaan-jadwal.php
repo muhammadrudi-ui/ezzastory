@@ -32,7 +32,7 @@
     }
 
     .calendar-controls button:hover {
-        background-color: dark;
+        background-color: #343a40;
         color: white;
     }
 
@@ -42,7 +42,7 @@
         text-align: center;
         vertical-align: middle;
         height: 80px;
-        border: 1px solid #ddd;
+        border: 1uji solid #ddd;
         font-weight: bold;
         transition: background 0.3s;
     }
@@ -53,7 +53,7 @@
     }
 
     .reserved {
-        color: red !important;
+        color: red;
         padding: 8px;
         position: relative;
     }
@@ -71,7 +71,7 @@
     }
 
     .available {
-        color: green !important;
+        color: green;
         border-radius: 8px;
         padding: 8px;
     }
@@ -94,6 +94,7 @@
     .table th,
     .table td {
         vertical-align: middle;
+        min-width: 100px;
     }
 
     @media (max-width: 576px) {
@@ -107,23 +108,6 @@
             font-size: 12px;
         }
     }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-        .calendar-header {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .calendar-controls {
-            margin-top: 10px;
-        }
-
-        .table-responsive {
-            overflow-x: auto;
-        }
-    }
 </style>
 
 <div class="title mt-4">
@@ -132,33 +116,35 @@
 
 <div class="calendar-container">
     <div class="calendar-header">
-        <div>
-            <h4 id="calendarMonth" class="text-dark"></h4>
-        </div>
+        <h4 id="calendarMonth" class="text-dark fw-bold"></h4>
         <div class="calendar-controls">
-            <button class="btn btn-outline-dark btn-sm" id="prevMonth">‹</button>
-            <button class="btn btn-outline-dark btn-sm" id="nextMonth">›</button>
-            <select id="yearFilter" class="form-select form-select-sm"></select>
+            <button class="btn btn-outline-dark btn-sm" id="prevMonth">
+                <i class="bi bi-chevron-left"></i>
+            </button>
+            <button class="btn btn-outline-dark btn-sm" id="nextMonth">
+                <i class="bi bi-chevron-right"></i>
+            </button>
+            <select id="yearFilter" class="form-select form-select-sm shadow-sm"></select>
         </div>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive shadow-sm rounded">
         <table class="table text-center calendar-table">
-            <thead>
+            <thead class="table-light">
                 <tr>
-                    <th>Minggu</th>
                     <th>Senin</th>
                     <th>Selasa</th>
                     <th>Rabu</th>
                     <th>Kamis</th>
                     <th>Jumat</th>
                     <th>Sabtu</th>
+                    <th>Minggu</th>
                 </tr>
             </thead>
             <tbody id="calendarBody"></tbody>
         </table>
     </div>
-    <div class="calendar-note">
-        <p><small>*Dalam 1 Hari Tidak Ada Batasan untuk Jenis Layanan Selain Wedding.</small></p>
+    <div class="calendar-note text-muted mt-3">
+        <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
     </div>
 </div>
 
@@ -166,173 +152,44 @@
 <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-header text-center">
+            <div class="modal-header text-center bg-dark text-white">
                 <h5 class="modal-title w-100 fw-bold">Detail Reservasi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="d-flex justify-content-between align-items-center flex-wrap">
-                    <div>
-                        <span class="badge bg-danger small">Sudah Reservasi: <span id="bookedCount">3</span></span>
-                        <span class="badge bg-success small">Sisa Kuota Reservasi: <span
-                                id="remainingQuota">5</span></span>
+                <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                    <div class="quota-info">
+                        <span class="badge bg-danger me-2"><i class="bi bi-bookmark-check"></i> Sudah Reservasi: <span id="bookedCount">0</span></span>
+                        <span class="badge bg-success"><i class="bi bi-bookmark-plus"></i> Sisa Kuota Wedding: <span id="remainingQuota">3</span></span>
                     </div>
-                    <h6 class="fw-bold">Tanggal: <span id="reservationDate">Senin, 25 September 2024</span></h6>
+                    <h6 class="fw-bold">Tanggal: <span id="reservationDate"></span></h6>
                 </div>
-
-                <!-- Tabel Pengguna -->
-                <div class="table-responsive mt-3">
+                <p class="text-muted small mb-3"><strong>Info Kuota:</strong> Kuota di atas hanya berlaku untuk paket layanan Wedding (maksimal 3 per hari). Layanan lain tidak dibatasi.</p>
+                <div class="table-responsive">
                     <table class="table table-striped table-bordered text-center">
                         <thead class="table-dark">
-                            <tr>
-                                <th>Nama</th>
-                                <th>Paket Layanan</th>
-                                <th>Waktu Pemotretan</th>
-                                <th>Lokasi</th>
+                            <tr id="tableHeader">
+                                <!-- Header akan diisi oleh JavaScript berdasarkan role -->
                             </tr>
                         </thead>
-                        <tbody id="reservationList">
-                            <!-- Data reservasi akan ditambahkan via JavaScript -->
-                        </tbody>
+                        <tbody id="reservationList"></tbody>
                     </table>
                 </div>
-
-                <!-- Informasi Tambahan -->
-                <div class="calendar-note">
-                    <p><small>*Dalam 1 Hari Tidak Ada Batasan untuk Jenis Layanan Selain Wedding.</small></p>
+                <div class="calendar-note text-muted mt-3">
+                    <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
             </div>
         </div>
     </div>
 </div>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const modal = new bootstrap.Modal(document.getElementById("reservationModal"));
-        const calendarBody = document.getElementById("calendarBody");
-        const calendarMonth = document.getElementById("calendarMonth");
-        const prevMonthBtn = document.getElementById("prevMonth");
-        const nextMonthBtn = document.getElementById("nextMonth");
-        const yearFilter = document.getElementById("yearFilter");
-
-        let currentDate = new Date();
-        const reservations = {
-            5: [{ nama: "John Doe", paket: "Premium", waktu: "10:00", lokasi: "Room A" }],
-            14: [{ nama: "Jane Doe", paket: "Haircut", waktu: "14:00", lokasi: "Room B" }]
-        };
-
-        function generateYearOptions() {
-            const currentYear = new Date().getFullYear();
-            for (let i = currentYear - 3; i <= currentYear + 3; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = i;
-                yearFilter.appendChild(option);
-            }
-            yearFilter.value = currentYear;
-        }
-
-        function renderCalendar() {
-            calendarBody.innerHTML = "";
-            const month = currentDate.getMonth();
-            const year = currentDate.getFullYear();
-
-            calendarMonth.textContent = new Intl.DateTimeFormat("id-ID", { month: "long", year: "numeric" }).format(currentDate);
-
-            const firstDayOfMonth = new Date(year, month, 1).getDay();
-            const daysInMonth = new Date(year, month + 1, 0).getDate();
-
-            let currentDay = 1;
-            let row = document.createElement("tr");
-
-            // Menyesuaikan jika Minggu harus di awal (opsional, tergantung format kalender)
-            const offset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-
-            // Menambahkan sel kosong sebelum tanggal 1
-            for (let i = 0; i < offset; i++) {
-                row.appendChild(document.createElement("td"));
-            }
-
-            for (let i = offset; i < 7; i++) {
-                row.appendChild(createCalendarCell(currentDay));
-                currentDay++;
-            }
-            calendarBody.appendChild(row);
-
-            while (currentDay <= daysInMonth) {
-                row = document.createElement("tr");
-                for (let i = 0; i < 7 && currentDay <= daysInMonth; i++) {
-                    row.appendChild(createCalendarCell(currentDay));
-                    currentDay++;
-                }
-                calendarBody.appendChild(row);
-            }
-
-            // Pastikan kalender selalu memiliki 6 baris agar tidak berubah ukuran
-            while (calendarBody.children.length < 6) {
-                row = document.createElement("tr");
-                for (let i = 0; i < 7; i++) {
-                    row.appendChild(document.createElement("td"));
-                }
-                calendarBody.appendChild(row);
-            }
-        }
-
-        function createCalendarCell(day) {
-            const cell = document.createElement("td");
-            cell.textContent = day;
-            cell.setAttribute("data-day", day);
-            cell.classList.add(reservations[day] ? "reserved" : "available");
-            cell.addEventListener("click", function () {
-                showReservationDetails(day);
-            });
-            return cell;
-        }
-
-        function showReservationDetails(day) {
-            const reservationDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
-            document.getElementById("reservationDate").textContent = reservationDate.toLocaleDateString("id-ID", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-
-            const reservationList = document.getElementById("reservationList");
-            reservationList.innerHTML = "";
-
-            if (reservations[day]) {
-                reservations[day].forEach(res => {
-                    let row = `<tr><td>${res.nama}</td><td>${res.paket}</td><td>${res.waktu}</td><td>${res.lokasi}</td></tr>`;
-                    reservationList.innerHTML += row;
-                });
-                document.getElementById("bookedCount").textContent = reservations[day].length;
-                document.getElementById("remainingQuota").textContent = 10 - reservations[day].length;
-            } else {
-                document.getElementById("bookedCount").textContent = 0;
-                document.getElementById("remainingQuota").textContent = 10;
-            }
-
-            modal.show();
-        }
-
-        prevMonthBtn.addEventListener("click", function () {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
-        });
-
-        nextMonthBtn.addEventListener("click", function () {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
-        });
-
-        yearFilter.addEventListener("change", function () {
-            currentDate.setFullYear(parseInt(this.value));
-            renderCalendar();
-        });
-
-        generateYearOptions();
-        renderCalendar();
-    });
-
-</script>
+<!-- Ketersediaan Jadwal -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JavaScript Kalender -->
+<script src="<?= base_url('assets/js/calendar.js') ?>"></script>
 
 <?= $this->endSection() ?>

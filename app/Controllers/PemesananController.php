@@ -314,6 +314,8 @@ class PemesananController extends BaseController
                 pemesanan.id,
                 pemesanan.waktu_pemotretan,
                 pemesanan.lokasi_pemotretan,
+                pemesanan.link_maps_pemotretan,
+                pemesanan.nama_mempelai,
                 pemesanan.status,
                 COALESCE(user_profile.nama_lengkap, "Tidak Diketahui") AS nama_lengkap,
                 COALESCE(paket_layanan.nama, "Tidak Diketahui") AS nama_paket,
@@ -337,9 +339,11 @@ class PemesananController extends BaseController
                 }
                 $groupedReservations[$day][] = [
                     'nama' => $res['nama_lengkap'],
+                    'nama_mempelai' => $res['nama_mempelai'],
                     'paket' => $res['nama_paket'],
                     'waktu' => date('H:i', strtotime($res['waktu_pemotretan'])),
                     'lokasi' => $res['lokasi_pemotretan'] ?? 'Tidak Diketahui',
+                    'link_maps_pemotretan' => $res['link_maps_pemotretan'] ?? '',
                     'jenis_layanan' => $res['jenis_layanan']
                 ];
             }

@@ -56,109 +56,109 @@
             margin-bottom: 60px;
         }
 
-/* Ketersediaan Jadwal */
-.calendar-container {
-    width: 100%;
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
+        /* Ketersediaan Jadwal */
+        .calendar-container {
+            width: 100%;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 10px;
-}
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
 
-.calendar-controls {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-}
+        .calendar-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
 
-.calendar-controls button {
-    transition: background-color 0.3s, color 0.3s;
-}
+        .calendar-controls button {
+            transition: background-color 0.3s, color 0.3s;
+        }
 
-.calendar-controls button:hover {
-    background-color: dark;
-    color: white;
-}
+        .calendar-controls button:hover {
+            background-color: dark;
+            color: white;
+        }
 
-.calendar-table th,
-.calendar-table td {
-    padding: 10px;
-    text-align: center;
-    vertical-align: middle;
-    height: 80px;
-    border: 1px solid #ddd;
-    font-weight: bold;
-    transition: background 0.3s;
-}
+        .calendar-table th,
+        .calendar-table td {
+            padding: 10px;
+            text-align: center;
+            vertical-align: middle;
+            height: 80px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
 
-.calendar-table td:hover {
-    background: rgb(236, 236, 236);
-    cursor: pointer;
-}
+        .calendar-table td:hover {
+            background: rgb(236, 236, 236);
+            cursor: pointer;
+        }
 
-.reserved {
-    color: red;
-    padding: 8px;
-    position: relative;
-}
+        .reserved {
+            color: red;
+            padding: 8px;
+            position: relative;
+        }
 
-.reserved::after {
-    content: 'Booked';
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: red;
-    color: white;
-    padding: 2px 5px;
-    border-radius: 5px;
-    font-size: 10px;
-}
+        .reserved::after {
+            content: 'Booked';
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: red;
+            color: white;
+            padding: 2px 5px;
+            border-radius: 5px;
+            font-size: 10px;
+        }
 
-.available {
-    color: green;
-    border-radius: 8px;
-    padding: 8px;
-}
+        .available {
+            color: green;
+            border-radius: 8px;
+            padding: 8px;
+        }
 
-.calendar-note {
-    margin-top: 10px;
-    font-size: 14px;
-    color: #555;
-}
+        .calendar-note {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
 
-.modal-header .modal-title {
-    font-size: 1.5rem;
-}
+        .modal-header .modal-title {
+            font-size: 1.5rem;
+        }
 
-.badge {
-    font-size: 12px;
-    padding: 5px 10px;
-}
+        .badge {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
 
-.table th,
-.table td {
-    vertical-align: middle;
-}
+        .table th,
+        .table td {
+            vertical-align: middle;
+        }
 
-@media (max-width: 576px) {
-    .d-flex {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-    }
+        @media (max-width: 576px) {
+            .d-flex {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
 
-    .table {
-        font-size: 12px;
-    }
-}
+            .table {
+                font-size: 12px;
+            }
+        }
 
         /* FORM RESERVASI */
         .reservasi-card {
@@ -435,594 +435,595 @@
         <div class="tab-content mt-4" id="reservasiTabContent">
 
         <!-- Jadwal -->
-<!-- Jadwal -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'jadwal' ? 'show active' : '' ?>" 
-    id="jadwal" role="tabpanel" aria-labelledby="jadwal-tab">
-    <div class="calendar-container">
-        <div class="calendar-header">
-            <h4 id="calendarMonth" class="text-dark fw-bold"></h4>
-            <div class="calendar-controls">
-                <button class="btn btn-outline-primary btn-sm" id="prevMonth">
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-                <button class="btn btn-outline-primary btn-sm" id="nextMonth">
-                    <i class="bi bi-chevron-right"></i>
-                </button>
-                <select id="yearFilter" class="form-select form-select-sm shadow-sm"></select>
-            </div>
-        </div>
-        <div class="table-responsive shadow-sm rounded">
-            <table class="table text-center calendar-table">
-                <thead class="table-light">
-                    <tr>
-                        <th>Senin</th>
-                        <th>Selasa</th>
-                        <th>Rabu</th>
-                        <th>Kamis</th>
-                        <th>Jumat</th>
-                        <th>Sabtu</th>
-                        <th>Minggu</th>
-                    </tr>
-                </thead>
-                <tbody id="calendarBody"></tbody>
-            </table>
-        </div>
-        <div class="calendar-note text-muted mt-3">
-            <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
-        </div>
-    </div>
-
-    <!-- Modal Bootstrap -->
-    <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header text-center bg-primary text-white">
-                    <h5 class="modal-title w-100 fw-bold">Detail Reservasi</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'jadwal' ? 'show active' : '' ?>" 
+            id="jadwal" role="tabpanel" aria-labelledby="jadwal-tab">
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h4 id="calendarMonth" class="text-dark fw-bold"></h4>
+                    <div class="calendar-controls">
+                        <button class="btn btn-outline-dark btn-sm" id="prevMonth">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="btn btn-outline-dark btn-sm" id="nextMonth">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                        <select id="yearFilter" class="form-select form-select-sm shadow-sm"></select>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-                        <div class="quota-info">
-                            <span class="badge bg-danger me-2"><i class="bi bi-bookmark-check"></i> Sudah Reservasi: <span id="bookedCount">0</span></span>
-                            <span class="badge bg-success"><i class="bi bi-bookmark-plus"></i> Sisa Kuota Wedding: <span id="remainingQuota">3</span></span>
+                <div class="table-responsive shadow-sm rounded">
+                    <table class="table text-center calendar-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Senin</th>
+                                <th>Selasa</th>
+                                <th>Rabu</th>
+                                <th>Kamis</th>
+                                <th>Jumat</th>
+                                <th>Sabtu</th>
+                                <th>Minggu</th>
+                            </tr>
+                        </thead>
+                        <tbody id="calendarBody"></tbody>
+                    </table>
+                </div>
+                <div class="calendar-note text-muted mt-3">
+                    <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
+                </div>
+            </div>
+
+            <!-- Modal Bootstrap -->
+            <div class="modal fade" id="reservationModal" tabindex="-1" aria-labelledby="reservationModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header text-center bg-dark text-white">
+                            <h5 class="modal-title w-100 fw-bold">Detail Reservasi</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <h6 class="fw-bold">Tanggal: <span id="reservationDate"></span></h6>
+                        <div class="modal-body">
+                            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+                                <div class="quota-info">
+                                    <span class="badge bg-danger me-2"><i class="bi bi-bookmark-check"></i> Sudah Reservasi: <span id="bookedCount">0</span></span>
+                                    <span class="badge bg-success"><i class="bi bi-bookmark-plus"></i> Sisa Kuota Wedding: <span id="remainingQuota">3</span></span>
+                                </div>
+                                <h6 class="fw-bold">Tanggal: <span id="reservationDate"></span></h6>
+                            </div>
+                            <p class="text-muted small mb-3"><strong>Info Kuota:</strong> Kuota di atas hanya berlaku untuk paket layanan Wedding (maksimal 3 per hari). Layanan lain tidak dibatasi.</p>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered text-center">
+                                    <thead class="table-dark">
+                                        <tr id="tableHeader">
+                                            <!-- Header akan diisi oleh JavaScript berdasarkan role -->
+                                        </tr>
+                                    </thead>
+                                    <tbody id="reservationList"></tbody>
+                                </table>
+                            </div>
+                            <div class="calendar-note text-muted mt-3">
+                                <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
+                        </div>
                     </div>
-                    <p class="text-muted small mb-3"><strong>Info Kuota:</strong> Kuota di atas hanya berlaku untuk paket layanan Wedding (maksimal 3 per hari). Layanan lain tidak dibatasi.</p>
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered text-center">
-                            <thead class="table-primary">
-                                <tr>
-                                    <th>Nama</th>
-                                    <th>Paket Layanan</th>
-                                    <th>Waktu Pemotretan</th>
-                                    <th>Lokasi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="reservationList"></tbody>
-                        </table>
-                    </div>
-                    <div class="calendar-note text-muted mt-3">
-                        <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Dependensi Bootstrap JS dan Ikon Bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- JavaScript Kalender -->
-<script src="<?= base_url('assets/js/calendar.js') ?>"></script>
 
 
-
-<!-- FORM RESERVASI -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'reservasi' ? 'show active' : '' ?>" 
-     id="reservasi" role="tabpanel" aria-labelledby="reservasi-tab">
-    <div class="reservasi-card" style="max-width: 1000px;">
-        <?php if (session()->getFlashdata('error')): ?>
-            <div class="alert alert-danger">
-                <?= session()->getFlashdata('error') ?>
-            </div>
-        <?php endif; ?>
-
-        <?php if (session()->getFlashdata('success')): ?>
-            <div class="alert alert-success">
-                <?= session()->getFlashdata('success') ?>
-            </div>
-        <?php endif; ?>
-
-        <h4 class="text-center mb-3">Formulir Reservasi</h4>
-        <form action="<?= base_url('user/pemesanan/simpan') ?>" method="post">
-            <div class="row">
-                <!-- Kolom Kiri -->
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Nama Lengkap</label>
-                        <input type="text" name="nama_lengkap" class="form-control" 
-                               value="<?= $user_data['nama_lengkap'] ?? '' ?>" 
-                               placeholder="Masukkan nama lengkap" required readonly>
+        <!-- FORM RESERVASI -->
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'reservasi' ? 'show active' : '' ?>" 
+            id="reservasi" role="tabpanel" aria-labelledby="reservasi-tab">
+            <div class="reservasi-card" style="max-width: 1000px;">
+                <?php if (session()->getFlashdata('error')): ?>
+                    <div class="alert alert-danger">
+                        <?= session()->getFlashdata('error') ?>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" 
-                               value="<?= $user_data['email'] ?? '' ?>" 
-                               placeholder="Masukkan email" required readonly>
+                <?php endif; ?>
+
+                <?php if (session()->getFlashdata('success')): ?>
+                    <div class="alert alert-success">
+                        <?= session()->getFlashdata('success') ?>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nomor Telepon</label>
-                        <input type="tel" name="telepon" class="form-control" 
-                               value="<?= $user_data['no_telepon'] ?? '' ?>" 
-                               placeholder="Masukkan nomor telepon" required readonly>
-                    </div>
-                    <?php
-                        $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+                <?php endif; ?>
+
+                <h4 class="text-center mb-3">Formulir Reservasi</h4>
+                <form action="<?= base_url('user/pemesanan/simpan') ?>" method="post">
+                    <div class="row">
+                        <!-- Kolom Kiri -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Nama Lengkap</label>
+                                <input type="text" name="nama_lengkap" class="form-control" 
+                                    value="<?= $user_data['nama_lengkap'] ?? '' ?>" 
+                                    placeholder="Masukkan nama lengkap" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" class="form-control" 
+                                    value="<?= $user_data['email'] ?? '' ?>" 
+                                    placeholder="Masukkan email" required readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nomor Telepon</label>
+                                <input type="tel" name="telepon" class="form-control" 
+                                    value="<?= $user_data['no_telepon'] ?? '' ?>" 
+                                    placeholder="Masukkan nomor telepon" required readonly>
+                            </div>
+                            <?php
+                                $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 $waktuSekarang = $now->format('Y-m-d\TH:i');
 ?>
-                    <div class="mb-3">
-                        <label class="form-label">Waktu Pemesanan</label>
-                        <input type="datetime-local" name="waktu_pemesanan" class="form-control"
-                               value="<?= $waktuSekarang ?>" readonly required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Paket Layanan</label>
-                        <select name="paket_layanan" class="form-select" id="paketLayanan" required>
-                            <option value="" selected disabled>Pilih Paket Layanan</option>
-                            <?php foreach ($paket_layanan as $paket): ?>
-                                <option value="<?= $paket['id'] ?>" 
-                                        data-deskripsi="<?= esc($paket['benefit']) ?>"
-                                        data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
-                                        data-jenis-layanan="<?= esc($paket['jenis_layanan'] ?? 'Event Lainnya') ?>"
-                                        <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'selected' : '' ?>>
-                                    <?= esc($paket['nama']) ?>
-                                </option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jenis Layanan</label>
-                        <p class="form-control" id="jenisLayanan">-</p>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Deskripsi Paket</label>
-                        <textarea class="form-control" id="deskripsiPaket" readonly rows="3" required></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Harga</label>
-                        <p class="form-control-plaintext fw-bold" id="hargaPaket">Rp 0</p>
-                    </div>
-                </div>
+                            <div class="mb-3">
+                                <label class="form-label">Waktu Pemesanan</label>
+                                <input type="datetime-local" name="waktu_pemesanan" class="form-control"
+                                    value="<?= $waktuSekarang ?>" readonly required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Paket Layanan</label>
+                                <select name="paket_layanan" class="form-select" id="paketLayanan" required>
+                                    <option value="" selected disabled>Pilih Paket Layanan</option>
+                                    <?php foreach ($paket_layanan as $paket): ?>
+                                        <option value="<?= $paket['id'] ?>" 
+                                                data-deskripsi="<?= esc($paket['benefit']) ?>"
+                                                data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
+                                                data-jenis-layanan="<?= esc($paket['jenis_layanan'] ?? 'Event Lainnya') ?>"
+                                                <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'selected' : '' ?>>
+                                            <?= esc($paket['nama']) ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Layanan</label>
+                                <p class="form-control" id="jenisLayanan">-</p>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Deskripsi Paket</label>
+                                <textarea class="form-control" id="deskripsiPaket" readonly rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Harga</label>
+                                <p class="form-control-plaintext fw-bold" id="hargaPaket">Rp 0</p>
+                            </div>
+                        </div>
 
-                <!-- Kolom Kanan -->
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Waktu Pemotretan</label>
-                        <input type="datetime-local" name="waktu_pemotretan" id="waktuPemotretan" 
-                               class="form-control" value="<?= $waktuSekarang ?>" required>
+                        <!-- Kolom Kanan -->
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label class="form-label">Waktu Pemotretan</label>
+                                <input type="datetime-local" name="waktu_pemotretan" id="waktuPemotretan" 
+                                    class="form-control" value="<?= $waktuSekarang ?>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Jenis Pembayaran</label>
+                                <select name="jenis_pembayaran" class="form-select" required>
+                                    <option value="" selected disabled>Pilih Jenis Pembayaran</option>
+                                    <option value="Lunas">Lunas</option>
+                                    <option value="DP">DP (Down Payment)</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Lokasi Pemotretan (Ex. Rogojampi/Srono/Banyuwangi)</label>
+                                <input type="text" name="lokasi_pemotretan" class="form-control" 
+                                    placeholder="Masukkan lokasi pemotretan" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Lokasi Pemotretan (Link Maps)</label>
+                                <input type="text" name="link_maps_pemotretan" class="form-control" 
+                                    placeholder="Masukkan link Google Maps lokasi pemotretan" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Lokasi Pengiriman Album (Link Maps)</label>
+                                <input type="text" name="link_maps_pengiriman" class="form-control"
+                                    placeholder="Masukkan link Google Maps lokasi pengiriman album" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Nama Mempelai Pria & Wanita</label>
+                                <input type="text" name="nama_mempelai" class="form-control"
+                                    placeholder="Masukkan nama mempelai pria & wanita" required>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label">Username Instagram</label>
+                                <input type="text" name="instagram" class="form-control"
+                                    value="<?= $user_data['instagram'] ?? '' ?>"
+                                    placeholder="Masukkan username Instagram Anda" required readonly>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Jenis Pembayaran</label>
-                        <select name="jenis_pembayaran" class="form-select" required>
-                            <option value="" selected disabled>Pilih Jenis Pembayaran</option>
-                            <option value="Lunas">Lunas</option>
-                            <option value="DP">DP (Down Payment)</option>
-                        </select>
+                    <button type="submit" class="btn btn-dark w-100">Kirim Reservasi</button>
+                    <!-- Catatan Pembayaran -->
+                    <div class="mt-4 p-3 border rounded bg-light">
+                        <h6 class="text-danger"><strong>Catatan:</strong></h6>
+                        <ul class="mb-0">
+                            <li>DP sebesar 50% dari harga paket layanan.</li>
+                            <li>Pembayaran DP maksimal H-3 sebelum acara.</li>
+                            <li>Pelunasan maksimal H+3 setelah acara.</li>
+                            <li>Proses editing dan pencetakan dilakukan setelah pelunasan.</li>
+                            <li>Estimasi pengerjaan album sekitar 2–4 minggu.</li>
+                            <li>Paket layanan Wedding hanya tersedia untuk 3 pemesanan aktif per hari berdasarkan tanggal pemotretan.</li>
+                        </ul>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Lokasi Pemotretan (Ex. Rogojampi/Srono/Banyuwangi)</label>
-                        <input type="text" name="lokasi_pemotretan" class="form-control" 
-                               placeholder="Masukkan lokasi pemotretan" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Lokasi Pemotretan (Link Maps)</label>
-                        <input type="text" name="link_maps_pemotretan" class="form-control" 
-                               placeholder="Masukkan link Google Maps lokasi pemotretan" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Lokasi Pengiriman Album (Link Maps)</label>
-                        <input type="text" name="link_maps_pengiriman" class="form-control"
-                               placeholder="Masukkan link Google Maps lokasi pengiriman album" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Nama Mempelai Pria & Wanita</label>
-                        <input type="text" name="nama_mempelai" class="form-control"
-                               placeholder="Masukkan nama mempelai pria & wanita" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Username Instagram</label>
-                        <input type="text" name="instagram" class="form-control"
-                               value="<?= $user_data['instagram'] ?? '' ?>"
-                               placeholder="Masukkan username Instagram Anda" required readonly>
-                    </div>
-                </div>
+                </form>
             </div>
-            <button type="submit" class="btn btn-dark w-100">Kirim Reservasi</button>
-            <!-- Catatan Pembayaran -->
-            <div class="mt-4 p-3 border rounded bg-light">
-                <h6 class="text-danger"><strong>Catatan:</strong></h6>
-                <ul class="mb-0">
-                    <li>DP sebesar 50% dari harga paket layanan.</li>
-                    <li>Pembayaran DP maksimal H-3 sebelum acara.</li>
-                    <li>Pelunasan maksimal H+3 setelah acara.</li>
-                    <li>Proses editing dan pencetakan dilakukan setelah pelunasan.</li>
-                    <li>Estimasi pengerjaan album sekitar 2–4 minggu.</li>
-                    <li>Paket layanan Wedding hanya tersedia untuk 3 pemesanan aktif per hari berdasarkan tanggal pemotretan.</li>
-                </ul>
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<!-- Payment -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
-     id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
-    <div class="card mt-4 border-0 shadow-sm">
-        <div class="card-body p-2">
-            <h4 class="text-center mb-4 fw-bold text-dark">Informasi Pembayaran</h4>
-            <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
-                <div class="alert alert-dark text-center">
-                    <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.
-                </div>
-            <?php else: ?>
-                <div class="accordion" id="paymentAccordion">
-                    <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
-                        <?php if ($pemesanan['status'] !== 'Selesai'): ?>
-                            <div class="accordion-item border rounded-3 mb-3">
-                                <h2 class="accordion-header" id="heading<?= $index ?>">
-                                    <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
-                                            type="button" 
-                                            data-bs-toggle="collapse" 
-                                            data-bs-target="#collapse<?= $index ?>" 
-                                            aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" 
-                                            aria-controls="collapse<?= $index ?>">
-                                        <div class="d-flex flex-column flex-md-row w-100 gap-3">
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
-                                                <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </h2>
-                                <div id="collapse<?= $index ?>" 
-                                     class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
-                                     data-bs-parent="#paymentAccordion">
-                                    <div class="accordion-body pt-3">
-                                        <div class="row mb-4">
-                                            <div class="col-md-3">
-                                                <?php if (!empty($pemesanan['foto'])): ?>
-                                                    <img src="<?= base_url($pemesanan['foto']) ?>" 
-                                                         class="img-fluid rounded-3" 
-                                                         alt="<?= esc($pemesanan['nama_paket']) ?>">
-                                                <?php else: ?>
-                                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" 
-                                                         style="height: 150px;">
-                                                        <i class="fas fa-image fa-3x text-muted"></i>
+        <!-- Payment -->
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
+            id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
+            <div class="card mt-4 border-0 shadow-sm">
+                <div class="card-body p-2">
+                    <h4 class="text-center mb-4 fw-bold text-dark">Informasi Pembayaran</h4>
+                    <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
+                        <div class="alert alert-dark text-center">
+                            <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.
+                        </div>
+                    <?php else: ?>
+                        <div class="accordion" id="paymentAccordion">
+                            <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                                <?php if ($pemesanan['status'] !== 'Selesai'): ?>
+                                    <div class="accordion-item border rounded-3 mb-3">
+                                        <h2 class="accordion-header" id="heading<?= $index ?>">
+                                            <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
+                                                    type="button" 
+                                                    data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapse<?= $index ?>" 
+                                                    aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" 
+                                                    aria-controls="collapse<?= $index ?>">
+                                                <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
                                                     </div>
-                                                <?php endif; ?>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h5><?= esc($pemesanan['nama_paket']) ?></h5>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-primary bg-opacity-10 text-primary me-2">Jenis Layanan</span>
-                                                    <span class="fw-bold"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></span>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></strong>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
+                                                        <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
-                                                    <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
-                                                </div>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
-                                                    <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
-                                                </div>
-                                                <div>
-                                                    <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
-                                                    <strong class="ms-1"><?= esc($pemesanan['status_pembayaran'] ?? '-') ?></strong>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row g-3">
-                                            <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
-                                                <?php $canCancel = true; ?>
-                                                <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
-                                                    <?php if ($bayar['status'] === 'success') {
-                                                        $canCancel = false;
-                                                    } ?>
-                                                    <div class="col-md-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? '6' : '12' ?>">
-                                                        <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="mb-0 text-capitalize">
-                                                                        <?= esc($bayar['jenis']) ?>
-                                                                        <?php if ($bayar['jenis'] === 'DP'): ?>
-                                                                            <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
-                                                                        <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
-                                                                            <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
-                                                                                <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
-                                                                            </span>
-                                                                        <?php endif; ?>
-                                                                    </h6>
-                                                                    <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
-                                                                        <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
-                                                                        <?= esc($bayar['status']) ?>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <span class="text-muted small">Jumlah</span>
-                                                                    <div class="fs-5 fw-semibold text-dark">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
-                                                                </div>
-                                                                <?php if ($bayar['status'] === 'pending'): ?>
-                                                                    <form action="<?= base_url('user/pembayaran/bayar/' . $bayar['id']) ?>" method="post">
-                                                                        <?= csrf_field() ?>
-                                                                        <button type="submit" class="btn btn-outline-dark w-100">
-                                                                            <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
-                                                                        </button>
-                                                                    </form>
-                                                                <?php else: ?>
-                                                                    <div class="alert alert-success p-2 small mb-0 d-flex align-items-center">
-                                                                        <i class="fa-solid fa-check-circle me-2"></i>
-                                                                        <div>
-                                                                            <strong>Sudah Dibayar</strong><br>
-                                                                            <?php if (!empty($bayar['tanggal_bayar'])): ?>
-                                                                                <span class="text-muted"><?= date('d M Y H:i', strtotime($bayar['tanggal_bayar'])) ?></span>
-                                                                            <?php endif; ?>
-                                                                        </div>
-                                                                    </div>
-                                                                <?php endif; ?>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse<?= $index ?>" 
+                                            class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
+                                            data-bs-parent="#paymentAccordion">
+                                            <div class="accordion-body pt-3">
+                                                <div class="row mb-4">
+                                                    <div class="col-md-3">
+                                                        <?php if (!empty($pemesanan['foto'])): ?>
+                                                            <img src="<?= base_url($pemesanan['foto']) ?>" 
+                                                                class="img-fluid rounded-3" 
+                                                                alt="<?= esc($pemesanan['nama_paket']) ?>">
+                                                        <?php else: ?>
+                                                            <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" 
+                                                                style="height: 150px;">
+                                                                <i class="fas fa-image fa-3x text-muted"></i>
                                                             </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <h5><?= esc($pemesanan['nama_paket']) ?></h5>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Jenis Layanan</span>
+                                                            <span class="fw-bold"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
+                                                            <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
+                                                            <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
+                                                            <strong class="ms-1"><?= esc($pemesanan['status_pembayaran'] ?? '-') ?></strong>
                                                         </div>
                                                     </div>
-                                                <?php endforeach; ?>
-                                                <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
-                                                <?php if ($canCancel): ?>
-                                                    <div class="col-12 mt-3">
-                                                        <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" 
-                                                              method="post" 
-                                                              id="cancelForm<?= $pemesanan['id'] ?>">
-                                                            <?= csrf_field() ?>
-                                                            <button type="button" 
-                                                                    class="btn btn-danger w-100" 
-                                                                    onclick="confirmCancel(<?= $pemesanan['id'] ?>)">
-                                                                <i class="fa-solid fa-times-circle me-1"></i> Batalkan Pemesanan
-                                                            </button>
-                                                        </form>
+                                                </div>
+
+                                                <div class="row g-3">
+                                                    <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
+                                                        <?php $canCancel = true; ?>
+                                                        <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
+                                                            <?php if ($bayar['status'] === 'success') {
+                                                                $canCancel = false;
+                                                            } ?>
+                                                            <div class="col-md-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? '6' : '12' ?>">
+                                                                <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                            <h6 class="mb-0 text-capitalize">
+                                                                                <?= esc($bayar['jenis']) ?>
+                                                                                <?php if ($bayar['jenis'] === 'DP'): ?>
+                                                                                    <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
+                                                                                <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
+                                                                                    <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
+                                                                                        <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
+                                                                                    </span>
+                                                                                <?php endif; ?>
+                                                                            </h6>
+                                                                            <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
+                                                                                <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
+                                                                                <?= esc($bayar['status']) ?>
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <span class="text-muted small">Jumlah</span>
+                                                                            <div class="fs-5 fw-semibold text-dark">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
+                                                                        </div>
+                                                                        <?php if ($bayar['status'] === 'pending'): ?>
+                                                                            <form action="<?= base_url('user/pembayaran/bayar/' . $bayar['id']) ?>" method="post">
+                                                                                <?= csrf_field() ?>
+                                                                                <button type="submit" class="btn btn-outline-dark w-100">
+                                                                                    <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
+                                                                                </button>
+                                                                            </form>
+                                                                            <div class="alert alert-info small p-2 mt-3 mb-0">
+                                                                                <i class="fa-solid fa-circle-info me-2"></i>
+                                                                                <?php if ($pemesanan['jenis_pembayaran'] === 'DP'): ?>
+                                                                                    <?php if ($bayar['jenis'] === 'DP'): ?>
+                                                                                        Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
+                                                                                    <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
+                                                                                        Segera bayar maksimal H+3 setelah pemotretan agar pemesanan segera masuk proses editing.
+                                                                                    <?php endif; ?>
+                                                                                <?php else: ?>
+                                                                                    Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
+                                                                                <?php endif; ?>
+                                                                            </div>
+                                                                        <?php else: ?>
+                                                                            <div class="alert alert-success p-2 small mb-0 d-flex align-items-center">
+                                                                                <i class="fa-solid fa-check-circle me-2"></i>
+                                                                                <div>
+                                                                                    <strong>Sudah Dibayar</strong><br>
+                                                                                    <?php if (!empty($bayar['tanggal_bayar'])): ?>
+                                                                                        <span class="text-muted"><?= date('d M Y H:i', strtotime($bayar['tanggal_bayar'])) ?></span>
+                                                                                    <?php endif; ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                        <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
+                                                        <?php if ($canCancel): ?>
+                                                            <div class="col-12 mt-3">
+                                                                <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" 
+                                                                    method="post" 
+                                                                    id="cancelForm<?= $pemesanan['id'] ?>">
+                                                                    <?= csrf_field() ?>
+                                                                    <button type="button" 
+                                                                            class="btn btn-danger w-100" 
+                                                                            onclick="confirmCancel(<?= $pemesanan['id'] ?>)">
+                                                                        <i class="fa-solid fa-times-circle me-1"></i> Batalkan Pemesanan
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <div class="col-12">
+                                                            <div class="alert alert-secondary text-muted small">
+                                                                <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tracking -->
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'tracking' ? 'show active' : '' ?>" 
+        id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
+            <h4 class="text-center mb-4 fw-bold text-dark">Tracking Pemesanan Anda</h4>
+            <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
+                <div class="alert alert-dark text-center">
+                    <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.
+                </div>
+            <?php else: ?>
+                <div class="accordion" id="trackingAccordion">
+                    <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                        <?php if ($pemesanan['status'] !== 'Selesai'): ?>
+                        <div class="accordion-item border rounded-4 mb-3 shadow-sm overflow-hidden">
+                            <h2 class="accordion-header" id="trackingHeading<?= $index ?>">
+                                <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
+                                    <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                        <div>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
+                                            <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
+                                            <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? '-') ?></strong>
+                                        </div>
+                                        <div>
+                                            <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
+                                            <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                        </div>
+                                    </div>
+                                </button>
+                            </h2>
+                            <div id="trackingCollapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#trackingAccordion">
+                                <div class="accordion-body pt-4 pb-4">
+                                    <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
+                                    <div class="tracking-container">
+                                        <?php
+                                        $steps = [
+                                            'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
+                                            'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
+                                            'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
+                                            'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
+                                            'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
+                                        ];
+
+                            $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
+                            $statusOrder = array_keys($steps);
+                            $currentIndex = array_search($currentStatus, $statusOrder);
+
+                            foreach ($steps as $status => $step):
+                                $isActive = $status === $currentStatus;
+                                $isPast = array_search($status, $statusOrder) < $currentIndex;
+                                ?>
+                                            <div class="tracking-step">
+                                                <?php if ($isActive): ?>
+                                                    <div class="tracking-icon active">
+                                                        <i class="fa-solid <?= $step['icon'] ?>"></i>
+                                                    </div>
+                                                <?php elseif ($isPast): ?>
+                                                    <div class="tracking-icon completed">
+                                                        <i class="fa-solid fa-check"></i>
+                                                    </div>
+                                                <?php else: ?>
+                                                    <div class="tracking-icon pending">
+                                                        <i class="fa-solid fa-<?= $step['icon'] ?>"></i>
                                                     </div>
                                                 <?php endif; ?>
-                                            <?php else: ?>
-                                                <div class="col-12">
-                                                    <div class="alert alert-secondary text-muted small">
-                                                        <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
-                                                    </div>
+                                                
+                                                <?php if ($status !== 'Pengiriman'): ?>
+                                                    <div class="tracking-connector <?= $isPast ? 'active' : '' ?>"></div>
+                                                <?php endif; ?>
+                                                
+                                                <div class="tracking-label">
+                                                    <span class="tracking-text <?= $isActive ? 'active' : ($isPast ? 'completed' : '') ?>">
+                                                        <?= $step['label'] ?>
+                                                    </span>
+                                                    <?php if ($isActive): ?>
+                                                        <span class="tracking-status">Sedang Diproses</span>
+                                                    <?php endif; ?>
                                                 </div>
-                                            <?php endif; ?>
-                                        </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    
+                                    <div class="tracking-info mt-4">
+                                        <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
+                                            <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
+                                                <?= csrf_field() ?>
+                                                <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
+                                                    <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
+                                                </button>
+                                            </form>
+                                        <?php elseif ($pemesanan['status'] !== 'Selesai'): ?>
+                                            <div class="alert alert-light border d-flex align-items-center rounded-4">
+                                                <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
+                                                <div>
+                                                    <strong class="d-block mb-1">Status Pemesanan: <?= $pemesanan['status'] ?></strong>
+                                                    <p class="mb-0">
+                                                        <?php
+                                                $descriptions = [
+                                                    'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses.',
+                                                    'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
+                                                    'Editing' => 'Tim kami sedang melakukan proses editing dan pemilihan foto terbaik.',
+                                                    'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
+                                                    'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
+                                                ];
+                                            echo $descriptions[$pemesanan['status']] ?? 'Pesanan Anda sedang diproses.';
+                                            ?>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                        <?php if (!empty($pemesanan['catatan_status'])): ?>
+                                            <div class="alert alert-light border rounded-4 mt-3">
+                                                <i class="fa-solid fa-comment-dots me-2 text-dark"></i>
+                                                <strong>Catatan:</strong>
+                                                <p class="mb-0 mt-2"><?= nl2br(esc($pemesanan['catatan_status'])) ?></p>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </div>
                             </div>
+                        </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
         </div>
-    </div>
-</div>
 
-<!-- Tracking -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'tracking' ? 'show active' : '' ?>" 
-id="tracking" role="tabpanel" aria-labelledby="tracking-tab">
-    <h4 class="text-center mb-4 fw-bold text-dark">Tracking Pemesanan Anda</h4>
-    <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
-        <div class="alert alert-dark text-center">
-            <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat tracking proses.
-        </div>
-    <?php else: ?>
-        <div class="accordion" id="trackingAccordion">
-            <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
-                <?php if ($pemesanan['status'] !== 'Selesai'): ?>
-                <div class="accordion-item border rounded-4 mb-3 shadow-sm overflow-hidden">
-                    <h2 class="accordion-header" id="trackingHeading<?= $index ?>">
-                        <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#trackingCollapse<?= $index ?>" aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" aria-controls="trackingCollapse<?= $index ?>">
-                            <div class="d-flex flex-column flex-md-row w-100 gap-3">
-                                <div>
-                                    <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
-                                    <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
-                                </div>
-                                <div>
-                                    <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
-                                    <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? '-') ?></strong>
-                                </div>
-                                <div>
-                                    <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
-                                    <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                </div>
-                            </div>
-                        </button>
-                    </h2>
-                    <div id="trackingCollapse<?= $index ?>" class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" data-bs-parent="#trackingAccordion">
-                        <div class="accordion-body pt-4 pb-4">
-                            <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
-                            <div class="tracking-container">
-                                <?php
-                                $steps = [
-                                    'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
-                                    'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
-                                    'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
-                                    'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
-                                    'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
-                                ];
-
-                    $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
-                    $statusOrder = array_keys($steps);
-                    $currentIndex = array_search($currentStatus, $statusOrder);
-
-                    foreach ($steps as $status => $step):
-                        $isActive = $status === $currentStatus;
-                        $isPast = array_search($status, $statusOrder) < $currentIndex;
-                        ?>
-                                    <div class="tracking-step">
-                                        <?php if ($isActive): ?>
-                                            <div class="tracking-icon active">
-                                                <i class="fa-solid <?= $step['icon'] ?>"></i>
-                                            </div>
-                                        <?php elseif ($isPast): ?>
-                                            <div class="tracking-icon completed">
-                                                <i class="fa-solid fa-check"></i>
-                                            </div>
-                                        <?php else: ?>
-                                            <div class="tracking-icon pending">
-                                                <i class="fa-solid fa-<?= $step['icon'] ?>"></i>
-                                            </div>
-                                        <?php endif; ?>
-                                        
-                                        <?php if ($status !== 'Pengiriman'): ?>
-                                            <div class="tracking-connector <?= $isPast ? 'active' : '' ?>"></div>
-                                        <?php endif; ?>
-                                        
-                                        <div class="tracking-label">
-                                            <span class="tracking-text <?= $isActive ? 'active' : ($isPast ? 'completed' : '') ?>">
-                                                <?= $step['label'] ?>
-                                            </span>
-                                            <?php if ($isActive): ?>
-                                                <span class="tracking-status">Sedang Diproses</span>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            </div>
-                            
-                            <div class="tracking-info mt-4">
-                                <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
-                                    <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
-                                        <?= csrf_field() ?>
-                                        <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
-                                            <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
-                                        </button>
-                                    </form>
-                                <?php elseif ($pemesanan['status'] !== 'Selesai'): ?>
-                                    <div class="alert alert-light border d-flex align-items-center rounded-4">
-                                        <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
-                                        <div>
-                                            <strong class="d-block mb-1">Status Pemesanan: <?= $pemesanan['status'] ?></strong>
-                                            <p class="mb-0">
-                                                <?php
-                                        $descriptions = [
-                                            'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses.',
-                                            'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
-                                            'Editing' => 'Tim kami sedang melakukan proses editing dan pemilihan foto terbaik.',
-                                            'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
-                                            'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
-                                        ];
-                                    echo $descriptions[$pemesanan['status']] ?? 'Pesanan Anda sedang diproses.';
-                                    ?>
-                                            </p>
-                                        </div>
-                                    </div>
-                                <?php endif; ?>
-                                <?php if (!empty($pemesanan['catatan_status'])): ?>
-                                    <div class="alert alert-light border rounded-4 mt-3">
-                                        <i class="fa-solid fa-comment-dots me-2 text-dark"></i>
-                                        <strong>Catatan:</strong>
-                                        <p class="mb-0 mt-2"><?= nl2br(esc($pemesanan['catatan_status'])) ?></p>
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
+        <!-- Riwayat Pemesanan -->
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'riwayat' ? 'show active' : '' ?>" 
+        id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
+            <div class="container-fluid">
+                <h4 class="text-center mb-4 fw-bold text-dark">Riwayat Pemesanan Anda</h4>
+                
+                <?php if (empty($riwayat_pemesanan)) : ?>
+                    <div class="alert alert-dark text-center">
+                        <i class="fas fa-info-circle me-2"></i> Belum ada riwayat pemesanan yang selesai.
                     </div>
-                </div>
+                <?php else : ?>
+                    <div class="row">
+                        <?php foreach ($riwayat_pemesanan as $riwayat) : ?>
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card h-100 shadow border-0 card-hover-effect">
+                                    <div class="card-header bg-dark text-white">
+                                        <h5 class="card-title mb-0"><?= $riwayat['nama_mempelai'] ?></h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Paket:</span>
+                                            <strong><?= $riwayat['nama_paket'] ?></strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Jenis Layanan:</span>
+                                            <strong><?= $riwayat['jenis_layanan'] ?></strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Harga:</span>
+                                            <strong>Rp <?= number_format($riwayat['harga'], 0, ',', '.') ?></strong>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Pemesanan:</span>
+                                            <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemesanan'])) ?></small>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Pemotretan:</span>
+                                            <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemotretan'])) ?></small>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Pembayaran:</span>
+                                            <span><?= $riwayat['jenis_pembayaran'] ?></span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Instagram:</span>
+                                            <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" 
+                                            target="_blank" class="text-decoration-none">
+                                            @<?= $riwayat['instagram'] ?>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer bg-light d-flex justify-content-between align-items-center">
+                                        <span class="badge rounded-pill bg-dark p-2">
+                                            <i class="fas fa-check-circle me-1"></i> <?= $riwayat['status'] ?>
+                                        </span>
+                                        <small class="text-muted">
+                                            Selesai: <?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    </div>
                 <?php endif; ?>
-            <?php endforeach; ?>
+            </div>
         </div>
-    <?php endif; ?>
-</div>
 
-<!-- Riwayat Pemesanan -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'riwayat' ? 'show active' : '' ?>" 
-id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
-    <div class="container-fluid">
-        <h4 class="text-center mb-4 fw-bold text-dark">Riwayat Pemesanan Anda</h4>
-        
-        <?php if (empty($riwayat_pemesanan)) : ?>
-            <div class="alert alert-dark text-center">
-                <i class="fas fa-info-circle me-2"></i> Belum ada riwayat pemesanan yang selesai.
-            </div>
-        <?php else : ?>
-            <div class="row">
-                <?php foreach ($riwayat_pemesanan as $riwayat) : ?>
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow border-0 card-hover-effect">
-                            <div class="card-header bg-dark text-white">
-                                <h5 class="card-title mb-0"><?= $riwayat['nama_mempelai'] ?></h5>
-                            </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Paket:</span>
-                                    <strong><?= $riwayat['nama_paket'] ?></strong>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Jenis Layanan:</span>
-                                    <strong><?= $riwayat['jenis_layanan'] ?></strong>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Harga:</span>
-                                    <strong>Rp <?= number_format($riwayat['harga'], 0, ',', '.') ?></strong>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Pemesanan:</span>
-                                    <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemesanan'])) ?></small>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Pemotretan:</span>
-                                    <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemotretan'])) ?></small>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Pembayaran:</span>
-                                    <span><?= $riwayat['jenis_pembayaran'] ?></span>
-                                </div>
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="text-muted">Instagram:</span>
-                                    <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" 
-                                       target="_blank" class="text-decoration-none">
-                                       @<?= $riwayat['instagram'] ?>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="card-footer bg-light d-flex justify-content-between align-items-center">
-                                <span class="badge rounded-pill bg-dark p-2">
-                                    <i class="fas fa-check-circle me-1"></i> <?= $riwayat['status'] ?>
-                                </span>
-                                <small class="text-muted">
-                                    Selesai: <?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?>
-                                </small>
-                            </div>
-                        </div>
-                    </div>
-                <?php endforeach; ?>
-            </div>
-        <?php endif; ?>
+
     </div>
-</div>
-
-
-</div>
 </div>
 
 
@@ -1042,6 +1043,14 @@ id="riwayat" role="tabpanel" aria-labelledby="riwayat-tab">
     });
 </script>
 <?php endif; ?>
+
+
+<!-- Ketersediaan Jadwal -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- JavaScript Kalender -->
+<script src="<?= base_url('assets/js/calendar.js') ?>"></script>
+
 
 <!-- JavaScript untuk Deskripsi, Harga, dan Jenis Layanan -->
 <script>

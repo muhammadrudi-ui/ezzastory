@@ -8,8 +8,11 @@ document.addEventListener("DOMContentLoaded", function () {
   const nextMonthBtn = document.getElementById("nextMonth");
   const yearFilter = document.getElementById("yearFilter");
 
-  // Ganti dengan base URL aplikasi Anda
-  const BASE_URL = "http://localhost:8080"; // Sesuaikan dengan baseURL di app/Config/App.php
+  const BASE_URL = "http://localhost:8080";
+
+  const userRole = window.location.pathname.includes("admin")
+    ? "admin"
+    : "user";
 
   let currentDate = new Date();
   let reservations = {};
@@ -28,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function () {
   async function fetchReservations() {
     const month = currentDate.getMonth() + 1;
     const year = currentDate.getFullYear();
-    console.log(`Mengambil reservasi untuk bulan ${month}, tahun ${year}`);
 
     try {
       const response = await fetch(
@@ -40,13 +42,9 @@ document.addEventListener("DOMContentLoaded", function () {
       }
 
       const data = await response.json();
-      console.log("Respons dari backend:", data);
-
       if (data.status === "success") {
         reservations = data.reservations || {};
-        console.log("Reservasi yang diterima:", reservations);
 
-        // Konversi kunci ke integer
         Object.keys(reservations).forEach((day) => {
           const numDay = parseInt(day);
           if (!isNaN(numDay) && numDay !== parseInt(day)) {
@@ -54,10 +52,6 @@ document.addEventListener("DOMContentLoaded", function () {
             delete reservations[day];
           }
         });
-
-        if (Object.keys(reservations).length === 0) {
-          console.warn("Tidak ada reservasi ditemukan untuk bulan ini.");
-        }
       } else {
         console.error("Gagal memuat reservasi:", data.message);
         reservations = {};
@@ -75,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function renderCalendar() {
-    console.log("Merender kalender untuk:", currentDate);
     calendarBody.innerHTML = "";
     const month = currentDate.getMonth();
     const year = currentDate.getFullYear();
@@ -88,15 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const firstDayOfMonth = new Date(year, month, 1).getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
-    console.log(
-      `Hari pertama bulan: ${firstDayOfMonth}, Jumlah hari: ${daysInMonth}`
-    );
-
     let currentDay = 1;
     let row = document.createElement("tr");
 
     const offset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1;
-    console.log(`Offset: ${offset}`);
 
     for (let i = 0; i < offset; i++) {
       const cell = document.createElement("td");
@@ -170,16 +158,10 @@ document.addEventListener("DOMContentLoaded", function () {
       showReservationDetails(day);
     });
 
-    console.log(
-      `Hari ${day}:`,
-      hasReservations ? reservationData : "Tidak ada reservasi"
-    );
-
     return cell;
   }
 
   function showReservationDetails(day) {
-    console.log(`Menampilkan detail reservasi untuk hari ${day}`);
     const reservationDate = new Date(
       currentDate.getFullYear(),
       currentDate.getMonth(),
@@ -194,22 +176,54 @@ document.addEventListener("DOMContentLoaded", function () {
         year: "numeric",
       });
 
+    const tableHeader = document.getElementById("tableHeader");
     const reservationList = document.getElementById("reservationList");
     reservationList.innerHTML = "";
 
+    if (userRole === "admin") {
+      tableHeader.innerHTML = `
+        <th>Nama Mempelai</th>
+        <th>Paket Layanan</th>
+        <th>Jenis Layanan</th>
+        <th>Waktu Pemotretan</th>
+        <th>Lokasi Pemotretan</th>
+        <th>Link Maps</th>
+      `;
+    } else {
+      tableHeader.innerHTML = `
+        <th>Nama Mempelai</th>
+        <th>Paket Layanan</th>
+        <th>Jenis Layanan</th>
+        <th>Waktu Pemotretan</th>
+      `;
+    }
+
     let dayReservations =
       reservations[day] || reservations[day.toString()] || [];
-    console.log("Data reservasi untuk modal:", dayReservations);
-
     let weddingCount = 0;
+
     if (dayReservations.length > 0) {
       dayReservations.forEach((res) => {
-        let row = `<tr>
-              <td>${res.nama || "-"}</td>
-              <td>${res.paket || "-"}</td>
-              <td>${res.waktu || "-"}</td>
-              <td>${res.lokasi || "-"}</td>
-            </tr>`;
+        let row;
+        if (userRole === "admin") {
+          row = `<tr>
+            <td>${res.nama_mempelai || "-"}</td>
+            <td>${res.paket || "-"}</td>
+            <td>${res.jenis_layanan || "-"}</td>
+            <td>${res.waktu || "-"}</td>
+            <td>${res.lokasi || "-"}</td>
+            <td><a href="${res.link_maps_pemotretan || "#"}" target="_blank">${
+            res.link_maps_pemotretan ? "Lihat Maps" : "-"
+          }</a></td>
+          </tr>`;
+        } else {
+          row = `<tr>
+            <td>${res.nama_mempelai || "-"}</td>
+            <td>${res.paket || "-"}</td>
+            <td>${res.jenis_layanan || "-"}</td>
+            <td>${res.waktu || "-"}</td>
+          </tr>`;
+        }
         reservationList.innerHTML += row;
 
         if (res.jenis_layanan === "Wedding") {
@@ -222,8 +236,8 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("remainingQuota").textContent =
         weddingCount >= 3 ? 0 : 3 - weddingCount;
     } else {
-      reservationList.innerHTML =
-        '<tr><td colspan="4">Tidak ada reservasi untuk tanggal ini.</td></tr>';
+      const colspan = userRole === "admin" ? 6 : 4;
+      reservationList.innerHTML = `<tr><td colspan="${colspan}">Tidak ada reservasi untuk tanggal ini.</td></tr>`;
       document.getElementById("bookedCount").textContent = 0;
       document.getElementById("remainingQuota").textContent = 3;
     }

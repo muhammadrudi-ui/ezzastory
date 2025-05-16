@@ -57,9 +57,6 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     $routes->post('pemesanan/check-availability', 'PemesananController::checkAvailability');
     $routes->post('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
 
-
-
-
 });
 
 
