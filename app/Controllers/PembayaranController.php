@@ -32,16 +32,13 @@ class PembayaranController extends BaseController
 
         $pemesanan = $this->pemesananModel->find($pembayaran['pemesanan_id']);
 
-        // Update status pemesanan dan status_pembayaran
         $updateData = [];
         if ($pembayaran['jenis'] === 'DP') {
             $updateData = [
-                'status' => 'Pemesanan',
                 'status_pembayaran' => 'DP'
             ];
         } elseif ($pembayaran['jenis'] === 'Pelunasan') {
             $updateData = [
-                'status' => 'Pemotretan',
                 'status_pembayaran' => 'Lunas'
             ];
         }
