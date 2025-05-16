@@ -62,6 +62,7 @@
                             <th class="align-middle">No. Telepon</th>
                             <th class="align-middle">Waktu Pemesanan</th>
                             <th class="align-middle">Paket Layanan</th>
+                            <th class="align-middle">Jenis Layanan</th>
                             <th class="align-middle">Harga</th>
                             <th class="align-middle">Waktu Pemotretan</th>
                             <th class="align-middle">Jenis Pembayaran</th>
@@ -84,6 +85,7 @@
                         <td><?= esc($item['no_telepon']) ?></td>
                         <td><?= esc(date('d M Y H:i', strtotime($item['waktu_pemesanan']))) ?></td>
                         <td><?= esc($item['nama_paket']) ?></td>
+                        <td><?= esc($item['jenis_layanan']) ?></td>
                         <td>Rp<?= number_format($item['harga'], 0, ',', '.') ?></td>
                         <td><?= esc(date('d M Y H:i', strtotime($item['waktu_pemotretan']))) ?></td>
                         <td><?= esc($item['jenis_pembayaran']) ?></td>

@@ -43,7 +43,8 @@ class RiwayatPemesananController extends BaseController
                 user_profile.no_telepon, 
                 user_profile.instagram, 
                 paket_layanan.nama AS nama_paket,
-                paket_layanan.harga AS harga
+                paket_layanan.harga AS harga,
+                paket_layanan.jenis_layanan AS jenis_layanan
             ')
             ->join('users', 'users.id = pemesanan.user_id', 'left')
             ->join('user_profile', 'user_profile.user_id = users.id', 'left')
@@ -89,7 +90,8 @@ class RiwayatPemesananController extends BaseController
                 user_profile.no_telepon, 
                 user_profile.instagram, 
                 paket_layanan.nama AS nama_paket,
-                paket_layanan.harga AS harga
+                paket_layanan.harga AS harga,
+                paket_layanan.jenis_layanan AS jenis_layanan
             ')
             ->join('users', 'users.id = pemesanan.user_id', 'left')
             ->join('user_profile', 'user_profile.user_id = users.id', 'left')
@@ -101,6 +103,7 @@ class RiwayatPemesananController extends BaseController
             $builder->groupStart()
                 ->like('user_profile.nama_lengkap', $search)
                 ->orLike('paket_layanan.nama', $search)
+                ->orLike('paket_layanan.jenis_layanan', $search)
                 ->orLike('pemesanan.jenis_pembayaran', $search)
                 ->orLike('pemesanan.lokasi_pemotretan', $search)
                 ->orLike('pemesanan.nama_mempelai', $search)
@@ -114,19 +117,31 @@ class RiwayatPemesananController extends BaseController
 
         $data = $builder->findAll();
 
-        // Buat file Excel
-        $spreadsheet = new Spreadsheet();
+        // Create new Spreadsheet
+        $spreadsheet = new \PhpOffice\PhpSpreadsheet\Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Judul Laporan
-        $sheet->mergeCells('A1:N1');
+        // Set document properties
+        $spreadsheet->getProperties()
+            ->setCreator('Your System Name')
+            ->setTitle('Laporan Pemesanan Selesai')
+            ->setSubject('Laporan Pemesanan')
+            ->setDescription('Laporan pemesanan yang sudah selesai diproses');
+
+        // Report Title
+        $sheet->mergeCells('A1:O1');
         $sheet->setCellValue('A1', 'LAPORAN PEMESANAN SELESAI');
+        $sheet->getStyle('A1')->getFont()->setSize(16)->setBold(true);
+        $sheet->getStyle('A1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
         if ($filterBulan) {
-            $sheet->mergeCells('A2:N2');
+            $sheet->mergeCells('A2:O2');
             $sheet->setCellValue('A2', 'Periode: ' . date('F Y', strtotime($filterBulan . '-01')));
+            $sheet->getStyle('A2')->getFont()->setSize(12);
+            $sheet->getStyle('A2')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
         }
 
-        // Header Kolom
+        // Column Headers
         $headers = [
             'No',
             'Nama Lengkap',
@@ -134,6 +149,7 @@ class RiwayatPemesananController extends BaseController
             'No Telepon',
             'Tanggal Pemesanan',
             'Paket Layanan',
+            'Jenis Layanan',
             'Harga (Rp)',
             'Tanggal Pemotretan',
             'Jenis Pembayaran',
@@ -144,86 +160,7 @@ class RiwayatPemesananController extends BaseController
             'Instagram'
         ];
 
-        $col = 'A';
-        foreach ($headers as $header) {
-            $sheet->setCellValue($col.'4', $header);
-            $sheet->getColumnDimension($col)->setAutoSize(true);
-            $col++;
-        }
-
-        // Isi data
-        $row = 5;
-        $no = 1;
-        foreach ($data as $item) {
-            $sheet->setCellValue("A$row", $no++);
-            $sheet->setCellValue("B$row", $item['nama_lengkap']);
-            $sheet->setCellValue("C$row", $item['email']);
-            $sheet->setCellValue("D$row", $item['no_telepon']);
-            $sheet->setCellValue("E$row", date('d/m/Y H:i', strtotime($item['waktu_pemesanan'])));
-            $sheet->setCellValue("F$row", $item['nama_paket']);
-
-            // Format harga dengan benar (tanpa pembagian 100)
-            $harga = $item['harga'];
-            $sheet->setCellValue("G$row", $harga);
-            $sheet->getStyle("G$row")->getNumberFormat()->setFormatCode('#,##0');
-
-            $sheet->setCellValue("H$row", date('d/m/Y H:i', strtotime($item['waktu_pemotretan'])));
-            $sheet->setCellValue("I$row", ucfirst($item['jenis_pembayaran']));
-            $sheet->setCellValue("J$row", $item['lokasi_pemotretan']);
-
-            // Link Maps Pemotretan
-            if (!empty($item['link_maps_pemotretan'])) {
-                $sheet->setCellValue("K$row", 'Link Lokasi Pemotretan');
-                $sheet->getCell("K$row")->getHyperlink()->setUrl($item['link_maps_pemotretan']);
-            } else {
-                $sheet->setCellValue("K$row", '-');
-            }
-
-            // Link Maps Pengiriman
-            if (!empty($item['link_maps_pengiriman'])) {
-                $sheet->setCellValue("L$row", 'Link Lokasi Pengiriman');
-                $sheet->getCell("L$row")->getHyperlink()->setUrl($item['link_maps_pengiriman']);
-            } else {
-                $sheet->setCellValue("L$row", '-');
-            }
-
-            $sheet->setCellValue("M$row", $item['nama_mempelai']);
-
-            // Username Instagram
-            if (!empty($item['instagram'])) {
-                $instagram = $item['instagram'];
-                // Pastikan tidak ada @ ganda
-                $instagram = ltrim($instagram, '@');
-                $sheet->setCellValue("N$row", '@' . $instagram);
-                $sheet->getCell("N$row")->getHyperlink()->setUrl('https://instagram.com/' . $instagram);
-            } else {
-                $sheet->setCellValue("N$row", '-');
-            }
-
-            $row++;
-        }
-
-        // Styling judul
-        $titleStyle = [
-            'font' => [
-                'bold' => true,
-                'size' => 16,
-                'color' => ['rgb' => 'FFFFFF']
-            ],
-            'alignment' => [
-                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
-                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
-            ],
-            'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '4F81BD']
-            ]
-        ];
-        $sheet->getStyle('A1:A2')->applyFromArray($titleStyle);
-        $sheet->getRowDimension(1)->setRowHeight(25);
-        $sheet->getRowDimension(2)->setRowHeight(20);
-
-        // Styling header kolom
+        // Set header styles
         $headerStyle = [
             'font' => [
                 'bold' => true,
@@ -236,7 +173,7 @@ class RiwayatPemesananController extends BaseController
             ],
             'fill' => [
                 'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['rgb' => '4F81BD']
+                'startColor' => ['rgb' => '4472C4']
             ],
             'borders' => [
                 'allBorders' => [
@@ -245,13 +182,75 @@ class RiwayatPemesananController extends BaseController
                 ]
             ]
         ];
-        $sheet->getStyle('A4:N4')->applyFromArray($headerStyle);
+
+        // Write headers
+        $col = 'A';
+        foreach ($headers as $header) {
+            $sheet->setCellValue($col.'4', $header);
+            $sheet->getColumnDimension($col)->setAutoSize(true);
+            $col++;
+        }
+        $sheet->getStyle('A4:O4')->applyFromArray($headerStyle);
         $sheet->getRowDimension(4)->setRowHeight(25);
 
-        // Styling isi data
+        // Data rows
+        $row = 5;
+        $no = 1;
+        foreach ($data as $item) {
+            $sheet->setCellValue("A$row", $no++);
+            $sheet->setCellValue("B$row", $item['nama_lengkap'] ?? '');
+            $sheet->setCellValue("C$row", $item['email'] ?? '');
+            $sheet->setCellValue("D$row", $item['no_telepon'] ?? '');
+            $sheet->setCellValue("E$row", !empty($item['waktu_pemesanan']) ? date('d/m/Y H:i', strtotime($item['waktu_pemesanan'])) : '');
+            $sheet->setCellValue("F$row", $item['nama_paket'] ?? '');
+            $sheet->setCellValue("G$row", $item['jenis_layanan'] ?? '');
+
+            // Format price with proper number format
+            $sheet->setCellValue("H$row", $item['harga'] ?? 0);
+            $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode('#,##0');
+
+            $sheet->setCellValue("I$row", !empty($item['waktu_pemotretan']) ? date('d/m/Y H:i', strtotime($item['waktu_pemotretan'])) : '');
+            $sheet->setCellValue("J$row", !empty($item['jenis_pembayaran']) ? ucfirst($item['jenis_pembayaran']) : '');
+            $sheet->setCellValue("K$row", $item['lokasi_pemotretan'] ?? '');
+
+            // Link Maps Pemotretan
+            if (!empty($item['link_maps_pemotretan'])) {
+                $sheet->setCellValue("L$row", 'Link Lokasi Pemotretan');
+                $sheet->getCell("L$row")->getHyperlink()->setUrl($item['link_maps_pemotretan']);
+            } else {
+                $sheet->setCellValue("L$row", '-');
+            }
+
+            // Link Maps Pengiriman
+            if (!empty($item['link_maps_pengiriman'])) {
+                $sheet->setCellValue("M$row", 'Link Lokasi Pengiriman');
+                $sheet->getCell("M$row")->getHyperlink()->setUrl($item['link_maps_pengiriman']);
+            } else {
+                $sheet->setCellValue("M$row", '-');
+            }
+
+            $sheet->setCellValue("N$row", $item['nama_mempelai'] ?? '');
+
+            // Instagram handle
+            if (!empty($item['instagram'])) {
+                $instagram = ltrim($item['instagram'], '@');
+                $sheet->setCellValue("O$row", '@' . $instagram);
+                $sheet->getCell("O$row")->getHyperlink()->setUrl('https://instagram.com/' . $instagram);
+            } else {
+                $sheet->setCellValue("O$row", '-');
+            }
+
+            $row++;
+        }
+
+        // Apply data styles
         $dataStyle = [
             'borders' => [
-                'allBorders' => [
+                'outline' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    'color' => ['rgb' => '000000']
+                ],
+                'inside' => [
                     'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
                     'color' => ['rgb' => 'DDDDDD']
                 ]
@@ -260,49 +259,68 @@ class RiwayatPemesananController extends BaseController
                 'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER
             ]
         ];
-        $sheet->getStyle('A5:N'.($row - 1))->applyFromArray($dataStyle);
+        $sheet->getStyle('A5:O'.($row - 1))->applyFromArray($dataStyle);
 
-        // Format angka untuk kolom harga (tanpa pembagian 100)
-        $sheet->getStyle('G5:G'.($row - 1))->getNumberFormat()->setFormatCode('#,##0');
-
-        // Format tanggal
+        // Format date columns
         $sheet->getStyle('E5:E'.($row - 1))->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
-        $sheet->getStyle('H5:H'.($row - 1))->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
+        $sheet->getStyle('I5:I'.($row - 1))->getNumberFormat()->setFormatCode('dd/mm/yyyy hh:mm');
 
-        // Style untuk hyperlink
+        // Format numeric columns
+        $sheet->getStyle('H5:H'.($row - 1))->getNumberFormat()->setFormatCode('#,##0');
+
+        // Hyperlink styles
         $hyperlinkStyle = [
             'font' => [
                 'color' => ['rgb' => '0563C1'],
                 'underline' => \PhpOffice\PhpSpreadsheet\Style\Font::UNDERLINE_SINGLE
             ]
         ];
-        $sheet->getStyle('K5:K'.($row - 1))->applyFromArray($hyperlinkStyle);
         $sheet->getStyle('L5:L'.($row - 1))->applyFromArray($hyperlinkStyle);
-        $sheet->getStyle('N5:N'.($row - 1))->applyFromArray($hyperlinkStyle);
+        $sheet->getStyle('M5:M'.($row - 1))->applyFromArray($hyperlinkStyle);
+        $sheet->getStyle('O5:O'.($row - 1))->applyFromArray($hyperlinkStyle);
 
-        // Alternating row color
-        $alternateColor = [
-            'fill' => [
-                'fillType' => \PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID,
-                'startColor' => ['rgb' => 'E6E6E6']
-            ]
-        ];
+        // Alternate row coloring
         for ($i = 5; $i < $row; $i++) {
             if ($i % 2 == 0) {
-                $sheet->getStyle('A'.$i.':N'.$i)->applyFromArray($alternateColor);
+                $sheet->getStyle("A$i:O$i")->getFill()
+                    ->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)
+                    ->getStartColor()->setARGB('FFEEEEEE');
             }
         }
 
-        // Freeze header
+        // Set column widths for better display
+        $sheet->getColumnDimension('B')->setWidth(25); // Nama Lengkap
+        $sheet->getColumnDimension('C')->setWidth(25); // Email
+        $sheet->getColumnDimension('E')->setWidth(18); // Tanggal Pemesanan
+        $sheet->getColumnDimension('F')->setWidth(20); // Paket Layanan
+        $sheet->getColumnDimension('G')->setWidth(15); // Jenis Layanan
+        $sheet->getColumnDimension('H')->setWidth(15); // Harga
+        $sheet->getColumnDimension('I')->setWidth(18); // Tanggal Pemotretan
+        $sheet->getColumnDimension('J')->setWidth(15); // Jenis Pembayaran
+        $sheet->getColumnDimension('K')->setWidth(25); // Lokasi Pemotretan
+        $sheet->getColumnDimension('L')->setWidth(20); // Link Maps Pemotretan
+        $sheet->getColumnDimension('M')->setWidth(20); // Link Maps Pengiriman
+        $sheet->getColumnDimension('N')->setWidth(20); // Nama Mempelai
+        $sheet->getColumnDimension('O')->setWidth(15); // Instagram
+
+        // Freeze header row
         $sheet->freezePane('A5');
 
-        // Unduh file
-        $filename = 'Laporan_Pemesanan_Selesai_' . ($filterBulan ? $filterBulan . '_' : '') . date('YmdHis') . '.xlsx';
+        // Set print settings
+        $sheet->getPageSetup()
+            ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE)
+            ->setPaperSize(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::PAPERSIZE_A4)
+            ->setFitToWidth(1)
+            ->setFitToHeight(0);
+
+        // Download file
+        $filename = 'Laporan_Pemesanan_Selesai_' . ($filterBulan ? date('F_Y', strtotime($filterBulan . '-01')) : 'Semua') . '_' . date('YmdHis') . '.xlsx';
+
         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
         header('Cache-Control: max-age=0');
 
-        $writer = new Xlsx($spreadsheet);
+        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Xlsx($spreadsheet);
         $writer->save('php://output');
         exit();
     }

@@ -32,6 +32,12 @@ class CreatePaketLayanan extends Migration
                 'type' => 'INT',
                 'constraint' => 10,
             ],
+            'jenis_layanan' => [
+                'type' => 'ENUM',
+                'constraint' => ['Wedding', 'Engagement', 'Pre-Wedding', 'Wisuda', 'Event Lainnya'],
+                'null' => false,
+                'default' => 'Event Lainnya',
+            ],
             'created_at' => [
                 'type' => 'DATETIME',
                 'null' => true,

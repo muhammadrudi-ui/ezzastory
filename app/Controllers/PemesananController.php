@@ -35,7 +35,7 @@ class PemesananController extends BaseController
 
         // Ambil SEMUA data pemesanan user
         $pemesanan = $this->pemesananModel
-            ->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.harga, paket_layanan.foto')
+            ->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.harga, paket_layanan.foto, paket_layanan.jenis_layanan')
             ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
             ->where('pemesanan.user_id', $userId)
             ->orderBy('created_at', 'DESC')
@@ -47,7 +47,8 @@ class PemesananController extends BaseController
                 pemesanan.*, 
                 user_profile.instagram, 
                 paket_layanan.nama AS nama_paket,
-                paket_layanan.harga AS harga
+                paket_layanan.harga AS harga,
+                paket_layanan.jenis_layanan AS jenis_layanan
             ')
             ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
             ->join('user_profile', 'user_profile.user_id = pemesanan.user_id', 'left')
@@ -110,15 +111,46 @@ class PemesananController extends BaseController
 
     public function simpan()
     {
+        $paketId = $this->request->getPost('paket_layanan');
+        $waktuPemotretan = $this->request->getPost('waktu_pemotretan');
+        $paket = $this->paketLayananModel->find($paketId);
+
+        // Pastikan paket ditemukan
+        if (!$paket) {
+            return redirect()->to('user/reservasi?tab=reservasi')
+                ->with('error', 'Paket layanan tidak ditemukan.');
+        }
+
+        // Cek jika jenis layanan adalah Wedding
+        if (isset($paket['jenis_layanan']) && $paket['jenis_layanan'] === 'Wedding') {
+            $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
+            $jumlahPemesanan = $this->pemesananModel
+                ->where('paket_id', $paketId)
+                ->where('DATE(waktu_pemotretan)', $tanggalPemotretan)
+                ->where('status !=', 'Selesai')
+                ->countAllResults();
+
+            if ($jumlahPemesanan >= 3) {
+                return redirect()->to('user/reservasi?tab=reservasi')
+                    ->with('error', 'Maaf, paket dengan jenis layanan Wedding sudah mencapai batas maksimal 3 pemesanan untuk tanggal pemotretan ' . date('d-m-Y', strtotime($tanggalPemotretan)) . '. Silakan pilih tanggal lain atau paket lain.');
+            }
+        } else {
+            // Log jika jenis_layanan tidak ada
+            if (!isset($paket['jenis_layanan'])) {
+                log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
+            }
+        }
+
+        // Data untuk disimpan
         $data = [
             'user_id'               => session()->get('user_id'),
-            'paket_id'              => $this->request->getPost('paket_layanan'),
+            'paket_id'              => $paketId,
             'nama_lengkap'          => $this->request->getPost('nama_lengkap'),
             'email'                 => $this->request->getPost('email'),
             'telepon'               => $this->request->getPost('telepon'),
             'waktu_pemesanan'       => $this->request->getPost('waktu_pemesanan'),
-            'paket_layanan'         => $this->request->getPost('paket_layanan'),
-            'waktu_pemotretan'      => $this->request->getPost('waktu_pemotretan'),
+            'paket_layanan'         => $paketId,
+            'waktu_pemotretan'      => $waktuPemotretan,
             'jenis_pembayaran'      => $this->request->getPost('jenis_pembayaran'),
             'lokasi_pemotretan'     => $this->request->getPost('lokasi_pemotretan'),
             'link_maps_pemotretan'  => $this->request->getPost('link_maps_pemotretan'),
@@ -131,7 +163,6 @@ class PemesananController extends BaseController
 
         $this->pemesananModel->insert($data);
         $pemesananId = $this->pemesananModel->insertID();
-        $paket = $this->paketLayananModel->find($data['paket_id']);
 
         // Logika pembayaran
         if ($data['jenis_pembayaran'] === 'DP') {
@@ -161,6 +192,46 @@ class PemesananController extends BaseController
         }
 
         return redirect()->to('user/reservasi?tab=pembayaran')->with('success', 'Reservasi berhasil dikirim!');
+    }
+
+    public function checkAvailability()
+    {
+        $paketId = $this->request->getPost('paket_id');
+        $waktuPemotretan = $this->request->getPost('waktu_pemotretan');
+
+        $paket = $this->paketLayananModel->find($paketId);
+        $isAvailable = true;
+
+        // Pastikan paket ditemukan
+        if (!$paket) {
+            return $this->response->setJSON([
+                'is_available' => false,
+                'message' => 'Paket layanan tidak ditemukan.'
+            ]);
+        }
+
+        if (isset($paket['jenis_layanan']) && $paket['jenis_layanan'] === 'Wedding') {
+            $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
+            $jumlahPemesanan = $this->pemesananModel
+                ->where('paket_id', $paketId)
+                ->where('DATE(waktu_pemotretan)', $tanggalPemotretan)
+                ->where('status !=', 'Selesai')
+                ->countAllResults();
+
+            $isAvailable = $jumlahPemesanan < 3;
+            $message = $isAvailable ? '' : 'Paket Wedding sudah penuh untuk tanggal ini.';
+        } else {
+            // Log jika jenis_layanan tidak ada
+            if (!isset($paket['jenis_layanan'])) {
+                log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
+            }
+            $message = '';
+        }
+
+        return $this->response->setJSON([
+            'is_available' => $isAvailable,
+            'message' => $message
+        ]);
     }
 
     public function batal($id)
@@ -238,7 +309,8 @@ class PemesananController extends BaseController
             user_profile.no_telepon, 
             user_profile.instagram, 
             paket_layanan.nama AS nama_paket,
-            paket_layanan.harga AS harga
+            paket_layanan.harga AS harga,
+            paket_layanan.jenis_layanan AS jenis_layanan
         ')
             ->join('users', 'users.id = pemesanan.user_id', 'left')
             ->join('user_profile', 'user_profile.user_id = users.id', 'left')
@@ -251,6 +323,7 @@ class PemesananController extends BaseController
                 ->groupStart()
                 ->like('user_profile.nama_lengkap', $search)
                 ->orLike('paket_layanan.nama', $search)
+                ->orLike('paket_layanan.jenis_layanan', $search)
                 ->orLike('pemesanan.jenis_pembayaran', $search)
                 ->orLike('pemesanan.lokasi_pemotretan', $search)
                 ->orLike('pemesanan.nama_mempelai', $search)
@@ -289,7 +362,8 @@ class PemesananController extends BaseController
                 user_profile.no_telepon, 
                 user_profile.instagram, 
                 paket_layanan.nama AS nama_paket,
-                paket_layanan.harga AS harga
+                paket_layanan.harga AS harga,
+                paket_layanan.jenis_layanan AS jenis_layanan
             ')
             ->join('users', 'users.id = pemesanan.user_id', 'left')
             ->join('user_profile', 'user_profile.user_id = users.id', 'left')

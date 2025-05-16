@@ -41,8 +41,8 @@
                     <input type="text" name="waktu_pemotretan" class="form-control text-muted" value="<?= esc(date('Y-m-d H:i', strtotime($pemesanan['waktu_pemotretan']))) ?>" readonly>
                 </div>
                 <div class="col-md-6">
-                    <label class="fw-bold">Harga</label>
-                    <input type="text" name="harga" class="form-control text-muted" value="Rp<?= number_format($pemesanan['harga'], 0, ',', '.') ?>" readonly>
+                    <label class="fw-bold">Jenis Layanan</label>
+                    <input type="text" name="jenis_layanan" class="form-control text-muted" value="<?= esc($pemesanan['jenis_layanan']) ?>" readonly>
                 </div>
             </div>
 
@@ -52,8 +52,8 @@
                     <input type="text" name="metode_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['jenis_pembayaran']) ?>" readonly>
                 </div>
                 <div class="col-md-6">
-                    <label class="fw-bold">Jenis Pembayaran</label>
-                    <input type="text" name="jenis_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['jenis_pembayaran']) ?>" readonly>
+                    <label class="fw-bold">Harga</label>
+                    <input type="text" name="harga" class="form-control text-muted" value="Rp<?= number_format($pemesanan['harga'], 0, ',', '.') ?>" readonly>
                 </div>
             </div>
 
@@ -63,15 +63,20 @@
                     <input type="text" name="lokasi_pemotretan" class="form-control text-muted" value="<?= esc($pemesanan['lokasi_pemotretan']) ?>" readonly>
                 </div>
                 <div class="col-md-6">
-                    <label class="fw-bold">Status Pembayaran</label>
-                    <input type="text" name="status_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['status_pembayaran']) ?>" readonly>
+                    <label class="fw-bold">Jenis Pembayaran</label>
+                    <input type="text" name="jenis_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['jenis_pembayaran']) ?>" readonly>
                 </div>
             </div>
-
-            <div class="mt-3">
+<div class="row mt-3">
+            <div class="col-md-6">
                 <label class="fw-bold">Lokasi Pengiriman Album</label>
                 <input type="text" name="lokasi_pengiriman" class="form-control text-muted" value="<?= esc($pemesanan['link_maps_pengiriman']) ?>" readonly>
             </div>
+            <div class="col-md-6">
+                    <label class="fw-bold">Status Pembayaran</label>
+                    <input type="text" name="status_pembayaran" class="form-control text-muted" value="<?= esc($pemesanan['status_pembayaran']) ?>" readonly>
+                </div>
+                </div>
 
             <div class="mt-3">
     <label class="fw-bold">Status</label>

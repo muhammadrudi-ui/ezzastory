@@ -19,6 +19,7 @@
                 <th>Nama Customer</th>
                 <th>No. Telepon</th>
                 <th>Paket Layanan</th>
+                <th>Jenis Layanan</th>
                 <th>Harga</th>
                 <th>Jenis Pembayaran</th>
                 <th>Jumlah Pembayaran</th>
@@ -32,6 +33,7 @@
                     <td><?= esc($pesan['nama_lengkap']) ?></td>
                     <td><?= esc($pesan['no_telepon']) ?></td>
                     <td><?= esc($pesan['nama_paket']) ?></td>
+                    <td><?= esc($pesan['jenis_layanan']) ?></td>
                     <td>Rp <?= number_format($pesan['harga'], 0, ',', '.') ?></td>
                     <td><?= esc($pesan['jenis_pembayaran']) ?></td>
                     <td>Rp <?= number_format($pesan['jumlah_pembayaran'], 0, ',', '.') ?></td>

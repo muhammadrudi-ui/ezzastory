@@ -43,6 +43,7 @@
                             <th class="align-middle">Foto</th>
                             <th class="align-middle">Benefit</th>
                             <th class="align-middle">Harga</th>
+                            <th class="align-middle">Jenis Layanan</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
                     </thead>
@@ -57,6 +58,7 @@
                                     </td>
                                     <td><?= $paket['benefit'] ?></td>
                                     <td>Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>
+                                    <td><?= ($paket['jenis_layanan']) ?></td>
                                     <td class="text-nowrap">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="<?= base_url('admin/paket-layanan/edit/' . $paket['id']) ?>"

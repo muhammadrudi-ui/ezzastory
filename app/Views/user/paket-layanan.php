@@ -125,6 +125,7 @@
                             loading="lazy">
                         <div class="card-body text-center">
                             <h5 class="card-title"><?= esc($paket['nama']) ?></h5>
+                           <p class="card-tittle"><?= esc($paket['jenis_layanan']) ?></p>
                             <p class="card-text"><?= esc($paket['benefit']) ?></p>
                             <p class="card-price">Rp <?= number_format($paket['harga'], 0, ',', '.') ?></p>
                             <div class="btn-group">

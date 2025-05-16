@@ -34,6 +34,7 @@ class PaketLayananController extends BaseController
                 ->like('nama', $search)
                 ->orLike('benefit', $search)
                 ->orLike('harga', $search)
+                ->orLike('jenis_layanan', $search)
                 ->groupEnd();
         }
 
@@ -57,6 +58,7 @@ class PaketLayananController extends BaseController
             'benefit' => 'required',
             'harga' => 'required|numeric|greater_than[0]',
             'foto' => 'uploaded[foto]|max_size[foto,1024]|is_image[foto]|mime_in[foto,image/jpg,image/jpeg,image/png]',
+            'jenis_layanan' => 'required|in_list[Wedding,Engagement,Pre-Wedding,Wisuda,Event Lainnya]',
         ];
 
         if (!$this->validate($rules)) {
@@ -74,6 +76,8 @@ class PaketLayananController extends BaseController
             'foto' => 'uploads/paket_layanan/' . $fileName,
             'benefit' => $this->request->getPost('benefit'),
             'harga' => $this->request->getPost('harga'),
+            'jenis_layanan' => $this->request->getPost('jenis_layanan'),
+            'created_at' => date('Y-m-d H:i:s'),
         ];
 
         $this->paketLayananModel->insert($data);
@@ -106,6 +110,7 @@ class PaketLayananController extends BaseController
             'nama_paket' => 'required',
             'benefit' => 'required',
             'harga' => 'required|numeric|greater_than[0]',
+            'jenis_layanan' => 'required|in_list[Wedding,Engagement,Pre-Wedding,Wisuda,Event Lainnya]',
         ];
 
         // Cek apakah ada file yang diupload
@@ -123,6 +128,8 @@ class PaketLayananController extends BaseController
             'nama' => $this->request->getPost('nama_paket'),
             'benefit' => $this->request->getPost('benefit'),
             'harga' => $this->request->getPost('harga'),
+            'jenis_layanan' => $this->request->getPost('jenis_layanan'),
+            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
         // Jika ada file yang diupload

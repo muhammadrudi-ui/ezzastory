@@ -49,6 +49,7 @@ class LaporanKeuanganController extends BaseController
                 user_profile.no_telepon,
                 paket_layanan.nama AS nama_paket,
                 paket_layanan.harga,
+                paket_layanan.jenis_layanan,
                 pemesanan.jenis_pembayaran,
                 pemesanan.status_pembayaran
             ')
@@ -61,6 +62,7 @@ class LaporanKeuanganController extends BaseController
             $query->groupStart()
                 ->like('user_profile.nama_lengkap', $search)
                 ->orLike('paket_layanan.nama', $search)
+                ->orLike('paket_layanan.jenis_layanan', $search)
                 ->orLike('pemesanan.jenis_pembayaran', $search)
                 ->groupEnd();
         }
@@ -92,6 +94,7 @@ class LaporanKeuanganController extends BaseController
                 'nama_lengkap' => $pesan['nama_lengkap'],
                 'no_telepon' => $pesan['no_telepon'],
                 'nama_paket' => $pesan['nama_paket'],
+                'jenis_layanan' => $pesan['jenis_layanan'],
                 'harga' => $pesan['harga'],
                 'jenis_pembayaran' => $pesan['jenis_pembayaran'],
                 'jumlah_pembayaran' => $totalPaid,
@@ -132,6 +135,7 @@ class LaporanKeuanganController extends BaseController
                 user_profile.no_telepon,
                 paket_layanan.nama AS nama_paket,
                 paket_layanan.harga,
+                paket_layanan.jenis_layanan,
                 pemesanan.jenis_pembayaran,
                 pemesanan.status_pembayaran
             ')
@@ -144,6 +148,7 @@ class LaporanKeuanganController extends BaseController
             $query->groupStart()
                 ->like('user_profile.nama_lengkap', $search)
                 ->orLike('paket_layanan.nama', $search)
+                ->orLike('paket_layanan.jenis_layanan', $search)
                 ->orLike('pemesanan.jenis_pembayaran', $search)
                 ->groupEnd();
         }
@@ -174,6 +179,7 @@ class LaporanKeuanganController extends BaseController
                 'nama_lengkap' => $pesan['nama_lengkap'],
                 'no_telepon' => $pesan['no_telepon'],
                 'nama_paket' => $pesan['nama_paket'],
+                'jenis_layanan' => $pesan['jenis_layanan'],
                 'harga' => $pesan['harga'],
                 'jenis_pembayaran' => $pesan['jenis_pembayaran'],
                 'jumlah_pembayaran' => $totalPaid,

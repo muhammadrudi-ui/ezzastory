@@ -51,6 +51,17 @@
                         value="<?= old('harga') ?>" required>
                 </div>
 
+                <div class="mb-3">
+                    <label for="jenis_layanan" class="form-label">Jenis Layanan</label>
+                    <select class="form-select" name="jenis_layanan" required>
+                        <option value="Wedding" <?= old('jenis_layanan') == 'Wedding' ? 'selected' : '' ?>>Wedding</option>
+                        <option value="Engagement" <?= old('jenis_layanan') == 'Engagement' ? 'selected' : '' ?>>Engagement</option>
+                        <option value="Pre-Wedding" <?= old('jenis_layanan') == 'Pre-Wedding' ? 'selected' : '' ?>>Pre-Wedding</option>
+                        <option value="Wisuda" <?= old('jenis_layanan') == 'Wisuda' ? 'selected' : '' ?>>Wisuda</option>
+                        <option value="Event Lainnya" <?= old('jenis_layanan', 'Event Lainnya') == 'Event Lainnya' ? 'selected' : '' ?>>Event Lainnya</option>
+                    </select>
+                </div>
+
                 <div class="mt-4 text-center">
                     <button type="submit" class="btn btn-success">Simpan</button>
                     <a href="<?= base_url('admin/paket-layanan/index'); ?>" class="btn btn-secondary">Kembali</a>
