@@ -293,6 +293,67 @@ class PemesananController extends BaseController
         return redirect()->to('user/reservasi?tab=riwayat')->with('success', 'Pemesanan telah diselesaikan.');
     }
 
+    // Jadwal Ketersediaan
+    public function getReservations()
+    {
+        $month = $this->request->getGet('month');
+        $year = $this->request->getGet('year');
+
+        log_message('debug', "getReservations called with month: $month, year: $year");
+
+        if (!$month || !$year) {
+            log_message('error', 'Missing month or year parameters');
+            return $this->response->setJSON([
+                'status' => 'error',
+                'message' => 'Parameter bulan dan tahun diperlukan.'
+            ]);
+        }
+
+        $reservations = $this->pemesananModel
+            ->select('
+                pemesanan.id,
+                pemesanan.waktu_pemotretan,
+                pemesanan.lokasi_pemotretan,
+                pemesanan.status,
+                COALESCE(user_profile.nama_lengkap, "Tidak Diketahui") AS nama_lengkap,
+                COALESCE(paket_layanan.nama, "Tidak Diketahui") AS nama_paket,
+                COALESCE(paket_layanan.jenis_layanan, "Tidak Diketahui") AS jenis_layanan
+            ')
+            ->join('user_profile', 'user_profile.user_id = pemesanan.user_id', 'left')
+            ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+            ->where('MONTH(pemesanan.waktu_pemotretan)', $month)
+            ->where('YEAR(pemesanan.waktu_pemotretan)', $year)
+            ->where('pemesanan.status !=', 'Selesai')
+            ->findAll();
+
+        log_message('debug', 'Reservations fetched: ' . json_encode($reservations));
+
+        $groupedReservations = [];
+        foreach ($reservations as $res) {
+            if (!empty($res['waktu_pemotretan'])) {
+                $day = (int) date('j', strtotime($res['waktu_pemotretan']));
+                if (!isset($groupedReservations[$day])) {
+                    $groupedReservations[$day] = [];
+                }
+                $groupedReservations[$day][] = [
+                    'nama' => $res['nama_lengkap'],
+                    'paket' => $res['nama_paket'],
+                    'waktu' => date('H:i', strtotime($res['waktu_pemotretan'])),
+                    'lokasi' => $res['lokasi_pemotretan'] ?? 'Tidak Diketahui',
+                    'jenis_layanan' => $res['jenis_layanan']
+                ];
+            }
+        }
+
+        log_message('debug', 'Grouped reservations: ' . json_encode($groupedReservations));
+
+        return $this->response->setJSON([
+            'status' => 'success',
+            'reservations' => $groupedReservations,
+            'total' => count($reservations)
+        ]);
+    }
+
     public function index_admin()
     {
         $search = $this->request->getGet('search');

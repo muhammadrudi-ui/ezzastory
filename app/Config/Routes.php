@@ -58,6 +58,8 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     $routes->post('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
 
 
+
+
 });
 
 
@@ -120,3 +122,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 $routes->get('/dashboard', function () {
     return redirect()->to('/admin/dashboard');
 });
+
+
+// Ketersediaan Jadwal
+$routes->get('pemesanan/getReservations', 'PemesananController::getReservations');
