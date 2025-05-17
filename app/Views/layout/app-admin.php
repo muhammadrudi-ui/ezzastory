@@ -193,7 +193,7 @@
         <h4>Ezzastory</h4>
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link active" href="/dashboard">
+                <a class="nav-link active" href="<?= base_url('admin/dashboard') ?>">
                     <i class="bi bi-grid"></i> <span>Dashboard</span>
                 </a>
             </li>
@@ -261,15 +261,17 @@
                 $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
                 ?>
 
+            <!-- Profile Admin -->
             <div class="dropdown ms-auto">
                 <button class="btn btn-light dropdown-toggle" type="button" id="userDropdown" data-bs-toggle="dropdown">
                     <?= esc($displayName) ?> <i class="bi bi-person-circle"></i>
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('admin/profile') ?>">Profile</a></li> <!-- Update link ini -->
+                    <li><a class="dropdown-item text-danger" href="<?= base_url('logout') ?>">Logout</a></li>
                 </ul>
             </div>
+
         </div>
     </nav>
 

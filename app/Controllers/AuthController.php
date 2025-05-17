@@ -213,4 +213,94 @@ class AuthController extends BaseController
 
         return redirect()->to('/user/profile')->with('success', 'Profil berhasil diperbarui.');
     }
+
+    // Tambahkan method ini di AuthController
+    public function adminProfile()
+    {
+        $data['profile_perusahaan'] = $this->profileModel->findAll();
+        $userId = session('user_id');
+        $data['user'] = $this->userModel->getUserWithProfile($userId);
+
+        return view('admin/profile', $data);
+    }
+
+    public function updateAdminProfile()
+    {
+        $userId = session('user_id');
+
+        $username = $this->request->getPost('username');
+        $email = $this->request->getPost('email');
+        $newPassword = $this->request->getPost('password');
+        $noTelepon = $this->request->getPost('no_telepon');
+
+        if (!preg_match('/^\d{10,13}$/', $noTelepon)) {
+            return redirect()->back()->with('error', 'No Telepon harus terdiri dari 10 hingga 13 digit angka.');
+        }
+
+        $currentUser = $this->userModel->find($userId);
+
+        // Validasi username
+        $existingUsername = $this->userModel
+            ->where('username', $username)
+            ->where('id !=', $userId)
+            ->first();
+
+        if (!preg_match('/^[^\s]{1,30}$/', $username)) {
+            return redirect()->back()->with('error', 'Username maksimal 30 karakter dan tidak boleh mengandung spasi.');
+        }
+
+        if ($existingUsername) {
+            return redirect()->back()->with('error', 'Username yang Anda pilih tidak tersedia. Silakan pilih username lain.');
+        }
+
+        // Validasi email
+        $existingEmail = $this->userModel
+            ->where('email', $email)
+            ->where('id !=', $userId)
+            ->first();
+
+        if ($existingEmail) {
+            return redirect()->back()->with('error', 'Email yang Anda masukkan sudah terdaftar. Silakan gunakan email lain.');
+        }
+
+        $dataUser = [
+            'username' => $username,
+            'email' => $email,
+        ];
+
+        $passwordChanged = false;
+
+        if (!empty($newPassword)) {
+            if (strlen($newPassword) < 6) {
+                return redirect()->back()->with('error', 'Password baru harus memiliki minimal 6 karakter.');
+            }
+
+            $dataUser['password'] = password_hash($newPassword, PASSWORD_DEFAULT);
+            $passwordChanged = true;
+        }
+
+        $this->userModel->update($userId, $dataUser);
+
+        $dataProfile = [
+            'nama_lengkap' => $this->request->getPost('nama_lengkap'),
+            'no_telepon' => $noTelepon,
+            'instagram' => $this->request->getPost('instagram'),
+        ];
+
+        $profile = $this->userProfileModel->where('user_id', $userId)->first();
+
+        if ($profile) {
+            $this->userProfileModel->update($profile['user_id'], $dataProfile);
+        } else {
+            $dataProfile['user_id'] = $userId;
+            $this->userProfileModel->insert($dataProfile);
+        }
+
+        if ($passwordChanged) {
+            session()->destroy();
+            return redirect()->to('/login')->with('success', 'Password diperbarui. Silakan login kembali.');
+        }
+
+        return redirect()->to('/admin/profile')->with('success', 'Profil berhasil diperbarui.');
+    }
 }

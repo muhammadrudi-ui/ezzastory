@@ -69,6 +69,10 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
     $routes->get('dashboard', 'BerandaController::index_admin');
     $routes->get('jadwal', 'JadwalController::index');
 
+    // Admin Edit Profile
+    $routes->get('profile', 'AuthController::adminProfile');
+    $routes->post('profile/update', 'AuthController::updateAdminProfile');
+
     // Profile Perusahaan Admin
     $routes->get('profile-perusahaan/index', 'ProfileController::index_admin');
     $routes->get('profile-perusahaan/add', 'ProfileController::add_admin');
@@ -113,12 +117,6 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
 
 // -----------------------------------------------------------------------------------
-
-
-// Redirect untuk URL lama menuju ke struktur baru
-$routes->get('/dashboard', function () {
-    return redirect()->to('/admin/dashboard');
-});
 
 
 // Ketersediaan Jadwal

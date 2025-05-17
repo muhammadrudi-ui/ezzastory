@@ -232,8 +232,8 @@
                         <i class="bi bi-person-circle"></i> <?= esc($displayName) ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="/user/profile">Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="/logout">Logout</a></li>
+                        <li><a class="dropdown-item" href="<?= base_url('user/profile') ?>">Profile</a></li>
+                        <li><a class="dropdown-item text-danger" href="<?= base_url('logout') ?>">Logout</a></li>
                     </ul>
                 </div>
 
