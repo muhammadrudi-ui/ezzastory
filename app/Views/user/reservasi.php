@@ -772,7 +772,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                                                     <?php if ($bayar['jenis'] === 'DP'): ?>
                                                                                         Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
                                                                                     <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
-                                                                                        Segera bayar maksimal H+3 setelah pemotretan agar pemesanan segera masuk proses editing.
+                                                                                        Segera bayar pelunasan setelah pemotretan agar pemesanan segera masuk proses editing.
                                                                                     <?php endif; ?>
                                                                                 <?php else: ?>
                                                                                     Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.

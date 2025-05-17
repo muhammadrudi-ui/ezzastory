@@ -121,3 +121,7 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 
 // Ketersediaan Jadwal
 $routes->get('pemesanan/getReservations', 'PemesananController::getReservations');
+
+
+
+$routes->get('pemesanan/check-cancel', 'PemesananController::checkAndCancelExpiredReservations');

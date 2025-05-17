@@ -27,6 +27,59 @@ class PemesananController extends BaseController
         $this->pembayaranModel = new PembayaranModel();
     }
 
+    // Cek Deadline Payment DP
+    public function checkAndCancelExpiredReservations()
+    {
+        // Ambil semua pemesanan yang belum selesai
+        $pemesananList = $this->pemesananModel
+            ->where('status !=', 'Selesai')
+            ->findAll();
+
+        $currentDate = new \DateTime();
+        $currentDate->setTimezone(new \DateTimeZone('Asia/Jakarta'));
+
+        foreach ($pemesananList as $pemesanan) {
+            $waktuPemotretan = new \DateTime($pemesanan['waktu_pemotretan']);
+            $deadlinePembayaran = clone $waktuPemotretan;
+            $deadlinePembayaran->modify('-3 days');
+
+            // Cek jika sudah melewati H-3 sebelum pemotretan
+            if ($currentDate > $deadlinePembayaran) {
+                // Ambil data pembayaran untuk pemesanan ini
+                $pembayaran = $this->pembayaranModel
+                    ->where('pemesanan_id', $pemesanan['id'])
+                    ->where('status', 'success')
+                    ->findAll();
+
+                $isPaid = false;
+                foreach ($pembayaran as $bayar) {
+                    if ($pemesanan['jenis_pembayaran'] === 'DP' && $bayar['jenis'] === 'DP' && $bayar['status'] === 'success') {
+                        $isPaid = true; // DP sudah dibayar
+                        break;
+                    } elseif ($pemesanan['jenis_pembayaran'] === 'Lunas' && $bayar['jenis'] === 'Pelunasan' && $bayar['status'] === 'success') {
+                        $isPaid = true; // Lunas sudah dibayar
+                        break;
+                    }
+                }
+
+                // Jika belum dibayar, batalkan pemesanan
+                if (!$isPaid) {
+                    // Hapus pembayaran terkait (jika ada, biasanya status pending)
+                    $this->pembayaranModel->where('pemesanan_id', $pemesanan['id'])->delete();
+                    // Hapus pemesanan
+                    $this->pemesananModel->delete($pemesanan['id']);
+                    log_message('info', "Pemesanan ID {$pemesanan['id']} dibatalkan karena tidak dibayar sebelum H-3 pemotretan.");
+                }
+            }
+        }
+
+        // Kembalikan respons JSON untuk HTTP
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Pemeriksaan pemesanan selesai.'
+        ]);
+    }
+
     public function index()
     {
         $userId = session()->get('user_id');
