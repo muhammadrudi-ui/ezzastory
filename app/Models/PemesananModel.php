@@ -33,6 +33,14 @@ class PemesananModel extends Model
                     ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id');
     }
 
+    public function getWithPaket($id)
+    {
+        return $this->select('pemesanan.*, paket_layanan.nama AS nama_paket, paket_layanan.jenis_layanan')
+                   ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id', 'left')
+                   ->where('pemesanan.id', $id)
+                   ->first();
+    }
+
     // Join dengan tabel users
     public function withUser()
     {

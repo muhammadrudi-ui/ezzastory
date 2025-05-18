@@ -55,7 +55,17 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     $routes->post('pemesanan/batal/(:num)', 'PemesananController::batal/$1');
     $routes->post('pemesanan/selesai/(:num)', 'PemesananController::selesai/$1');
     $routes->post('pemesanan/check-availability', 'PemesananController::checkAvailability');
-    $routes->post('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
+
+
+    // Pembayaran
+    $routes->get('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
+    $routes->get('pembayaran/finish', 'PembayaranController::finish');
+
+    $routes->get('pembayaran/check-status/(:any)', 'PembayaranController::checkStatus/$1');
+
+
+
+
 
 });
 
@@ -122,6 +132,8 @@ $routes->group('admin', ['filter' => 'admin'], function ($routes) {
 // Ketersediaan Jadwal
 $routes->get('pemesanan/getReservations', 'PemesananController::getReservations');
 
-
-
+// Cek Deadline Payment Reservasi H-3
 $routes->get('pemesanan/check-cancel', 'PemesananController::checkAndCancelExpiredReservations');
+
+// Notifikasi Payment Sukses or Not
+$routes->post('pembayaran/notification', 'PembayaranController::notification');

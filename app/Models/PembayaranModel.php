@@ -15,6 +15,7 @@ class PembayaranModel extends Model
         'status',
         'metode_pembayaran',
         'bukti_bayar',
+        'order_id',
         'tanggal_bayar'
     ];
 

@@ -43,6 +43,11 @@ class CreatePembayaran extends Migration
                 'constraint' => 255,
                 'null' => true,
             ],
+            'order_id' => [
+                'type' => 'VARCHAR',
+                'constraint' => 100,
+                'null' => true,
+            ],
             'tanggal_bayar' => [
                 'type' => 'DATETIME',
                 'null' => true,

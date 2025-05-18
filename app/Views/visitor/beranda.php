@@ -11,7 +11,7 @@
 
         /* Layanan */
         .services {
-            padding: 80px 0;
+            padding: 80px;
             background-color: #f8f9fa;
         }
 
