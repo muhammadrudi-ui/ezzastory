@@ -30,17 +30,14 @@ class BerandaController extends BaseController
 
         // Ambil semua portofolio terbaru beserta 1 foto utama (jika ada)
         $data['portofolio'] = $this->portofolioModel
-            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-            ->join(
-                '(SELECT id_portofolio, nama_file 
-              FROM foto_portofolio 
-              WHERE id IN (SELECT MAX(id) 
-                           FROM foto_portofolio 
-                           GROUP BY id_portofolio)) AS foto_portofolio',
-                'foto_portofolio.id_portofolio = portofolio.id',
-                'left'
-            )
-        ->orderBy('created_at', 'DESC')
+        ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+        ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
+        ->where('foto_portofolio.id', function ($builder) {
+            return $builder->selectMax('id')
+                          ->from('foto_portofolio')
+                          ->where('foto_portofolio.id_portofolio = portofolio.id');
+        })
+        ->orderBy('portofolio.created_at', 'DESC')
         ->limit(6)
         ->find();
 
@@ -53,19 +50,16 @@ class BerandaController extends BaseController
 
         // Ambil semua portofolio terbaru beserta 1 foto utama (jika ada)
         $data['portofolio'] = $this->portofolioModel
-            ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
-            ->join(
-                '(SELECT id_portofolio, nama_file 
-              FROM foto_portofolio 
-              WHERE id IN (SELECT MAX(id) 
-                           FROM foto_portofolio 
-                           GROUP BY id_portofolio)) AS foto_portofolio',
-                'foto_portofolio.id_portofolio = portofolio.id',
-                'left'
-            )
-            ->orderBy('created_at', 'DESC')
-            ->limit(6)
-            ->find();
+        ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
+        ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
+        ->where('foto_portofolio.id', function ($builder) {
+            return $builder->selectMax('id')
+                          ->from('foto_portofolio')
+                          ->where('foto_portofolio.id_portofolio = portofolio.id');
+        })
+        ->orderBy('portofolio.created_at', 'DESC')
+        ->limit(6)
+        ->find();
 
         return view('visitor/beranda', $data);
     }

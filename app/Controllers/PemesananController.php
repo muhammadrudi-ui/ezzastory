@@ -54,19 +54,17 @@ class PemesananController extends BaseController
                 $isPaid = false;
                 foreach ($pembayaran as $bayar) {
                     if ($pemesanan['jenis_pembayaran'] === 'DP' && $bayar['jenis'] === 'DP' && $bayar['status'] === 'success') {
-                        $isPaid = true; // DP sudah dibayar
+                        $isPaid = true;
                         break;
                     } elseif ($pemesanan['jenis_pembayaran'] === 'Lunas' && $bayar['jenis'] === 'Pelunasan' && $bayar['status'] === 'success') {
-                        $isPaid = true; // Lunas sudah dibayar
+                        $isPaid = true;
                         break;
                     }
                 }
 
                 // Jika belum dibayar, batalkan pemesanan
                 if (!$isPaid) {
-                    // Hapus pembayaran terkait (jika ada, biasanya status pending)
                     $this->pembayaranModel->where('pemesanan_id', $pemesanan['id'])->delete();
-                    // Hapus pemesanan
                     $this->pemesananModel->delete($pemesanan['id']);
                     log_message('info', "Pemesanan ID {$pemesanan['id']} dibatalkan karena tidak dibayar sebelum H-3 pemotretan.");
                 }
@@ -301,7 +299,7 @@ class PemesananController extends BaseController
             return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Anda tidak memiliki akses untuk membatalkan pemesanan ini.');
         }
 
-        // Ambil semua pembayaran terkait pemesanan
+        // Ambil semua pembayaran pemesanan
         $pembayaran = $this->pembayaranModel->where('pemesanan_id', $id)->findAll();
 
         // Periksa apakah ada pembayaran dengan status 'success'
@@ -346,7 +344,7 @@ class PemesananController extends BaseController
         return redirect()->to('user/reservasi?tab=riwayat')->with('success', 'Pemesanan telah diselesaikan.');
     }
 
-    // Jadwal Ketersediaan
+    // Ketersediaan Jadwal
     public function getReservations()
     {
         $month = $this->request->getGet('month');
@@ -501,7 +499,6 @@ class PemesananController extends BaseController
     {
         $status = $this->request->getPost('status');
 
-        // Validasi status agar tidak bisa memilih Selesai
         $validStatuses = ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman'];
         if (!in_array($status, $validStatuses)) {
             return redirect()->to('admin/data-pemesanan/index')->with('error', 'Status tidak valid.');
