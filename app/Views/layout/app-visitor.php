@@ -12,6 +12,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     <style>
         /* Navbar */
+        body {
+            font-size: 14px;
+        }
         .navbar {
             position: fixed;
             top: 0;
@@ -20,6 +23,7 @@
             z-index: 1000;
             background: black;
             transition: background 0.3s ease-in-out;
+            padding: 0.5rem 1rem;
         }
 
         .navbar.scrolled {
@@ -36,14 +40,43 @@
             color: white;
             font-size: 14px;
             transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
         }
 
         .navbar .nav-link:hover {
             color:rgb(117, 117, 117);
         }
 
+         /* Navbar Container */
+         .navbar-container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+        }
+
+        /* Logo */
+        .navbar-brand {
+            padding: 0;
+            margin-right: 0;
+            display: flex;
+            align-items: center;
+            height: 40px; /* Fixed height for logo container */
+        }
+
+        .navbar-brand img {
+            height: 100%;
+            width: auto;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
         .navbar-toggler {
             border: none;
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.5rem;
+            order: 2; /* Posisi di tengah */
         }
 
         .navbar-toggler:focus {
@@ -54,31 +87,91 @@
             background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30' fill='white'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
         }
 
-        /* Mengubah background menu dropdown di mobile */
-        @media (max-width: 991px) {
+        /* Profile Button */
+        .profile-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            order: 3; /* Posisi paling kanan */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+         /* Mobile Menu */
+         @media (max-width: 991px) {
             .navbar-collapse {
-                background: rgba(0, 0, 0, 0.9);
-                padding: 20px;
-                border-radius: 10px;
+                background: rgba(0, 0, 0, 0.95);
+                padding: 1rem;
+                margin-top: 0.5rem;
+                border-radius: 0 0 8px 8px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 100%;
             }
 
             .navbar-nav {
-                gap: 10px;
+                gap: 0;
+            }
+
+            .nav-item {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .navbar-brand img {
+                max-height: 30px; /* Ukuran lebih kecil untuk mobile */
+            }
+        }
+
+        /* Desktop Menu */
+        @media (min-width: 992px) {
+            .navbar-container {
+                flex-wrap: nowrap;
+            }
+            
+            .navbar-collapse {
+                order: 2;
+                flex-grow: 1;
+                justify-content: center;
+            }
+            
+            .navbar-toggler {
+                display: none;
+            }
+            
+            .dropdown-profile {
+                order: 3;
+                margin-left: auto;
+            }
+            
+            .navbar-brand {
+                height: 40px;
+            }
+            
+            .navbar-brand img {
+                max-height: 28px;
             }
         }
 
         /* WhatsApp Icon */
         .whatsapp-float {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             background-color: #25D366;
             color: #FFF;
             border-radius: 50%;
             text-align: center;
-            font-size: 30px;
+            font-size: 24px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 100;
             display: flex;
@@ -91,10 +184,6 @@
             background-color: #128C7E;
             transform: scale(1.1);
             color: #FFF;
-        }
-        
-        .whatsapp-float i {
-            margin-top: 2px;
         }
 
         /* Footer */
@@ -121,7 +210,7 @@
         }
 
         .contact-info i {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 10px;
         }
 
@@ -184,10 +273,11 @@
 <body>
     <?php foreach ($profile_perusahaan as $profile): ?>
         <nav class="navbar navbar-expand-lg">
-            <div class="container d-flex justify-content-between align-items-center">
+            <div class="container px-0 px-sm-2">
+            <div class="navbar-container">
                 <!-- Logo -->
                 <a class="navbar-brand" href="<?= base_url('/') ?>">
-                    <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid" style="height: 28px;">
+                    <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid">
                 </a>
 
                 <!-- Toggler Button (Mobile) -->
@@ -197,15 +287,15 @@
                 </button>
 
                 <!-- Button Login -->
-                <div class="ms-auto order-lg-last">
+                <div class="dropdown dropdown-profile ms-auto ms-lg-0">
                     <a href="<?= base_url('/login') ?>" class="btn btn-outline-light">
                         <i class="bi bi-person-circle"></i> Login
                     </a>
                 </div>
 
                 <!-- Navbar -->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto me-auto">
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('/') ?>">Beranda</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?= base_url('visitor/tentang-kami') ?>">Tentang
                                 Kami</a></li>
@@ -220,6 +310,7 @@
                             <a class="nav-link" href="#" onclick="confirmRedirect('<?= base_url('login') ?>')">Reservasi</a>
                         </li>
                     </ul>
+                </div>
                 </div>
             </div>
         </nav>

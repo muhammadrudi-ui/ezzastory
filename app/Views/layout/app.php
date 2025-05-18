@@ -12,6 +12,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" defer></script>
     <style>
         /* Navbar */
+        body {
+            font-size: 14px;
+        }
         .navbar {
             position: fixed;
             top: 0;
@@ -20,6 +23,7 @@
             z-index: 1000;
             background: black;
             transition: background 0.3s ease-in-out;
+            padding: 0.5rem 1rem;
         }
 
         .navbar.scrolled {
@@ -36,14 +40,44 @@
             color: white;
             font-size: 14px;
             transition: color 0.3s ease;
+            padding: 0.5rem 1rem;
         }
 
         .navbar .nav-link:hover {
-            color:rgb(117, 117, 117);
+            color: rgb(117, 117, 117);
         }
 
+        /* Navbar Container */
+        .navbar-container {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+        }
+
+        /* Logo */
+        .navbar-brand {
+            padding: 0;
+            margin-right: 0;
+            display: flex;
+            align-items: center;
+            height: 40px; /* Fixed height for logo container */
+        }
+
+        .navbar-brand img {
+            height: 100%;
+            width: auto;
+            max-width: 120px;
+            object-fit: contain;
+        }
+
+        /* Toggler Button */
         .navbar-toggler {
             border: none;
+            padding: 0.25rem 0.5rem;
+            margin: 0 0.5rem;
+            order: 2; /* Posisi di tengah */
         }
 
         .navbar-toggler:focus {
@@ -52,58 +86,95 @@
 
         .navbar-toggler-icon {
             background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' width='30' height='30' fill='white'><path stroke='rgba(255, 255, 255, 1)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>");
+            width: 1.5em;
+            height: 1.5em;
         }
 
-        .dropdown-menu {
-            background-color: rgba(0, 0, 0, 0.9);
+        /* Profile Button */
+        .profile-btn {
+            padding: 0.25rem 0.5rem;
+            font-size: 14px;
+            margin-left: 0.5rem;
+            order: 3; /* Posisi paling kanan */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
         }
 
-        .dropdown-menu a.dropdown-item {
-            color: white;
-            transition: color 0.3s ease;
-        }
-
-        .dropdown-menu a.dropdown-item:hover {
-            color: rgb(117, 117, 117);
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .dropdown-menu a.dropdown-item:focus,
-        .dropdown-menu a.dropdown-item.active {
-            color: white;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        .dropdown-menu a.dropdown-item.text-danger:hover {
-            color: #dc3545;
-            background-color: rgba(0, 0, 0, 0.7);
-        }
-
-        /* Mengubah background menu dropdown di mobile */
+        /* Mobile Menu */
         @media (max-width: 991px) {
             .navbar-collapse {
-                background: rgba(0, 0, 0, 0.9);
-                padding: 20px;
-                border-radius: 10px;
+                background: rgba(0, 0, 0, 0.95);
+                padding: 1rem;
+                margin-top: 0.5rem;
+                border-radius: 0 0 8px 8px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 100%;
             }
 
             .navbar-nav {
-                gap: 10px;
+                gap: 0;
+            }
+
+            .nav-item {
+                padding: 0.5rem 0;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .nav-item:last-child {
+                border-bottom: none;
+            }
+
+            .navbar-brand img {
+                max-height: 30px; /* Ukuran lebih kecil untuk mobile */
+            }
+        }
+
+        /* Desktop Menu */
+        @media (min-width: 992px) {
+            .navbar-container {
+                flex-wrap: nowrap;
+            }
+            
+            .navbar-collapse {
+                order: 2;
+                flex-grow: 1;
+                justify-content: center;
+            }
+            
+            .navbar-toggler {
+                display: none;
+            }
+            
+            .dropdown-profile {
+                order: 3;
+                margin-left: auto;
+            }
+            
+            .navbar-brand {
+                height: 40px;
+            }
+            
+            .navbar-brand img {
+                max-height: 28px;
             }
         }
 
         /* WhatsApp Icon */
-            .whatsapp-float {
+        .whatsapp-float {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
             background-color: #25D366;
             color: #FFF;
             border-radius: 50%;
             text-align: center;
-            font-size: 30px;
+            font-size: 24px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             z-index: 100;
             display: flex;
@@ -116,10 +187,6 @@
             background-color: #128C7E;
             transform: scale(1.1);
             color: #FFF;
-        }
-        
-        .whatsapp-float i {
-            margin-top: 2px;
         }
 
         /* Footer */
@@ -146,7 +213,7 @@
         }
 
         .contact-info i {
-            font-size: 16px;
+            font-size: 14px;
             margin-right: 10px;
         }
 
@@ -209,49 +276,45 @@
 <body>
     <?php foreach ($profile_perusahaan as $profile): ?>
         <nav class="navbar navbar-expand-lg">
-            <div class="container d-flex justify-content-between align-items-center">
-                <!-- Logo -->
-                <a class="navbar-brand" href="<?= base_url('user/beranda') ?>">
-                    <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid" style="height: 28px;">
-                </a>
+            <div class="container px-0 px-sm-2">
+                <div class="navbar-container">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="<?= base_url('user/beranda') ?>">
+                        <img src="<?= base_url($profile['logo']) ?>" alt="Brand Logo" class="img-fluid">
+                    </a>
 
-                <!-- Toggler Button (Mobile) -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                    <!-- Toggler Button (Mobile) -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-                <!-- Profile (Tetap di Kanan) -->
-                <div class="dropdown ms-auto order-lg-last">
-                    <?php
-                    $username = session('username');
+                    <!-- Profile Button -->
+                    <div class="dropdown dropdown-profile ms-auto ms-lg-0">
+                        <?php
+                        $username = session('username');
         $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
         ?>
-                    <button class="btn btn-outline-light dropdown-toggle" type="button" id="userDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle"></i> <?= esc($displayName) ?>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                        <li><a class="dropdown-item" href="<?= base_url('user/profile') ?>">Profile</a></li>
-                        <li><a class="dropdown-item text-danger" href="<?= base_url('logout') ?>">Logout</a></li>
-                    </ul>
-                </div>
+                        <button class="btn btn-outline-light profile-btn dropdown-toggle" type="button" id="userDropdown"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> <span class="d-none d-sm-inline"><?= esc($displayName) ?></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <li><a class="dropdown-item" href="<?= base_url('user/profile') ?>">Profile</a></li>
+                            <li><a class="dropdown-item text-danger" href="<?= base_url('logout') ?>">Logout</a></li>
+                        </ul>
+                    </div>
 
-
-                <!-- Navbar Links -->
-                <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/beranda') ?>">Beranda</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/tentang-kami') ?>">Tentang
-                                Kami</a></li>
-                        <li class="nav-item"><a class="nav-link"
-                                href="<?= base_url('user/portofolio/index') ?>">Portofolio</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/paket-layanan') ?>">Paket
-                                Layanan</a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
-                    </ul>
+                    <!-- Navbar Links -->
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto me-auto">
+                            <li class="nav-item"><a class="nav-link" href="<?= base_url('user/beranda') ?>">Beranda</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?= base_url('user/tentang-kami') ?>">Tentang Kami</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?= base_url('user/portofolio/index') ?>">Portofolio</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?= base_url('user/paket-layanan') ?>">Paket Layanan</a></li>
+                            <li class="nav-item"><a class="nav-link" href="<?= base_url('user/reservasi') ?>">Reservasi</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
