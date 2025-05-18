@@ -59,7 +59,7 @@
             padding: 10px;
             border-radius: 5px;
             text-decoration: none;
-            transition: background 0.3s;
+            transition: background 0.3s, color 0.3s;
         }
 
         .sidebar .nav-link i {
@@ -281,41 +281,52 @@
         </main>
     </div>
 
+    <!-- Sidebar Active -->
     <script>
-        // Disebar Active
         document.addEventListener("DOMContentLoaded", function() {
             let navLinks = document.querySelectorAll(".sidebar .nav-link");
-
-            let currentPath = window.location.pathname;
+            let currentUrl = window.location.href;
 
             navLinks.forEach(function(link) {
                 link.classList.remove("active");
 
-                if (link.getAttribute("href") === currentPath) {
+                // Get the href of the link
+                let linkHref = link.getAttribute("href");
+
+                // Check if the current URL starts with or contains the link's href
+                // This accounts for dynamic segments or query parameters
+                if (currentUrl.includes(linkHref) || linkHref === currentUrl) {
+                    link.classList.add("active");
+                }
+
+                // Special case for dashboard (exact match or root)
+                if (linkHref.includes("admin/dashboard") && 
+                    (currentUrl.endsWith("admin/dashboard") || currentUrl.endsWith("/admin/"))) {
                     link.classList.add("active");
                 }
             });
-        });
 
-        // Toggler untuk mode desktop
-        document.getElementById('sidebarToggle').addEventListener('click', function() {
-            let sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('minimized');
-        });
+            // Toggler untuk mode desktop
+            document.getElementById('sidebarToggle').addEventListener('click', function() {
+                let sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('minimized');
+            });
 
-        // Toggler untuk mode mobile
-        document.getElementById('mobileSidebarToggle').addEventListener('click', function() {
-            let sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('show');
-        });
+            // Toggler untuk mode mobile
+            document.getElementById('mobileSidebarToggle').addEventListener('click', function() {
+                let sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('show');
+            });
 
-        document.addEventListener('click', function(event) {
-            let sidebar = document.getElementById('sidebar');
-            let toggleButton = document.getElementById('mobileSidebarToggle');
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                let sidebar = document.getElementById('sidebar');
+                let toggleButton = document.getElementById('mobileSidebarToggle');
 
-            if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
-                sidebar.classList.remove('show');
-            }
+                if (!sidebar.contains(event.target) && !toggleButton.contains(event.target)) {
+                    sidebar.classList.remove('show');
+                }
+            });
         });
     </script>
 
