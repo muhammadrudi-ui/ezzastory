@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Ezzastory</title>
+    <title>Ezzastory</title>
+    <link rel="icon"href="<?= base_url('uploads/logo_tab/logo.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
@@ -258,8 +259,8 @@
 
             <?php
             $username = session('username');
-                $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
-                ?>
+    $displayName = strlen($username) > 8 ? substr($username, 0, 8) . '...' : $username;
+    ?>
 
             <!-- Profile Admin -->
             <div class="dropdown ms-auto">
