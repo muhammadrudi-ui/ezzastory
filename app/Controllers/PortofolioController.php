@@ -21,9 +21,7 @@ class PortofolioController extends BaseController
         $this->profileModel = new ProfilePerusahaanModel();
     }
 
-    /**
-     * Menampilkan halaman utama portofolio (user)
-     */
+    // Portofolio untuk User
     public function index()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -32,7 +30,6 @@ class PortofolioController extends BaseController
         foreach ($kategori as $jenis) {
             $key = strtolower(str_replace(['-', ' '], '', $jenis));
 
-            // Query builder dengan join yang lebih optimal
             $data[$key] = $this->portofolioModel
                 ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
                 ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
@@ -50,9 +47,7 @@ class PortofolioController extends BaseController
         return view('user/portofolio/index', $data);
     }
 
-    /**
-     * Menampilkan portofolio berdasarkan kategori (user)
-     */
+    // Halaman Kategori Portofolio User
     public function kategori($jenis_layanan)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -74,9 +69,7 @@ class PortofolioController extends BaseController
         return view('user/portofolio/kategori', $data);
     }
 
-    /**
-     * Menampilkan detail portofolio (user)
-     */
+    // Portofolio Detail User
     public function detail($id)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -86,9 +79,7 @@ class PortofolioController extends BaseController
         return view('user/portofolio/detail', $data);
     }
 
-    /**
-     * Menampilkan halaman utama portofolio (visitor)
-     */
+    // Portofolio untuk Visitor
     public function index_visitor()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -97,7 +88,6 @@ class PortofolioController extends BaseController
         foreach ($kategori as $jenis) {
             $key = strtolower(str_replace(['-', ' '], '', $jenis));
 
-            // Query builder dengan join yang lebih optimal
             $data[$key] = $this->portofolioModel
                 ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
                 ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
@@ -115,9 +105,8 @@ class PortofolioController extends BaseController
         return view('visitor/portofolio/index', $data);
     }
 
-    /**
-     * Menampilkan portofolio berdasarkan kategori (visitor)
-     */
+
+    // Kategori Portofolio untuk Visitor
     public function kategori_visitor($jenis_layanan)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -140,9 +129,8 @@ class PortofolioController extends BaseController
 
     }
 
-    /**
-     * Menampilkan detail portofolio (visitor)
-     */
+
+    // Detail Portodolio untuk Visitor
     public function detail_visitor($id)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -152,9 +140,8 @@ class PortofolioController extends BaseController
         return view('visitor/portofolio/detail', $data);
     }
 
-    /**
-     * Menampilkan daftar portofolio (admin)
-     */
+
+    // Index Portodolio untuk Admin
     public function index_admin()
     {
         $perPage = 5;
@@ -183,17 +170,15 @@ class PortofolioController extends BaseController
         return view('admin/portofolio/index', $data);
     }
 
-    /**
-     * Menampilkan form tambah portofolio (admin)
-     */
+
+    // Add Form Portofolio untuk Admin
     public function add_admin()
     {
         return view('admin/portofolio/add');
     }
 
-    /**
-     * Menyimpan data portofolio baru (admin)
-     */
+
+    // Add Data Portofolio untuk Admin
     public function store()
     {
         $rules = [
@@ -245,9 +230,8 @@ class PortofolioController extends BaseController
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil ditambahkan!');
     }
 
-    /**
-     * Menampilkan form edit portofolio (admin)
-     */
+
+    // Edit Data View Portofolio untuk Admin
     public function edit_admin($id)
     {
         $portofolio = $this->portofolioModel->find($id);
@@ -264,9 +248,8 @@ class PortofolioController extends BaseController
         ]);
     }
 
-    /**
-     * Memperbarui data portofolio (admin)
-     */
+
+    // Edit Data Portofolio untuk Admin
     public function update($id)
     {
         $rules = [
@@ -337,10 +320,7 @@ class PortofolioController extends BaseController
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil diperbarui!');
     }
 
-
-    /**
-     * Menghapus portofolio (admin)
-     */
+    // Delete Data Portofolio untuk Admin
     public function delete($id = null)
     {
         if (!$id) {

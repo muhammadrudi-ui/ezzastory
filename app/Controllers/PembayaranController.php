@@ -21,10 +21,6 @@ class PembayaranController extends BaseController
         $this->pemesananModel = new PemesananModel();
         $this->userModel = new UserModel();
 
-        // Log environment variables
-        log_message('debug', 'Midtrans Server Key: ' . (env('MIDTRANS_SERVER_KEY') ? 'Set' : 'Not Set'));
-        log_message('debug', 'CI Environment: ' . env('CI_ENVIRONMENT'));
-
         // Konfigurasi Midtrans
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         \Midtrans\Config::$isProduction = (env('CI_ENVIRONMENT') === 'production');

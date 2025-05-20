@@ -650,185 +650,185 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
             </div>
         </div>
 
-<!-- Payment -->
-<div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
-    id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
-    <div class="card mt-4 border-0 shadow-sm">
-        <div class="card-body p-2">
-            <h4 class="text-center mb-4 fw-bold text-dark">Informasi Pembayaran</h4>
-            <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
-                <div class="alert alert-dark text-center">
-                    <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.
-                </div>
-            <?php else: ?>
-                <div class="accordion" id="paymentAccordion">
-                    <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
-                        <?php if ($pemesanan['status'] !== 'Selesai'): ?>
-                            <div class="accordion-item border rounded-3 mb-3">
-                                <h2 class="accordion-header" id="heading<?= $index ?>">
-                                    <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
-                                            type="button" 
-                                            data-bs-toggle="collapse" 
-                                            data-bs-target="#collapse<?= $index ?>" 
-                                            aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" 
-                                            aria-controls="collapse<?= $index ?>">
-                                        <div class="d-flex flex-column flex-md-row w-100 gap-3">
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
-                                                <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                            </div>
-                                            <div>
-                                                <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
-                                                <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
-                                            </div>
-                                        </div>
-                                    </button>
-                                </h2>
-                                <div id="collapse<?= $index ?>" 
-                                    class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
-                                    data-bs-parent="#paymentAccordion">
-                                    <div class="accordion-body pt-3">
-                                        <div class="row mb-4">
-                                            <div class="col-md-3">
-                                                <?php if (!empty($pemesanan['foto'])): ?>
-                                                    <img src="<?= base_url($pemesanan['foto']) ?>" 
-                                                        class="img-fluid rounded-3" 
-                                                        alt="<?= esc($pemesanan['nama_paket']) ?>">
-                                                <?php else: ?>
-                                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" 
-                                                        style="height: 150px;">
-                                                        <i class="fas fa-image fa-3x text-muted"></i>
+        <!-- Payment -->
+        <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'pembayaran' ? 'show active' : '' ?>" 
+            id="pembayaran" role="tabpanel" aria-labelledby="pembayaran-tab">
+            <div class="card mt-4 border-0 shadow-sm">
+                <div class="card-body p-2">
+                    <h4 class="text-center mb-4 fw-bold text-dark">Informasi Pembayaran</h4>
+                    <?php if (empty($all_pemesanan) || !array_filter($all_pemesanan, fn ($p) => $p['status'] !== 'Selesai')): ?>
+                        <div class="alert alert-dark text-center">
+                            <i class="fas fa-info-circle me-2"></i> Belum ada data pemesanan. Silakan buat pemesanan terlebih dahulu untuk melihat informasi pembayaran.
+                        </div>
+                    <?php else: ?>
+                        <div class="accordion" id="paymentAccordion">
+                            <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
+                                <?php if ($pemesanan['status'] !== 'Selesai'): ?>
+                                    <div class="accordion-item border rounded-3 mb-3">
+                                        <h2 class="accordion-header" id="heading<?= $index ?>">
+                                            <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
+                                                    type="button" 
+                                                    data-bs-toggle="collapse" 
+                                                    data-bs-target="#collapse<?= $index ?>" 
+                                                    aria-expanded="<?= $index === 0 ? 'true' : 'false' ?>" 
+                                                    aria-controls="collapse<?= $index ?>">
+                                                <div class="d-flex flex-column flex-md-row w-100 gap-3">
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
                                                     </div>
-                                                <?php endif; ?>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <h5><?= esc($pemesanan['nama_paket']) ?></h5>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-primary bg-opacity-10 text-primary me-2">Jenis Layanan</span>
-                                                    <span class="fw-bold"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></span>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></strong>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
+                                                        <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                                    </div>
+                                                    <div>
+                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
+                                                        <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
+                                                    </div>
                                                 </div>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
-                                                    <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
-                                                </div>
-                                                <div class="d-flex align-items-center mb-2">
-                                                    <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
-                                                    <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
-                                                </div>
-                                                <div>
-                                                    <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
-                                                    <strong class="ms-1"><?= esc($pemesanan['status_pembayaran'] ?? '-') ?></strong>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="row g-3">
-                                            <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
-                                                <?php $canCancel = true; ?>
-                                                <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
-                                                    <?php if ($bayar['status'] === 'success') {
-                                                        $canCancel = false;
-                                                    } ?>
-                                                    <div class="col-md-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? '6' : '12' ?>">
-                                                        <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
-                                                            <div class="card-body">
-                                                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                                                    <h6 class="mb-0 text-capitalize">
-                                                                        <?= esc($bayar['jenis']) ?>
-                                                                        <?php if ($bayar['jenis'] === 'DP'): ?>
-                                                                            <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
-                                                                        <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
-                                                                            <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
-                                                                                <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
-                                                                            </span>
-                                                                        <?php endif; ?>
-                                                                    </h6>
-                                                                    <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
-                                                                        <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
-                                                                        <?= esc($bayar['status']) ?>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="mb-3">
-                                                                    <span class="text-muted small">Jumlah</span>
-                                                                    <div class="fs-5 fw-semibold text-dark">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
-                                                                </div>
-                                                                <?php if ($bayar['status'] === 'pending'): ?>
-                                                                    <?php if ($bayar['status'] === 'pending'): ?>
-                                                                        <button onclick="bayarSekarang(<?= $bayar['id'] ?>)" 
-                                                                            class="btn btn-outline-dark w-100"
-                                                                            id="payButton<?= $bayar['id'] ?>">
-                                                                        <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
-                                                                    </button>
-                                                                        <!-- Tambahkan alert info jika perlu -->
-                                                                    <?php endif; ?>
-                                                                    <div class="alert alert-info small p-2 mt-3 mb-0">
-                                                                        <i class="fa-solid fa-circle-info me-2"></i>
-                                                                        <?php if ($pemesanan['jenis_pembayaran'] === 'DP'): ?>
-                                                                            <?php if ($bayar['jenis'] === 'DP'): ?>
-                                                                                Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
-                                                                            <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
-                                                                                Segera bayar pelunasan setelah pemotretan agar pemesanan segera masuk proses editing.
-                                                                            <?php endif; ?>
-                                                                        <?php else: ?>
-                                                                            Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
-                                                                        <?php endif; ?>
-                                                                    </div>
-                                                                <?php else: ?>
-                                                                    <div class="alert alert-success p-2 small mb-0 d-flex align-items-center">
-                                                                        <i class="fa-solid fa-check-circle me-2"></i>
-                                                                        <div>
-                                                                            <strong>Sudah Dibayar</strong><br>
-                                                                            <?php if (!empty($bayar['tanggal_bayar'])): ?>
-                                                                                <span class="text-muted"><?= date('d M Y H:i', strtotime($bayar['tanggal_bayar'])) ?></span>
-                                                                            <?php endif; ?>
-                                                                        </div>
-                                                                    </div>
-                                                                <?php endif; ?>
+                                            </button>
+                                        </h2>
+                                        <div id="collapse<?= $index ?>" 
+                                            class="accordion-collapse collapse <?= $index === 0 ? 'show' : '' ?>" 
+                                            data-bs-parent="#paymentAccordion">
+                                            <div class="accordion-body pt-3">
+                                                <div class="row mb-4">
+                                                    <div class="col-md-3">
+                                                        <?php if (!empty($pemesanan['foto'])): ?>
+                                                            <img src="<?= base_url($pemesanan['foto']) ?>" 
+                                                                class="img-fluid rounded-3" 
+                                                                alt="<?= esc($pemesanan['nama_paket']) ?>">
+                                                        <?php else: ?>
+                                                            <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" 
+                                                                style="height: 150px;">
+                                                                <i class="fas fa-image fa-3x text-muted"></i>
                                                             </div>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                    <div class="col-md-9">
+                                                        <h5><?= esc($pemesanan['nama_paket']) ?></h5>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Jenis Layanan</span>
+                                                            <span class="fw-bold"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
+                                                            <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
+                                                            <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
+                                                        </div>
+                                                        <div>
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
+                                                            <strong class="ms-1"><?= esc($pemesanan['status_pembayaran'] ?? '-') ?></strong>
                                                         </div>
                                                     </div>
-                                                <?php endforeach; ?>
-                                                <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
-                                                <?php if ($canCancel): ?>
-                                                    <div class="col-12 mt-3">
-                                                        <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" 
-                                                              method="post" 
-                                                              id="cancelForm<?= $pemesanan['id'] ?>">
-                                                            <?= csrf_field() ?>
-                                                            <button type="button" 
-                                                                    class="btn btn-danger w-100" 
-                                                                    onclick="confirmCancel(<?= $pemesanan['id'] ?>)">
-                                                                <i class="fa-solid fa-times-circle me-1"></i> Batalkan Pemesanan
-                                                            </button>
-                                                        </form>
-                                                    </div>
-                                                <?php endif; ?>
-                                            <?php else: ?>
-                                                <div class="col-12">
-                                                    <div class="alert alert-secondary text-muted small">
-                                                        <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
-                                                    </div>
                                                 </div>
-                                            <?php endif; ?>
+
+                                                <div class="row g-3">
+                                                    <?php if (!empty($pembayaran[$pemesanan['id']])): ?>
+                                                        <?php $canCancel = true; ?>
+                                                        <?php foreach ($pembayaran[$pemesanan['id']] as $bayar): ?>
+                                                            <?php if ($bayar['status'] === 'success') {
+                                                                $canCancel = false;
+                                                            } ?>
+                                                            <div class="col-md-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? '6' : '12' ?>">
+                                                                <div class="card border border-light-subtle rounded-3 shadow-sm h-100">
+                                                                    <div class="card-body">
+                                                                        <div class="d-flex justify-content-between align-items-center mb-3">
+                                                                            <h6 class="mb-0 text-capitalize">
+                                                                                <?= esc($bayar['jenis']) ?>
+                                                                                <?php if ($bayar['jenis'] === 'DP'): ?>
+                                                                                    <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
+                                                                                <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
+                                                                                    <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
+                                                                                        <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
+                                                                                    </span>
+                                                                                <?php endif; ?>
+                                                                            </h6>
+                                                                            <span class="badge bg-<?= $bayar['status'] === 'success' ? 'success' : 'warning' ?> bg-opacity-25 text-dark text-capitalize">
+                                                                                <i class="fa-solid <?= $bayar['status'] === 'success' ? 'fa-check-circle' : 'fa-clock' ?> me-1"></i>
+                                                                                <?= esc($bayar['status']) ?>
+                                                                            </span>
+                                                                        </div>
+                                                                        <div class="mb-3">
+                                                                            <span class="text-muted small">Jumlah</span>
+                                                                            <div class="fs-5 fw-semibold text-dark">Rp <?= number_format($bayar['jumlah'], 0, ',', '.') ?></div>
+                                                                        </div>
+                                                                        <?php if ($bayar['status'] === 'pending'): ?>
+                                                                            <?php if ($bayar['status'] === 'pending'): ?>
+                                                                                <button onclick="bayarSekarang(<?= $bayar['id'] ?>)" 
+                                                                                    class="btn btn-outline-dark w-100"
+                                                                                    id="payButton<?= $bayar['id'] ?>">
+                                                                                <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
+                                                                            </button>
+                                                                                <!-- Tambahkan alert info jika perlu -->
+                                                                            <?php endif; ?>
+                                                                            <div class="alert alert-info small p-2 mt-3 mb-0">
+                                                                                <i class="fa-solid fa-circle-info me-2"></i>
+                                                                                <?php if ($pemesanan['jenis_pembayaran'] === 'DP'): ?>
+                                                                                    <?php if ($bayar['jenis'] === 'DP'): ?>
+                                                                                        Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
+                                                                                    <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
+                                                                                        Segera bayar pelunasan setelah pemotretan agar pemesanan segera masuk proses editing.
+                                                                                    <?php endif; ?>
+                                                                                <?php else: ?>
+                                                                                    Segera bayar maksimal H-3 sebelum pemotretan agar pemesanan terproses. Jika tidak, pemesanan akan otomatis dibatalkan.
+                                                                                <?php endif; ?>
+                                                                            </div>
+                                                                        <?php else: ?>
+                                                                            <div class="alert alert-success p-2 small mb-0 d-flex align-items-center">
+                                                                                <i class="fa-solid fa-check-circle me-2"></i>
+                                                                                <div>
+                                                                                    <strong>Sudah Dibayar</strong><br>
+                                                                                    <?php if (!empty($bayar['tanggal_bayar'])): ?>
+                                                                                        <span class="text-muted"><?= date('d M Y H:i', strtotime($bayar['tanggal_bayar'])) ?></span>
+                                                                                    <?php endif; ?>
+                                                                                </div>
+                                                                            </div>
+                                                                        <?php endif; ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
+                                                        <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
+                                                        <?php if ($canCancel): ?>
+                                                            <div class="col-12 mt-3">
+                                                                <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" 
+                                                                    method="post" 
+                                                                    id="cancelForm<?= $pemesanan['id'] ?>">
+                                                                    <?= csrf_field() ?>
+                                                                    <button type="button" 
+                                                                            class="btn btn-danger w-100" 
+                                                                            onclick="confirmCancel(<?= $pemesanan['id'] ?>)">
+                                                                        <i class="fa-solid fa-times-circle me-1"></i> Batalkan Pemesanan
+                                                                    </button>
+                                                                </form>
+                                                            </div>
+                                                        <?php endif; ?>
+                                                    <?php else: ?>
+                                                        <div class="col-12">
+                                                            <div class="alert alert-secondary text-muted small">
+                                                                <i class="fa-solid fa-circle-info me-2"></i> Tidak ditemukan data pembayaran untuk pemesanan ini.
+                                                            </div>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    <?php endif; ?>
                 </div>
-            <?php endif; ?>
+            </div>
         </div>
-    </div>
-</div>
 
         <!-- Tracking -->
         <div class="tab-pane fade <?= isset($active_tab) && $active_tab === 'tracking' ? 'show active' : '' ?>" 

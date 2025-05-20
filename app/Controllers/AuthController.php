@@ -146,7 +146,6 @@ class AuthController extends BaseController
             return redirect()->back()->with('error', 'No Telepon harus terdiri dari 10 hingga 13 digit angka.');
         }
 
-
         $currentUser = $this->userModel->find($userId);
 
         // Cek Username sudah dipakai atau belum
