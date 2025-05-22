@@ -67,28 +67,49 @@
             }
         }
 
-        /* Portofolio */
+        /* Animasi untuk foto */
+        .gallery-container img {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .gallery-container img.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Portofolio Section */
         .portofolio {
             padding: 60px 0;
         }
 
         .gallery-container {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
         .gallery-container img {
             width: 100%;
             height: auto;
-            object-fit: cover;
-            aspect-ratio: 5/4;
             border-radius: 8px;
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+            object-fit: contain;
+            margin: 0 auto;
         }
 
         @media (max-width: 768px) {
             .gallery-container {
-                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .gallery-container img {
+                max-height: 60vh;
             }
         }
 
@@ -177,10 +198,19 @@
     <section class="portofolio">
         <div class="container">
             <h2 class="text-center mb-4 scroll-animate scale-up">Hasil</h2>
-            <div class="gallery-container scroll-animate fade-in">
+            <div class="gallery-container">
                 <?php if (!empty($fotos)): ?>
-                    <?php foreach ($fotos as $foto): ?>
-                        <img src="<?= base_url($foto['nama_file']) ?>" alt="Foto Portofolio">
+                    <?php foreach ($fotos as $index => $foto): ?>
+                        <img 
+                            src="<?= $index < 2 ? base_url($foto['nama_file']) : 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==' ?>" 
+                            data-src="<?= base_url($foto['nama_file']) ?>" 
+                            alt="Foto Portofolio <?= $index + 1 ?>" 
+                            loading="lazy"
+                            class="scroll-animate"
+                            <?php if ($index >= 2): ?>
+                                decoding="async"
+                            <?php endif; ?>
+                        >
                     <?php endforeach; ?>
                 <?php else: ?>
                     <p class="text-center text-muted">Belum ada foto portofolio yang ditambahkan.</p>
@@ -196,5 +226,53 @@
             <a href="<?= base_url('user/reservasi#reservasi') ?>" class="btn btn-dark">Reservasi Sekarang</a>
         </div>
     </section>
+
+    <!-- Lazy Load & Scroll Animation Image -->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Lazy load images
+    const lazyImages = [].slice.call(document.querySelectorAll('img[data-src]'));
+    
+    if ('IntersectionObserver' in window) {
+        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(entry) {
+                if (entry.isIntersecting) {
+                    let lazyImage = entry.target;
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImageObserver.unobserve(lazyImage);
+                }
+            });
+        });
+
+        lazyImages.forEach(function(lazyImage) {
+            lazyImageObserver.observe(lazyImage);
+        });
+    }
+
+    // Animasi scroll
+    const scrollElements = document.querySelectorAll('.scroll-animate');
+    
+    const elementInView = (el) => {
+        const elementTop = el.getBoundingClientRect().top;
+        return (elementTop <= (window.innerHeight || document.documentElement.clientHeight));
+    };
+    
+    const displayScrollElement = (element) => {
+        element.classList.add('visible');
+    };
+
+    const handleScrollAnimation = () => {
+        scrollElements.forEach((el) => {
+            if (elementInView(el)) {
+                displayScrollElement(el);
+            }
+        });
+    };
+    
+    // Initialize
+    window.addEventListener('load', handleScrollAnimation);
+    window.addEventListener('scroll', handleScrollAnimation);
+});
+</script>
 
 <?= $this->endSection() ?>

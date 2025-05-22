@@ -35,7 +35,7 @@
                         value="<?= $portofolio['nama_mempelai']; ?>" required>
                 </div>
                 <div class="mt-3">
-                    <label class="fw-bold">Foto (Maksimal 10)</label>
+                    <label class="fw-bold">Foto (Maksimal 18)</label>
                     <div id="previewContainer" class="mt-2 d-flex flex-wrap">
                         <?php foreach ($foto_portofolio as $foto): ?>
                             <div class="image-preview position-relative m-1" id="preview-<?= $foto['id']; ?>">
@@ -89,8 +89,8 @@
         let existingImagesCount = document.querySelectorAll('#previewContainer img').length;
         let totalImages = existingImagesCount + files.length;
 
-        if (totalImages > 10) {
-            alert("Maksimal 10 gambar dapat diunggah.");
+        if (totalImages > 18) {
+            alert("Maksimal 18 gambar dapat diunggah.");
             event.target.value = "";
             return;
         }

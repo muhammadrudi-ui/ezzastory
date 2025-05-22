@@ -26,7 +26,6 @@ class ProfileController extends BaseController
 
     public function index_admin()
     {
-        $perPage = 5;
         $search = $this->request->getGet('search');
 
         if ($search) {
@@ -47,8 +46,8 @@ class ProfileController extends BaseController
                 ->groupEnd();
         }
 
-        $data['profileModel'] = $this->profileModel->paginate($perPage);
-        $data['pager'] = $this->profileModel->pager;
+
+        $data['profileModel'] = $this->profileModel->findAll();
         $data['search'] = $search;
 
         return view('admin/profile-perusahaan/index', $data);
@@ -124,7 +123,7 @@ class ProfileController extends BaseController
             'nama_owner' => $this->request->getPost('nama_owner'),
             'foto_owner' => 'uploads/profile_perusahaan/' . $fownerName,
             'cta' => $this->request->getPost('cta'),
-            'no_telp' => $this->request->getPost('no_telp'),
+            'no_telp' => preg_replace('/[^0-9]/', '', $this->request->getPost('no_telp')),
             'email' => $this->request->getPost('email'),
             'instagram' => $this->request->getPost('instagram'),
             'alamat' => $this->request->getPost('alamat'),
@@ -191,7 +190,7 @@ class ProfileController extends BaseController
             'misi' => $this->request->getPost('misi'),
             'nama_owner' => $this->request->getPost('nama_owner'),
             'cta' => $this->request->getPost('cta'),
-            'no_telp' => $this->request->getPost('no_telp'),
+            'no_telp' => preg_replace('/[^0-9]/', '', $this->request->getPost('no_telp')),
             'email' => $this->request->getPost('email'),
             'instagram' => $this->request->getPost('instagram'),
             'alamat' => $this->request->getPost('alamat'),

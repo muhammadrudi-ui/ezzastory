@@ -27,7 +27,7 @@
                             placeholder="Masukkan nama mempelai" value="<?= old('nama_mempelai') ?>" required>
                     </div>
                     <div class="col-md-6">
-                        <label class="fw-bold">Foto (Maksimal 10)</label>
+                        <label class="fw-bold">Foto (Maksimal 18)</label>
                         <input type="file" name="foto[]" class="form-control" multiple
                             onchange="previewMultipleImages(event)" accept="image/png, image/jpeg, image/jpg">
                         <small class="text-muted">Maksimal ukuran file: 1MB (JPG, JPEG, PNG).</small>
@@ -66,8 +66,8 @@
         let previewContainer = document.getElementById("previewContainer");
         previewContainer.innerHTML = "";
 
-        if (files.length > 10) {
-            alert("Maksimal 10 gambar yang dapat diunggah.");
+        if (files.length > 18) {
+            alert("Maksimal 18 gambar yang dapat diunggah.");
             event.target.value = "";
             return;
         }
