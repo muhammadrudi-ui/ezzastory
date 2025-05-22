@@ -535,31 +535,28 @@
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
                             <div class="mb-3">
-                                <label class="form-label">Nama Lengkap</label>
-                                <input type="text" name="nama_lengkap" class="form-control" 
-                                    value="<?= $user_data['nama_lengkap'] ?? '' ?>" 
-                                    placeholder="Masukkan nama lengkap" required readonly>
+                                <label class="form-label fw-bold">Nama Lengkap</label>
+                                <p class="form-control-plaintext"><?= esc($user_data['nama_lengkap'] ?? '-') ?></p>
+                                <input type="hidden" name="nama_lengkap" value="<?= esc($user_data['nama_lengkap'] ?? '') ?>">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" name="email" class="form-control" 
-                                    value="<?= $user_data['email'] ?? '' ?>" 
-                                    placeholder="Masukkan email" required readonly>
+                                <label class="form-label fw-bold">Email</label>
+                                <p class="form-control-plaintext"><?= esc($user_data['email'] ?? '-') ?></p>
+                                <input type="hidden" name="email" value="<?= esc($user_data['email'] ?? '') ?>">
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Nomor Telepon</label>
-                                <input type="tel" name="telepon" class="form-control" 
-                                    value="<?= $user_data['no_telepon'] ?? '' ?>" 
-                                    placeholder="Masukkan nomor telepon" required readonly>
+                                <label class="form-label fw-bold">Nomor Telepon</label>
+                                <p class="form-control-plaintext"><?= esc($user_data['no_telepon'] ?? '-') ?></p>
+                                <input type="hidden" name="telepon" value="<?= esc($user_data['no_telepon'] ?? '') ?>">
                             </div>
                             <?php
-                                $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+                                    $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 $waktuSekarang = $now->format('Y-m-d\TH:i');
 ?>
                             <div class="mb-3">
-                                <label class="form-label">Waktu Pemesanan</label>
-                                <input type="datetime-local" name="waktu_pemesanan" class="form-control"
-                                    value="<?= $waktuSekarang ?>" readonly required>
+                                <label class="form-label fw-bold">Waktu Pemesanan</label>
+                                <p class="form-control-plaintext"><?= date('d-m-Y H:i', strtotime($waktuSekarang)) ?></p>
+                                <input type="hidden" name="waktu_pemesanan" value="<?= $waktuSekarang ?>">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Paket Layanan</label>
@@ -626,10 +623,9 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     placeholder="Masukkan nama mempelai pria & wanita" required>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Username Instagram</label>
-                                <input type="text" name="instagram" class="form-control"
-                                    value="<?= $user_data['instagram'] ?? '' ?>"
-                                    placeholder="Masukkan username Instagram Anda" required readonly>
+                                <label class="form-label fw-bold">Username Instagram</label>
+                                <p class="form-control-plaintext"><?= esc($user_data['instagram'] ?? '-') ?></p>
+                                <input type="hidden" name="instagram" value="<?= esc($user_data['instagram'] ?? '') ?>">
                             </div>
                         </div>
                     </div>
@@ -698,16 +694,17 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                             <div class="accordion-body pt-3">
                                                 <div class="row mb-4">
                                                     <div class="col-md-3">
+                                                    <div class="media-container" style="height: 150px; overflow: hidden;">
                                                         <?php if (!empty($pemesanan['foto'])): ?>
                                                             <img src="<?= base_url($pemesanan['foto']) ?>" 
-                                                                class="img-fluid rounded-3" 
+                                                                class="img-fluid rounded-3 w-100 h-100 object-fit-cover" 
                                                                 alt="<?= esc($pemesanan['nama_paket']) ?>">
                                                         <?php else: ?>
-                                                            <div class="bg-light rounded-3 d-flex align-items-center justify-content-center" 
-                                                                style="height: 150px;">
+                                                            <div class="bg-light rounded-3 w-100 h-100 d-flex align-items-center justify-content-center">
                                                                 <i class="fas fa-image fa-3x text-muted"></i>
                                                             </div>
                                                         <?php endif; ?>
+                                                    </div>
                                                     </div>
                                                     <div class="col-md-9">
                                                         <h5><?= esc($pemesanan['nama_paket']) ?></h5>
