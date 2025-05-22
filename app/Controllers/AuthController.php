@@ -83,6 +83,11 @@ class AuthController extends BaseController
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
         $confirm = $this->request->getPost('confirm_password');
+        $terms = $this->request->getPost('terms');
+
+        if (!$terms) {
+            return redirect()->back()->withInput()->with('error', 'Anda harus menyetujui Syarat & Ketentuan.');
+        }
 
         if (strlen($password) < 6) {
             return redirect()->back()->withInput()->with('error', 'Password harus memiliki minimal 6 karakter.');
