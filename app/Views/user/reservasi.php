@@ -634,11 +634,10 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                     <div class="mt-4 p-3 border rounded bg-light">
                         <h6 class="text-danger"><strong>Catatan:</strong></h6>
                         <ul class="mb-0">
-                            <li>DP sebesar 50% dari harga paket layanan.</li>
+                            <li>DP sebesar 30% dari harga paket layanan.</li>
                             <li>Pembayaran DP maksimal H-3 sebelum acara.</li>
-                            <li>Pelunasan maksimal H+3 setelah acara.</li>
                             <li>Proses editing dan pencetakan dilakukan setelah pelunasan.</li>
-                            <li>Estimasi pengerjaan album sekitar 2–4 minggu.</li>
+                            <li>Estimasi pengerjaan album sekitar 1-2 minggu.</li>
                             <li>Paket layanan Wedding hanya tersedia untuk 3 pemesanan aktif per hari berdasarkan tanggal pemotretan.</li>
                         </ul>
                     </div>
@@ -741,10 +740,10 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                                             <h6 class="mb-0 text-capitalize">
                                                                                 <?= esc($bayar['jenis']) ?>
                                                                                 <?php if ($bayar['jenis'] === 'DP'): ?>
-                                                                                    <span class="badge bg-warning bg-opacity-10 text-warning ms-2">50%</span>
+                                                                                    <span class="badge bg-warning bg-opacity-10 text-warning ms-2">30%</span>
                                                                                 <?php elseif ($bayar['jenis'] === 'Pelunasan'): ?>
                                                                                     <span class="badge bg-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> bg-opacity-10 text-<?= $pemesanan['jenis_pembayaran'] === 'DP' ? 'warning' : 'success' ?> ms-2">
-                                                                                        <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '50%' : '100%' ?>
+                                                                                        <?= $pemesanan['jenis_pembayaran'] === 'DP' ? '70%' : '100%' ?>
                                                                                     </span>
                                                                                 <?php endif; ?>
                                                                             </h6>

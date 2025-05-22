@@ -168,7 +168,7 @@ class PemesananController extends BaseController
         if ($data['jenis_pembayaran'] === 'DP') {
             $this->pembayaranModel->insert([
                 'pemesanan_id' => $pemesananId,
-                'jumlah' => $paket['harga'] * 0.5,
+                'jumlah' => $paket['harga'] * 0.3,
                 'jenis' => 'DP',
                 'status' => 'pending',
                 'created_at' => date('Y-m-d H:i:s')
@@ -176,7 +176,7 @@ class PemesananController extends BaseController
 
             $this->pembayaranModel->insert([
                 'pemesanan_id' => $pemesananId,
-                'jumlah' => $paket['harga'] * 0.5,
+                'jumlah' => $paket['harga'] * 0.7,
                 'jenis' => 'Pelunasan',
                 'status' => 'pending',
                 'created_at' => date('Y-m-d H:i:s')
