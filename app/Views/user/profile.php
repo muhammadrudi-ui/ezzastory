@@ -26,14 +26,14 @@
                     <div class="row g-4">
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
-                        <div class="mb-3">
-    <label class="form-label">Username</label>
-    <input type="text" name="username" value="<?= esc($user['username']) ?>" 
-           class="form-control" 
-           pattern="^\S{1,30}$"
-           title="Username maksimal 30 karakter dan tidak boleh mengandung spasi"
-           required>
-</div>
+                            <div class="mb-3">
+                                <label class="form-label">Username</label>
+                                <input type="text" name="username" value="<?= esc($user['username']) ?>" 
+                                    class="form-control" 
+                                    pattern="^\S{1,30}$"
+                                    title="Username maksimal 30 karakter dan tidak boleh mengandung spasi"
+                                    required>
+                            </div>
 
                             <div class="mb-3">
                                 <label class="form-label">Email</label>

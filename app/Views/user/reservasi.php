@@ -290,7 +290,7 @@
             margin: 0 auto;
         }
 
-        /* Responsiveness */
+        /* Responsive */
         @media (max-width: 991px) {
             .tracking-container {
                 padding: 10px 0;
@@ -386,12 +386,12 @@
     </style>
 
     <!-- Hero Section -->
-<section class="hero-section">
-    <?php foreach ($profile_perusahaan as $profile): ?>
-        <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
-        <h1>Reservasi</h1>
-    <?php endforeach; ?>
-</section>
+    <section class="hero-section">
+        <?php foreach ($profile_perusahaan as $profile): ?>
+            <img src="<?= base_url($profile['background_judul']) ?>" alt="Hero Background" loading="lazy">
+            <h1>Reservasi</h1>
+        <?php endforeach; ?>
+    </section>
 
     <div class="container mt-5">
         <!-- Tabs -->
@@ -697,7 +697,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                         <?php if (!empty($pemesanan['foto'])): ?>
                                                             <img src="<?= base_url($pemesanan['foto']) ?>" 
                                                                 class="img-fluid rounded-3 w-100 h-100 object-fit-cover" 
-                                                                alt="<?= esc($pemesanan['nama_paket']) ?>">
+                                                                alt="<?= esc($pemesanan['nama_paket']) ?>" loading="lazy">
                                                         <?php else: ?>
                                                             <div class="bg-light rounded-3 w-100 h-100 d-flex align-items-center justify-content-center">
                                                                 <i class="fas fa-image fa-3x text-muted"></i>
@@ -763,7 +763,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                                                     id="payButton<?= $bayar['id'] ?>">
                                                                                 <i class="fa-solid fa-credit-card me-1"></i> Bayar Sekarang
                                                                             </button>
-                                                                                <!-- Tambahkan alert info jika perlu -->
                                                                             <?php endif; ?>
                                                                             <div class="alert alert-info small p-2 mt-3 mb-0">
                                                                                 <i class="fa-solid fa-circle-info me-2"></i>
@@ -792,7 +791,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                                 </div>
                                                             </div>
                                                         <?php endforeach; ?>
-                                                        <!-- Tambahkan tombol batalkan jika semua pembayaran masih pending -->
+                                                        <!-- Button cancel jika pembayaran masih pending -->
                                                         <?php if ($canCancel): ?>
                                                             <div class="col-12 mt-3">
                                                                 <form action="<?= base_url('user/pemesanan/batal/' . $pemesanan['id']) ?>" 
@@ -1046,7 +1045,6 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 
 <!-- Ketersediaan Jadwal -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<!-- JavaScript Kalender -->
 <script src="<?= base_url('assets/js/calendar.js') ?>"></script>
 
 
@@ -1058,7 +1056,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const deskripsiTextarea = document.getElementById('deskripsiPaket');
     const hargaDisplay = document.getElementById('hargaPaket');
     const jenisLayananDisplay = document.getElementById('jenisLayanan');
-    let originalOptions = paketSelect.innerHTML; // Simpan opsi awal
+    let originalOptions = paketSelect.innerHTML;
     const csrfName = '<?= csrf_token() ?>';
     const csrfHash = '<?= csrf_hash() ?>';
 
@@ -1150,7 +1148,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // SweetAlert Menyelesaikan Pemesanan
+    // SweetAlert Menyelesaikan Pemesanan di Tracking
     function confirmComplete(pemesananId) {
         Swal.fire({
             title: "Konfirmasi Penyelesaian",
@@ -1163,7 +1161,6 @@ document.addEventListener('DOMContentLoaded', function() {
             cancelButtonText: "Batal"
         }).then((result) => {
             if (result.isConfirmed) {
-                // Submit form secara langsung
                 document.getElementById(`completeForm${pemesananId}`).submit();
             }
         });
@@ -1173,14 +1170,12 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- CTA to Tab Reservasi -->
 <script>
 function activateReservasiTab() {
-    // Pastikan Bootstrap Tab tersedia
     if (typeof bootstrap !== 'undefined') {
         const reservasiTab = new bootstrap.Tab(document.querySelector('#reservasi-tab'));
         reservasiTab.show();
     }
 }
 
-// Aktifkan tab Reservasi secara otomatis jika URL memiliki hash #reservasi
 document.addEventListener('DOMContentLoaded', function() {
     if (window.location.hash === '#reservasi') {
         activateReservasiTab();

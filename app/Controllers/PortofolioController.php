@@ -21,7 +21,6 @@ class PortofolioController extends BaseController
         $this->profileModel = new ProfilePerusahaanModel();
     }
 
-    // Portofolio untuk User
     public function index()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -47,7 +46,6 @@ class PortofolioController extends BaseController
         return view('user/portofolio/index', $data);
     }
 
-    // Halaman Kategori Portofolio User
     public function kategori($jenis_layanan)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -69,7 +67,6 @@ class PortofolioController extends BaseController
         return view('user/portofolio/kategori', $data);
     }
 
-    // Portofolio Detail User
     public function detail($id)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -79,7 +76,6 @@ class PortofolioController extends BaseController
         return view('user/portofolio/detail', $data);
     }
 
-    // Portofolio untuk Visitor
     public function index_visitor()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -106,7 +102,6 @@ class PortofolioController extends BaseController
     }
 
 
-    // Kategori Portofolio untuk Visitor
     public function kategori_visitor($jenis_layanan)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -129,8 +124,6 @@ class PortofolioController extends BaseController
 
     }
 
-
-    // Detail Portodolio untuk Visitor
     public function detail_visitor($id)
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
@@ -140,8 +133,6 @@ class PortofolioController extends BaseController
         return view('visitor/portofolio/detail', $data);
     }
 
-
-    // Index Portodolio untuk Admin
     public function index_admin()
     {
         $perPage = 5;
@@ -170,15 +161,11 @@ class PortofolioController extends BaseController
         return view('admin/portofolio/index', $data);
     }
 
-
-    // Add Form Portofolio untuk Admin
     public function add_admin()
     {
         return view('admin/portofolio/add');
     }
 
-
-    // Add Data Portofolio untuk Admin
     public function store()
     {
         $rules = [
@@ -230,8 +217,6 @@ class PortofolioController extends BaseController
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil ditambahkan!');
     }
 
-
-    // Edit Data View Portofolio untuk Admin
     public function edit_admin($id)
     {
         $portofolio = $this->portofolioModel->find($id);
@@ -248,8 +233,6 @@ class PortofolioController extends BaseController
         ]);
     }
 
-
-    // Edit Data Portofolio untuk Admin
     public function update($id)
     {
         $rules = [
@@ -320,7 +303,6 @@ class PortofolioController extends BaseController
         return redirect()->to('admin/portofolio/index')->with('success', 'Portofolio berhasil diperbarui!');
     }
 
-    // Delete Data Portofolio untuk Admin
     public function delete($id = null)
     {
         if (!$id) {

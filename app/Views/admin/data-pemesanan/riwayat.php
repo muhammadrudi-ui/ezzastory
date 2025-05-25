@@ -9,7 +9,7 @@
 
     <!-- Filter Search, Bulan, dan Export Excel -->
     <form id="filterForm" class="d-flex flex-wrap justify-content-end gap-2 mb-3" method="GET" action="<?= base_url('admin/data-pemesanan/riwayat'); ?>">
-        <!-- Search Manual (tetap pakai tombol) -->
+        <!-- Search Manual -->
         <div class="input-group" style="max-width: 250px;">
             <input type="text" class="form-control" placeholder="Search..." name="search"
                 value="<?= esc($search ?? '') ?>">
@@ -18,7 +18,7 @@
             </button>
         </div>
 
-        <!-- Filter Bulan (auto submit) -->
+        <!-- Filter Bulan -->
         <div class="input-group" style="max-width: 180px;">
             <input type="month" class="form-control" name="filter_bulan" value="<?= esc($filterBulan ?? '') ?>" onchange="document.getElementById('filterForm').submit();">
         </div>
@@ -74,13 +74,13 @@
                             <a href="https://instagram.com/<?= esc($item['instagram']) ?>" target="_blank">@<?= esc($item['instagram']) ?></a>
                         </td>
                     </tr>
-                <?php endforeach; ?>
-                <?php else: ?>
-        <tr>
-            <td colspan="15">Tidak ada data ditemukan.</td>
-        </tr>
-    <?php endif; ?>
-</tbody>
+                        <?php endforeach; ?>
+                        <?php else: ?>
+                    <tr>
+                        <td colspan="15">Tidak ada data ditemukan.</td>
+                    </tr>
+                        <?php endif; ?>
+                    </tbody>
 
                 </table>
             </div>

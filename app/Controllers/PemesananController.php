@@ -77,10 +77,9 @@ class PemesananController extends BaseController
             }
         }
 
-        // Tentukan tab aktif berdasarkan parameter tab atau paket_id
         $tabParam = $this->request->getGet('tab');
         $paketId = $this->request->getGet('paket_id');
-        $activeTab = 'jadwal'; // Default tab
+        $activeTab = 'jadwal';
         if ($tabParam === 'pembayaran') {
             $activeTab = 'pembayaran';
         } elseif ($tabParam === 'reservasi') {
@@ -115,7 +114,6 @@ class PemesananController extends BaseController
         $waktuPemotretan = $this->request->getPost('waktu_pemotretan');
         $paket = $this->paketLayananModel->find($paketId);
 
-        // Pastikan paket ditemukan
         if (!$paket) {
             return redirect()->to('user/reservasi?tab=reservasi')
                 ->with('error', 'Paket layanan tidak ditemukan.');
@@ -135,7 +133,6 @@ class PemesananController extends BaseController
                     ->with('error', 'Maaf, paket dengan jenis layanan Wedding sudah mencapai batas maksimal 3 pemesanan untuk tanggal pemotretan ' . date('d-m-Y', strtotime($tanggalPemotretan)) . '. Silakan pilih tanggal lain atau paket lain.');
             }
         } else {
-            // Log jika jenis_layanan tidak ada
             if (!isset($paket['jenis_layanan'])) {
                 log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
             }
@@ -203,7 +200,6 @@ class PemesananController extends BaseController
         $paket = $this->paketLayananModel->find($paketId);
         $isAvailable = true;
 
-        // Pastikan paket ditemukan
         if (!$paket) {
             return $this->response->setJSON([
                 'is_available' => false,
@@ -222,7 +218,6 @@ class PemesananController extends BaseController
             $isAvailable = $jumlahPemesanan < 3;
             $message = $isAvailable ? '' : 'Paket Wedding sudah penuh untuk tanggal ini.';
         } else {
-            // Log jika jenis_layanan tidak ada
             if (!isset($paket['jenis_layanan'])) {
                 log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
             }
@@ -238,7 +233,6 @@ class PemesananController extends BaseController
     // Cek Deadline Payment DP
     public function checkAndCancelExpiredReservations()
     {
-        // Ambil semua pemesanan yang belum selesai
         $pemesananList = $this->pemesananModel
             ->where('status !=', 'Selesai')
             ->findAll();
@@ -253,7 +247,6 @@ class PemesananController extends BaseController
 
             // Cek jika sudah melewati H-3 sebelum pemotretan
             if ($currentDate > $deadlinePembayaran) {
-                // Ambil data pembayaran untuk pemesanan ini
                 $pembayaran = $this->pembayaranModel
                     ->where('pemesanan_id', $pemesanan['id'])
                     ->where('status', 'success')
@@ -288,7 +281,6 @@ class PemesananController extends BaseController
 
     public function batal($id)
     {
-        // Ambil data pemesanan
         $pemesanan = $this->pemesananModel->find($id);
 
         if (!$pemesanan) {
@@ -319,7 +311,6 @@ class PemesananController extends BaseController
 
     public function selesai($id)
     {
-        // Ambil data pemesanan
         $pemesanan = $this->pemesananModel->find($id);
 
         if (!$pemesanan) {
@@ -445,7 +436,7 @@ class PemesananController extends BaseController
                 ->orLike('pemesanan.lokasi_pemotretan', $search)
                 ->orLike('pemesanan.nama_mempelai', $search)
                 ->orLike('pemesanan.status', $search)
-                ->orLike('pemesanan.status_pembayaran', $search) // Tambahkan pencarian berdasarkan status_pembayaran
+                ->orLike('pemesanan.status_pembayaran', $search)
                 ->groupEnd();
         }
 

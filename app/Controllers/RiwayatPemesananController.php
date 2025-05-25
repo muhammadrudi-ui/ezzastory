@@ -205,7 +205,7 @@ class RiwayatPemesananController extends BaseController
             $sheet->setCellValue("F$row", $item['nama_paket'] ?? '');
             $sheet->setCellValue("G$row", $item['jenis_layanan'] ?? '');
 
-            // Format price with proper number format
+            // Format Harga
             $sheet->setCellValue("H$row", $item['harga'] ?? 0);
             $sheet->getStyle("H$row")->getNumberFormat()->setFormatCode('#,##0');
 
@@ -231,7 +231,7 @@ class RiwayatPemesananController extends BaseController
 
             $sheet->setCellValue("N$row", $item['nama_mempelai'] ?? '');
 
-            // Instagram handle
+            // Instagram
             if (!empty($item['instagram'])) {
                 $instagram = ltrim($item['instagram'], '@');
                 $sheet->setCellValue("O$row", '@' . $instagram);

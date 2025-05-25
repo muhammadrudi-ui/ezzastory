@@ -36,7 +36,6 @@
             padding: 60px 0;
         }
 
-        /* Card Styling */
         .card {
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -93,7 +92,7 @@
             transform: translateX(0);
         }
 
-        /* Responsive: hide text on very small screens */
+        /* Responsive*/
         @media (max-width: 576px) {
             .icon-back-button {
                 border-radius: 50%;
@@ -130,7 +129,7 @@
                             <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
                                     <img src="<?= base_url($item['foto_utama']) ?>" class="card-img-top"
-                                        alt="<?= $item['nama_mempelai'] ?>">
+                                        alt="<?= $item['nama_mempelai'] ?>" loading="lazy">
                                     <div class="card-body text-center">
                                         <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
                                         <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>

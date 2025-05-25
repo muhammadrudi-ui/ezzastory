@@ -28,7 +28,7 @@ class BerandaController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
-        // Ambil semua portofolio terbaru beserta 1 foto utama (jika ada)
+        // Ambil semua portofolio terbaru beserta 1 foto utama
         $data['portofolio'] = $this->portofolioModel
         ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
         ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
@@ -48,7 +48,7 @@ class BerandaController extends BaseController
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();
 
-        // Ambil semua portofolio terbaru beserta 1 foto utama (jika ada)
+        // Ambil semua portofolio terbaru beserta 1 foto utama
         $data['portofolio'] = $this->portofolioModel
         ->select('portofolio.*, foto_portofolio.nama_file AS foto_utama')
         ->join('foto_portofolio', 'foto_portofolio.id_portofolio = portofolio.id', 'left')
@@ -66,10 +66,9 @@ class BerandaController extends BaseController
 
     public function index_admin()
     {
-        // Ambil data untuk bulan ini
         $currentMonth = date('Y-m');
 
-        // Pendapatan bulan ini (total pembayaran berhasil)
+        // Pendapatan bulan ini
         $pendapatanBulanIni = $this->pembayaranModel
             ->selectSum('jumlah', 'total')
             ->where('status', 'success')

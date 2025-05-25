@@ -9,7 +9,7 @@
 
     <!-- Filter Search, Bulan, dan Status Pembayaran -->
     <form id="filterForm" class="d-flex flex-wrap justify-content-end gap-2 mb-3" method="GET" action="<?= base_url('admin/laporan-keuangan/index'); ?>">
-        <!-- Search Manual (dengan tombol) -->
+        <!-- Search Manual -->
         <div class="input-group" style="max-width: 250px;">
             <input type="text" class="form-control" placeholder="Search..." name="search" value="<?= esc($search ?? '') ?>">
             <button class="btn btn-outline-secondary" type="submit">
@@ -17,12 +17,12 @@
             </button>
         </div>
 
-        <!-- Filter Bulan (auto submit) -->
+        <!-- Filter Bulan -->
         <div class="input-group" style="max-width: 180px;">
             <input type="month" class="form-control" name="filter_bulan" value="<?= esc($filter_bulan ?? '') ?>" onchange="document.getElementById('filterForm').submit();">
         </div>
 
-        <!-- Filter Status Pembayaran (auto submit) -->
+        <!-- Filter Status Pembayaran -->
         <select name="filter_status_pembayaran" class="form-select" style="max-width: 200px;" onchange="document.getElementById('filterForm').submit();">
             <option value="">-- Semua Status Pembayaran --</option>
             <option value="Belum Bayar" <?= $filter_status_pembayaran == 'Belum Bayar' ? 'selected' : '' ?>>Belum Bayar</option>
@@ -30,7 +30,7 @@
             <option value="Lunas" <?= $filter_status_pembayaran == 'Lunas' ? 'selected' : '' ?>>Lunas</option>
         </select>
 
-        <!-- Tombol Cetak Laporan dengan Filter -->
+        <!-- Cetak Laporan -->
         <a href="<?= site_url('admin/laporan-keuangan/cetak') .
                     '?search=' . urlencode($search ?? '') .
                     '&filter_bulan=' . urlencode($filter_bulan ?? '') .

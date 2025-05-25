@@ -145,7 +145,7 @@
             <button type="submit" class="btn btn-dark w-100 py-2 mt-2">Daftar Sekarang</button>
         </form>
 
-        <p class="text-center mt-4">Sudah punya akun? <a href="/login">Masuk disini</a></p>
+        <p class="text-center mt-4">Sudah punya akun? <a href="<?= base_url('login') ?>">Masuk disini</a></p>
     </div>
 
     <!-- Modal Terms & Conditions -->
@@ -200,7 +200,7 @@
             this.innerHTML = type === "password" ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
         });
 
-        // Validasi Checkbox Syarat & Ketentuan
+        // Validasi Checkbox Terms & Conditions
         document.querySelector('form').addEventListener('submit', function(e) {
             const termsCheck = document.getElementById('termsCheck');
             if (!termsCheck.checked) {

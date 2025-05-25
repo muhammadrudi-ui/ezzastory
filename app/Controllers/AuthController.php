@@ -218,7 +218,6 @@ class AuthController extends BaseController
         return redirect()->to('/user/profile')->with('success', 'Profil berhasil diperbarui.');
     }
 
-    // Tambahkan method ini di AuthController
     public function adminProfile()
     {
         $data['profile_perusahaan'] = $this->profileModel->findAll();

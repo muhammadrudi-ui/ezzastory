@@ -38,11 +38,6 @@ class CreatePembayaran extends Migration
                 'constraint' => 50,
                 'null' => true,
             ],
-            'bukti_bayar' => [
-                'type' => 'VARCHAR',
-                'constraint' => 255,
-                'null' => true,
-            ],
             'order_id' => [
                 'type' => 'VARCHAR',
                 'constraint' => 100,
@@ -69,6 +64,6 @@ class CreatePembayaran extends Migration
 
     public function down()
     {
-        $this->forge->dropTable('pembayaran'); // Misalnya, menghapus tabel 'pembayaran'
+        $this->forge->dropTable('pembayaran');
     }
 }

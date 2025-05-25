@@ -21,6 +21,7 @@
         </div>
     <?php endif; ?>
 
+    <!-- Search -->
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
         <form class="input-group" style="max-width: 250px;" method="GET"
             action="<?= base_url('admin/portofolio/index'); ?>">

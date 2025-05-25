@@ -38,7 +38,7 @@ class PembayaranController extends BaseController
                 throw new \Exception('Data pembayaran tidak ditemukan');
             }
 
-            // Gunakan withPaket() untuk mendapatkan nama_paket
+            // Untuk mendapatkan nama_paket
             $pemesanan = $this->pemesananModel->withPaket()
                             ->where('pemesanan.id', $pembayaran['pemesanan_id'])
                             ->first();

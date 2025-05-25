@@ -67,8 +67,8 @@
             }
         }
 
-               /* Animasi untuk foto */
-               .gallery-container img {
+        /* Animasi foto */
+        .gallery-container img {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity 0.6s ease-out, transform 0.6s ease-out;
@@ -160,7 +160,7 @@
             transform: translateX(0);
         }
 
-        /* Responsive: hide text on very small screens */
+        /* Responsive */
         @media (max-width: 576px) {
             .icon-back-button {
                 border-radius: 50%;
@@ -269,7 +269,6 @@
             });
         };
         
-        // Initialize
         window.addEventListener('load', handleScrollAnimation);
         window.addEventListener('scroll', handleScrollAnimation);
     });

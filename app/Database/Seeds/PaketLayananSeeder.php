@@ -8,13 +8,10 @@ class PaketLayananSeeder extends Seeder
 {
     public function run()
     {
-        // Nonaktifkan foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=0');
 
-        // Kosongkan tabel
         $this->db->table('paket_layanan')->truncate();
 
-        // Data seeder
         $data = [
             [
                 'nama' => 'Paket Basic',
@@ -42,10 +39,8 @@ class PaketLayananSeeder extends Seeder
             ],
         ];
 
-        // Masukkan data
         $this->db->table('paket_layanan')->insertBatch($data);
 
-        // Aktifkan kembali foreign key checks
         $this->db->query('SET FOREIGN_KEY_CHECKS=1');
     }
 }

@@ -9,7 +9,7 @@
             object-fit: cover;
         }
 
-        /* Layanan */
+        /* Keunggulan Layanan */
         .services {
             padding: 80px;
             background-color: #f8f9fa;
@@ -205,7 +205,7 @@
                     </div>
                     <!-- Deskripsi Perusahaan -->
                     <div class="col-md-6 scroll-animate fade-in">
-                        <h2 class="about-us-title">About Us</h2>
+                        <h2 class="about-us-title">Tentang Kami</h2>
                         <p class="about-us-description">
                             <?= esc(strip_tags($profile['deskripsi'])) ?>
                         </p>
@@ -227,7 +227,7 @@
                             <a href="<?= base_url('user/portofolio/detail/' . $item['id']) ?>" class="text-decoration-none">
                                 <div class="card">
                                     <img src="<?= base_url($item['foto_utama']) ?>" class="card-img-top"
-                                        alt="<?= esc($item['nama_mempelai']) ?>">
+                                        alt="<?= esc($item['nama_mempelai']) ?>" loading="lazy">
                                     <div class="card-body text-center">
                                         <h5 class="card-title"><?= esc($item['nama_mempelai']) ?></h5>
                                         <p class="card-text"><?= esc($item['jenis_layanan']) ?></p>
@@ -242,7 +242,6 @@
                     </div>
                 <?php endif; ?>
             </div>
-
         </div>
     </section>
 

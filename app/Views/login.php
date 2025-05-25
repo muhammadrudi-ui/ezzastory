@@ -125,7 +125,7 @@
                 
                 <button type="submit" class="btn btn-dark w-100 py-2 mt-2">Masuk</button>
             </form>
-            <p class="text-center mt-4">Belum punya akun? <a href="/register">Daftar disini</a></p>
+            <p class="text-center mt-4">Belum punya akun? <a href="<?= base_url('register') ?>">Daftar disini</a></p>
         </div>
     </div>
 

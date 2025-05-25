@@ -67,7 +67,7 @@
             }
         }
 
-        /* Animasi untuk foto */
+        /* Animasi foto */
         .gallery-container img {
             opacity: 0;
             transform: translateY(20px);
@@ -160,7 +160,7 @@
             transform: translateX(0);
         }
 
-        /* Responsive: hide text on very small screens */
+        /* Responsive */
         @media (max-width: 576px) {
             .icon-back-button {
                 border-radius: 50%;
@@ -219,7 +219,7 @@
         </div>
     </section>
 
-    <!-- Call to Action - Reservasi -->
+    <!-- CTA - Reservasi -->
     <section class="cta-section scroll-animate fade-in">
         <div class="container">
             <p class="lead">Siap untuk membuat momen Anda lebih berkesan? Pesan layanan kami sekarang!</p>
@@ -229,50 +229,49 @@
 
     <!-- Lazy Load & Scroll Animation Image -->
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Lazy load images
-    const lazyImages = [].slice.call(document.querySelectorAll('img[data-src]'));
-    
-    if ('IntersectionObserver' in window) {
-        let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-            entries.forEach(function(entry) {
-                if (entry.isIntersecting) {
-                    let lazyImage = entry.target;
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImageObserver.unobserve(lazyImage);
+    document.addEventListener('DOMContentLoaded', function() {
+        // Lazy load images
+        const lazyImages = [].slice.call(document.querySelectorAll('img[data-src]'));
+        
+        if ('IntersectionObserver' in window) {
+            let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        let lazyImage = entry.target;
+                        lazyImage.src = lazyImage.dataset.src;
+                        lazyImageObserver.unobserve(lazyImage);
+                    }
+                });
+            });
+
+            lazyImages.forEach(function(lazyImage) {
+                lazyImageObserver.observe(lazyImage);
+            });
+        }
+
+        // Animasi scroll
+        const scrollElements = document.querySelectorAll('.scroll-animate');
+        
+        const elementInView = (el) => {
+            const elementTop = el.getBoundingClientRect().top;
+            return (elementTop <= (window.innerHeight || document.documentElement.clientHeight));
+        };
+        
+        const displayScrollElement = (element) => {
+            element.classList.add('visible');
+        };
+
+        const handleScrollAnimation = () => {
+            scrollElements.forEach((el) => {
+                if (elementInView(el)) {
+                    displayScrollElement(el);
                 }
             });
-        });
-
-        lazyImages.forEach(function(lazyImage) {
-            lazyImageObserver.observe(lazyImage);
-        });
-    }
-
-    // Animasi scroll
-    const scrollElements = document.querySelectorAll('.scroll-animate');
-    
-    const elementInView = (el) => {
-        const elementTop = el.getBoundingClientRect().top;
-        return (elementTop <= (window.innerHeight || document.documentElement.clientHeight));
-    };
-    
-    const displayScrollElement = (element) => {
-        element.classList.add('visible');
-    };
-
-    const handleScrollAnimation = () => {
-        scrollElements.forEach((el) => {
-            if (elementInView(el)) {
-                displayScrollElement(el);
-            }
-        });
-    };
-    
-    // Initialize
-    window.addEventListener('load', handleScrollAnimation);
-    window.addEventListener('scroll', handleScrollAnimation);
-});
-</script>
+        };
+        
+        window.addEventListener('load', handleScrollAnimation);
+        window.addEventListener('scroll', handleScrollAnimation);
+    });
+    </script>
 
 <?= $this->endSection() ?>

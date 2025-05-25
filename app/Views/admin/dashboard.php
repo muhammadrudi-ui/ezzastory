@@ -130,7 +130,6 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // Inisialisasi Chart
     let ctx = document.getElementById('chartPemesanan').getContext('2d');
     let chartPemesanan = new Chart(ctx, {
         type: 'line',

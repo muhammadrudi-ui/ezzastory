@@ -63,10 +63,6 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
 
     $routes->get('pembayaran/check-status/(:any)', 'PembayaranController::checkStatus/$1');
 
-
-
-
-
 });
 
 

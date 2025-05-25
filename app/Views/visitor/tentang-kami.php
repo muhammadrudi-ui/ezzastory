@@ -154,7 +154,7 @@
         <div class="container scroll-animate fade-in">
             <?php foreach ($profile_perusahaan as $profile): ?>
                 <h2>Tentang Ezzastory</h2>
-
+                
                 <!-- Deskripsi -->
                 <div class="about-description scroll-animate fade-in">
                     <p><?= ($profile['deskripsi']) ?></p>

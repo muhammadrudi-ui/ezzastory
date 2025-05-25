@@ -37,7 +37,6 @@
         padding: 15px 0;
     }
 
-    /* Card Styling */
     .card {
         border: none;
         box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -137,7 +136,7 @@
                     </div>
                 </div>
 
-                <!-- Modal untuk tiap paket -->
+                <!-- Modal -->
                 <div class="modal fade" id="modalPaket<?= $paket['id'] ?>" tabindex="-1" aria-hidden="true">
                     <div class="modal-dialog modal-md">
                         <div class="modal-content">
