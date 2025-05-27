@@ -26,29 +26,7 @@ class ProfileController extends BaseController
 
     public function index_admin()
     {
-        $search = $this->request->getGet('search');
-
-        if ($search) {
-            $this->profileModel->groupStart()
-                ->like('nama_perusahaan', $search)
-                ->orLike('deskripsi', $search)
-                ->orLike('keunggulan_1', $search)
-                ->orLike('keunggulan_2', $search)
-                ->orLike('keunggulan_3', $search)
-                ->orLike('visi', $search)
-                ->orLike('misi', $search)
-                ->orLike('nama_owner', $search)
-                ->orLike('cta', $search)
-                ->orLike('no_telp', $search)
-                ->orLike('email', $search)
-                ->orLike('instagram', $search)
-                ->orLike('alamat', $search)
-                ->groupEnd();
-        }
-
-
         $data['profileModel'] = $this->profileModel->findAll();
-        $data['search'] = $search;
 
         return view('admin/profile-perusahaan/index', $data);
     }

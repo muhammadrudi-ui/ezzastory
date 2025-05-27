@@ -2,6 +2,16 @@
 
 <?= $this->section('content') ?>
 
+<style>
+    .ellipsis-multiline {
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
 <div class="container">
     <div class="title mt-4">
         <h3 class="text-start text-dark fw-bold">Profile Perusahaan</h3>
@@ -21,16 +31,8 @@
         </div>
     <?php endif; ?>
 
-    <!-- Search -->
+    <!-- Add Data -->
     <div class="d-flex flex-wrap justify-content-end gap-2 mb-3">
-        <form action="<?= base_url('admin/profile-perusahaan/index'); ?>" method="GET" class="input-group"
-            style="max-width: 250px;">
-            <input type="text" name="search" class="form-control" placeholder="Search..."
-                value="<?= isset($search) ? esc($search) : '' ?>">
-            <button class="btn btn-outline-secondary" type="submit">
-                <i class="fas fa-search"></i>
-            </button>
-        </form>
         <a href="<?= base_url('admin/profile-perusahaan/add') ?>" class="btn btn-success">Tambah Data</a>
     </div>
     <div class="card">
@@ -71,9 +73,8 @@
                                             style="object-fit: cover; border-radius: 3px;" alt="Logo Perusahaan" loading="lazy">
                                     </td>
                                     <td>
-                                        <div class="text-justify overflow-auto"
-                                            style="max-height: 100px; width: 280px; white-space: normal;">
-                                            <?= $profile['deskripsi'] ?>
+                                        <div class="text-start ellipsis-multiline" style="max-width: 280px;">
+                                            <?= esc($profile['deskripsi']) ?>
                                         </div>
                                     </td>
                                     <td>
@@ -99,8 +100,16 @@
                                             height="75" style="object-fit: cover; border-radius: 3px;" alt="Background Judul"
                                             loading="lazy">
                                     </td>
-                                    <td><?= $profile['visi'] ?></td>
-                                    <td><?= $profile['misi'] ?></td>
+                                    <td>
+                                        <div class="text-start ellipsis-multiline" style="max-width: 200px;">
+                                            <?= esc($profile['visi']) ?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="text-start ellipsis-multiline" style="max-width: 200px;">
+                                            <?= esc($profile['misi']) ?>
+                                        </div>
+                                    </td>
                                     <td><?= $profile['nama_owner'] ?></td>
                                     <td>
                                         <img src="<?= base_url($profile['foto_owner']) ?>" class="rectangle" width="75"

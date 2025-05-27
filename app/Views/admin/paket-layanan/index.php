@@ -2,6 +2,16 @@
 
 <?= $this->section('content') ?>
 
+<style>
+    .truncate-lines {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+</style>
+
 <div class="container">
     <div class="title mt-4">
         <h3 class="text-start text-dark fw-bold">Paket Layanan</h3>
@@ -56,7 +66,11 @@
                                         <img src="<?= base_url($paket['foto']) ?>" class="rectangle" width="75" height="75"
                                             style="object-fit: cover; border-radius: 3px;" alt="Foto Paket" loading="lazy">
                                     </td>
-                                    <td><?= $paket['benefit'] ?></td>
+                                    <td>
+                                        <div class="truncate-lines" title="<?= esc($paket['benefit']) ?>">
+                                            <?= esc($paket['benefit']) ?>
+                                        </div>
+                                    </td>
                                     <td>Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>
                                     <td><?= ($paket['jenis_layanan']) ?></td>
                                     <td class="text-nowrap">
