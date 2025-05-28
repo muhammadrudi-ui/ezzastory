@@ -119,6 +119,15 @@ class PemesananController extends BaseController
                 ->with('error', 'Paket layanan tidak ditemukan.');
         }
 
+        // Validasi tanggal pemotretan tidak boleh masa lalu
+        $today = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
+        $selectedDate = new \DateTime($waktuPemotretan, new \DateTimeZone('Asia/Jakarta'));
+
+        if ($selectedDate < $today) {
+            return redirect()->to('user/reservasi?tab=reservasi')
+                ->with('error', 'Tidak bisa memilih tanggal pemotretan yang sudah lewat. Silakan pilih tanggal setelahnya.');
+        }
+
         // Cek jika jenis layanan adalah Wedding
         if (isset($paket['jenis_layanan']) && $paket['jenis_layanan'] === 'Wedding') {
             $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
@@ -204,6 +213,17 @@ class PemesananController extends BaseController
             return $this->response->setJSON([
                 'is_available' => false,
                 'message' => 'Paket layanan tidak ditemukan.'
+            ]);
+        }
+
+        // Validasi tanggal pemotretan tidak boleh masa lalu
+        $today = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
+        $selectedDate = new \DateTime($waktuPemotretan, new \DateTimeZone('Asia/Jakarta'));
+
+        if ($selectedDate < $today) {
+            return $this->response->setJSON([
+                'is_available' => false,
+                'message' => 'Tidak bisa memilih tanggal pemotretan yang sudah lewat.'
             ]);
         }
 

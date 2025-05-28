@@ -121,7 +121,7 @@
                         <i class="fas fa-eye-slash text-muted"></i>
                     </button>
                 </div>
-                <small class="text-muted">Minimal 8 karakter dengan kombinasi huruf dan angka</small>
+                <small class="text-muted">Minimal 6 karakter dengan kombinasi huruf dan angka</small>
             </div>
 
             <div class="mb-4">
