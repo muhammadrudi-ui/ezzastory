@@ -42,8 +42,7 @@
 
                 <div class="mt-3">
                     <label class="fw-bold">Deskripsi</label>
-                    <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3" placeholder="Masukkan deskripsi"
-                        required><?= old('deskripsi') ?></textarea>
+                    <textarea name="deskripsi" id="deskripsi" class="form-control" rows="3" placeholder="Masukkan deskripsi"><?= old('deskripsi') ?></textarea>
                 </div>
 
                 <div class="row mt-3">
@@ -111,13 +110,11 @@
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="fw-bold">Visi</label>
-                        <textarea name="visi" id="visi" class="form-control" rows="2" placeholder="Masukkan visi perusahaan"
-                            required><?= old('visi') ?></textarea>
+                        <textarea name="visi" id="visi" class="form-control" rows="2" placeholder="Masukkan visi perusahaan"><?= old('visi') ?></textarea>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Misi</label>
-                        <textarea name="misi" id="misi" class="form-control" rows="2" placeholder="Masukkan misi perusahaan"
-                            required><?= old('misi') ?></textarea>
+                        <textarea name="misi" id="misi" class="form-control" rows="2" placeholder="Masukkan misi perusahaan"><?= old('misi') ?></textarea>
                     </div>
                 </div>
 
@@ -195,6 +192,32 @@
         .catch(error => {
             console.error(error);
             });
+</script>
+
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // Ambil instance CKEditor
+        let deskripsiEditor = CKEditor.instances['deskripsi'];
+        let visiEditor = CKEditor.instances['visi'];
+        let misiEditor = CKEditor.instances['misi'];
+
+        // Ambil nilai dari CKEditor
+        let deskripsi = deskripsiEditor.getData();
+        let visi = visiEditor.getData();
+        let misi = misiEditor.getData();
+
+        // Validasi manual
+        if (!deskripsi || !visi || !misi) {
+            event.preventDefault(); // Hentikan submit
+            alert('Harap isi Deskripsi, Visi, dan Misi.');
+            return;
+        }
+
+        // Update nilai textarea asli sebelum submit
+        document.querySelector('#deskripsi').value = deskripsi;
+        document.querySelector('#visi').value = visi;
+        document.querySelector('#misi').value = misi;
+    });
 </script>
 
 <script>

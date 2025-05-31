@@ -108,7 +108,7 @@ class ProfileController extends BaseController
         ];
 
         $this->profileModel->insert($data);
-        return redirect()->to('admin/profile-perusahaan/index')->with('message', 'Profile perusahaan berhasil ditambahkan');
+        return redirect()->to('admin/profile-perusahaan/index')->with('success', 'Profile perusahaan berhasil ditambahkan');
     }
 
     public function edit_admin($id = null)
