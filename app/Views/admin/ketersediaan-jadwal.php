@@ -142,8 +142,15 @@
         </table>
     </div>
     <div class="calendar-note text-muted mt-3">
-        <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
-    </div>
+        <p><small><strong>Catatan:</strong></p>
+        <ul>
+            <li>Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari, sedangkan layanan lainnya tidak memiliki batasan kuota.</li>
+            <li>Tanggal dengan tanda <span style="color: red;">■</span> menunjukkan tanggal yang telah berhasil dipesan.</li>
+            <li>Tanggal dengan tanda <span style="color: yellow;">■</span> menunjukkan pemesanan dengan Paket Layanan Wedding.</li>
+            <li>Tanggal kosong berwarna hijau menunjukkan ketersediaan untuk pemesanan baru.</li>
+        </ul>
+        </small></p>
+        </div>
 </div>
 
 <!-- Modal Bootstrap -->
@@ -162,7 +169,11 @@
                     </div>
                     <h6 class="fw-bold">Tanggal: <span id="reservationDate"></span></h6>
                 </div>
-                <p class="text-muted small mb-3"><strong>Info Kuota:</strong> Kuota di atas hanya berlaku untuk paket layanan Wedding (maksimal 3 per hari). Layanan lain tidak dibatasi.</p>
+                <p class="text-muted small mb-6"><strong>Info Kuota:</strong></p>
+                    <ul class="text-muted small">
+                        <li>Tanda berwarna merah menunjukkan paket layanan yang telah dipesan secara keseluruhan.</li>
+                        <li>Tanda berwarna hijau menunjukkan ketersediaan kuota untuk Paket Layanan Wedding.</li>
+                    </ul>
                 <div class="table-responsive">
                     <table class="table table-striped table-bordered text-center">
                         <thead class="table-dark">
@@ -174,7 +185,7 @@
                     </table>
                 </div>
                 <div class="calendar-note text-muted mt-3">
-                    <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari. Layanan lainnya tidak memiliki batasan kuota.</small></p>
+                    <p><small><strong>Catatan:</strong> Paket layanan <strong>Wedding</strong> dibatasi maksimal 3 pemesanan per hari, sedangkan layanan lainnya tidak memiliki batasan kuota.</small></p>
                 </div>
             </div>
             <div class="modal-footer">
@@ -185,9 +196,8 @@
 </div>
 
 
+<!-- Ketersediaan Jadwal -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<!-- JavaScript Kalender -->
 <script src="<?= base_url('assets/js/calendar.js') ?>"></script>
 
 <?= $this->endSection() ?>
