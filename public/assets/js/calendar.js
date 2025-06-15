@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const nextMonthBtn = document.getElementById("nextMonth");
   const yearFilter = document.getElementById("yearFilter");
 
-  const BASE_URL = "https://8c9c-103-172-197-30.ngrok-free.app";
+  const BASE_URL = "http://localhost:8080/";
 
   const userRole = window.location.pathname.includes("admin")
     ? "admin"

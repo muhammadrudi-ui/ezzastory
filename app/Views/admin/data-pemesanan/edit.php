@@ -59,7 +59,7 @@
 
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <label class="fw-bold">Metode Pembayaran</label>
+                        <label class="fw-bold">jenis Pembayaran</label>
                         <p class="form-control-plaintext text-muted"><?= esc($pemesanan['jenis_pembayaran']) ?></p>
                     </div>
                     <div class="col-md-6">
@@ -91,10 +91,6 @@
                 </div>
 
                 <div class="row mt-3">
-                    <div class="col-md-6">
-                        <label class="fw-bold">Jenis Pembayaran</label>
-                        <p class="form-control-plaintext text-muted"><?= esc($pemesanan['jenis_pembayaran']) ?></p>
-                    </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Status Pembayaran</label>
                         <p class="form-control-plaintext text-muted"><?= esc($pemesanan['status_pembayaran']) ?></p>

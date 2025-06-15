@@ -573,13 +573,12 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                            <div class="mb-3">
+                           <div class="mb-3">
                                 <label class="form-label">Jenis Layanan</label>
-                                <p class="form-control" id="jenisLayanan">-</p>
+                                <p class="form-control-plaintext"  id="jenisLayanan">-</p>
                             </div>
                             <div class="mb-3">
-                                <label class="form-label">Deskripsi Paket</label>
-                                <textarea class="form-control" id="deskripsiPaket" readonly rows="3" required></textarea>
+                                <label class="form-label">Deskripsi Paket</label> <textarea class="form-control-plaintext" id="deskripsiPaket" rows="3" readonly disabled  style="cursor: default; background-color: transparent; resize: none;">-</textarea>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Harga</label>
@@ -1183,15 +1182,9 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-
-<!-- For Payment Midtrands -->
-<script src="https://app.sandbox.midtrans.com/snap/snap.js" 
-        data-client-key="<?= env('MIDTRANS_CLIENT_KEY') ?>"></script>
-
 <script>
 async function bayarSekarang(paymentId) {
     const btn = event.target;
-    
     try {
         // Tampilkan loading
         btn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i> Memproses...';
@@ -1208,12 +1201,12 @@ async function bayarSekarang(paymentId) {
         // Buka halaman baru untuk pembayaran
         if (data.redirect_url) {
             window.open(data.redirect_url, '_blank');
-            
+
             // Periksa status pembayaran setiap 5 detik
             const checkPayment = setInterval(async () => {
                 const statusResponse = await fetch(`<?= base_url('user/pembayaran/check-status/') ?>${data.order_id}`);
                 const statusData = await statusResponse.json();
-                
+
                 if (statusData.status === 'settlement' || statusData.status === 'success') {
                     clearInterval(checkPayment);
                     window.location.href = `<?= base_url('user/pembayaran/finish?status=success&order_id=') ?>${data.order_id}`;
@@ -1222,10 +1215,12 @@ async function bayarSekarang(paymentId) {
                     window.location.href = `<?= base_url('user/pembayaran/finish?status=error&order_id=') ?>${data.order_id}`;
                 }
             }, 5000);
+
+            // Berhenti polling setelah 5 menit
+            setTimeout(() => clearInterval(checkPayment), 300000);
         } else {
             throw new Error('Tidak dapat mendapatkan URL pembayaran');
         }
-
     } catch (error) {
         console.error('Payment Error:', error);
         alert(error.message);

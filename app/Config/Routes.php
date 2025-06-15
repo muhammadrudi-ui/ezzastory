@@ -60,9 +60,7 @@ $routes->group('user', ['filter' => 'user'], function ($routes) {
     // Pembayaran
     $routes->get('pembayaran/bayar/(:num)', 'PembayaranController::bayar/$1');
     $routes->get('pembayaran/finish', 'PembayaranController::finish');
-
     $routes->get('pembayaran/check-status/(:any)', 'PembayaranController::checkStatus/$1');
-
 });
 
 
@@ -130,6 +128,3 @@ $routes->get('pemesanan/getReservations', 'PemesananController::getReservations'
 
 // Cek Deadline Payment Reservasi H-3
 $routes->get('pemesanan/check-cancel', 'PemesananController::checkAndCancelExpiredReservations');
-
-// Notifikasi Payment Sukses or Not
-$routes->post('pembayaran/notification', 'PembayaranController::notification');

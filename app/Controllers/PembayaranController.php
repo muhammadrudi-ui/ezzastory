@@ -9,7 +9,7 @@ use App\Models\PemesananModel;
 use App\Models\UserModel;
 use Midtrans\Config;
 use Midtrans\Snap;
-use Midtrans\Notification;
+use Midtrans\Transaction;
 
 class PembayaranController extends BaseController
 {
@@ -38,10 +38,9 @@ class PembayaranController extends BaseController
                 throw new \Exception('Data pembayaran tidak ditemukan');
             }
 
-            // Untuk mendapatkan nama_paket
             $pemesanan = $this->pemesananModel->withPaket()
-                            ->where('pemesanan.id', $pembayaran['pemesanan_id'])
-                            ->first();
+                ->where('pemesanan.id', $pembayaran['pemesanan_id'])
+                ->first();
 
             if (!$pemesanan) {
                 throw new \Exception('Data pemesanan tidak ditemukan');
@@ -49,7 +48,6 @@ class PembayaranController extends BaseController
 
             $user = $this->userModel->getUserWithProfile(session()->get('user_id'));
 
-            // Generate unique order ID
             $orderId = 'ORD-' . time() . '-' . $pembayaran['id'];
 
             $params = [
@@ -71,13 +69,12 @@ class PembayaranController extends BaseController
                     ]
                 ],
                 'callbacks' => [
-                    'finish' => base_url('user/pembayaran/finish')
+                    'finish' => base_url('user/pembayaran/finish?order_id=' . $orderId)
                 ]
+                // TIDAK PERLU notification_url
             ];
 
-            // Dapatkan Snap Token
-            $snapToken = Snap::getSnapToken($params);
-            $snapResponse = Snap::getSnapUrl($params);
+            $snapResponse = \Midtrans\Snap::getSnapUrl($params);
 
             // Simpan order_id ke database
             $this->pembayaranModel->update($id, [
@@ -87,7 +84,6 @@ class PembayaranController extends BaseController
 
             echo json_encode([
                 'status' => 'success',
-                'snapToken' => $snapToken,
                 'redirect_url' => $snapResponse,
                 'order_id' => $orderId
             ]);
@@ -106,16 +102,23 @@ class PembayaranController extends BaseController
     public function checkStatus($orderId)
     {
         try {
-            // Cari pembayaran berdasarkan order_id
+            // CEK STATUS LANGSUNG KE MIDTRANS
+            $status = \Midtrans\Transaction::status($orderId);
+
+            // Update database berdasarkan response dari Midtrans
             $pembayaran = $this->pembayaranModel->where('order_id', $orderId)->first();
 
             if (!$pembayaran) {
                 return $this->response->setStatusCode(404)->setJSON(['error' => 'Pembayaran tidak ditemukan']);
             }
 
+            // Update status berdasarkan response Midtrans
+            $this->updatePaymentStatus($pembayaran, $status);
+
             return $this->response->setJSON([
-                'status' => $pembayaran['status'],
-                'order_id' => $orderId
+                'status' => $status->transaction_status,
+                'order_id' => $orderId,
+                'payment_type' => $status->payment_type ?? null
             ]);
 
         } catch (\Exception $e) {
@@ -123,108 +126,99 @@ class PembayaranController extends BaseController
         }
     }
 
-    public function notification()
+    private function updatePaymentStatus($pembayaran, $status)
     {
-        try {
-            $notif = new Notification();
+        $transactionStatus = $status->transaction_status;
+        $fraudStatus = $status->fraud_status ?? 'accept';
 
-            $status = $notif->transaction_status;
-            $order_id = $notif->order_id;
-            $fraud = $notif->fraud_status;
+        if ($transactionStatus == 'capture' && $fraudStatus == 'accept') {
+            // Kartu kredit/debit berhasil
+            $this->pembayaranModel->update($pembayaran['id'], [
+                'status' => 'success',
+                'tanggal_bayar' => date('Y-m-d H:i:s'),
+                'metode_pembayaran' => $status->payment_type,
+            ]);
 
-            // Cari pembayaran berdasarkan order_id
-            $pembayaran = $this->pembayaranModel->where('order_id', $order_id)->first();
-            if (!$pembayaran) {
-                return $this->response->setStatusCode(404)->setJSON(['error' => 'Pembayaran tidak ditemukan']);
-            }
+            $this->updatePemesananStatus($pembayaran);
 
-            $pemesanan = $this->pemesananModel->find($pembayaran['pemesanan_id']);
-            if (!$pemesanan) {
-                return $this->response->setStatusCode(404)->setJSON(['error' => 'Pemesanan tidak ditemukan']);
-            }
+        } elseif ($transactionStatus == 'settlement') {
+            // Transfer bank, e-wallet, dll berhasil
+            $this->pembayaranModel->update($pembayaran['id'], [
+                'status' => 'success',
+                'tanggal_bayar' => date('Y-m-d H:i:s'),
+                'metode_pembayaran' => $status->payment_type,
+            ]);
 
-            // Verifikasi status pembayaran
-            if ($status == 'capture' && $fraud == 'accept') {
-                // Kartu kredit/debit berhasil
-                $this->pembayaranModel->update($pembayaran['id'], [
-                    'status' => 'success',
-                    'tanggal_bayar' => date('Y-m-d H:i:s'),
-                    'metode_pembayaran' => $notif->payment_type,
-                ]);
+            $this->updatePemesananStatus($pembayaran);
 
-                $updateData = [];
-                if ($pembayaran['jenis'] === 'DP') {
-                    $updateData = ['status_pembayaran' => 'DP'];
-                } elseif ($pembayaran['jenis'] === 'Pelunasan') {
-                    $updateData = ['status_pembayaran' => 'Lunas'];
-                }
+        } elseif ($transactionStatus == 'pending') {
+            // Menunggu pembayaran
+            $this->pembayaranModel->update($pembayaran['id'], [
+                'status' => 'pending',
+                'metode_pembayaran' => $status->payment_type,
+            ]);
 
-                $this->pemesananModel->update($pembayaran['pemesanan_id'], $updateData);
-            } elseif ($status == 'settlement') {
-                // Transfer bank, e-wallet, dll berhasil
-                $this->pembayaranModel->update($pembayaran['id'], [
-                    'status' => 'success',
-                    'tanggal_bayar' => date('Y-m-d H:i:s'),
-                    'metode_pembayaran' => $notif->payment_type,
-                ]);
+        } elseif (in_array($transactionStatus, ['deny', 'cancel', 'expire'])) {
+            // Pembayaran gagal
+            $this->pembayaranModel->update($pembayaran['id'], [
+                'status' => 'failed',
+                'metode_pembayaran' => $status->payment_type,
+            ]);
+        }
+    }
 
-                $updateData = [];
-                if ($pembayaran['jenis'] === 'DP') {
-                    $updateData = ['status_pembayaran' => 'DP'];
-                } elseif ($pembayaran['jenis'] === 'Pelunasan') {
-                    $updateData = ['status_pembayaran' => 'Lunas'];
-                }
+    private function updatePemesananStatus($pembayaran)
+    {
+        $updateData = [];
+        if ($pembayaran['jenis'] === 'DP') {
+            $updateData = ['status_pembayaran' => 'DP'];
+        } elseif ($pembayaran['jenis'] === 'Pelunasan') {
+            $updateData = ['status_pembayaran' => 'Lunas'];
+        }
 
-                $this->pemesananModel->update($pembayaran['pemesanan_id'], $updateData);
-            } elseif ($status == 'pending') {
-                // Menunggu pembayaran (misalnya transfer bank manual)
-                $this->pembayaranModel->update($pembayaran['id'], [
-                    'status' => 'pending',
-                    'metode_pembayaran' => $notif->payment_type,
-                ]);
-            } elseif (in_array($status, ['deny', 'cancel', 'expire'])) {
-                // Pembayaran gagal atau kadaluarsa
-                $this->pembayaranModel->update($pembayaran['id'], [
-                    'status' => 'failed',
-                    'metode_pembayaran' => $notif->payment_type,
-                ]);
-            }
-
-            return $this->response->setJSON(['status' => 'success']);
-        } catch (\Exception $e) {
-            log_message('error', 'Midtrans Notification Error: ' . $e->getMessage());
-            return $this->response->setStatusCode(500)->setJSON(['error' => $e->getMessage()]);
+        if (!empty($updateData)) {
+            $this->pemesananModel->update($pembayaran['pemesanan_id'], $updateData);
         }
     }
 
     public function finish()
     {
         $order_id = $this->request->getGet('order_id');
-        $status = $this->request->getGet('status');
 
         if (!$order_id) {
             return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'ID pemesanan tidak valid');
         }
 
-        // Cek status pembayaran di database
-        $pembayaran = $this->pembayaranModel->where('order_id', $order_id)->first();
+        try {
+            // CEK STATUS LANGSUNG KE MIDTRANS
+            $status = \Midtrans\Transaction::status($order_id);
 
-        if (!$pembayaran) {
-            return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Data pembayaran tidak ditemukan');
+            // Update database
+            $pembayaran = $this->pembayaranModel->where('order_id', $order_id)->first();
+            if ($pembayaran) {
+                $this->updatePaymentStatus($pembayaran, $status);
+            }
+
+            // Redirect dengan pesan sesuai status
+            $message = 'Status pembayaran: ' . $status->transaction_status;
+            $alertType = 'info';
+
+            if (in_array($status->transaction_status, ['capture', 'settlement'])) {
+                $message = 'Pembayaran berhasil!';
+                $alertType = 'success';
+            } elseif ($status->transaction_status == 'pending') {
+                $message = 'Pembayaran sedang diproses, silakan tunggu konfirmasi.';
+                $alertType = 'warning';
+            } elseif (in_array($status->transaction_status, ['deny', 'cancel', 'expire'])) {
+                $message = 'Pembayaran gagal atau dibatalkan.';
+                $alertType = 'danger';
+            }
+
+            return redirect()->to('user/reservasi?tab=pembayaran')->with($alertType, $message);
+
+        } catch (\Exception $e) {
+            log_message('error', 'Error checking payment status: ' . $e->getMessage());
+            return redirect()->to('user/reservasi?tab=pembayaran')->with('error', 'Terjadi kesalahan saat memverifikasi pembayaran');
         }
-
-        $message = 'Pembayaran sedang diproses';
-        $alertType = 'info';
-
-        if ($status === 'success') {
-            $message = 'Pembayaran berhasil diproses';
-            $alertType = 'success';
-        } elseif ($status === 'error') {
-            $message = 'Pembayaran gagal diproses';
-            $alertType = 'danger';
-        }
-
-        return redirect()->to('user/reservasi?tab=pembayaran')->with($alertType, $message);
     }
-
 }
