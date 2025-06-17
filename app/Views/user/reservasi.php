@@ -561,7 +561,7 @@
                                 <input type="hidden" name="telepon" value="<?= esc($user_data['no_telepon'] ?? '') ?>">
                             </div>
                             <?php
-                                    $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
+                                $now = new DateTime('now', new DateTimeZone('Asia/Jakarta'));
 $waktuSekarang = $now->format('Y-m-d\TH:i');
 ?>
                             <div class="mb-3">
@@ -575,21 +575,18 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     <option value="" selected disabled>Pilih Paket Layanan</option>
                                     <?php foreach ($paket_layanan as $paket): ?>
                                         <option value="<?= $paket['id'] ?>" 
-                                                data-deskripsi="<?= esc($paket['benefit']) ?>"
+                                                data-deskripsi="<?= htmlspecialchars($paket['benefit']) ?>"
                                                 data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
                                                 data-jenis-layanan="<?= esc($paket['jenis_layanan'] ?? 'Event Lainnya') ?>"
                                                 <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'selected' : '' ?>>
-                                            <?= esc($paket['nama']) ?>
+                                            <?= esc($paket['nama']) . ' (' . esc($paket['jenis_layanan'] ?? 'Event Lainnya') . ')' ?>
                                         </option>
                                     <?php endforeach; ?>
                                 </select>
                             </div>
-                           <div class="mb-3">
-                                <label class="form-label">Jenis Layanan</label>
-                                <p class="form-control-plaintext"  id="jenisLayanan">-</p>
-                            </div>
                             <div class="mb-3">
-                                <label class="form-label">Deskripsi Paket</label> <textarea class="form-control-plaintext" id="deskripsiPaket" rows="3" readonly disabled  style="cursor: default; background-color: transparent; resize: none;">-</textarea>
+                                <label class="form-label">Deskripsi Paket</label>
+                                <div class="form-control-plaintext" id="deskripsiPaket" style="min-height: 100px; cursor: default; background-color: transparent; border: 1px solid #ced4da; padding: 10px;">-</div>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Harga</label>
@@ -622,15 +619,15 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                 <input type="text" name="link_maps_pemotretan" class="form-control" 
                                     placeholder="Masukkan link Google Maps lokasi pemotretan" required>
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" id="lokasiPengirimanField" style="display: none;">
                                 <label class="form-label">Lokasi Pengiriman Album (Link Maps)</label>
                                 <input type="text" name="link_maps_pengiriman" class="form-control"
-                                    placeholder="Masukkan link Google Maps lokasi pengiriman album" required>
+                                    placeholder="Masukkan link Google Maps lokasi pengiriman album">
                             </div>
-                            <div class="mb-3">
+                            <div class="mb-3" id="namaMempelaiField" style="display: none;">
                                 <label class="form-label">Nama Mempelai Pria & Wanita</label>
                                 <input type="text" name="nama_mempelai" class="form-control"
-                                    placeholder="Masukkan nama mempelai pria & wanita" required>
+                                    placeholder="Masukkan nama mempelai pria & wanita">
                             </div>
                             <div class="mb-3">
                                 <label class="form-label fw-bold">Username Instagram</label>
@@ -1058,14 +1055,18 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 <script src="<?= base_url('assets/js/calendar.js') ?>"></script>
 
 
+<!-- Include DOMPurify for sanitizing HTML (optional but recommended) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.1/purify.min.js"></script>
+
 <!-- JavaScript untuk Deskripsi, Harga, dan Jenis Layanan -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const paketSelect = document.getElementById('paketLayanan');
     const waktuPemotretanInput = document.getElementById('waktuPemotretan');
-    const deskripsiTextarea = document.getElementById('deskripsiPaket');
+    const deskripsiDiv = document.getElementById('deskripsiPaket');
     const hargaDisplay = document.getElementById('hargaPaket');
-    const jenisLayananDisplay = document.getElementById('jenisLayanan');
+    const lokasiPengirimanField = document.getElementById('lokasiPengirimanField');
+    const namaMempelaiField = document.getElementById('namaMempelaiField');
     let originalOptions = paketSelect.innerHTML;
     const csrfName = '<?= csrf_token() ?>';
     const csrfHash = '<?= csrf_hash() ?>';
@@ -1074,10 +1075,32 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedOption = paketSelect.options[paketSelect.selectedIndex];
         const deskripsi = selectedOption.getAttribute('data-deskripsi');
         const harga = selectedOption.getAttribute('data-harga');
-        const jenisLayanan = selectedOption.getAttribute('data-jenis-layanan');
-        deskripsiTextarea.value = deskripsi || '';
+        let jenisLayanan = selectedOption.getAttribute('data-jenis-layanan');
+
+        // Sanitize and render HTML in the div
+        deskripsiDiv.innerHTML = deskripsi ? DOMPurify.sanitize(deskripsi) : '-';
+
         hargaDisplay.textContent = harga ? 'Rp ' + harga : 'Rp 0';
-        jenisLayananDisplay.textContent = jenisLayanan || '-';
+
+        // Kontrol visibilitas field berdasarkan jenis layanan
+        jenisLayanan = jenisLayanan ? jenisLayanan.toLowerCase() : '';
+        if (jenisLayanan === 'wedding') {
+            lokasiPengirimanField.style.display = 'block';
+            namaMempelaiField.style.display = 'block';
+            lokasiPengirimanField.querySelector('input').required = true;
+            namaMempelaiField.querySelector('input').required = true;
+        } else if (['pre-wedding', 'engagement'].includes(jenisLayanan)) {
+            lokasiPengirimanField.style.display = 'none';
+            namaMempelaiField.style.display = 'block';
+            lokasiPengirimanField.querySelector('input').required = false;
+            namaMempelaiField.querySelector('input').required = true;
+        } else {
+            // Untuk wisuda dan event lainnya
+            lokasiPengirimanField.style.display = 'none';
+            namaMempelaiField.style.display = 'none';
+            lokasiPengirimanField.querySelector('input').required = false;
+            namaMempelaiField.querySelector('input').required = false;
+        }
     }
 
     function checkAvailability() {
@@ -1085,6 +1108,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const waktuPemotretan = waktuPemotretanInput.value;
 
         if (!paketId || !waktuPemotretan) {
+            lokasiPengirimanField.style.display = 'none';
+            namaMempelaiField.style.display = 'none';
+            lokasiPengirimanField.querySelector('input').required = false;
+            namaMempelaiField.querySelector('input').required = false;
             return;
         }
 
@@ -1103,19 +1130,19 @@ document.addEventListener('DOMContentLoaded', function() {
             paketSelect.innerHTML = originalOptions;
 
             if (!data.is_available) {
-                // Disable all Wedding packages if the date is full
-                const weddingOptions = paketSelect.querySelectorAll('option[data-jenis-layanan="Wedding"]');
-                weddingOptions.forEach(option => {
-                    option.disabled = true;
-                    option.textContent += ' (Penuh)';
-                });
-                if (paketSelect.querySelector(`option[value="${paketId}"]`).getAttribute('data-jenis-layanan') === 'Wedding') {
+                const selectedOption = paketSelect.querySelector(`option[value="${paketId}"]`);
+                if (selectedOption) {
+                    selectedOption.disabled = true;
+                    selectedOption.textContent += ' (Penuh)';
                     paketSelect.value = '';
-                    deskripsiTextarea.value = '';
+                    deskripsiDiv.innerHTML = '-';
                     hargaDisplay.textContent = 'Rp 0';
-                    jenisLayananDisplay.textContent = '-';
+                    lokasiPengirimanField.style.display = 'none';
+                    namaMempelaiField.style.display = 'none';
+                    lokasiPengirimanField.querySelector('input').required = false;
+                    namaMempelaiField.querySelector('input').required = false;
+                    alert(data.message);
                 }
-                alert(data.message);
             } else {
                 paketSelect.value = currentValue;
             }
@@ -1134,14 +1161,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     waktuPemotretanInput.addEventListener('change', checkAvailability);
 
+    // Inisialisasi saat halaman dimuat
     if (paketSelect.value) {
         updateDeskripsiHargaJenis();
         checkAvailability();
+    } else {
+        // Sembunyikan field secara default
+        lokasiPengirimanField.style.display = 'none';
+        namaMempelaiField.style.display = 'none';
+        lokasiPengirimanField.querySelector('input').required = false;
+        namaMempelaiField.querySelector('input').required = false;
     }
 });
 </script>
 
-<!-- SweetAlert Batalkan Pemesanan (Payment) Script -->
+<!-- SweetAlert Batalkan Pemesanan Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmCancel(pemesananId) {

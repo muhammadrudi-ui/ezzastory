@@ -49,8 +49,6 @@
         </select>
     </form>
 
-
-
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -96,8 +94,14 @@
                                 </td>
                         <td><?= esc($item['lokasi_pemotretan']) ?></td>
                         <td><a href="<?= esc($item['link_maps_pemotretan']) ?>" target="_blank">Lihat Maps</a></td>
-                        <td><a href="<?= esc($item['link_maps_pengiriman']) ?>" target="_blank">Lihat Maps</a></td>
-                        <td><?= esc($item['nama_mempelai']) ?></td>
+                        <td>
+                            <?php if (!empty($item['link_maps_pengiriman'])): ?>
+                                <a href="<?= esc($item['link_maps_pengiriman']) ?>" target="_blank">Lihat Maps</a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
+                        </td>
+                        <td><?= !empty($item['nama_mempelai']) ? esc($item['nama_mempelai']) : '-' ?></td>
                         <td>
                             <a href="https://instagram.com/<?= esc($item['instagram']) ?>" target="_blank">@<?= esc($item['instagram']) ?></a>
                         </td>

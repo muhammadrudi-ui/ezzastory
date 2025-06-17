@@ -119,7 +119,7 @@ class PemesananController extends BaseController
                 ->with('error', 'Paket layanan tidak ditemukan.');
         }
 
-        // Validasi tanggal pemotretan tidak boleh masa lalu
+        // Validasi tanggal pemotretan
         $today = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
         $selectedDate = new \DateTime($waktuPemotretan, new \DateTimeZone('Asia/Jakarta'));
 
@@ -128,12 +128,9 @@ class PemesananController extends BaseController
                 ->with('error', 'Tidak bisa memilih tanggal pemotretan yang sudah lewat. Silakan pilih tanggal setelahnya.');
         }
 
-
-        // Cek jika jenis layanan adalah Wedding
+        // Cek kuota Wedding
         if (isset($paket['jenis_layanan']) && strtolower($paket['jenis_layanan']) === 'wedding') {
             $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
-
-            // Hitung semua pemesanan dengan jenis layanan Wedding pada tanggal tersebut
             $jumlahPemesanan = $this->pemesananModel
                 ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id')
                 ->where('LOWER(paket_layanan.jenis_layanan)', 'wedding')
@@ -160,12 +157,19 @@ class PemesananController extends BaseController
             'jenis_pembayaran'      => $this->request->getPost('jenis_pembayaran'),
             'lokasi_pemotretan'     => $this->request->getPost('lokasi_pemotretan'),
             'link_maps_pemotretan'  => $this->request->getPost('link_maps_pemotretan'),
-            'link_maps_pengiriman'  => $this->request->getPost('link_maps_pengiriman'),
-            'nama_mempelai'         => $this->request->getPost('nama_mempelai'),
-            'instagram'             => $this->request->getPost('instagram'),
             'status_pembayaran'     => 'Belum Bayar',
             'created_at'            => date('Y-m-d H:i:s')
         ];
+
+        // Tambahkan field opsional berdasarkan jenis layanan
+        $jenisLayanan = strtolower($paket['jenis_layanan'] ?? '');
+        if ($jenisLayanan === 'wedding') {
+            $data['link_maps_pengiriman'] = $this->request->getPost('link_maps_pengiriman');
+            $data['nama_mempelai'] = $this->request->getPost('nama_mempelai');
+        } elseif (in_array($jenisLayanan, ['pre-wedding', 'engagement'])) {
+            $data['nama_mempelai'] = $this->request->getPost('nama_mempelai');
+        }
+        $data['instagram'] = $this->request->getPost('instagram');
 
         $this->pemesananModel->insert($data);
         $pemesananId = $this->pemesananModel->insertID();
@@ -378,7 +382,6 @@ class PemesananController extends BaseController
                 pemesanan.waktu_pemotretan,
                 pemesanan.lokasi_pemotretan,
                 pemesanan.link_maps_pemotretan,
-                pemesanan.nama_mempelai,
                 pemesanan.status,
                 COALESCE(user_profile.nama_lengkap, "Tidak Diketahui") AS nama_lengkap,
                 COALESCE(paket_layanan.nama, "Tidak Diketahui") AS nama_paket,
@@ -401,8 +404,7 @@ class PemesananController extends BaseController
                     $groupedReservations[$day] = [];
                 }
                 $groupedReservations[$day][] = [
-                    'nama' => $res['nama_lengkap'],
-                    'nama_mempelai' => $res['nama_mempelai'],
+                    'nama_lengkap' => $res['nama_lengkap'],
                     'paket' => $res['nama_paket'],
                     'waktu' => date('H:i', strtotime($res['waktu_pemotretan'])),
                     'lokasi' => $res['lokasi_pemotretan'] ?? 'Tidak Diketahui',

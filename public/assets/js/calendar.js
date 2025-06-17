@@ -182,7 +182,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     if (userRole === "admin") {
       tableHeader.innerHTML = `
-        <th>Nama Mempelai</th>
+        <th>Nama</th>
         <th>Paket Layanan</th>
         <th>Jenis Layanan</th>
         <th>Waktu Pemotretan</th>
@@ -191,7 +191,7 @@ document.addEventListener("DOMContentLoaded", function () {
       `;
     } else {
       tableHeader.innerHTML = `
-        <th>Nama Mempelai</th>
+        <th>Nama</th>
         <th>Paket Layanan</th>
         <th>Jenis Layanan</th>
         <th>Waktu Pemotretan</th>
@@ -207,7 +207,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let row;
         if (userRole === "admin") {
           row = `<tr>
-            <td>${res.nama_mempelai || "-"}</td>
+            <td>${res.nama_lengkap || "-"}</td>
             <td>${res.paket || "-"}</td>
             <td>${res.jenis_layanan || "-"}</td>
             <td>${res.waktu || "-"}</td>
@@ -218,7 +218,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </tr>`;
         } else {
           row = `<tr>
-            <td>${res.nama_mempelai || "-"}</td>
+            <td>${res.nama_lengkap || "-"}</td>
             <td>${res.paket || "-"}</td>
             <td>${res.jenis_layanan || "-"}</td>
             <td>${res.waktu || "-"}</td>
