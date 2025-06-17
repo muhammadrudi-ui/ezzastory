@@ -128,22 +128,22 @@ class PemesananController extends BaseController
                 ->with('error', 'Tidak bisa memilih tanggal pemotretan yang sudah lewat. Silakan pilih tanggal setelahnya.');
         }
 
+
         // Cek jika jenis layanan adalah Wedding
-        if (isset($paket['jenis_layanan']) && $paket['jenis_layanan'] === 'Wedding') {
+        if (isset($paket['jenis_layanan']) && strtolower($paket['jenis_layanan']) === 'wedding') {
             $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
+
+            // Hitung semua pemesanan dengan jenis layanan Wedding pada tanggal tersebut
             $jumlahPemesanan = $this->pemesananModel
-                ->where('paket_id', $paketId)
-                ->where('DATE(waktu_pemotretan)', $tanggalPemotretan)
-                ->where('status !=', 'Selesai')
+                ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id')
+                ->where('LOWER(paket_layanan.jenis_layanan)', 'wedding')
+                ->where('DATE(pemesanan.waktu_pemotretan)', $tanggalPemotretan)
+                ->where('pemesanan.status !=', 'Selesai')
                 ->countAllResults();
 
             if ($jumlahPemesanan >= 3) {
                 return redirect()->to('user/reservasi?tab=reservasi')
-                    ->with('error', 'Maaf, paket dengan jenis layanan Wedding sudah mencapai batas maksimal 3 pemesanan untuk tanggal pemotretan ' . date('d-m-Y', strtotime($tanggalPemotretan)) . '. Silakan pilih tanggal lain atau paket lain.');
-            }
-        } else {
-            if (!isset($paket['jenis_layanan'])) {
-                log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
+                    ->with('error', 'Maaf, kuota pemotretan Wedding untuk tanggal pemotretan tersebut sudah penuh (maksimal 3 pemesanan per hari).');
             }
         }
 
@@ -208,6 +208,7 @@ class PemesananController extends BaseController
 
         $paket = $this->paketLayananModel->find($paketId);
         $isAvailable = true;
+        $message = '';
 
         if (!$paket) {
             return $this->response->setJSON([
@@ -227,21 +228,20 @@ class PemesananController extends BaseController
             ]);
         }
 
-        if (isset($paket['jenis_layanan']) && $paket['jenis_layanan'] === 'Wedding') {
+        // Cek jika jenis layanan adalah Wedding
+        if (isset($paket['jenis_layanan']) && strtolower($paket['jenis_layanan']) === 'wedding') {
             $tanggalPemotretan = date('Y-m-d', strtotime($waktuPemotretan));
+
+            // Hitung semua pemesanan dengan jenis layanan Wedding pada tanggal tersebut
             $jumlahPemesanan = $this->pemesananModel
-                ->where('paket_id', $paketId)
-                ->where('DATE(waktu_pemotretan)', $tanggalPemotretan)
-                ->where('status !=', 'Selesai')
+                ->join('paket_layanan', 'paket_layanan.id = pemesanan.paket_id')
+                ->where('LOWER(paket_layanan.jenis_layanan)', 'wedding')
+                ->where('DATE(pemesanan.waktu_pemotretan)', $tanggalPemotretan)
+                ->where('pemesanan.status !=', 'Selesai')
                 ->countAllResults();
 
             $isAvailable = $jumlahPemesanan < 3;
-            $message = $isAvailable ? '' : 'Paket Wedding sudah penuh untuk tanggal ini.';
-        } else {
-            if (!isset($paket['jenis_layanan'])) {
-                log_message('error', 'Kolom jenis_layanan tidak ditemukan untuk paket ID: ' . $paketId);
-            }
-            $message = '';
+            $message = $isAvailable ? '' : 'Maaf, kuota pemotretan Wedding untuk tanggal ini sudah penuh (maksimal 3 pemesanan per hari).';
         }
 
         return $this->response->setJSON([

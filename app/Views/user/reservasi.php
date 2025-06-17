@@ -1103,16 +1103,19 @@ document.addEventListener('DOMContentLoaded', function() {
             paketSelect.innerHTML = originalOptions;
 
             if (!data.is_available) {
-                const selectedOption = paketSelect.querySelector(`option[value="${paketId}"]`);
-                if (selectedOption) {
-                    selectedOption.disabled = true;
-                    selectedOption.textContent += ' (Penuh)';
+                // Disable all Wedding packages if the date is full
+                const weddingOptions = paketSelect.querySelectorAll('option[data-jenis-layanan="Wedding"]');
+                weddingOptions.forEach(option => {
+                    option.disabled = true;
+                    option.textContent += ' (Penuh)';
+                });
+                if (paketSelect.querySelector(`option[value="${paketId}"]`).getAttribute('data-jenis-layanan') === 'Wedding') {
                     paketSelect.value = '';
                     deskripsiTextarea.value = '';
                     hargaDisplay.textContent = 'Rp 0';
                     jenisLayananDisplay.textContent = '-';
-                    alert(data.message);
                 }
+                alert(data.message);
             } else {
                 paketSelect.value = currentValue;
             }
@@ -1138,7 +1141,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
-<!-- SweetAlert Batalkan Pemesanan Script -->
+<!-- SweetAlert Batalkan Pemesanan (Payment) Script -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     function confirmCancel(pemesananId) {
