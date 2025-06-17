@@ -44,8 +44,8 @@
             <option value="Pemesanan" <?= $filterStatus == 'Pemesanan' ? 'selected' : '' ?>>Pemesanan</option>
             <option value="Pemotretan" <?= $filterStatus == 'Pemotretan' ? 'selected' : '' ?>>Pemotretan</option>
             <option value="Editing" <?= $filterStatus == 'Editing' ? 'selected' : '' ?>>Editing</option>
-            <option value="Pencetakan Album" <?= $filterStatus == 'Pencetakan Album' ? 'selected' : '' ?>>Pencetakan Album</option>
-            <option value="Pengiriman Album" <?= $filterStatus == 'Pengiriman Album' ? 'selected' : '' ?>>Pengiriman Album</option>
+            <option value="Pencetakan" <?= $filterStatus == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan</option>
+            <option value="Pengiriman" <?= $filterStatus == 'Pengiriman' ? 'selected' : '' ?>>Pengiriman</option>
         </select>
     </form>
 

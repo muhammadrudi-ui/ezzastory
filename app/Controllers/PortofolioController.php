@@ -188,7 +188,7 @@ class PortofolioController extends BaseController
 
         // Proses upload foto
         $files = $this->request->getFileMultiple('foto');
-        $uploadPath = WRITEPATH . '../public/uploads/portofolio/';
+        $uploadPath = FCPATH . 'uploads/portofolio/';
 
         // Buat direktori jika belum ada
         if (!is_dir($uploadPath)) {

@@ -71,7 +71,6 @@ class PembayaranController extends BaseController
                 'callbacks' => [
                     'finish' => base_url('user/pembayaran/finish?order_id=' . $orderId)
                 ]
-                // TIDAK PERLU notification_url
             ];
 
             $snapResponse = \Midtrans\Snap::getSnapUrl($params);

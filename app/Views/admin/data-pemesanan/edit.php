@@ -100,9 +100,9 @@
                 <div class="mt-3">
                     <label class="fw-bold">Status (Tracking)</label>
                     <select name="status" class="form-select">
-                        <option value="Pemotretan" <?= $pemesanan['status'] == 'Pemotretan' ? 'selected' : '' ?>>Proses Pemotretan</option>
-                        <option value="Editing" <?= $pemesanan['status'] == 'Editing' ? 'selected' : '' ?>>Proses Editing</option>
-                        <option value="Pencetakan" <?= $pemesanan['status'] == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan Album</option>
+                        <option value="Pemotretan" <?= $pemesanan['status'] == 'Pemotretan' ? 'selected' : '' ?>>Pemotretan</option>
+                        <option value="Editing" <?= $pemesanan['status'] == 'Editing' ? 'selected' : '' ?>>Editing</option>
+                        <option value="Pencetakan" <?= $pemesanan['status'] == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan</option>
                         <option value="Pengiriman" <?= $pemesanan['status'] == 'Pengiriman' ? 'selected' : '' ?>>Pengiriman</option>
                     </select>
                 </div>
