@@ -9,6 +9,15 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: left !important;
+    }
+    .truncate-lines ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+    .truncate-lines li {
+        list-style-type: disc;
+        margin-bottom: 5px;
     }
 </style>
 
@@ -46,34 +55,34 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-striped align-middle text-center">
+                <table class="table table-striped align-middle">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="align-middle">Nama</th>
-                            <th class="align-middle">Foto</th>
-                            <th class="align-middle">Benefit</th>
-                            <th class="align-middle">Harga</th>
-                            <th class="align-middle">Jenis Layanan</th>
-                            <th class="align-middle">Aksi</th>
+                            <th class="text-center align-middle">Nama</th>
+                            <th class="text-center align-middle">Foto</th>
+                            <th class="text-left align-middle">Benefit</th>
+                            <th class="text-center align-middle">Harga</th>
+                            <th class="text-center align-middle">Jenis Layanan</th>
+                            <th class="text-center align-middle">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (isset($paketLayanan) && count($paketLayanan) > 0): ?>
                             <?php foreach ($paketLayanan as $key => $paket): ?>
                                 <tr>
-                                    <td><?= $paket['nama'] ?></td>
-                                    <td>
+                                    <td class="text-center"><?= esc($paket['nama']) ?></td>
+                                    <td class="text-center">
                                         <img src="<?= base_url($paket['foto']) ?>" class="rectangle" width="75" height="75"
                                             style="object-fit: cover; border-radius: 3px;" alt="Foto Paket" loading="lazy">
                                     </td>
-                                    <td>
-                                        <div class="truncate-lines" title="<?= esc($paket['benefit']) ?>">
-                                            <?= esc($paket['benefit']) ?>
+                                    <td class="text-left">
+                                        <div class="truncate-lines" title="<?= strip_tags($paket['benefit']) ?>">
+                                            <?= $paket['benefit'] ?>
                                         </div>
                                     </td>
-                                    <td>Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>
-                                    <td><?= ($paket['jenis_layanan']) ?></td>
-                                    <td class="text-nowrap">
+                                    <td class="text-center">Rp. <?= number_format($paket['harga'], 0, ',', '.') ?></td>
+                                    <td class="text-center"><?= esc($paket['jenis_layanan']) ?></td>
+                                    <td class="text-center text-nowrap">
                                         <div class="d-flex gap-2 justify-content-center">
                                             <a href="<?= base_url('admin/paket-layanan/edit/' . $paket['id']) ?>"
                                                 class="btn btn-warning btn-sm" title="Edit">

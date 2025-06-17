@@ -41,8 +41,7 @@
 
                 <div class="mb-3">
                     <label class="fw-bold">Benefit</label>
-                    <textarea name="benefit" class="form-control" rows="3" placeholder="Masukkan benefit paket"
-                        required><?= old('benefit') ?></textarea>
+                    <textarea name="benefit" id="benefit" class="form-control" rows="3" placeholder="Masukkan benefit paket"><?= old('benefit') ?></textarea>
                 </div>
 
                 <div class="mb-3">
@@ -71,6 +70,34 @@
     </div>
 </div>
 
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#benefit'))
+        .catch(error => {
+            console.error(error);
+            });
+            ClassicEditor
+</script>
+<script>
+    document.querySelector('form').addEventListener('submit', function(event) {
+        // Ambil instance CKEditor
+        let benefitEditor = CKEditor.instances['benefit'];
+
+        // Ambil nilai dari CKEditor
+        let benefit = benefitEditor.getData();
+   
+        // Validasi manual
+        if (!benefit) {
+            event.preventDefault(); // Hentikan submit
+            alert('Harap isi benefit.');
+            return;
+        }
+
+        // Update nilai textarea asli sebelum submit
+        document.querySelector('#benefit').value = benefit;
+    });
+</script>
 <script>
     function previewImage(event, id) {
         let reader = new FileReader();

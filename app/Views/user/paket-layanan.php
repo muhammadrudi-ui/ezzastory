@@ -80,6 +80,30 @@
         -webkit-box-orient: vertical;
         overflow: hidden;
         text-overflow: ellipsis;
+        text-align: left !important;
+    }
+
+    .card-text ul {
+        padding-left: 20px;
+        margin: 0;
+    }
+
+    .card-text li {
+        list-style-type: disc;
+        margin-bottom: 5px;
+    }
+
+    .modal-body p {
+        text-align: left !important;
+    }
+
+    .modal-body ul {
+        padding-left: 20px;
+    }
+
+    .modal-body li {
+        list-style-type: disc;
+        margin-bottom: 5px;
     }
 
     .card-price {
@@ -122,11 +146,11 @@
                     <div class="card">
                         <img src="<?= base_url($paket['foto']) ?>" class="card-img-top" alt="<?= $paket['nama'] ?>"
                             loading="lazy">
-                        <div class="card-body text-center">
-                            <h5 class="card-title"><?= esc($paket['nama']) ?></h5>
-                           <p class="card-tittle"><?= esc($paket['jenis_layanan']) ?></p>
-                            <p class="card-text"><?= esc($paket['benefit']) ?></p>
-                            <p class="card-price">Rp <?= number_format($paket['harga'], 0, ',', '.') ?></p>
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><?= esc($paket['nama']) ?></h5>
+                            <p class="card-tittle text-center"><?= esc($paket['jenis_layanan']) ?></p>
+                            <div class="card-text"><?= $paket['benefit'] ?></div>
+                            <p class="card-price text-center mt-2">Rp <?= number_format($paket['harga'], 0, ',', '.') ?></p>
                             <div class="btn-group">
                                 <button class="btn btn-outline-dark" data-bs-toggle="modal"
                                     data-bs-target="#modalPaket<?= $paket['id'] ?>">Lihat Selengkapnya</button>
@@ -144,10 +168,10 @@
                                 <h5 class="modal-title"><?= esc($paket['nama']) ?></h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                             </div>
-                            <div class="modal-body text-center">
+                            <div class="modal-body">
                                 <img src="<?= base_url($paket['foto']) ?>" class="modal-img img-fluid rounded mb-3"
                                     alt="<?= $paket['nama'] ?>" loading="lazy">
-                                <p><?= esc($paket['benefit']) ?></p>
+                                <div><?= $paket['benefit'] ?></div>
                             </div>
                             <div class="modal-footer d-flex justify-content-center">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>

@@ -42,7 +42,7 @@
 
                 <div class="mb-3">
                     <label class="fw-bold">Benefit</label>
-                    <textarea name="benefit" class="form-control" rows="3"
+                    <textarea name="benefit" id="benefit" class="form-control" rows="3"
                         required><?= old('benefit', $paket['benefit']) ?></textarea>
                 </div>
 
@@ -72,6 +72,15 @@
     </div>
 </div>
 
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#benefit'))
+        .catch(error => {
+            console.error(error);
+            });
+            ClassicEditor
+</script>
 <script>
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
