@@ -170,6 +170,78 @@
             margin: auto;
         }
 
+        /* Dropdown paket layanan */
+        .dropdown-paket {
+            position: relative;
+        }
+        
+        .dropdown-paket .dropdown-menu {
+            width: 100%;
+            padding: 0;
+            border: 1px solid rgba(0,0,0,.15);
+            border-radius: 0.375rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        
+        .dropdown-paket .dropdown-toggle::after {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .dropdown-paket #paketOptionsContainer {
+            scrollbar-width: thin;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .dropdown-paket #paketOptionsContainer::-webkit-scrollbar {
+            width: 5px;
+        }
+        
+        .dropdown-paket #paketOptionsContainer::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .dropdown-paket #paketOptionsContainer::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+        
+        .dropdown-paket #paketOptionsContainer::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+        
+        .dropdown-paket .paket-option {
+            white-space: normal;
+            padding: 8px 16px;
+        }
+        
+        .dropdown-paket .paket-option:hover, 
+        .dropdown-paket .paket-option:focus {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        
+        .dropdown-paket .dropdown-item.active, 
+        .dropdown-paket .dropdown-item:active {
+            background-color: #212529;
+        }
+        
+        .dropdown-paket .form-select {
+            text-align: left;
+            padding-right: 2.5rem;
+        }
+        
+        .dropdown-paket .search-container {
+            padding: 0.5rem;
+        }
+        
+        .dropdown-paket .dropdown-divider {
+            margin: 0;
+        }
+
         /* TRACKING */
         .tracking-container {
             display: flex;
@@ -571,18 +643,30 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Paket Layanan</label>
-                                <select name="paket_layanan" class="form-select" id="paketLayanan" required>
-                                    <option value="" selected disabled>Pilih Paket Layanan</option>
-                                    <?php foreach ($paket_layanan as $paket): ?>
-                                        <option value="<?= $paket['id'] ?>" 
-                                                data-deskripsi="<?= htmlspecialchars($paket['benefit']) ?>"
-                                                data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
-                                                data-jenis-layanan="<?= esc($paket['jenis_layanan'] ?? 'Event Lainnya') ?>"
-                                                <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'selected' : '' ?>>
-                                            <?= esc($paket['nama']) . ' (' . esc($paket['jenis_layanan'] ?? 'Event Lainnya') . ')' ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
+                                <div class="dropdown dropdown-paket">
+                                    <button class="form-select dropdown-toggle" type="button" id="dropdownPaketButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span id="selectedPaketText">Pilih Paket Layanan</span>
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownPaketButton">
+                                        <div class="search-container">
+                                            <input type="text" class="form-control" id="searchPaketInput" placeholder="Cari paket..." autocomplete="off">
+                                        </div>
+                                        <div class="dropdown-divider"></div>
+                                        <div id="paketOptionsContainer">
+                                            <?php foreach ($paket_layanan as $paket): ?>
+                                                <a class="dropdown-item paket-option" href="#" 
+                                                    data-value="<?= $paket['id'] ?>"
+                                                    data-deskripsi="<?= htmlspecialchars($paket['benefit']) ?>"
+                                                    data-harga="<?= number_format($paket['harga'], 0, ',', '.') ?>"
+                                                    data-jenis-layanan="<?= esc($paket['jenis_layanan'] ?? 'Event Lainnya') ?>"
+                                                    <?= (isset($_GET['paket_id']) && $_GET['paket_id'] == $paket['id']) ? 'data-selected="true"' : '' ?>>
+                                                    <?= esc($paket['nama']) . ' (' . esc($paket['jenis_layanan'] ?? 'Event Lainnya') . ')' ?>
+                                                </a>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="paket_layanan" id="paketLayanan" value="" required>
                             </div>
                             <div class="mb-3">
                                 <label class="form-label">Deskripsi Paket</label>
@@ -667,7 +751,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                             <?php foreach ($all_pemesanan as $index => $pemesanan): ?>
                                 <?php if ($pemesanan['status'] !== 'Selesai'): ?>
                                     <div class="accordion-item border rounded-3 mb-3">
-                                        <h2 class="accordion-header" id="heading<?= $index ?>">
+                                    <h2 class="accordion-header" id="heading<?= $index ?>">
                                             <button class="accordion-button <?= $index > 0 ? 'collapsed' : '' ?>" 
                                                     type="button" 
                                                     data-bs-toggle="collapse" 
@@ -679,18 +763,12 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                         <span class="badge bg-white bg-opacity-15 text-dark">Paket</span>
                                                         <strong class="ms-1"><?= esc($pemesanan['nama_paket'] ?? '-') ?></strong>
                                                     </div>
-                                                    <div>
-                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
-                                                        <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></strong>
-                                                    </div>
-                                                    <div>
-                                                        <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
-                                                        <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                                    </div>
-                                                    <div>
-                                                        <span class="badge bg-white bg-opacity-15 text-dark">Jenis Bayar</span>
-                                                        <strong class="ms-1 text-capitalize"><?= esc($pemesanan['jenis_pembayaran'] ?? '-') ?></strong>
-                                                    </div>
+                                                    <?php if (in_array(strtolower($pemesanan['jenis_layanan']), ['wedding', 'pre-wedding', 'engagement'])): ?>
+                                                        <div>
+                                                            <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
+                                                            <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                                        </div>
+                                                    <?php endif; ?>
                                                 </div>
                                             </button>
                                         </h2>
@@ -715,16 +793,20 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                     <div class="col-md-9">
                                                         <h5><?= esc($pemesanan['nama_paket']) ?></h5>
                                                         <div class="d-flex align-items-center mb-2">
-                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Jenis Layanan</span>
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary me-2">Jenis Layanan</span>
                                                             <span class="fw-bold"><?= esc($pemesanan['jenis_layanan'] ?? 'Event Lainnya') ?></span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
-                                                            <span class="badge bg-primary bg-opacity-10 text-primary me-2">Harga Paket</span>
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary me-2">Harga Paket</span>
                                                             <span class="fw-bold">Rp <?= number_format($pemesanan['harga'], 0, ',', '.') ?></span>
                                                         </div>
                                                         <div class="d-flex align-items-center mb-2">
-                                                            <span class="badge bg-info bg-opacity-10 text-info me-2">Tanggal & Waktu Pemotretan</span>
-                                                            <span><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary me-2">Tanggal & Waktu Pemotretan</span>
+                                                            <span class="fw-bold"><?= date('d M Y H:i', strtotime($pemesanan['waktu_pemotretan'])) ?> WIB</span>
+                                                        </div>
+                                                        <div class="d-flex align-items-center mb-2">
+                                                            <span class="badge bg-secondary bg-opacity-10 text-body-secondary me-2">Jenis Pembayaran</span>
+                                                            <span class="fw-bold"><?= esc($pemesanan['jenis_pembayaran']) ?></span>
                                                         </div>
                                                         <div>
                                                             <span class="badge bg-secondary bg-opacity-10 text-body-secondary">Status Pembayaran</span>
@@ -856,10 +938,12 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                             <span class="badge bg-white bg-opacity-15 text-dark">Jenis Layanan</span>
                                             <strong class="ms-1"><?= esc($pemesanan['jenis_layanan'] ?? '-') ?></strong>
                                         </div>
-                                        <div>
-                                            <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
-                                            <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
-                                        </div>
+                                        <?php if (in_array(strtolower($pemesanan['jenis_layanan']), ['wedding', 'pre-wedding', 'engagement'])): ?>
+                                            <div>
+                                                <span class="badge bg-white bg-opacity-15 text-dark">Mempelai</span>
+                                                <strong class="ms-1"><?= esc($pemesanan['nama_mempelai'] ?? '-') ?></strong>
+                                            </div>
+                                        <?php endif; ?>
                                     </div>
                                 </button>
                             </h2>
@@ -868,13 +952,21 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     <h4 class="text-center mb-4 fw-bold">Proses Pemesanan</h4>
                                     <div class="tracking-container">
                                         <?php
-                                        $steps = [
-                                            'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
-                                            'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
-                                            'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
-                                            'Pencetakan' => ['icon' => 'fa-print', 'label' => 'Pencetakan'],
-                                            'Pengiriman' => ['icon' => 'fa-truck', 'label' => 'Pengiriman'],
-                                        ];
+                                        // Determine steps based on service type
+                                        $isWedding = strtolower($pemesanan['jenis_layanan'] ?? '') === 'wedding';
+
+                            $steps = [
+                                'Pemesanan' => ['icon' => 'fa-calendar-check', 'label' => 'Pemesanan'],
+                                'Pemotretan' => ['icon' => 'fa-camera', 'label' => 'Pemotretan'],
+                                'Editing' => ['icon' => 'fa-pen-to-square', 'label' => 'Editing'],
+                            ];
+
+                            // Add printing step only for wedding services
+                            if ($isWedding) {
+                                $steps['Pencetakan'] = ['icon' => 'fa-print', 'label' => 'Pencetakan'];
+                            }
+
+                            $steps['Pengiriman'] = ['icon' => 'fa-truck', 'label' => 'Pengiriman'];
 
                             $currentStatus = $tracking_steps[$pemesanan['id']]['current_status'];
                             $statusOrder = array_keys($steps);
@@ -895,7 +987,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                     </div>
                                                 <?php else: ?>
                                                     <div class="tracking-icon pending">
-                                                        <i class="fa-solid fa-<?= $step['icon'] ?>"></i>
+                                                        <i class="fa-solid <?= $step['icon'] ?>"></i>
                                                     </div>
                                                 <?php endif; ?>
                                                 
@@ -916,13 +1008,32 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     </div>
                                     
                                     <div class="tracking-info mt-4">
-                                        <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
-                                            <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
-                                                <?= csrf_field() ?>
-                                                <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
-                                                    <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
-                                                </button>
-                                            </form>
+                                        <?php if ($pemesanan['status'] === 'Pengiriman' || $pemesanan['status'] === 'Selesai'): ?>
+                                            <div class="alert alert-light border rounded-4 mb-3">
+                                                <div class="d-flex align-items-center">
+                                                    <i class="fa-solid fa-photo-film text-dark me-3 fs-4"></i>
+                                                    <div>
+                                                        <strong class="d-block mb-1">Hasil Foto</strong>
+                                                        <?php if (!empty($pemesanan['link_hasil_foto'])): ?>
+                                                            <a href="<?= esc($pemesanan['link_hasil_foto']) ?>" class="text-primary" target="_blank">
+                                                                <i class="fa-solid fa-link me-1"></i> Klik untuk melihat hasil foto di Google Drive
+                                                            </a>
+                                                        <?php else: ?>
+                                                            <span class="text-muted">Link hasil foto belum tersedia</span>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
+                                                <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
+                                                    <?= csrf_field() ?>
+                                                    <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
+                                                        <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
+                                                    </button>
+                                                </form>
+                                            <?php endif; ?>
+                                            
                                         <?php elseif ($pemesanan['status'] !== 'Selesai'): ?>
                                             <div class="alert alert-light border d-flex align-items-center rounded-4">
                                                 <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
@@ -943,6 +1054,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                 </div>
                                             </div>
                                         <?php endif; ?>
+                                        
                                         <?php if (!empty($pemesanan['catatan_status'])): ?>
                                             <div class="alert alert-light border rounded-4 mt-3">
                                                 <i class="fa-solid fa-comment-dots me-2 text-dark"></i>
@@ -976,13 +1088,9 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                             <div class="col-md-6 col-lg-4 mb-4">
                                 <div class="card h-100 shadow border-0 card-hover-effect">
                                     <div class="card-header bg-dark text-white">
-                                        <h5 class="card-title mb-0"><?= $riwayat['nama_mempelai'] ?></h5>
+                                        <h5 class="card-title mb-0"><?= $riwayat['nama_paket'] ?></h5>
                                     </div>
                                     <div class="card-body">
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Paket:</span>
-                                            <strong><?= $riwayat['nama_paket'] ?></strong>
-                                        </div>
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted">Jenis Layanan:</span>
                                             <strong><?= $riwayat['jenis_layanan'] ?></strong>
@@ -998,11 +1106,7 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted">Pemotretan:</span>
                                             <small><?= date('d M Y H:i', strtotime($riwayat['waktu_pemotretan'])) ?></small>
-                                        </div>
-                                        <div class="d-flex justify-content-between mb-2">
-                                            <span class="text-muted">Pembayaran:</span>
-                                            <span><?= $riwayat['jenis_pembayaran'] ?></span>
-                                        </div>
+                                        </div>                                       
                                         <div class="d-flex justify-content-between mb-2">
                                             <span class="text-muted">Instagram:</span>
                                             <a href="https://instagram.com/<?= $riwayat['instagram'] ?>" 
@@ -1010,13 +1114,22 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                             @<?= $riwayat['instagram'] ?>
                                             </a>
                                         </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Link Hasil Foto:</span>
+                                            <?php if (!empty($riwayat['link_hasil_foto'])): ?>
+                                                <a href="<?= esc($riwayat['link_hasil_foto']) ?>" target="_blank">Lihat Hasil Foto</a>
+                                            <?php else: ?>
+                                                -
+                                            <?php endif; ?>
+                                        </div> 
+
                                     </div>
                                     <div class="card-footer bg-light d-flex justify-content-between align-items-center">
                                         <span class="badge rounded-pill bg-dark p-2">
                                             <i class="fas fa-check-circle me-1"></i> <?= $riwayat['status'] ?>
                                         </span>
                                         <small class="text-muted">
-                                            Selesai: <?= date('d/m/Y', strtotime($riwayat['status_selesai_at'])) ?>
+                                            Selesai: <?= date('d M Y H:i', strtotime($riwayat['status_selesai_at'])) ?>
                                         </small>
                                     </div>
                                 </div>
@@ -1058,63 +1171,90 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
 <!-- Include DOMPurify for sanitizing HTML (optional but recommended) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/2.4.1/purify.min.js"></script>
 
-<!-- JavaScript untuk Deskripsi, Harga, dan Jenis Layanan -->
+<!-- JavaScript untuk Paket Layanan, Deskripsi, dan Harga -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const paketSelect = document.getElementById('paketLayanan');
-    const waktuPemotretanInput = document.getElementById('waktuPemotretan');
+    const dropdownButton = document.getElementById('dropdownPaketButton');
+    const searchInput = document.getElementById('searchPaketInput');
+    const paketOptionsContainer = document.getElementById('paketOptionsContainer');
+    const selectedPaketText = document.getElementById('selectedPaketText');
+    const paketLayananInput = document.getElementById('paketLayanan');
     const deskripsiDiv = document.getElementById('deskripsiPaket');
     const hargaDisplay = document.getElementById('hargaPaket');
+    const waktuPemotretanInput = document.getElementById('waktuPemotretan');
     const lokasiPengirimanField = document.getElementById('lokasiPengirimanField');
     const namaMempelaiField = document.getElementById('namaMempelaiField');
-    let originalOptions = paketSelect.innerHTML;
     const csrfName = '<?= csrf_token() ?>';
     const csrfHash = '<?= csrf_hash() ?>';
-
-    function updateDeskripsiHargaJenis() {
-        const selectedOption = paketSelect.options[paketSelect.selectedIndex];
-        const deskripsi = selectedOption.getAttribute('data-deskripsi');
-        const harga = selectedOption.getAttribute('data-harga');
-        let jenisLayanan = selectedOption.getAttribute('data-jenis-layanan');
-
-        // Sanitize and render HTML in the div
+    
+    // Inisialisasi pilihan jika ada di URL
+    const selectedOption = document.querySelector('.paket-option[data-selected="true"]');
+    if (selectedOption) {
+        selectPaketOption(selectedOption);
+    }
+    
+    // Fungsi untuk memilih opsi paket
+    function selectPaketOption(optionElement) {
+        const value = optionElement.getAttribute('data-value');
+        const text = optionElement.textContent;
+        const deskripsi = optionElement.getAttribute('data-deskripsi');
+        const harga = optionElement.getAttribute('data-harga');
+        const jenisLayanan = optionElement.getAttribute('data-jenis-layanan');
+        
+        // Update tampilan
+        selectedPaketText.textContent = text;
+        paketLayananInput.value = value;
+        
+        // Update deskripsi dan harga
         deskripsiDiv.innerHTML = deskripsi ? DOMPurify.sanitize(deskripsi) : '-';
-
         hargaDisplay.textContent = harga ? 'Rp ' + harga : 'Rp 0';
-
+        
         // Kontrol visibilitas field berdasarkan jenis layanan
-        jenisLayanan = jenisLayanan ? jenisLayanan.toLowerCase() : '';
-        if (jenisLayanan === 'wedding') {
+        const jenisLayananLower = jenisLayanan ? jenisLayanan.toLowerCase() : '';
+        if (jenisLayananLower === 'wedding') {
             lokasiPengirimanField.style.display = 'block';
             namaMempelaiField.style.display = 'block';
             lokasiPengirimanField.querySelector('input').required = true;
             namaMempelaiField.querySelector('input').required = true;
-        } else if (['pre-wedding', 'engagement'].includes(jenisLayanan)) {
+        } else if (['pre-wedding', 'engagement'].includes(jenisLayananLower)) {
             lokasiPengirimanField.style.display = 'none';
             namaMempelaiField.style.display = 'block';
             lokasiPengirimanField.querySelector('input').required = false;
             namaMempelaiField.querySelector('input').required = true;
         } else {
-            // Untuk wisuda dan event lainnya
             lokasiPengirimanField.style.display = 'none';
             namaMempelaiField.style.display = 'none';
             lokasiPengirimanField.querySelector('input').required = false;
             namaMempelaiField.querySelector('input').required = false;
+        }
+        
+        // Tutup dropdown
+        const dropdown = new bootstrap.Dropdown(dropdownButton);
+        dropdown.hide();
+        
+        // Cek ketersediaan jika waktu pemotretan sudah dipilih
+        if (waktuPemotretanInput.value) {
+            checkAvailability(value, waktuPemotretanInput.value);
         }
     }
-
-    function checkAvailability() {
-        const paketId = paketSelect.value;
-        const waktuPemotretan = waktuPemotretanInput.value;
-
-        if (!paketId || !waktuPemotretan) {
-            lokasiPengirimanField.style.display = 'none';
-            namaMempelaiField.style.display = 'none';
-            lokasiPengirimanField.querySelector('input').required = false;
-            namaMempelaiField.querySelector('input').required = false;
-            return;
+    
+    // Fungsi untuk memfilter opsi
+    function filterPaketOptions() {
+        const filter = searchInput.value.toUpperCase();
+        const options = paketOptionsContainer.getElementsByClassName('paket-option');
+        
+        for (let i = 0; i < options.length; i++) {
+            const text = options[i].textContent || options[i].innerText;
+            if (text.toUpperCase().indexOf(filter) > -1) {
+                options[i].style.display = "";
+            } else {
+                options[i].style.display = "none";
+            }
         }
-
+    }
+    
+    // Fungsi untuk mengecek ketersediaan
+    function checkAvailability(paketId, waktuPemotretan) {
         fetch('<?= base_url('user/pemesanan/check-availability') ?>', {
             method: 'POST',
             headers: {
@@ -1126,51 +1266,65 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(response => response.json())
         .then(data => {
-            const currentValue = paketSelect.value;
-            paketSelect.innerHTML = originalOptions;
-
             if (!data.is_available) {
-                const selectedOption = paketSelect.querySelector(`option[value="${paketId}"]`);
+                // Tandai opsi yang tidak tersedia
+                const selectedOption = document.querySelector(`.paket-option[data-value="${paketId}"]`);
                 if (selectedOption) {
-                    selectedOption.disabled = true;
                     selectedOption.textContent += ' (Penuh)';
-                    paketSelect.value = '';
-                    deskripsiDiv.innerHTML = '-';
-                    hargaDisplay.textContent = 'Rp 0';
-                    lokasiPengirimanField.style.display = 'none';
-                    namaMempelaiField.style.display = 'none';
-                    lokasiPengirimanField.querySelector('input').required = false;
-                    namaMempelaiField.querySelector('input').required = false;
-                    alert(data.message);
+                    selectedOption.classList.add('disabled');
+                    selectedOption.style.color = '#dc3545';
+                    selectedOption.style.textDecoration = 'line-through';
+                    selectedOption.onclick = function(e) {
+                        e.preventDefault();
+                        alert(data.message);
+                    };
+                    
+                    // Reset pilihan jika yang dipilih tidak tersedia
+                    if (paketLayananInput.value == paketId) {
+                        selectedPaketText.textContent = 'Pilih Paket Layanan';
+                        paketLayananInput.value = '';
+                        deskripsiDiv.innerHTML = '-';
+                        hargaDisplay.textContent = 'Rp 0';
+                        lokasiPengirimanField.style.display = 'none';
+                        namaMempelaiField.style.display = 'none';
+                        lokasiPengirimanField.querySelector('input').required = false;
+                        namaMempelaiField.querySelector('input').required = false;
+                    }
                 }
-            } else {
-                paketSelect.value = currentValue;
-            }
-
-            if (paketSelect.value) {
-                updateDeskripsiHargaJenis();
             }
         })
         .catch(error => console.error('Error:', error));
     }
-
-    paketSelect.addEventListener('change', function() {
-        updateDeskripsiHargaJenis();
-        checkAvailability();
+    
+    // Event listeners
+    searchInput.addEventListener('keyup', filterPaketOptions);
+    
+    // Klik opsi paket
+    const options = document.querySelectorAll('.paket-option');
+    options.forEach(option => {
+        option.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (!this.classList.contains('disabled')) {
+                selectPaketOption(this);
+            }
+        });
     });
-
-    waktuPemotretanInput.addEventListener('change', checkAvailability);
-
+    
+    // Event untuk waktu pemotretan
+    if (waktuPemotretanInput) {
+        waktuPemotretanInput.addEventListener('change', function() {
+            if (paketLayananInput.value) {
+                checkAvailability(paketLayananInput.value, this.value);
+            }
+        });
+    }
+    
     // Inisialisasi saat halaman dimuat
-    if (paketSelect.value) {
-        updateDeskripsiHargaJenis();
-        checkAvailability();
-    } else {
-        // Sembunyikan field secara default
-        lokasiPengirimanField.style.display = 'none';
-        namaMempelaiField.style.display = 'none';
-        lokasiPengirimanField.querySelector('input').required = false;
-        namaMempelaiField.querySelector('input').required = false;
+    if (paketLayananInput.value) {
+        const selectedOption = document.querySelector(`.paket-option[data-value="${paketLayananInput.value}"]`);
+        if (selectedOption) {
+            selectPaketOption(selectedOption);
+        }
     }
 });
 </script>

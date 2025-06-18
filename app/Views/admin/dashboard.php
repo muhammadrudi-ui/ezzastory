@@ -94,7 +94,7 @@
         <div class="col-12 col-sm-6 col-md-6 col-lg-3">
             <div class="card p-4 shadow-sm text-center bg-white rounded-3 position-relative overflow-hidden transition-all fixed-card" style="border: none;">
                 <div class="card-overlay"></div>
-                <h6 class="text-muted mb-2">Total Pemesanan Bulan Ini</h6>
+                <h6 class="text-muted mb-2">Pemesanan Bulan Ini</h6>
                 <h4 class="fw-bold mb-0 text-success"><?= $total_pemesanan ?> Customer</h4>
             </div>
         </div>
@@ -114,13 +114,21 @@
         </div>
     </div>
 
-    <!-- Mengambil data dalam 1 tahun -->
+    <!-- Chart dalam 1 tahun -->
     <div class="row mt-4">
-        <div class="col-lg-12">
-            <div class="card p-4 shadow-sm bg-white rounded-3" style="border: none;">
-                <h5 class="mb-3 fw-bold text-dark">Jumlah Pemesanan dalam 1 Tahun</h5>
+        <div class="col-12">
+            <div class="card p-4 shadow-sm bg-white rounded-3 mb-4" style="border: none;">
+                <h5 class="mb-3 fw-bold text-dark">Pemesanan dalam 1 Tahun</h5>
                 <div style="height: 350px;">
                     <canvas id="chartPemesanan"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card p-4 shadow-sm bg-white rounded-3" style="border: none;">
+                <h5 class="mb-3 fw-bold text-dark">Pendapatan dalam 1 Tahun</h5>
+                <div style="height: 350px;">
+                    <canvas id="chartPendapatan"></canvas>
                 </div>
             </div>
         </div>
@@ -130,14 +138,15 @@
 <!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    let ctx = document.getElementById('chartPemesanan').getContext('2d');
-    let chartPemesanan = new Chart(ctx, {
+    // Orders Chart (top)
+    let ctxOrders = document.getElementById('chartPemesanan').getContext('2d');
+    new Chart(ctxOrders, {
         type: 'line',
         data: {
             labels: <?= $chart_labels ?>,
             datasets: [{
                 label: 'Jumlah Pemesanan',
-                data: <?= $chart_data ?>,
+                data: <?= $chart_pemesanan_data ?>,
                 backgroundColor: 'rgba(0, 123, 255, 0.1)',
                 borderColor: '#007bff',
                 borderWidth: 3,
@@ -149,7 +158,30 @@
                 fill: true
             }]
         },
-        options: {
+        options: getChartOptions('Customer')
+    });
+
+    // Revenue Chart (bottom)
+    let ctxRevenue = document.getElementById('chartPendapatan').getContext('2d');
+    new Chart(ctxRevenue, {
+        type: 'bar',
+        data: {
+            labels: <?= $chart_labels ?>,
+            datasets: [{
+                label: 'Pendapatan',
+                data: <?= $chart_pendapatan_data ?>,
+                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                borderColor: '#28a745',
+                borderWidth: 2,
+                borderRadius: 4
+            }]
+        },
+        options: getChartOptions('Rp', true)
+    });
+
+    // Shared chart options function
+    function getChartOptions(unitPrefix, isCurrency = false) {
+        return {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
@@ -159,7 +191,21 @@
                     titleColor: '#333',
                     bodyColor: '#333',
                     borderColor: '#ddd',
-                    borderWidth: 1
+                    borderWidth: 1,
+                    callbacks: {
+                        label: function(context) {
+                            let label = context.dataset.label || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            if (isCurrency) {
+                                label += 'Rp ' + context.parsed.y.toLocaleString('id-ID');
+                            } else {
+                                label += context.parsed.y;
+                            }
+                            return label;
+                        }
+                    }
                 }
             },
             scales: {
@@ -172,9 +218,11 @@
                     grid: { color: '#eee' },
                     ticks: {
                         color: '#555',
-                        stepSize: 1,
                         callback: function(value) {
-                            return Number.isInteger(value) ? value : '';
+                            if (isCurrency) {
+                                return 'Rp ' + value.toLocaleString('id-ID');
+                            }
+                            return unitPrefix ? value + ' ' + unitPrefix : value;
                         }
                     }
                 }
@@ -184,7 +232,7 @@
                 easing: 'easeInOutQuart'
             }
         }
-    });
+    }
 </script>
 
 <?= $this->endSection() ?>

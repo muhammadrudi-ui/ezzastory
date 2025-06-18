@@ -120,7 +120,7 @@ class PemesananController extends BaseController
         }
 
         // Validasi tanggal pemotretan
-        $today = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
+        $today = new \DateTime('today', new \DateTimeZone('Asia/Jakarta'));
         $selectedDate = new \DateTime($waktuPemotretan, new \DateTimeZone('Asia/Jakarta'));
 
         if ($selectedDate < $today) {
@@ -508,20 +508,28 @@ class PemesananController extends BaseController
         return view('admin/data-pemesanan/edit', $data);
     }
 
-
     public function update_admin($id)
     {
         $status = $this->request->getPost('status');
+        $linkHasilFoto = $this->request->getPost('link_hasil_foto');
 
-        $validStatuses = ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman'];
+        $validStatuses = ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman', 'Selesai'];
         if (!in_array($status, $validStatuses)) {
             return redirect()->to('admin/data-pemesanan/index')->with('error', 'Status tidak valid.');
         }
 
-        $updateData = ['status' => $status];
+        $updateData = [
+            'status' => $status,
+            'link_hasil_foto' => $linkHasilFoto,
+        ];
+
+        // Jika status diubah menjadi "Selesai", catat waktu selesai
+        if ($status === 'Selesai') {
+            $updateData['status_selesai_at'] = date('Y-m-d H:i:s');
+        }
 
         $this->pemesananModel->update($id, $updateData);
 
-        return redirect()->to('admin/data-pemesanan/index')->with('success', 'Status pemesanan diperbarui.');
+        return redirect()->to('admin/data-pemesanan/index')->with('success', 'Data Pemesanan berhasil diperbarui.');
     }
 }

@@ -51,6 +51,7 @@
                             <th class="align-middle">Link Maps Lokasi Pengiriman Album</th>
                             <th class="align-middle">Nama Mempelai</th>
                             <th class="align-middle">Instagram</th>
+                            <th class="align-middle">Link Hasil Foto</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,10 +69,17 @@
                         <td><?= esc($item['jenis_pembayaran']) ?></td>
                         <td><?= esc($item['lokasi_pemotretan']) ?></td>
                         <td><a href="<?= esc($item['link_maps_pemotretan']) ?>" target="_blank">Lihat Maps</a></td>
-                        <td><a href="<?= esc($item['link_maps_pengiriman']) ?>" target="_blank">Lihat Maps</a></td>
-                        <td><?= esc($item['nama_mempelai']) ?></td>
+                        <td><a href="<?= !empty($item['link_maps_pengiriman']) ? esc($item['link_maps_pengiriman']) : '-' ?>" target="_blank">Lihat Maps</a></td>
+                        <td><?= !empty($item['nama_mempelai']) ? esc($item['nama_mempelai']) : '-' ?></td>
                         <td>
                             <a href="https://instagram.com/<?= esc($item['instagram']) ?>" target="_blank">@<?= esc($item['instagram']) ?></a>
+                        </td>
+                        <td>
+                            <?php if (!empty($item['link_hasil_foto'])): ?>
+                                <a href="<?= esc($item['link_hasil_foto']) ?>" target="_blank">Lihat Hasil Foto</a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
                         </td>
                     </tr>
                         <?php endforeach; ?>

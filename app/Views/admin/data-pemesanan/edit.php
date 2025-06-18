@@ -31,7 +31,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Nama Mempelai</label>
-                        <p class="form-control-plaintext text-muted"><?= esc($pemesanan['nama_mempelai']) ?></p>
+                        <p class="form-control-plaintext text-muted"><?= !empty($pemesanan['nama_mempelai']) ? esc($pemesanan['nama_mempelai']) : '-' ?></p>
                     </div>
                 </div>
 
@@ -82,7 +82,7 @@
                 <div class="row mt-3">
                     <div class="col-md-6">
                         <label class="fw-bold">Link Maps Lokasi Pengiriman Album</label>
-                        <p class="form-control-plaintext text-muted"><?= esc($pemesanan['link_maps_pengiriman']) ?></p>
+                        <p class="form-control-plaintext text-muted"><?= !empty($pemesanan['link_maps_pengiriman']) ? esc($pemesanan['link_maps_pengiriman']) : '-' ?></p>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Instagram</label>
@@ -95,6 +95,11 @@
                         <label class="fw-bold">Status Pembayaran</label>
                         <p class="form-control-plaintext text-muted"><?= esc($pemesanan['status_pembayaran']) ?></p>
                     </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold">Link Hasil Foto</label>
+                        <input type="text" name="link_hasil_foto" class="form-control"
+                        value="<?= old('link_hasil_foto', $pemesanan['link_hasil_foto']) ?>">
+                    </div>
                 </div>
 
                 <div class="mt-3">
@@ -102,7 +107,9 @@
                     <select name="status" class="form-select">
                         <option value="Pemotretan" <?= $pemesanan['status'] == 'Pemotretan' ? 'selected' : '' ?>>Pemotretan</option>
                         <option value="Editing" <?= $pemesanan['status'] == 'Editing' ? 'selected' : '' ?>>Editing</option>
-                        <option value="Pencetakan" <?= $pemesanan['status'] == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan</option>
+                        <?php if (strtolower($pemesanan['jenis_layanan']) === 'wedding'): ?>
+                            <option value="Pencetakan" <?= $pemesanan['status'] == 'Pencetakan' ? 'selected' : '' ?>>Pencetakan</option>
+                        <?php endif; ?>
                         <option value="Pengiriman" <?= $pemesanan['status'] == 'Pengiriman' ? 'selected' : '' ?>>Pengiriman</option>
                     </select>
                 </div>

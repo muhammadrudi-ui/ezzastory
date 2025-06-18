@@ -100,14 +100,31 @@ class BerandaController extends BaseController
         ->orderBy("bulan_nomor")
         ->findAll();
 
+        // Data untuk grafik pendapatan per bulan dalam 1 tahun
+        $pendapatanPerBulan = $this->pembayaranModel
+        ->select("DATE_FORMAT(created_at, '%b') AS bulan, DATE_FORMAT(created_at, '%m') AS bulan_nomor, SUM(jumlah) AS total")
+        ->where('status', 'success')
+        ->where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)")
+        ->groupBy("DATE_FORMAT(created_at, '%b'), DATE_FORMAT(created_at, '%m')")
+        ->orderBy("bulan_nomor")
+        ->findAll();
+
         // Format data untuk Chart.js
         $bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         $pemesananData = array_fill(0, 12, 0);
+        $pendapatanData = array_fill(0, 12, 0);
 
         foreach ($pemesananPerBulan as $data) {
             $index = array_search($data['bulan'], $bulanLabels);
             if ($index !== false) {
                 $pemesananData[$index] = $data['jumlah'];
+            }
+        }
+
+        foreach ($pendapatanPerBulan as $data) {
+            $index = array_search($data['bulan'], $bulanLabels);
+            if ($index !== false) {
+                $pendapatanData[$index] = $data['total'];
             }
         }
 
@@ -117,7 +134,8 @@ class BerandaController extends BaseController
             'pesanan_selesai' => $pesananSelesai,
             'pesanan_dalam_proses' => $pesananDalamProses,
             'chart_labels' => json_encode($bulanLabels),
-            'chart_data' => json_encode($pemesananData),
+            'chart_pemesanan_data' => json_encode($pemesananData),
+            'chart_pendapatan_data' => json_encode($pendapatanData),
             'page_title' => 'Dashboard Admin'
         ];
 

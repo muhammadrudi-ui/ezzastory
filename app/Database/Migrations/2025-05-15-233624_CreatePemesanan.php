@@ -57,6 +57,10 @@ class CreatePemesanan extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 255,
             ],
+            'link_hasil_foto' => [
+                'type' => 'TEXT',
+                'null' => true,
+            ],
             'status' => [
                 'type'       => 'ENUM',
                 'constraint' => ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman', 'Selesai'],

@@ -20,7 +20,8 @@ class PemesananModel extends Model
         'link_maps_pengiriman',
         'nama_mempelai',
         'status',
-        'status_pembayaran', // Tambahkan field ini
+        'link_hasil_foto',
+        'status_pembayaran',
         'status_selesai_at',
     ];
 

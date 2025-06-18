@@ -70,6 +70,7 @@
                             <th class="align-middle">Link Maps Lokasi Pengiriman Album</th>
                             <th class="align-middle">Nama Mempelai</th>
                             <th class="align-middle">Instagram</th>
+                            <th class="align-middle">Link Hasil Foto</th>
                             <th class="align-middle">Status</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
@@ -104,6 +105,13 @@
                         <td><?= !empty($item['nama_mempelai']) ? esc($item['nama_mempelai']) : '-' ?></td>
                         <td>
                             <a href="https://instagram.com/<?= esc($item['instagram']) ?>" target="_blank">@<?= esc($item['instagram']) ?></a>
+                        </td>
+                        <td>
+                            <?php if (!empty($item['link_hasil_foto'])): ?>
+                                <a href="<?= esc($item['link_hasil_foto']) ?>" target="_blank">Lihat Hasil Foto</a>
+                            <?php else: ?>
+                                -
+                            <?php endif; ?>
                         </td>
                         <td><?= esc($item['status']) ?></td>
                         <td>
