@@ -52,6 +52,7 @@
                             <th class="align-middle">Nama Mempelai</th>
                             <th class="align-middle">Instagram</th>
                             <th class="align-middle">Link Hasil Foto</th>
+                            <th class="align-middle">Waktu Selesai Pesanan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -81,6 +82,7 @@
                                 -
                             <?php endif; ?>
                         </td>
+                        <td><?= esc(date('d M Y H:i', strtotime($item['status_selesai_at']))) ?></td>
                     </tr>
                         <?php endforeach; ?>
                         <?php else: ?>
