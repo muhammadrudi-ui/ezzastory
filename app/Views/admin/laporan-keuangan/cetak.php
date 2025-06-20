@@ -4,8 +4,33 @@
     <title>Laporan Keuangan</title>
     <style>
         @page {
-            size: A4 landscape;
-            margin: 1cm;
+            size: A4 portrait;
+            margin: 1.5cm 1cm 1cm 1cm;
+            @top-center {
+                content: element(header);
+            }
+        }
+        
+        .header {
+            position: running(header);
+            text-align: center;
+            padding: 5px 0;
+            border-bottom: 2px solid #2c3e50;
+            background-color: white;
+            margin-bottom: 15px;
+        }
+        
+        .header-fixed {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: white;
+            text-align: center;
+            padding: 5px 0;
+            border-bottom: 2px solid #2c3e50;
+            margin: 0;
         }
         
         body { 
@@ -15,31 +40,29 @@
             line-height: 1.4;
             color: #333;
             font-size: 10pt;
+            padding-top: 100px; /* Space Padding Top */
         }
         
-        .header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #2c3e50;
+        .content {
+            margin-top: 20px;
         }
         
         .header h1 {
             margin: 0;
-            font-size: 18pt;
+            font-size: 16pt;
             color: #2c3e50;
             font-weight: bold;
         }
         
         .header .company-info {
-            margin: 5px 0;
-            font-size: 9pt;
+            margin: 2px 0;
+            font-size: 8pt;
             color: #555;
         }
         
         .header .period {
-            margin: 5px 0;
-            font-size: 11pt;
+            margin: 2px 0;
+            font-size: 10pt;
             font-weight: bold;
             color: #2c3e50;
         }
@@ -149,10 +172,68 @@
         tfoot {
             display: table-footer-group;
         }
+        
+        /* Media query khusus untuk print */
+        @media print {
+            .header-fixed {
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                right: 0 !important;
+            }
+            
+            body {
+                padding-top: 80px !important;
+            }
+            
+            .content {
+                margin-top: 0;
+            }
+            
+            .force-page-break {
+                page-break-before: always;
+            }
+        }
+        
+        .page-header {
+            display: none;
+        }
+        
+        @media print {
+            .page-header {
+                display: block;
+                text-align: center;
+                padding: 5px 0;
+                border-bottom: 2px solid #2c3e50;
+                margin-bottom: 15px;
+                page-break-after: avoid;
+            }
+            
+            .page-header h1 {
+                margin: 0;
+                font-size: 16pt;
+                color: #2c3e50;
+                font-weight: bold;
+            }
+            
+            .page-header .company-info {
+                margin: 2px 0;
+                font-size: 8pt;
+                color: #555;
+            }
+            
+            .page-header .period {
+                margin: 2px 0;
+                font-size: 10pt;
+                font-weight: bold;
+                color: #2c3e50;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="header">
+    <!-- Header Fixed untuk tampilan dan print -->
+    <div class="header header-fixed">
         <h1>EZZASTORY</h1>
         <div class="company-info">
             Desa Badean, Kecamatan Blimbingsari, Kabupaten Banyuwangi | Telp: 082245670135 | Email: ezzastory@gmail.com
@@ -160,83 +241,95 @@
         <div class="period"><?= $periode_display ?></div>
     </div>
 
-    <!-- Ringkasan Per Jenis Layanan -->
-    <table class="summary-table">
-        <thead>
-            <tr>
-                <th style="width: 40%;">Jenis Layanan</th>
-                <th style="width: 30%;">Total Pemasukan</th>
-                <th style="width: 30%;">Persentase</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($jenis_layanan as $jenis): ?>
-                <?php if (!empty($data_pemesanan_per_jenis[$jenis])): ?>
+    <div class="content">
+        <!-- Ringkasan Per Jenis Layanan -->
+        <table class="summary-table">
+            <thead>
                 <tr>
-                    <td><?= esc($jenis) ?></td>
-                    <td style="text-align: right;">Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?></td>
-                    <td style="text-align: right;"><?= $total_pemasukan_keseluruhan > 0 ? number_format(($total_pemasukan_per_jenis[$jenis] / $total_pemasukan_keseluruhan) * 100, 2) : 0 ?>%</td>
+                    <th style="width: 40%;">Jenis Layanan</th>
+                    <th style="width: 30%;">Total Pemasukan</th>
+                    <th style="width: 30%;">Persentase</th>
                 </tr>
-                <?php endif; ?>
-            <?php endforeach; ?>
-            <tr class="total-cell">
-                <td><strong>TOTAL KESELURUHAN</strong></td>
-                <td style="text-align: right;"><strong>Rp <?= number_format($total_pemasukan_keseluruhan, 0, ',', '.') ?></strong></td>
-                <td style="text-align: right;"><strong>100%</strong></td>
-            </tr>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($jenis_layanan as $jenis): ?>
+                    <?php if (!empty($data_pemesanan_per_jenis[$jenis])): ?>
+                    <tr>
+                        <td><?= esc($jenis) ?></td>
+                        <td style="text-align: right;">Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?></td>
+                        <td style="text-align: right;"><?= $total_pemasukan_keseluruhan > 0 ? number_format(($total_pemasukan_per_jenis[$jenis] / $total_pemasukan_keseluruhan) * 100, 2) : 0 ?>%</td>
+                    </tr>
+                    <?php endif; ?>
+                <?php endforeach; ?>
+                <tr class="total-cell">
+                    <td><strong>TOTAL KESELURUHAN</strong></td>
+                    <td style="text-align: right;"><strong>Rp <?= number_format($total_pemasukan_keseluruhan, 0, ',', '.') ?></strong></td>
+                    <td style="text-align: right;"><strong>100%</strong></td>
+                </tr>
+            </tbody>
+        </table>
 
-    <!-- Detail Per Jenis Layanan -->
-    <?php foreach ($jenis_layanan as $jenis): ?>
-        <?php if (!empty($data_pemesanan_per_jenis[$jenis])): ?>
-        <div class="jenis-layanan-section">
-            <div class="jenis-layanan-title">
-                <?= esc($jenis) ?> - Total: Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?>
+        <!-- Detail Per Jenis Layanan -->
+        <?php foreach ($jenis_layanan as $jenis): ?>
+            <?php if (!empty($data_pemesanan_per_jenis[$jenis])): ?>
+            
+            <!-- Header untuk setiap section yang mungkin berpindah halaman -->
+            <div class="page-header">
+                <h1>EZZASTORY</h1>
+                <div class="company-info">
+                    Desa Badean, Kecamatan Blimbingsari, Kabupaten Banyuwangi | Telp: 082245670135 | Email: ezzastory@gmail.com
+                </div>
+                <div class="period"><?= $periode_display ?></div>
             </div>
             
-            <table class="detail-table">
-                <thead>
-                    <tr>
-                        <th style="width: 12%;">Tanggal</th>
-                        <th style="width: 20%;">Nama Customer</th>
-                        <th style="width: 18%;">Paket Layanan</th>
-                        <th style="width: 12%;">Harga</th>
-                        <th style="width: 13%;">Jenis Pembayaran</th>
-                        <th style="width: 13%;">Dibayar</th>
-                        <th style="width: 12%;">Sisa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($data_pemesanan_per_jenis[$jenis] as $pesan): ?>
-                    <tr>
-                        <td><?= date('d/m/Y', strtotime($pesan['waktu_pemesanan'])) ?></td>
-                        <td><?= esc($pesan['nama_lengkap']) ?></td>
-                        <td><?= esc($pesan['nama_paket']) ?></td>
-                        <td style="text-align: right;">Rp <?= number_format($pesan['harga'], 0, ',', '.') ?></td>
-                        <td><?= esc($pesan['jenis_pembayaran']) ?></td>
-                        <td style="text-align: right;">Rp <?= number_format($pesan['jumlah_pembayaran'], 0, ',', '.') ?></td>
-                        <td style="text-align: right;">Rp <?= number_format($pesan['sisa_pembayaran'], 0, ',', '.') ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                    <tr class="total-row">
-                        <td colspan="6"><strong>Total <?= esc($jenis) ?></strong></td>
-                        <td style="text-align: right;"><strong>Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?></strong></td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="jenis-layanan-section">
+                <div class="jenis-layanan-title">
+                    <?= esc($jenis) ?> - Total: Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?>
+                </div>
+                
+                <table class="detail-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 12%;">Tanggal</th>
+                            <th style="width: 20%;">Nama Customer</th>
+                            <th style="width: 18%;">Paket Layanan</th>
+                            <th style="width: 12%;">Harga</th>
+                            <th style="width: 13%;">Jenis Pembayaran</th>
+                            <th style="width: 13%;">Dibayar</th>
+                            <th style="width: 12%;">Sisa</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($data_pemesanan_per_jenis[$jenis] as $pesan): ?>
+                        <tr>
+                            <td><?= date('d/m/Y', strtotime($pesan['waktu_pemesanan'])) ?></td>
+                            <td><?= esc($pesan['nama_lengkap']) ?></td>
+                            <td><?= esc($pesan['nama_paket']) ?></td>
+                            <td style="text-align: right;">Rp <?= number_format($pesan['harga'], 0, ',', '.') ?></td>
+                            <td><?= esc($pesan['jenis_pembayaran']) ?></td>
+                            <td style="text-align: right;">Rp <?= number_format($pesan['jumlah_pembayaran'], 0, ',', '.') ?></td>
+                            <td style="text-align: right;">Rp <?= number_format($pesan['sisa_pembayaran'], 0, ',', '.') ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                        <tr class="total-row">
+                            <td colspan="6"><strong>Total <?= esc($jenis) ?></strong></td>
+                            <td style="text-align: right;"><strong>Rp <?= number_format($total_pemasukan_per_jenis[$jenis], 0, ',', '.') ?></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+
+        <!-- Grand Total -->
+        <div class="grand-total">
+            <h3>TOTAL PEMASUKAN KESELURUHAN</h3>
+            <h2>Rp <?= number_format($total_pemasukan_keseluruhan, 0, ',', '.') ?></h2>
         </div>
-        <?php endif; ?>
-    <?php endforeach; ?>
 
-    <!-- Grand Total -->
-    <div class="grand-total">
-        <h3>TOTAL PEMASUKAN KESELURUHAN</h3>
-        <h2>Rp <?= number_format($total_pemasukan_keseluruhan, 0, ',', '.') ?></h2>
-    </div>
-
-    <div class="print-info">
-        Dicetak pada: <?= $tanggal_cetak ?> | EZZASTORY - Laporan Keuangan
+        <div class="print-info">
+            Dicetak pada: <?= $tanggal_cetak ?> | EZZASTORY - Laporan Keuangan
+        </div>
     </div>
 </body>
 </html>

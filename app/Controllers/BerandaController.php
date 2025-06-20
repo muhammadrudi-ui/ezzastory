@@ -66,6 +66,8 @@ class BerandaController extends BaseController
 
     public function index_admin()
     {
+        $currentYear = date('Y');
+        $selectedYear = $this->request->getGet('tahun') ?? $currentYear;
         $currentMonth = date('Y-m');
 
         // Pendapatan bulan ini
@@ -94,20 +96,20 @@ class BerandaController extends BaseController
 
         // Data untuk grafik jumlah pemesanan per bulan dalam 1 tahun
         $pemesananPerBulan = $this->pemesananModel
-        ->select("DATE_FORMAT(waktu_pemesanan, '%b') AS bulan, DATE_FORMAT(waktu_pemesanan, '%m') AS bulan_nomor, COUNT(*) AS jumlah")
-        ->where("waktu_pemesanan >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)")
-        ->groupBy("DATE_FORMAT(waktu_pemesanan, '%b'), DATE_FORMAT(waktu_pemesanan, '%m')")
-        ->orderBy("bulan_nomor")
-        ->findAll();
+            ->select("DATE_FORMAT(waktu_pemesanan, '%b') AS bulan, DATE_FORMAT(waktu_pemesanan, '%m') AS bulan_nomor, COUNT(*) AS jumlah")
+            ->where("YEAR(waktu_pemesanan)", $selectedYear)
+            ->groupBy("DATE_FORMAT(waktu_pemesanan, '%b'), DATE_FORMAT(waktu_pemesanan, '%m')")
+            ->orderBy("bulan_nomor")
+            ->findAll();
 
         // Data untuk grafik pendapatan per bulan dalam 1 tahun
         $pendapatanPerBulan = $this->pembayaranModel
-        ->select("DATE_FORMAT(created_at, '%b') AS bulan, DATE_FORMAT(created_at, '%m') AS bulan_nomor, SUM(jumlah) AS total")
-        ->where('status', 'success')
-        ->where("created_at >= DATE_SUB(CURDATE(), INTERVAL 1 YEAR)")
-        ->groupBy("DATE_FORMAT(created_at, '%b'), DATE_FORMAT(created_at, '%m')")
-        ->orderBy("bulan_nomor")
-        ->findAll();
+            ->select("DATE_FORMAT(created_at, '%b') AS bulan, DATE_FORMAT(created_at, '%m') AS bulan_nomor, SUM(jumlah) AS total")
+            ->where('status', 'success')
+            ->where("YEAR(created_at)", $selectedYear)
+            ->groupBy("DATE_FORMAT(created_at, '%b'), DATE_FORMAT(created_at, '%m')")
+            ->orderBy("bulan_nomor")
+            ->findAll();
 
         // Format data untuk Chart.js
         $bulanLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -128,6 +130,13 @@ class BerandaController extends BaseController
             }
         }
 
+        // Dapatkan tahun-tahun yang tersedia untuk dropdown
+        $tahunTersedia = $this->pemesananModel
+            ->select("YEAR(waktu_pemesanan) AS tahun")
+            ->groupBy("YEAR(waktu_pemesanan)")
+            ->orderBy("tahun", "DESC")
+            ->findAll();
+
         $data = [
             'pendapatan_bulan_ini' => $pendapatanBulanIni,
             'total_pemesanan' => $totalPemesanan,
@@ -136,6 +145,8 @@ class BerandaController extends BaseController
             'chart_labels' => json_encode($bulanLabels),
             'chart_pemesanan_data' => json_encode($pemesananData),
             'chart_pendapatan_data' => json_encode($pendapatanData),
+            'tahun_selected' => $selectedYear,
+            'tahun_tersedia' => $tahunTersedia,
             'page_title' => 'Dashboard Admin'
         ];
 

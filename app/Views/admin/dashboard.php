@@ -2,7 +2,6 @@
 
 <?= $this->section('content') ?>
 
-
 <style>
     .transition-all {
         transition: all 0.3s ease;
@@ -75,6 +74,10 @@
             font-size: 1.25rem;
         }
     }
+    
+    .year-selector {
+        max-width: 120px;
+    }
 </style>
 
 <div class="container-fluid mt-4">
@@ -118,7 +121,18 @@
     <div class="row mt-4">
         <div class="col-12">
             <div class="card p-4 shadow-sm bg-white rounded-3 mb-4" style="border: none;">
-                <h5 class="mb-3 fw-bold text-dark">Pemesanan dalam 1 Tahun</h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0 fw-bold text-dark">Pemesanan Tahun <?= $tahun_selected ?></h5>
+                    <form method="get" class="d-flex">
+                        <select name="tahun" class="form-select form-select-sm year-selector" onchange="this.form.submit()">
+                            <?php foreach ($tahun_tersedia as $tahun) : ?>
+                                <option value="<?= $tahun['tahun'] ?>" <?= $tahun['tahun'] == $tahun_selected ? 'selected' : '' ?>>
+                                    <?= $tahun['tahun'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
+                </div>
                 <div style="height: 350px;">
                     <canvas id="chartPemesanan"></canvas>
                 </div>
@@ -126,7 +140,18 @@
         </div>
         <div class="col-12">
             <div class="card p-4 shadow-sm bg-white rounded-3" style="border: none;">
-                <h5 class="mb-3 fw-bold text-dark">Pendapatan dalam 1 Tahun</h5>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0 fw-bold text-dark">Pendapatan Tahun <?= $tahun_selected ?></h5>
+                    <form method="get" class="d-flex">
+                        <select name="tahun" class="form-select form-select-sm year-selector" onchange="this.form.submit()">
+                            <?php foreach ($tahun_tersedia as $tahun) : ?>
+                                <option value="<?= $tahun['tahun'] ?>" <?= $tahun['tahun'] == $tahun_selected ? 'selected' : '' ?>>
+                                    <?= $tahun['tahun'] ?>
+                                </option>
+                            <?php endforeach; ?>
+                        </select>
+                    </form>
+                </div>
                 <div style="height: 350px;">
                     <canvas id="chartPendapatan"></canvas>
                 </div>
@@ -140,7 +165,7 @@
 <script>
     // Orders Chart (top)
     let ctxOrders = document.getElementById('chartPemesanan').getContext('2d');
-    new Chart(ctxOrders, {
+    let chartPemesanan = new Chart(ctxOrders, {
         type: 'line',
         data: {
             labels: <?= $chart_labels ?>,
@@ -163,7 +188,7 @@
 
     // Revenue Chart (bottom)
     let ctxRevenue = document.getElementById('chartPendapatan').getContext('2d');
-    new Chart(ctxRevenue, {
+    let chartPendapatan = new Chart(ctxRevenue, {
         type: 'bar',
         data: {
             labels: <?= $chart_labels ?>,
