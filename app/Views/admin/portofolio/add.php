@@ -22,9 +22,9 @@
             <form action="<?= base_url('admin/portofolio/proses-add'); ?>" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-6">
-                        <label class="fw-bold">Nama Mempelai</label>
+                        <label class="fw-bold">Nama</label>
                         <input type="text" name="nama_mempelai" class="form-control"
-                            placeholder="Masukkan nama mempelai" value="<?= old('nama_mempelai') ?>" required>
+                            placeholder="Masukkan nama" value="<?= old('nama_mempelai') ?>" required>
                     </div>
                     <div class="col-md-6">
                         <label class="fw-bold">Foto (Maksimal 18)</label>

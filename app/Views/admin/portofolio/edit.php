@@ -30,7 +30,7 @@
             <form action="<?= base_url('admin/portofolio/proses-edit/' . $portofolio['id']); ?>" method="POST"
                 enctype="multipart/form-data">
                 <div class="mt-3">
-                    <label class="fw-bold">Nama Mempelai</label>
+                    <label class="fw-bold">Nama</label>
                     <input type="text" name="nama_mempelai" class="form-control"
                         value="<?= $portofolio['nama_mempelai']; ?>" required>
                 </div>

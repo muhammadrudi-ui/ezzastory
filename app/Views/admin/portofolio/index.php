@@ -40,7 +40,7 @@
                 <table class="table table-striped align-middle text-center">
                     <thead class="bg-dark text-white">
                         <tr>
-                            <th class="align-middle">Nama Mempelai</th>
+                            <th class="align-middle">Nama</th>
                             <th class="align-middle">Foto</th>
                             <th class="align-middle">Jenis Layanan</th>
                             <th class="align-middle">Aksi</th>
