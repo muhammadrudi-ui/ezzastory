@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ezzastory</title>
-    <link rel="icon"href="<?= base_url('uploads/logo_tab/logo.png') ?>" type="image/png">
+    <link rel="icon" href="<?= base_url('Uploads/logo_tab/logo.png') ?>" type="image/png">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -237,7 +237,7 @@
         }
 
         .footer a:hover {
-            color:rgb(117, 117, 117);
+            color: rgb(117, 117, 117);
         }
 
         .footer-description {
@@ -260,7 +260,27 @@
             font-weight: normal;
         }
 
-         /* Animasi Scroll */
+        /* Developer Info */
+        .developer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .developer-info img {
+            max-height: 30px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .developer-info p {
+            margin: 0;
+            font-size: 12px;
+        }
+
+        /* Animasi Scroll */
         .scroll-animate {
             opacity: 0;
             transition: all 0.6s ease-out;
@@ -407,7 +427,12 @@
 
                 <!-- Copyright -->
                 <div class="text-center">
-                    <p class="mb-0 small">&copy; 2025 <?= ($profile['nama_perusahaan']) ?>. All Rights Reserved.</p>
+                    <p class="mb-0 small">© 2025 <?= ($profile['nama_perusahaan']) ?>. All Rights Reserved.</p>
+                </div>
+
+                <!-- Developer Info -->
+                <div class="developer-info">
+                    <p>Dikembangkan oleh Muhammad Rudi Hartono, Mahasiswa Politeknik Negeri Banyuwangi</p>
                 </div>
             </div>
         </footer>
@@ -415,12 +440,12 @@
 
     <?php foreach ($profile_perusahaan as $profile): ?>
         <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $profile['no_telp']) ?>" 
-       class="whatsapp-float" 
-       target="_blank"
-       title="Hubungi Kami via WhatsApp">
-        <i class="bi bi-whatsapp"></i>
-    </a>
-<?php endforeach; ?>
+           class="whatsapp-float" 
+           target="_blank"
+           title="Hubungi Kami via WhatsApp">
+            <i class="bi bi-whatsapp"></i>
+        </a>
+    <?php endforeach; ?>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -436,7 +461,7 @@
         });
     </script>
 
-    <!-- Scoll Animation -->
+    <!-- Scroll Animation -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Fungsi untuk memeriksa elemen yang terlihat di viewport

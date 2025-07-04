@@ -223,6 +223,26 @@
             font-weight: normal;
         }
 
+          /* Developer Info */
+          .developer-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .developer-info img {
+            max-height: 30px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .developer-info p {
+            margin: 0;
+            font-size: 12px;
+        }
+
          /* Animasi Scroll */
          .scroll-animate {
             opacity: 0;
@@ -372,6 +392,11 @@
                 <!-- Copyright -->
                 <div class="text-center">
                     <p class="mb-0 small">&copy; 2025 <?= ($profile['nama_perusahaan']) ?>. All Rights Reserved.</p>
+                </div>
+                
+                <!-- Developer Info -->
+                <div class="developer-info">
+                    <p>Dikembangkan oleh Muhammad Rudi Hartono, Mahasiswa Politeknik Negeri Banyuwangi</p>
                 </div>
             </div>
         </footer>
