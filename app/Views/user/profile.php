@@ -18,11 +18,19 @@
             </div>
         <?php endif; ?>
 
+        <?php if (!empty($user['pending_email'])): ?>
+            <div class="alert alert-info alert-dismissible fade show mb-4" role="alert">
+                Email baru Anda (<?= esc($user['pending_email']) ?>) belum dikonfirmasi. Silakan cek email Anda untuk mengkonfirmasi perubahan.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+
         <div class="card shadow-sm">
             <div class="card-body">
                 <h2 class="mb-4 text-center">Edit Profile</h2>
 
-                <form action="<?= base_url('user/profile/update') ?>" method="post">
+                <form action="<?= base_url('user/profile/update') ?>" method="post" id="profileForm">
+                    <?= csrf_field() ?>
                     <div class="row g-4">
                         <!-- Kolom Kiri -->
                         <div class="col-md-6">
@@ -30,8 +38,8 @@
                                 <label class="form-label">Username</label>
                                 <input type="text" name="username" value="<?= esc($user['username']) ?>" 
                                     class="form-control" 
-                                    pattern="^\S{1,30}$"
-                                    title="Username maksimal 30 karakter dan tidak boleh mengandung spasi"
+                                    pattern="[a-z0-9_]{1,30}"
+                                    title="Username hanya boleh mengandung huruf kecil, angka, dan underscore, tanpa spasi, maksimal 30 karakter."
                                     required>
                             </div>
 
@@ -107,5 +115,19 @@ $instagramKosong = empty($user['instagram']);
         </div>
     </div>
 </section>
+
+<script>
+    document.getElementById('profileForm').addEventListener('submit', function(event) {
+        const usernameInput = document.querySelector('input[name="username"]');
+        const username = usernameInput.value;
+        const usernameRegex = /^[a-z0-9_]{1,30}$/;
+
+        if (!usernameRegex.test(username)) {
+            event.preventDefault();
+            alert('Username hanya boleh mengandung huruf kecil, angka, dan underscore, tanpa spasi, maksimal 30 karakter.');
+            usernameInput.focus();
+        }
+    });
+</script>
 
 <?= $this->endSection() ?>

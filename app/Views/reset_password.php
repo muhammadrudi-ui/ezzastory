@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Login Ezzastory</title>
+    <title>Reset Kata Sandi - Ezzastory</title>
     <link rel="icon" href="<?= base_url('Uploads/logo_tab/logo.png') ?>" type="image/png">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
             font-size: 0.9rem;
             overflow-y: auto;
         }
-        .login-container {
+        .reset-password-container {
             width: 100%;
             max-width: 450px;
             margin: auto;
@@ -94,53 +94,61 @@
     </style>
 </head>
 <body>
-    <div class="login-container">
+    <div class="reset-password-container">
         <h2 class="text-center mb-4">EZZASTORY</h2>
         <div class="card">
-            <h4 class="text-center mb-4">Masuk ke Akun Anda</h4>
-            <form action="<?= base_url('login') ?>" method="post">
+            <h4 class="text-center mb-4">Reset Kata Sandi</h4>
+            <form action="<?= base_url('reset-password') ?>" method="post">
                 <?= csrf_field() ?>
+                <input type="hidden" name="token" value="<?= esc($token) ?>">
                 <?php if (session()->getFlashdata('error')): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <?= esc(session()->getFlashdata('error')) ?>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php endif; ?>
-                <?php if (session()->getFlashdata('success')): ?>
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <?= esc(session()->getFlashdata('success')) ?>
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                <?php endif; ?>
                 <div class="mb-4">
-                    <label for="identifier" class="form-label">Username atau Email</label>
-                    <input type="text" class="form-control" id="identifier" name="identifier" placeholder="Masukkan username atau email" required>
-                </div>
-                <div class="mb-4">
-                    <label for="password" class="form-label">Kata Sandi</label>
+                    <label for="password" class="form-label">Kata Sandi Baru</label>
                     <div class="input-group">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan kata sandi" required>
-                        <button type="button" class="btn input-group-text" id="togglePasswordLogin">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Masukkan kata sandi baru" required>
+                        <button type="button" class="btn input-group-text" id="togglePassword">
                             <i class="fas fa-eye-slash text-muted"></i>
                         </button>
                     </div>
                 </div>
-                <div class="mb-4 text-end">
-                    <a class="text-link" href="<?= base_url('forgot-password') ?>">Lupa Kata Sandi?</a>
+                <div class="mb-4">
+                    <label for="confirm_password" class="form-label">Konfirmasi Kata Sandi</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Konfirmasi kata sandi" required>
+                        <button type="button" class="btn input-group-text" id="toggleConfirmPassword">
+                            <i class="fas fa-eye-slash text-muted"></i>
+                        </button>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-dark w-100 py-2 mt-2">Masuk</button>
+                <button type="submit" class="btn btn-dark w-100 py-2 mt-2">Reset Kata Sandi</button>
             </form>
-            <p class="text-center mt-4">Belum punya akun? <a class="text-link" href="<?= base_url('register') ?>">Daftar disini</a></p>
+            <p class="text-center mt-4">
+                <a class="text-link" href="<?= base_url('login') ?>">← Kembali ke Login</a>
+            </p>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const togglePasswordLogin = document.querySelector("#togglePasswordLogin");
-        const passwordLogin = document.querySelector("#password");
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#password");
+        const toggleConfirmPassword = document.querySelector("#toggleConfirmPassword");
+        const confirmPassword = document.querySelector("#confirm_password");
 
-        togglePasswordLogin.addEventListener("click", function () {
-            const type = passwordLogin.type === "password" ? "text" : "password";
-            passwordLogin.type = type;
+        togglePassword.addEventListener("click", function () {
+            const type = password.type === "password" ? "text" : "password";
+            password.type = type;
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        toggleConfirmPassword.addEventListener("click", function () {
+            const type = confirmPassword.type === "password" ? "text" : "password";
+            confirmPassword.type = type;
             this.querySelector('i').classList.toggle('fa-eye');
             this.querySelector('i').classList.toggle('fa-eye-slash');
         });

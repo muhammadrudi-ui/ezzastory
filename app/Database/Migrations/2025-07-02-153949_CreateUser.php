@@ -25,9 +25,32 @@ class CreateUser extends Migration
                 'constraint' => '191',
                 'unique' => true
             ],
+            'pending_email' => [
+                'type' => 'VARCHAR',
+                'constraint' => '191',
+                'null' => true
+            ],
+            'email_token' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true
+            ],
+            'email_token_expires' => [
+                'type' => 'DATETIME',
+                'null' => true
+            ],
             'password' => [
                 'type' => 'VARCHAR',
                 'constraint' => '255'
+            ],
+            'reset_token' => [
+                'type' => 'VARCHAR',
+                'constraint' => '255',
+                'null' => true
+            ],
+            'reset_expires' => [
+                'type' => 'DATETIME',
+                'null' => true
             ],
             'role' => [
                 'type' => 'ENUM',

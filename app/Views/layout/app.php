@@ -103,6 +103,40 @@
             max-width: 120px;
         }
 
+         .dropdown .btn-light {
+            background-color: #f8f9fa;
+            /* Warna default */
+            color: #343a40;
+            border: 1px solid #ccc;
+            transition: background 0.3s, color 0.3s, border 0.3s;
+        }
+
+        .dropdown .btn-light:hover {
+            background-color: #e0e0e0;
+            color: #000;
+            border-color: #bbb;
+        }
+
+        .dropdown .btn-light:focus,
+        .dropdown .btn-light:active,
+        .dropdown.show .btn-light {
+            background-color: #d6d6d6;
+            color: #000;
+            border-color: #aaa;
+            box-shadow: none;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .dropdown-menu .dropdown-item.active,
+        .dropdown-menu .dropdown-item:active {
+            background-color: #343a40;
+            color: #fff;
+        }
+
         /* Mobile Menu */
         @media (max-width: 991px) {
             .navbar-collapse {

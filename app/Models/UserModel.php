@@ -9,7 +9,7 @@ class UserModel extends Model
     protected $table = 'users';
     protected $primaryKey = 'id';
     protected $useAutoIncrement = true;
-    protected $allowedFields = ['username', 'email', 'password', 'role'];
+    protected $allowedFields = ['username', 'email', 'password', 'role', 'reset_token', 'reset_expires', 'pending_email', 'email_token', 'email_token_expires'];
     protected $useTimestamps = true;
 
     public function getUserWithProfile($userId)

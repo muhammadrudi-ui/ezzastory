@@ -28,6 +28,13 @@ $routes->post('/register', 'AuthController::registerPost');
 $routes->get('/logout', 'AuthController::logout');
 
 
+$routes->get('forgot-password', 'AuthController::forgotPassword');
+$routes->post('forgot-password', 'AuthController::forgotPasswordPost');
+$routes->get('reset-password/(:any)', 'AuthController::resetPassword/$1');
+$routes->post('reset-password', 'AuthController::resetPasswordPost');
+$routes->get('confirm-email/(:any)', 'AuthController::confirmEmail/$1');
+
+
 // -----------------------------------------------------------------------------------
 
 
