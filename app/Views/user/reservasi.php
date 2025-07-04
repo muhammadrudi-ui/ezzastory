@@ -1153,7 +1153,10 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
         title: 'Lengkapi Profil',
         text: 'Silakan lengkapi data diri Anda terlebih dahulu sebelum melakukan reservasi.',
         icon: 'warning',
-        confirmButtonText: 'Lengkapi Sekarang'
+        confirmButtonText: 'Lengkapi Sekarang',
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = '<?= base_url('user/profile') ?>';
