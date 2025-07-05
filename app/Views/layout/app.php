@@ -432,6 +432,7 @@
 
                 <!-- Developer Info -->
                 <div class="developer-info">
+                <img src="<?= base_url('Uploads/logo_tab/logo-poliwangi.png') ?>" alt="Politeknik Negeri Banyuwangi Logo">
                     <p>Dikembangkan oleh Muhammad Rudi Hartono, Mahasiswa Politeknik Negeri Banyuwangi</p>
                 </div>
             </div>
