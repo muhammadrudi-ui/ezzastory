@@ -156,17 +156,6 @@
             </div>
         </div>
     </div>
-
-    <div class="row mt-4">
-        <div class="col-lg-4 mx-auto">
-            <div class="card outline-dark">
-                <div class="card-body text-center">
-                    <h5 class="fw-bold">Total Pemasukan</h5>
-                    <h3 class="fw-bold">Rp <?= number_format($total_pemasukan, 0, ',', '.') ?></h3>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 <script>

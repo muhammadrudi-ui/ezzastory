@@ -122,7 +122,7 @@
         <div class="col-12">
             <div class="card p-4 shadow-sm bg-white rounded-3 mb-4" style="border: none;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0 fw-bold text-dark">Pemesanan Tahun <?= $tahun_selected ?></h5>
+                    <h5 class="mb-0 fw-bold text-dark">Statistik Pemesanan Tahun <?= $tahun_selected ?></h5>
                     <form method="get" class="d-flex">
                         <select name="tahun" class="form-select form-select-sm year-selector" onchange="this.form.submit()">
                             <?php foreach ($tahun_tersedia as $tahun) : ?>
@@ -141,7 +141,7 @@
         <div class="col-12">
             <div class="card p-4 shadow-sm bg-white rounded-3" style="border: none;">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0 fw-bold text-dark">Pendapatan Tahun <?= $tahun_selected ?></h5>
+                    <h5 class="mb-0 fw-bold text-dark">Statistik Pendapatan Tahun <?= $tahun_selected ?></h5>
                     <form method="get" class="d-flex">
                         <select name="tahun" class="form-select form-select-sm year-selector" onchange="this.form.submit()">
                             <?php foreach ($tahun_tersedia as $tahun) : ?>
@@ -166,24 +166,19 @@
     // Orders Chart (top)
     let ctxOrders = document.getElementById('chartPemesanan').getContext('2d');
     let chartPemesanan = new Chart(ctxOrders, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: <?= $chart_labels ?>,
             datasets: [{
                 label: 'Jumlah Pemesanan',
                 data: <?= $chart_pemesanan_data ?>,
-                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                backgroundColor: 'rgba(0, 123, 255, 0.7)',
                 borderColor: '#007bff',
-                borderWidth: 3,
-                tension: 0.4,
-                pointRadius: 6,
-                pointBackgroundColor: '#007bff',
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                fill: true
+                borderWidth: 1,
+                borderRadius: 4
             }]
         },
-        options: getChartOptions('Customer')
+        options: getChartOptions('Customer', false, 'Jumlah Pemesanan per Bulan')
     });
 
     // Revenue Chart (bottom)
@@ -195,22 +190,42 @@
             datasets: [{
                 label: 'Pendapatan',
                 data: <?= $chart_pendapatan_data ?>,
-                backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                backgroundColor: 'rgba(40, 167, 69, 0.7)',
                 borderColor: '#28a745',
-                borderWidth: 2,
+                borderWidth: 1,
                 borderRadius: 4
             }]
         },
-        options: getChartOptions('Rp', true)
+        options: getChartOptions('Rp', true, 'Pendapatan per Bulan')
     });
 
     // Shared chart options function
-    function getChartOptions(unitPrefix, isCurrency = false) {
+    function getChartOptions(unitPrefix, isCurrency = false, title = '') {
         return {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: { display: false },
+                legend: { 
+                    display: true,
+                    position: 'top',
+                    labels: {
+                        boxWidth: 12,
+                        padding: 20,
+                        font: {
+                            size: 12
+                        }
+                    }
+                },
+                title: {
+                    display: true,
+                    text: title,
+                    font: {
+                        size: 16
+                    },
+                    padding: {
+                        bottom: 20
+                    }
+                },
                 tooltip: {
                     backgroundColor: '#fff',
                     titleColor: '#333',
@@ -235,19 +250,49 @@
             },
             scales: {
                 x: {
-                    grid: { display: false },
-                    ticks: { color: '#555' }
+                    grid: { 
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: { 
+                        color: '#555',
+                        font: {
+                            size: 12
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: 'Bulan',
+                        color: '#555',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    }
                 },
                 y: {
                     beginAtZero: true,
-                    grid: { color: '#eee' },
+                    grid: { 
+                        color: '#eee',
+                        drawBorder: false
+                    },
                     ticks: {
                         color: '#555',
+                        padding: 10,
                         callback: function(value) {
                             if (isCurrency) {
                                 return 'Rp ' + value.toLocaleString('id-ID');
                             }
                             return unitPrefix ? value + ' ' + unitPrefix : value;
+                        }
+                    },
+                    title: {
+                        display: true,
+                        text: isCurrency ? 'Jumlah Pendapatan' : 'Jumlah Pemesanan',
+                        color: '#555',
+                        font: {
+                            size: 14,
+                            weight: 'bold'
                         }
                     }
                 }
