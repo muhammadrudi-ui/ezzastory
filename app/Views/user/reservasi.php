@@ -1008,7 +1008,13 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                     </div>
                                     
                                     <div class="tracking-info mt-4">
-                                        <?php if ($pemesanan['status'] === 'Pengiriman' || $pemesanan['status'] === 'Selesai'): ?>
+                                        <?php
+                                        $isWedding = strtolower($pemesanan['jenis_layanan'] ?? '') === 'wedding';
+                        $showLink = ($isWedding && in_array($pemesanan['status'], ['Pencetakan', 'Pengiriman', 'Selesai'])) ||
+                                    (!$isWedding && in_array($pemesanan['status'], ['Pengiriman', 'Selesai']));
+                        ?>
+                                        
+                                        <?php if ($showLink): ?>
                                             <div class="alert alert-light border rounded-4 mb-3">
                                                 <div class="d-flex align-items-center">
                                                     <i class="fa-solid fa-photo-film text-dark me-3 fs-4"></i>
@@ -1024,30 +1030,32 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                     </div>
                                                 </div>
                                             </div>
-                                            
-                                            <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
-                                                <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
-                                                    <?= csrf_field() ?>
-                                                    <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
-                                                        <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
-                                                    </button>
-                                                </form>
-                                            <?php endif; ?>
-                                            
-                                        <?php elseif ($pemesanan['status'] !== 'Selesai'): ?>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($pemesanan['status'] === 'Pengiriman'): ?>
+                                            <form action="<?= base_url('user/pemesanan/selesai/' . $pemesanan['id']) ?>" method="post" id="completeForm<?= $pemesanan['id'] ?>">
+                                                <?= csrf_field() ?>
+                                                <input type="hidden" name="is_portfolio_approved" id="portfolioApproval<?= $pemesanan['id'] ?>">
+                                                <button type="button" class="btn btn-dark w-100 mt-3" onclick="confirmComplete(<?= $pemesanan['id'] ?>)">
+                                                    <i class="fa-solid fa-check-circle me-1"></i> Selesai Pesanan
+                                                </button>
+                                            </form>
+                                        <?php endif; ?>
+                                        
+                                        <?php if ($pemesanan['status'] !== 'Selesai' && !$showLink): ?>
                                             <div class="alert alert-light border d-flex align-items-center rounded-4">
                                                 <i class="fa-solid fa-circle-info text-dark me-3 fs-4"></i>
                                                 <div>
                                                     <strong class="d-block mb-1">Status Pemesanan: <?= $pemesanan['status'] ?></strong>
                                                     <p class="mb-0">
                                                         <?php
-                                                $descriptions = [
-                                                    'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses.',
-                                                    'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
-                                                    'Editing' => 'Tim kami sedang melakukan proses editing dan pemilihan foto terbaik.',
-                                                    'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
-                                                    'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
-                                                ];
+                                        $descriptions = [
+                                            'Pemesanan' => 'Pesanan Anda telah kami terima dan sedang dalam proses.',
+                                            'Pemotretan' => 'Persiapan dan proses pemotretan sedang berlangsung.',
+                                            'Editing' => 'Tim kami sedang melakukan proses editing dan pemilihan foto terbaik.',
+                                            'Pencetakan' => 'Foto-foto terbaik sedang dalam proses pencetakan album.',
+                                            'Pengiriman' => 'Album foto Anda sedang dalam proses pengiriman.'
+                                        ];
                                             echo $descriptions[$pemesanan['status']] ?? 'Pesanan Anda sedang diproses.';
                                             ?>
                                                     </p>
@@ -1122,6 +1130,10 @@ $waktuSekarang = $now->format('Y-m-d\TH:i');
                                                 -
                                             <?php endif; ?>
                                         </div> 
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span class="text-muted">Persetujuan Portofolio:</span>
+                                            <small><?= $riwayat['is_portfolio_approved'] ?></small>
+                                        </div>
 
                                     </div>
                                     <div class="card-footer bg-light d-flex justify-content-between align-items-center">
@@ -1354,21 +1366,55 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // SweetAlert Menyelesaikan Pemesanan di Tracking
     function confirmComplete(pemesananId) {
-        Swal.fire({
-            title: "Konfirmasi Penyelesaian",
-            text: "Apakah Anda yakin ingin menyelesaikan pemesanan ini?",
-            icon: "question",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya, Selesaikan",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            if (result.isConfirmed) {
+    Swal.fire({
+        title: "Konfirmasi Penyelesaian Pemesanan",
+        html: `
+            <div class="text-start">
+                <p class="mb-3">Apakah Anda yakin ingin menandai pemesanan ini sebagai <strong>Selesai</strong>?</p>
+                <div class="alert alert-info p-3 mb-3 rounded">
+                    <i class="bi bi-info-circle-fill me-2"></i>
+                    Setelah dikonfirmasi, status pemesanan akan berubah menjadi <strong class="text-success">Selesai</strong> dan akan dipindahkan ke halaman <strong>Riwayat Pemesanan</strong>.
+                </div>
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="portfolioApproval">
+                    <label class="form-check-label" for="portfolioApproval">
+                        <strong>Izinkan Tampil di Portofolio</strong>
+                        <span class="d-block text-muted small mt-1">Centang kotak ini jika Anda mengizinkan hasil foto ditampilkan di portofolio kami.</span>
+                    </label>
+                </div>
+            </div>
+        `,
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonColor: "#28a745",
+        cancelButtonColor: "#d33",
+        confirmButtonText: `<i class="bi bi-check-circle me-1"></i> Konfirmasi Selesai`,
+        cancelButtonText: `<i class="bi bi-x-circle me-1"></i> Batal`,
+        focusConfirm: false,
+        customClass: {
+            popup: 'border-radius-15px',
+            htmlContainer: 'text-start'
+        },
+        preConfirm: () => {
+            const portfolioApproval = document.getElementById('portfolioApproval').checked ? 'Bersedia' : 'Tidak Bersedia';
+            document.getElementById(`portfolioApproval${pemesananId}`).value = portfolioApproval;
+            return portfolioApproval;
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Pemesanan Selesai!',
+                text: 'Status pemesanan telah diperbarui menjadi Selesai',
+                icon: 'success',
+                confirmButtonColor: '#28a745',
+                timer: 2000,
+                timerProgressBar: true
+            }).then(() => {
                 document.getElementById(`completeForm${pemesananId}`).submit();
-            }
-        });
-    }
+            });
+        }
+    });
+}
 </script>
 
 <!-- CTA to Tab Reservasi -->

@@ -21,6 +21,7 @@ class PemesananModel extends Model
         'nama_mempelai',
         'status',
         'link_hasil_foto',
+        'is_portfolio_approved',
         'status_pembayaran',
         'status_selesai_at',
     ];

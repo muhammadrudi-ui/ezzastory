@@ -135,3 +135,6 @@ $routes->get('pemesanan/getReservations', 'PemesananController::getReservations'
 
 // Cek Deadline Payment Reservasi H-3
 $routes->get('pemesanan/check-cancel', 'PemesananController::checkAndCancelExpiredReservations');
+
+// Cek Selesaikan Pemesanan
+$routes->get('pemesanan/check-and-complete-expired', 'PemesananController::checkAndCompleteExpiredReservations');

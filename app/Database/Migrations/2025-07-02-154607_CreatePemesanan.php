@@ -61,6 +61,11 @@ class CreatePemesanan extends Migration
                 'type' => 'TEXT',
                 'null' => true,
             ],
+            'is_portfolio_approved' => [
+                'type'       => 'ENUM',
+                'constraint' => ['Bersedia', 'Tidak Bersedia'],
+                'null'       => true,
+            ],
             'status' => [
                 'type'       => 'ENUM',
                 'constraint' => ['Pemesanan', 'Pemotretan', 'Editing', 'Pencetakan', 'Pengiriman', 'Selesai'],

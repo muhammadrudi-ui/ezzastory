@@ -102,6 +102,14 @@
                     </div>
                 </div>
 
+                
+                <div class="row mt-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold">Persetujuan Portofolio</label>
+                        <p class="form-control-plaintext text-muted"><?= esc($pemesanan['is_portfolio_approved']) ?></p>
+                    </div>
+                </div>
+
                 <div class="mt-3">
                     <label class="fw-bold">Status (Tracking)</label>
                     <select name="status" class="form-select">

@@ -333,6 +333,42 @@ class PemesananController extends BaseController
         return redirect()->to('user/reservasi?tab=pembayaran')->with('success', 'Pemesanan berhasil dibatalkan.');
     }
 
+    // Cek Selesaikan Otomatis Pesanan Pengguna
+    public function checkAndCompleteExpiredReservations()
+    {
+        // Ambil semua pemesanan dengan status Pengiriman
+        $pemesananList = $this->pemesananModel
+            ->where('status', 'Pengiriman')
+            ->findAll();
+
+        $currentDate = new \DateTime('now', new \DateTimeZone('Asia/Jakarta'));
+
+        foreach ($pemesananList as $pemesanan) {
+            // Cek waktu saat status menjadi Pengiriman (menggunakan updated_at)
+            $waktuPengiriman = new \DateTime($pemesanan['updated_at'], new \DateTimeZone('Asia/Jakarta'));
+            $deadlineSelesai = clone $waktuPengiriman;
+            $deadlineSelesai->modify('+2 days');
+
+            // Jika sudah melewati 2 hari dari status Pengiriman
+            if ($currentDate > $deadlineSelesai) {
+                // Update status ke Selesai dan set is_portfolio_approved ke Bersedia
+                $this->pemesananModel->update($pemesanan['id'], [
+                    'status' => 'Selesai',
+                    'status_selesai_at' => $currentDate->format('Y-m-d H:i:s'),
+                    'is_portfolio_approved' => 'Bersedia'
+                ]);
+
+                log_message('info', "Pemesanan ID {$pemesanan['id']} otomatis diselesaikan karena melewati batas waktu 2 hari pada status Pengiriman.");
+            }
+        }
+
+        // Kembalikan respons JSON untuk cron job atau debugging
+        return $this->response->setJSON([
+            'status' => 'success',
+            'message' => 'Pemeriksaan otomatis penyelesaian pemesanan selesai.'
+        ]);
+    }
+
     public function selesai($id)
     {
         $pemesanan = $this->pemesananModel->find($id);
@@ -351,10 +387,14 @@ class PemesananController extends BaseController
             return redirect()->to('user/reservasi?tab=riwayat')->with('error', 'Pemesanan hanya dapat diselesaikan pada status Pengiriman.');
         }
 
-        // Update status pemesanan ke Selesai
+        // Ambil data persetujuan portofolio dari form
+        $isPortfolioApproved = $this->request->getPost('is_portfolio_approved');
+
+        // Update status pemesanan ke Selesai dan simpan persetujuan portofolio
         $this->pemesananModel->update($id, [
             'status' => 'Selesai',
-            'status_selesai_at' => date('Y-m-d H:i:s')
+            'status_selesai_at' => date('Y-m-d H:i:s'),
+            'is_portfolio_approved' => $isPortfolioApproved
         ]);
 
         return redirect()->to('user/reservasi?tab=riwayat')->with('success', 'Pemesanan telah diselesaikan.');
@@ -433,6 +473,7 @@ class PemesananController extends BaseController
             ->select('
             pemesanan.*, 
             pemesanan.status_pembayaran, 
+            pemesanan.is_portfolio_approved,
             users.username AS nama_user, 
             users.email, 
             user_profile.nama_lengkap, 
@@ -459,6 +500,7 @@ class PemesananController extends BaseController
                 ->orLike('pemesanan.nama_mempelai', $search)
                 ->orLike('pemesanan.status', $search)
                 ->orLike('pemesanan.status_pembayaran', $search)
+                ->orLike('pemesanan.is_portfolio_approved', $search)
                 ->groupEnd();
         }
 
@@ -486,6 +528,7 @@ class PemesananController extends BaseController
             ->select('
                 pemesanan.*, 
                 pemesanan.status_pembayaran,
+                pemesanan.is_portfolio_approved,
                 users.username AS nama_user, 
                 users.email, 
                 user_profile.nama_lengkap, 
@@ -517,13 +560,13 @@ class PemesananController extends BaseController
         if (!in_array($status, $validStatuses)) {
             return redirect()->to('admin/data-pemesanan/index')->with('error', 'Status tidak valid.');
         }
-
         $updateData = [
             'status' => $status,
             'link_hasil_foto' => $linkHasilFoto,
+            'updated_at' => date('Y-m-d H:i:s'),
         ];
 
-        // Jika status diubah menjadi "Selesai", catat waktu selesai
+        // Jika status diubah menjadi Selesai, catat waktu selesai
         if ($status === 'Selesai') {
             $updateData['status_selesai_at'] = date('Y-m-d H:i:s');
         }

@@ -71,6 +71,7 @@
                             <th class="align-middle">Nama Mempelai</th>
                             <th class="align-middle">Instagram</th>
                             <th class="align-middle">Link Hasil Foto</th>
+                            <th class="align-middle">Persetujuan Portofolio</th>
                             <th class="align-middle">Status</th>
                             <th class="align-middle">Aksi</th>
                         </tr>
@@ -113,6 +114,7 @@
                                 -
                             <?php endif; ?>
                         </td>
+                        <td><?= !empty($item['is_portfolio_approved']) ? esc($item['is_portfolio_approved']) : '-' ?></td>
                         <td><?= esc($item['status']) ?></td>
                         <td>
                             <a href="<?= base_url('admin/data-pemesanan/edit/' . $item['id']) ?>" class="btn btn-warning btn-sm">
